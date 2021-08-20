@@ -20,8 +20,8 @@ motion sensor box is build around a Raspberry Pi Zero and several external senso
 - [Navilock GNSS-Reveiver](doc/Navilock_GNSS/tldr_navilock_gnss.md)
 - [4.2 Inch E-Ink Display](doc/waveshare_e-ink_display/tldr_eink_display.md)
 - [Strom Pi 3](doc/strompi3/tldr_strompi.md)
-- [Bopla housing assembly](hardware-doc)
-- LiFePO battery (TODO: link to spec shield)
+- [Housing assembly](doc\housing\README_HOUSING.md)
+- [LiFePO battery](doc\battery\README_BATTERY.md)
 
 ![hardware stack](hardwarestack.jpeg)
 
