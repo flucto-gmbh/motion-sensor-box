@@ -1,3 +1,3 @@
 # Battery
 
-- [Specs](AML9131_UK.pdf.pdf)
+- [Specs](AML9131_UK.pdf)
