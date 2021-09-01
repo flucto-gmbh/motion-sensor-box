@@ -1,6 +1,6 @@
-# YASB Data
+# Motion sensor box datastructure
 
-The YASB boxes transmit the following data. 
+The motion sensor boxes transmit the following data. 
 
 - **Acceleration vector**
 - **Velocity vector**
