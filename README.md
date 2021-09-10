@@ -108,4 +108,7 @@ Four analog inputs are available via the SenseHat. Additionally, I2C piuns are a
 ## History of motion sensor box
 
 The original motion sensor box was jointly developed by Uni Bremen and Flucto GmbH. 
-Its development was inspired by a sensor box that was designed for a research project by Uni Bremen's Institute for Integrated Product Development (BIK) where measurements during the installation of Windpark Trianel Borkum II were conducted.
+Its development was inspired by a sensor box that was designed for a research project by Uni Bremen's Institute for Integrated Product Development (BIK) where measurements during the installation of "Trianel Windpark Borkum" were conducted.
+
+<img src="doc/UHB_Logo_Englisch_Web_RGB.png" height="60">
+<img src="doc/flucto_logo_cropped.png" height="120">
