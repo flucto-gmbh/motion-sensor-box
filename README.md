@@ -1,6 +1,6 @@
 # Motion Sensor Box
 
-![development kit](msb_mk10.jpg)
+![motion sensor box](doc/IMG_6590.JPG)
 
 ## Overview
 
