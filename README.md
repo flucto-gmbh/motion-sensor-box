@@ -104,3 +104,8 @@ motion sensor box features a Navilock NL-852ETTL GNSS receiver. This modern GNSS
 ### Additional Interfaces
 
 Four analog inputs are available via the SenseHat. Additionally, I2C piuns are also exposed, allowing for easy connection to other embedded devices. For more high level applications, three USB-A port are available, allowing additional devices, such as cameras or network interfaces. 
+
+## History of motion sensor box
+
+The original motion sensor box was jointly developed by Uni Bremen and Flucto GmbH. 
+Its development was inspired by a sensor box that was designed for a research project by Uni Bremen's Institute for Integrated Product Development (BIK) where measurements during the installation of Windpark Trianel Borkum II were conducted.
