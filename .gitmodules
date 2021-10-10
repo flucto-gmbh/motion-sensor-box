@@ -1,12 +1,3 @@
-[submodule "src/msb_imu"]
-	path = src/msb_imu
-	url = git@github.com:flucto-gmbh/msb_imu.git
-[submodule "src/msb_env"]
-	path = src/msb_env
-	url = git@github.com:flucto-gmbh/msb_env.git
-[submodule "src/msb_adc"]
-	path = src/msb_adc
-	url = git@github.com:flucto-gmbh/msb_adc.git
 [submodule "lib/gpsd"]
 	path = lib/gpsd
 	url = git@gitlab.com:gpsd/gpsd.git
