@@ -1,3 +1,6 @@
 [submodule "lib/gpsd"]
 	path = lib/gpsd
 	url = git@gitlab.com:gpsd/gpsd.git
+[submodule "src/--recusrive"]
+	path = src/--recusrive
+	url = git@github.com:flucto-gmbh/msb_imu.git
