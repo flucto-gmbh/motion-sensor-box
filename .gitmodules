@@ -2,3 +2,28 @@
 	path = lib/gpsd
 	url = git@gitlab.com:gpsd/gpsd.git
 
+
+[submodule "src/imu"]
+	path = src/imu
+	url = git@github.com:flucto-gmbh/msb_imu.git
+[submodule "src/adc"]
+	path = src/adc
+	url = git@github.com:flucto-gmbh/msb_adc.git
+[submodule "src/env"]
+	path = src/env
+	url = git@github.com:flucto-gmbh/msb_env.git
+[submodule "src/gps"]
+	path = src/gps
+	url = git@github.com:flucto-gmbh/msb_gps.git
+[submodule "src/fusionlog"]
+	path = src/fusionlog
+	url = git@github.com:flucto-gmbh/msb_fusionlog.git
+[submodule "src/power"]
+	path = src/power
+	url = git@github.com:flucto-gmbh/msb_power.git
+[submodule "src/camera"]
+	path = src/camera
+	url = git@github.com:flucto-gmbh/msb_camera.git
+[submodule "src/lora"]
+	path = src/lora
+	url = git@github.com:flucto-gmbh/msb_lora.git
