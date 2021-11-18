@@ -35,7 +35,7 @@ motion sensor box runs the latest version of [Raspberry OS](https://www.raspberr
 
 The following schematics shows how the external hardware is connected to the pi's header:
 
-![pinout](doc/YASB_pinout.png)
+![pinout](doc/MSB_pinout.png)
 
 #### Assembly of the cabling
 

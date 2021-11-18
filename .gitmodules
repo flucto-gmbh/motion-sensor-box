@@ -27,3 +27,6 @@
 [submodule "src/lora"]
 	path = src/lora
 	url = git@github.com:flucto-gmbh/msb_lora.git
+[submodule "lib/strompi3"]
+	path = lib/strompi3
+	url = git@github.com:joy-it/strompi3.git

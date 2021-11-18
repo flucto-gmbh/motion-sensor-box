@@ -2,23 +2,23 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="297mm"
    height="210mm"
    viewBox="0 0 1052.3622 744.09449"
    id="svg2"
    version="1.1"
-   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
-   sodipodi:docname="YASB_pinout.svg"
-   inkscape:export-filename="/home/san/YASB/doc/YASB_pinout.png"
+   inkscape:version="1.1 (c68e22c387, 2021-05-23)"
+   sodipodi:docname="MSB_pinout.svg"
+   inkscape:export-filename="/home/san/Projects/motion-sensor-box/doc/MSB_pinout.png"
    inkscape:export-xdpi="300"
-   inkscape:export-ydpi="300">
+   inkscape:export-ydpi="300"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs4">
     <marker
@@ -89,11 +89,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.865"
-     inkscape:cx="425.17113"
-     inkscape:cy="365.70023"
+     inkscape:zoom="0.89061793"
+     inkscape:cx="497.40746"
+     inkscape:cy="474.38973"
      inkscape:document-units="px"
-     inkscape:current-layer="g8282"
+     inkscape:current-layer="g6542"
      showgrid="false"
      inkscape:window-width="1920"
      inkscape:window-height="1080"
@@ -105,7 +105,10 @@
      inkscape:guide-bbox="true"
      inkscape:object-paths="true"
      inkscape:snap-intersection-paths="true"
-     inkscape:snap-object-midpoints="true" />
+     inkscape:snap-object-midpoints="true"
+     inkscape:pagecheckerboard="0"
+     inkscape:snap-bbox="true"
+     inkscape:snap-text-baseline="true" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -114,7 +117,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -1152,6 +1155,23 @@
                    id="tspan5675-5-4-4"
                    sodipodi:role="line">DISP_CS</tspan></text>
             </g>
+            <g
+               transform="translate(18.449892,71.512332)"
+               id="g11227-4-9">
+              <text
+                 inkscape:tile-y0="263.35886"
+                 inkscape:tile-x0="261.94242"
+                 id="text5673-5-7-7-9"
+                 y="368.06216"
+                 x="320.16107"
+                 style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;line-height:0%;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#008000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+                 xml:space="preserve"><tspan
+                   style="font-size:5px;line-height:1.25;fill:#ff5fff;fill-opacity:1;stroke-width:1px"
+                   y="368.06216"
+                   x="320.16107"
+                   id="tspan5675-5-4-4-8"
+                   sodipodi:role="line">STROMPI_SERIAL</tspan></text>
+            </g>
           </g>
           <g
              transform="translate(126.82586,-121.1638)"
@@ -2123,7 +2143,7 @@
                x="155.9534"
                id="tspan6508"
                sodipodi:role="line"
-               style="font-size:7.54363108px;line-height:1.25">WiringPi GPIO</tspan></text>
+               style="font-size:7.54363px;line-height:1.25">WiringPi GPIO</tspan></text>
           <text
              id="text6510"
              y="103.39355"
@@ -2134,7 +2154,7 @@
                x="155.49297"
                id="tspan6512"
                sodipodi:role="line"
-               style="font-size:7.54363108px;line-height:1.25">BCM GPIO</tspan></text>
+               style="font-size:7.54363px;line-height:1.25">BCM GPIO</tspan></text>
           <text
              id="text6514"
              y="59.959068"
@@ -2145,7 +2165,7 @@
                x="155.4635"
                id="tspan6516"
                sodipodi:role="line"
-               style="font-size:7.54363108px;line-height:1.25">Power (5 Volts)</tspan></text>
+               style="font-size:7.54363px;line-height:1.25">Power (5 Volts)</tspan></text>
           <text
              id="text6518"
              y="70.630302"
@@ -2156,7 +2176,7 @@
                x="155.4635"
                id="tspan6520"
                sodipodi:role="line"
-               style="font-size:7.54363108px;line-height:1.25">Power (3 Volts)</tspan></text>
+               style="font-size:7.54363px;line-height:1.25">Power (3 Volts)</tspan></text>
           <text
              id="text6522"
              y="82.049271"
@@ -2167,7 +2187,7 @@
                x="155.64398"
                id="tspan6524"
                sodipodi:role="line"
-               style="font-size:7.54363108px;line-height:1.25">Ground</tspan></text>
+               style="font-size:7.54363px;line-height:1.25">Ground</tspan></text>
           <text
              id="text6526"
              y="114.06299"
@@ -2178,7 +2198,7 @@
                x="155.34195"
                id="tspan6528"
                sodipodi:role="line"
-               style="font-size:7.54363108px;line-height:1.25">I2C Interface</tspan></text>
+               style="font-size:7.54363px;line-height:1.25">I2C Interface</tspan></text>
           <text
              id="text6530"
              y="135.40546"
@@ -2189,7 +2209,7 @@
                x="155.7066"
                id="tspan6532"
                sodipodi:role="line"
-               style="font-size:7.54363108px;line-height:1.25">SPI Interface</tspan></text>
+               style="font-size:7.54363px;line-height:1.25">SPI Interface</tspan></text>
           <text
              id="text6534"
              y="124.73423"
@@ -2200,7 +2220,7 @@
                x="155.45245"
                id="tspan6536"
                sodipodi:role="line"
-               style="font-size:7.54363108px;line-height:1.25">UART Interface</tspan></text>
+               style="font-size:7.54363px;line-height:1.25">UART Interface</tspan></text>
           <text
              id="text6538"
              y="146.07854"
@@ -2211,7 +2231,7 @@
                x="155.34195"
                id="tspan6540"
                sodipodi:role="line"
-               style="font-size:7.54363108px;line-height:1.25">ID EEPROM Interface</tspan></text>
+               style="font-size:7.54363px;line-height:1.25">ID EEPROM Interface</tspan></text>
           <text
              id="text6538-6"
              y="155.72133"
@@ -2222,7 +2242,7 @@
                x="155.34195"
                id="tspan6540-1"
                sodipodi:role="line"
-               style="font-size:7.54363155px;line-height:1.25;fill:#003184;fill-opacity:1;stroke-width:1px">Incremental Pin numbering</tspan></text>
+               style="font-size:7.54363px;line-height:1.25;fill:#003184;fill-opacity:1;stroke-width:1px">Incremental Pin numbering</tspan></text>
           <text
              id="text6538-6-7"
              y="165.04034"
@@ -2233,12 +2253,11 @@
                x="156.09705"
                id="tspan6540-1-1"
                sodipodi:role="line"
-               style="font-size:7.54363155px;line-height:1.25;fill:#ff5fff;fill-opacity:1;stroke-width:1px">YASB Pinout</tspan><tspan
+               style="font-size:7.54363px;line-height:1.25;fill:#ff5fff;fill-opacity:1;stroke-width:1px">MSB Pinout</tspan><tspan
                id="tspan60624"
                y="170.91272"
                x="156.09705"
-               sodipodi:role="line"
-               style="font-size:7.54363155px;line-height:1.25;fill:#ff5fff;fill-opacity:1;stroke-width:1px" /></text>
+               sodipodi:role="line" /></text>
         </g>
         <text
            xml:space="preserve"
@@ -2253,7 +2272,7 @@
              id="tspan6564"
              x="370.4628"
              y="196.05807"
-             style="font-size:12.00000095px;line-height:1.25">Raspberry Pi Zero W</tspan></text>
+             style="font-size:12px;line-height:1.25">Raspberry Pi Zero W</tspan></text>
       </g>
     </g>
   </g>
