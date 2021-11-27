@@ -65,6 +65,7 @@ From top to bottom:
  - Display driver
  - Sense hat
  - Breadboard
+ - Extension component
  - LoRa
  - StromPi
  - RasPi
