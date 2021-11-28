@@ -21,7 +21,6 @@ The following lists the electronic components:
 - [4.2 Inch E-Ink Display](doc/waveshare_e-ink_display/tldr_eink_display.md)
 - e-Paper driver hat (board for the 4.2 inch display)
 - [Strom Pi 3](doc/strompi3/tldr_strompi.md)
-
 - [LiFePO battery](doc/battery/README_BATTERY.md)
 
 The structure consists of:
