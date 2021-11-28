@@ -62,13 +62,13 @@ The pps pin from the gps module has to be connected to pin 13 (see [pinout.png](
 #### Assembly of the electronics
 
 From top to bottom:
- - Display driver
+ - e-paper driver hat (Display driver)
  - Sense hat
  - Breadboard
- - Extension component
+ - Extension plug
  - LoRa
  - StromPi
- - RasPi
+ - Raspberry Pi Zero W V1.1
 
 ![electronic stack](doc/electronic_stack.jpg)
 
