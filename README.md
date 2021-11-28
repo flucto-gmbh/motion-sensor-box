@@ -9,7 +9,9 @@ The __Motion Sensor Box__ is a simple, open-source sensor box available under th
 ## Architecture
 
 ### Hardware
-motion sensor box is build around a Raspberry Pi Zero and several external sensors. The following lists the electronic components:
+motion sensor box is build around a Raspberry Pi Zero and several external sensors.
+
+The following lists the electronic components:
 
 - Raspberry Pi Zero W
 - SD-Card
@@ -19,8 +21,14 @@ motion sensor box is build around a Raspberry Pi Zero and several external senso
 - [4.2 Inch E-Ink Display](doc/waveshare_e-ink_display/tldr_eink_display.md)
 - e-Paper driver hat (board for the 4.2 inch display)
 - [Strom Pi 3](doc/strompi3/tldr_strompi.md)
-- [Housing assembly](doc/housing/README_HOUSING.md)
+
 - [LiFePO battery](doc/battery/README_BATTERY.md)
+
+The structure consists of:
+ - [Housing assembly](doc/housing/README_HOUSING.md)
+ - A big 3D printed part that is used to position the components ("base plate")
+ - Multiple smaller 3D printed parts
+ - Two sheets that are laser cutted
 
  
 ## System Setup
