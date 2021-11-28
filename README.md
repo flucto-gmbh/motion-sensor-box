@@ -70,9 +70,7 @@ From top to bottom:
  - StromPi
  - RasPi
 
-*replace picture with new configuration*
-
-![electronic stack](doc/electronic_stack.png)
+![electronic stack](doc/electronic_stack.jpg)
 
 ### Software
 
