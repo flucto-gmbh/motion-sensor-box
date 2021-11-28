@@ -41,15 +41,6 @@ The following schematics shows how the external hardware is connected to the pi'
 
 ![pinout](doc/MSB_pinout.png)
 
-#### Assembly of the cabling
-
-The GNSS sensor needs a custom made cable to connect it to the serial expansion board's JST 2.54 mm pin connector. 
-
-![pins](doc/NAVILOCK_GNSS/pins.png)
-
-The GNSS sensor's pins need to be connected to the corresponding pins of the serial expansion board.
-
-![pins](doc/waveshare_serial_expansion/serial_expansion_hat.jpg)
 
 #### Preparation of the electronics
 
