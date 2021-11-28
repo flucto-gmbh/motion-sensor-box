@@ -47,9 +47,12 @@ After the subassemblies have been prepared general assembly can start:
 3) Mount the camera on the camera holder
 4) Mount the four Distanzbolzen
 5) Insert the camera cable into the base plate's camera canal
-6) Mount the base plate by fixing it with two screws
+6) Mount the base plate by fixing it with two M3x8 screws
 7) Connect the camera with the camera cable
-8) Insert the hammer head screw into the base plate and fix it using an M6 nut
+8) Insert the hammer head screw into the base plate and fix it using a M6 nut
+9) Insert the battery into the base plate's battery compartment
+10) Mount the battery lid using four M3x12 screws
+11) To be continued: integration of the electronics stack 
 
 
 
