@@ -42,8 +42,14 @@ Two main sub assemblies need to be prepared before general assembly starts
  - Electronics stack (see "Assembly of electronics" below)
 
 After the subassemblies have been prepared general assembly can start:
-1) x
-2) y
+1) Mount the camera glass
+2) Mount the round camera holder
+3) Mount the camera on the camera holder
+4) Mount the four Distanzbolzen
+5) Insert the camera cable into the base plate's camera canal
+6) Mount the base plate by fixing it with two screws
+7) Connect the camera with the camera cable
+8) Insert the hammer head screw into the base plate and fix it using an M6 nut
 
 
 
