@@ -13,19 +13,15 @@ motion sensor box is build around a Raspberry Pi Zero and several external senso
 
 - Raspberry Pi Zero W
 - SD-Card
-- [Waveshare Serial expansion board](doc/waveshare_serial_expansion/tldr_serial_expansion.md)
 - [Waveshare Sense Hat](doc/waveshare_sense_hat/tldr_sense_hat.md)
 - [Waveshare LoRa Hat](doc/waveshare_lora_hat/tldr_lora_hat.md)
-- USB OTG cable
 - [Navilock GNSS-Reveiver](doc/Navilock_GNSS/tldr_navilock_gnss.md)
 - [4.2 Inch E-Ink Display](doc/waveshare_e-ink_display/tldr_eink_display.md)
+- e-Paper driver hat (board for the 4.2 inch display)
 - [Strom Pi 3](doc/strompi3/tldr_strompi.md)
 - [Housing assembly](doc/housing/README_HOUSING.md)
 - [LiFePO battery](doc/battery/README_BATTERY.md)
 
-![hardware stack](hardwarestack.jpeg)
-
-Currently motion sensor box consists of two 3D-printed halves that hold the electronics and serve as scaffolding.
  
 ## System Setup
 
