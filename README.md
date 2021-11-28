@@ -20,6 +20,7 @@ The following lists the electronic components:
 - [Navilock GNSS-Reveiver](doc/Navilock_GNSS/tldr_navilock_gnss.md)
 - [4.2 Inch E-Ink Display](doc/waveshare_e-ink_display/tldr_eink_display.md)
 - e-Paper driver hat (board for the 4.2 inch display)
+- [Raspberry Pi Camera V2.1](https://www.raspberrypi.com/documentation/accessories/camera.html)
 - [Strom Pi 3](doc/strompi3/tldr_strompi.md)
 - [LiFePO battery](doc/battery/README_BATTERY.md)
 
