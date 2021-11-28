@@ -53,17 +53,9 @@ The GNSS sensor's pins need to be connected to the corresponding pins of the ser
 
 #### Preparation of the electronics
 
-The i2c address of the serial expansion board needs to be shifted (0x48 -> 0x49), such that it does not collide with an i2c address from the sense hat. To do so, remove the resistor at 3v3 and A0 and move it to GND A0 (see photo).
+1) Flash the SD card with motion sensor box's software and insert into the RaspberryPi.
 
-![resoldered resistor](doc/waveshare_serial_expansion/address_resistor.jpg)
-
-Afterwards run `i2cdetect -y 1` to see all available i2c devices. `0x49` (UU) is the i2c serial expansion board address. 
-
-![i2caddresses](doc/i2c_addresses.png)
-
-The pps pin from the gps module has to be connected to pin 13 (see [pinout.png](./YASB_pinout.png) for details).
-
-Sense hat's long pins must be removed: Use a screw driver to lift the yellow part and then cut the pins.
+2) Sense hat's long pins must be removed: Use a screw driver to lift the yellow part and then cut the pins.
 
 ![cut_sensehat_pins](doc/cut_sensehat_pins.jpg)
 
