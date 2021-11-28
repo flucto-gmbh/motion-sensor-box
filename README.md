@@ -13,7 +13,7 @@ motion sensor box is build around a Raspberry Pi Zero and several external senso
 
 The following lists the electronic components:
 
-- Raspberry Pi Zero W
+- [Raspberry Pi Zero W](https://www.raspberrypi.com/products/raspberry-pi-zero-w/)
 - SD-Card
 - [Waveshare Sense Hat](doc/waveshare_sense_hat/tldr_sense_hat.md)
 - [Waveshare LoRa Hat](doc/waveshare_lora_hat/tldr_lora_hat.md)
