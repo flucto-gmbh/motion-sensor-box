@@ -52,14 +52,15 @@ The following schematics shows how the external hardware is connected to the pi'
 
 #### Assembly of the electronics
 
-Assembly from top to bottom:
- - e-paper driver hat (Display driver)
- - Sense hat
- - Breadboard
- - Extension plug
- - LoRa
- - StromPi
+Assemble the stack starting from the bottom to the top:
  - Raspberry Pi Zero W V1.1
+ - StromPi
+ - LoRa
+ - Extension plug
+ - Breadboard
+ - Sense hat
+ - e-paper driver hat (Display driver)
+ 
 
 ![electronic stack](doc/electronic_stack.jpg)
 
