@@ -23,7 +23,7 @@ The following lists the electronic components:
 - [Strom Pi 3](doc/strompi3/tldr_strompi.md)
 - [LiFePO battery](doc/battery/README_BATTERY.md)
 
-The structure consists of:
+The mechanical structure consists of:
  - [Housing assembly](doc/housing/README_HOUSING.md)
  - A big 3D printed part that is used to position the components ("base plate")
  - Multiple smaller 3D printed parts
