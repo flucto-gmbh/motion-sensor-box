@@ -35,14 +35,21 @@ The mechanical structure consists of:
 
 motion sensor box runs the latest version of [Raspberry OS](https://www.raspberrypi.org/software/)
 
-### Assembly
+## Assembly
 
-The following schematics shows how the external hardware is connected to the pi's header:
+Two main sub assemblies need to be prepared before general assembly starts
+ - Housing's lid (not yet documented)
+ - Electronics stack (see "Assembly of electronics" below)
 
-![pinout](doc/MSB_pinout.png)
+After the subassemblies have been prepared general assembly can start:
+1) x
+2) y
 
 
-#### Preparation of the electronics
+
+### Assembly of electronics
+
+*Preparation of the electronics*
 
 1) Flash the SD card with motion sensor box's software and insert into the RaspberryPi.
 
@@ -50,7 +57,7 @@ The following schematics shows how the external hardware is connected to the pi'
 
 ![cut_sensehat_pins](doc/cut_sensehat_pins.jpg)
 
-#### Assembly of the electronics
+*Assembly*
 
 Assemble the stack starting from the bottom to the top:
  - Raspberry Pi Zero W V1.1
@@ -63,6 +70,11 @@ Assemble the stack starting from the bottom to the top:
  
 
 ![electronic stack](doc/electronic_stack.jpg)
+
+
+The following schematics shows how the external hardware is connected to the pi's header:
+
+![pinout](doc/MSB_pinout.png)
 
 
 ### Software
