@@ -104,7 +104,7 @@ pip3 install -r requirements.txt --user
 
 All motion-sensor-boxes will create a reverse ssh tunnel to the `flucto.tech` server for maintenance reasons. To enable this, an systemd service has to be set up.
 
-The `rtunnel.service` file contains the following configuration:
+The [rtunnel.service](../cfg/rtunnel.service) file contains the following configuration:
 
 ```bash
 [Unit]
