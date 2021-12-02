@@ -60,9 +60,22 @@ After the subassemblies have been prepared general assembly can start:
 
 *Preparation of the electronics*
 
-1) Flash the SD card with motion sensor box's software and insert into the RaspberryPi.
+1) Flash the SD card with Raspberry Pi OS lite and reinsert the SD card afterwards.
 
-2) Sense hat's long pins must be removed: Use a screw driver to lift the yellow part and then cut the pins.
+2) open the partition named rootfs and from the motion sensor box github repository copy the following files (on linux):
+
+```bash
+sudo cp /path-to-motion-sensor-box-repository/cfg/hosts /path-to-SD/rootfs/etc
+sudo cp /path-to-motion-sensor-box-repository/cfg/hostname /path-to-SD/rootfs/etc
+sudo cp /path-to-motion-sensor-box-repository/cfg/wpa_supplicant.conf /path-to-SD/rootfs/etc/wpa_supplicant/
+sudo cp /path-to-motion-sensor-box-repository/cfg/rtunnel.service /path-to-SD/rootfs/etc/systemd/system
+```
+
+3) afterwards, please open the file `/path-to-SD/rootfs/etc/hostname` and `/path-to-SD/Arootfs/etc/hosts` and edit the serial number of the motion sensor box to the corresponding value
+
+4) open the file `/path-to-SD/rootfs/etc/systemd/system/rtunnel.service` and repalce '[REMOTE PORT]' to 65000 + the erial number, e.g. 0014 (65000 + 0014  = 65014)
+
+5) Sense hat's long pins must be removed: Use a screw driver to lift the yellow part and then cut the pins.
 
 ![cut_sensehat_pins](doc/cut_sensehat_pins.jpg)
 
