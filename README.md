@@ -28,7 +28,7 @@ The mechanical structure consists of:
  - [Housing assembly](doc/housing/README_HOUSING.md)
  - A big 3D printed part that is used to position the components ("base plate")
  - Multiple smaller 3D printed parts
- - Two sheets that are laser cutted
+ - Two sheets that are laser cut
 
  
 ## System Setup
