@@ -103,6 +103,13 @@ The following schematics shows how the external hardware is connected to the pi'
 
 Login to the box using SSH.
 
+Install git:
+
+```bash
+sudo apt-get update
+sudo apt-get install git
+```
+
 Then clone the git repository to the box' `home/pi` folder:
 
 ```bash
