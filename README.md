@@ -101,7 +101,7 @@ The following schematics shows how the external hardware is connected to the pi'
 
 ### Software
 
-Before configuring the Box, please make sure you checked out the git repository:
+Before configuring the box, clone the git repository to the box' `home/pi` folder:
 
 ```bash
 git clone git@github.com:flucto-gmbh/motion-sensor-box --recursive
