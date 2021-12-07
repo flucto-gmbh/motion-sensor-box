@@ -101,7 +101,10 @@ The following schematics shows how the external hardware is connected to the pi'
 
 ### Software
 
-Login to the box using SSH.
+Login to the box using SSH (replace XXX with the last 3 digits of the serial number and "location-of-key-on-local-machine"):
+```bash
+ssh pi@flucto.tech pi-605XXX -i "location-of-key-on-local-machine"
+```
 
 Install git:
 
