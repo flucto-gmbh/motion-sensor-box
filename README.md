@@ -116,7 +116,7 @@ sudo apt-get install git
 Then clone the git repository to the box' `home/pi` folder:
 
 ```bash
-git clone git@github.com:flucto-gmbh/motion-sensor-box --recursive
+git clone https://github.com/flucto-gmbh/motion-sensor-box.git --recursive
 ```
 
 The software is developed with simplicity in mind. SystemD and Unix-Architecture and tools are used whereever possible. For each specific task - for instance: gathering acceleration measurements from the ICM-20948 sensor, a simple python script is provided. This script is then installed as a service using systemd. This allows for managing the script via OS tools. 
