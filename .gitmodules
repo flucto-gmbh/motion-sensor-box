@@ -5,7 +5,7 @@
 
 [submodule "src/imu"]
 	path = src/imu
-	url = git@github.com:flucto-gmbh/msb_imu.git
+	url = https://github.com/flucto-gmbh/msb_imu.git
 [submodule "src/adc"]
 	path = src/adc
 	url = https://github.com/flucto-gmbh/msb_adc.git
