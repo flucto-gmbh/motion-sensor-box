@@ -53,9 +53,10 @@ MSB writes a log file, which uses a different format.
 Each line represents one measurement value.
 
 ### IMU
+```
 imu: [unix epoch, uptime in seconds, accx, accy, accz, rotx_speed, roty_speed, rotz_speed, magnet_fieldx, magnet_fieldy, magnet_fieldz]
 unit: [X, s, m/s2, m/s2, m/s2, deg/s, deg/s, deg/s, mu tesla, mu tesla, mu tesla]
-
+```
 
 ### GPS
 gps: [unix epoch, uptime in seconds, JSON from receiver]
