@@ -59,7 +59,9 @@ unit: [X, s, m/s2, m/s2, m/s2, deg/s, deg/s, deg/s, mu tesla, mu tesla, mu tesla
 ```
 
 ### GPS
+```
 gps: [unix epoch, uptime in seconds, JSON from receiver]
+```
 
 JSON keys from receiver: 
  - 'mode' = [0,3], 0 = I have nothing, 1 = I have time fix (one satellite), 2 = 2D fix (at least two satellites), 3 = 3D fix (more than two satellites)
