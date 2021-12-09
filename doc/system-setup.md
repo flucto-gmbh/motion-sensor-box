@@ -37,18 +37,16 @@ sudo nano /boot/config.txt
 and add the following lines to the end of the file:
 
 ```bash
-dtoverlay=sc16is752-i2c,int_pin=24,addr=0x49
 dtoverlay=pps-gpio,gpiopin=13
 ```
 
 On Raspberry OS, the default python version is 2.7.16 However, the motion sensor box requires python3 system wide. In order to configure this, please run 
 
 ```bash
-sudo update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1
-sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.7 2
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.9 2
 ```
 
-This makes python 3.7 the default version on the system (highest priority number wins). To list all available python alternatives and configure them, type:
+This makes python 3.9 the default version on the system (highest priority number wins). To list all available python alternatives and configure them, type:
 
 ```bash
 update-alternatives --config python
@@ -70,16 +68,13 @@ The following packages need to be installed via the package manager `apt`.
 - python3
 - python3-dev
 - python3-pip
-- wiringpi
 - i2c-tools
 - spi-tools
-- RPi.GPIO
 - python3-spidev
 - python3-smbus
 - python3-uptime
 - nmcli
 - screen
-- scons
 - libncurses5-dev
 - python-dev
 - pps-tools
@@ -90,18 +85,56 @@ The following packages need to be installed via the package manager `apt`.
 - libgtk-3-dev
 - python3-serial
 - libdbus-1-dev
-- uptime
+- autossh
 
 To install the packages, type the following:
 
 ```bash
-sudo apt install git python3 python3-dev python3-pip wiringpi i2c-tools spi-tools RPi.GPIO python3-spidev python3-smbus screen asciidoctor python3-matplotlib scons libncurses5-dev python3-dev pps-tools build-essential manpages-dev pkg-config python3-cairo-dev libgtk-3-dev python3-serial libdbus-1-dev 
+sudo apt -y install git python3 python3-dev python3-pip i2c-tools spi-tools python3-spidev python3-smbus screen asciidoctor python3-matplotlib libncurses5-dev python3-dev pps-tools build-essential manpages-dev pkg-config python3-cairo-dev libgtk-3-dev python3-serial libdbus-1-dev autossh
 ```
 
 Some packages need to be installed via pip:
 
 ```bash
-pip3 install uptime --user
+pip3 install scons --user
+pip3 install -r requirements.txt --user
+```
+
+### autossh
+
+All motion-sensor-boxes will create a reverse ssh tunnel to the `flucto.tech` server for maintenance reasons. To enable this, an systemd service has to be set up.
+
+The [rtunnel.service](../cfg/rtunnel.service) file contains the following configuration:
+
+```bash
+[Unit]
+Description = reverse SSH tunnel
+After =  network-online.target 
+#Requires
+
+[Service]
+User = root
+#Type = forking
+Environment=AUTOSSH_GATETIME=0
+ExecStart = /usr/bin/autossh -M 0 -q -N -o "PubKeyAuthentication=yes" -o "PasswordAuthentication=no" -o "ExitOnForwardFailure=yes" -o "ServerAliveInterval 30" -o "ServerAliveCountMax 3"  -i /home/pi/.ssh/id_rsa -R [REMOTE PORT]:localhost:22 -l msb flucto.tech
+ExecStop= /usr/bin/killall autossh
+RestartSec=5
+Restart=always
+
+[Install]
+WantedBy = multi-user.target
+```
+
+NOTE: you have to change PORT to a port that is still available.
+
+Copy the pre-configured service file to `/etc/systemd/system/` and add the reverse ssh tunnel service to systemd:
+
+```bash
+sudo cp doc/rtunnel.service /etc/systemd/systemd/
+
+sudo systemctl daemon-reload
+sudo systemctl start rtunnel
+sudo systemctl enable rtunnel
 ```
 
 ### gpsd

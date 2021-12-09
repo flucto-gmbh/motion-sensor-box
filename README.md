@@ -9,76 +9,114 @@ The __Motion Sensor Box__ is a simple, open-source sensor box available under th
 ## Architecture
 
 ### Hardware
-motion sensor box is build around a Raspberry Pi Zero and several external sensors. The following lists the electronic components:
+motion sensor box is build around a Raspberry Pi Zero and several external sensors.
 
-- Raspberry Pi Zero W
+The following lists the electronic components:
+
+- [Raspberry Pi Zero W](https://www.raspberrypi.com/products/raspberry-pi-zero-w/)
 - SD-Card
-- [Waveshare Serial expansion board](doc/waveshare_serial_expansion/tldr_serial_expansion.md)
 - [Waveshare Sense Hat](doc/waveshare_sense_hat/tldr_sense_hat.md)
 - [Waveshare LoRa Hat](doc/waveshare_lora_hat/tldr_lora_hat.md)
-- USB OTG cable
 - [Navilock GNSS-Reveiver](doc/Navilock_GNSS/tldr_navilock_gnss.md)
 - [4.2 Inch E-Ink Display](doc/waveshare_e-ink_display/tldr_eink_display.md)
+- e-Paper driver hat (board for the 4.2 inch display)
+- [Raspberry Pi Camera V2.1](https://www.raspberrypi.com/documentation/accessories/camera.html)
 - [Strom Pi 3](doc/strompi3/tldr_strompi.md)
-- [Housing assembly](doc/housing/README_HOUSING.md)
 - [LiFePO battery](doc/battery/README_BATTERY.md)
 
-![hardware stack](hardwarestack.jpeg)
+The mechanical structure consists of:
+ - [Housing assembly](doc/housing/README_HOUSING.md)
+ - A big 3D printed part that is used to position the components ("base plate")
+ - Multiple smaller 3D printed parts
+ - Two sheets that are laser cut
 
-Currently motion sensor box consists of two 3D-printed halves that hold the electronics and serve as scaffolding.
  
 ## System Setup
 
 motion sensor box runs the latest version of [Raspberry OS](https://www.raspberrypi.org/software/)
 
-### Assembly
+## Assembly
+
+Two main sub assemblies need to be prepared before general assembly starts
+ - Housing's lid (not yet documented)
+ - Electronics stack (see "Assembly of electronics" below)
+
+After the subassemblies have been prepared general assembly can start:
+1) Mount the camera glass
+2) Mount the round camera holder
+3) Mount the camera on the camera holder
+4) Mount the four Distanzbolzen
+5) Insert the camera cable into the base plate's camera canal
+6) Mount the base plate by fixing it with two M3x8 screws
+7) Connect the camera with the camera cable
+8) Insert the hammer head screw into the base plate and fix it using a M6 nut
+9) Insert the battery into the base plate's battery compartment
+10) Mount the battery lid using four M3x12 screws
+11) To be continued: integration of the electronics stack 
+
+
+
+### Assembly of electronics
+
+*Preparation of the electronics*
+
+1) Flash the SD card with Raspberry Pi OS lite and reinsert the SD card afterwards.
+
+2) open the partition named rootfs and from the motion sensor box github repository copy the following files (on linux):
+
+```bash
+sudo cp /path-to-motion-sensor-box-repository/cfg/hosts /path-to-SD/rootfs/etc
+sudo cp /path-to-motion-sensor-box-repository/cfg/hostname /path-to-SD/rootfs/etc
+sudo cp /path-to-motion-sensor-box-repository/cfg/wpa_supplicant.conf /path-to-SD/rootfs/etc/wpa_supplicant/
+sudo cp /path-to-motion-sensor-box-repository/cfg/rtunnel.service /path-to-SD/rootfs/etc/systemd/system
+```
+
+3) afterwards, please open the file `/path-to-SD/rootfs/etc/hostname` and `/path-to-SD/Arootfs/etc/hosts` and edit the serial number of the motion sensor box to the corresponding value
+
+4) open the file `/path-to-SD/rootfs/etc/systemd/system/rtunnel.service` and repalce '[REMOTE PORT]' to 65000 + the erial number, e.g. 0014 (65000 + 0014  = 65014)
+
+5) Sense hat's long pins must be removed: Use a screw driver to lift the yellow part and then cut the pins.
+
+![cut_sensehat_pins](doc/cut_sensehat_pins.jpg)
+
+*Assembly*
+
+Assemble the stack starting from the bottom to the top:
+ - Raspberry Pi Zero W V1.1
+ - StromPi
+ - LoRa
+ - Extension plug
+ - Breadboard
+ - Sense hat
+ - e-paper driver hat (Display driver)
+ 
+
+![electronic stack](doc/electronic_stack.jpg)
+
 
 The following schematics shows how the external hardware is connected to the pi's header:
 
 ![pinout](doc/MSB_pinout.png)
 
-#### Assembly of the cabling
-
-The GNSS sensor needs a custom made cable to connect it to the serial expansion board's JST 2.54 mm pin connector. 
-
-![pins](doc/NAVILOCK_GNSS/pins.png)
-
-The GNSS sensor's pins need to be connected to the corresponding pins of the serial expansion board.
-
-![pins](doc/waveshare_serial_expansion/serial_expansion_hat.jpg)
-
-#### Preparation of the electronics
-
-The i2c address of the serial expansion board needs to be shifted (0x48 -> 0x49), such that it does not collide with an i2c address from the sense hat. To do so, remove the resistor at 3v3 and A0 and move it to GND A0 (see photo).
-
-![resoldered resistor](doc/waveshare_serial_expansion/address_resistor.jpg)
-
-Afterwards run `i2cdetect -y 1` to see all available i2c devices. `0x49` (UU) is the i2c serial expansion board address. 
-
-![i2caddresses](doc/i2c_addresses.png)
-
-The pps pin from the gps module has to be connected to pin 13 (see [pinout.png](./YASB_pinout.png) for details).
-
-#### Assembly of the electronics
-
-From top to bottom:
- - Display driver
- - Sense hat
- - Breadboard
- - LoRa
- - StromPi
- - RasPi
-
-*replace picture with new configuration*
-
-![electronic stack](doc/electronic_stack.png)
 
 ### Software
 
-Before configuring the Box, please make sure you checked out the git repository:
+Login to the box using SSH (replace XXX with the last 3 digits of the serial number and "location-of-key-on-local-machine"):
+```bash
+ssh pi@flucto.tech -p65XXX -i "location-of-key-on-local-machine"
+```
+
+Install git:
 
 ```bash
-git clone git@github.com:flucto-gmbh/motion-sensor-box --recursive
+sudo apt-get update
+sudo apt-get install git
+```
+
+Then clone the git repository to the box' `home/pi` folder:
+
+```bash
+git clone https://github.com/flucto-gmbh/motion-sensor-box.git --recursive
 ```
 
 The software is developed with simplicity in mind. SystemD and Unix-Architecture and tools are used whereever possible. For each specific task - for instance: gathering acceleration measurements from the ICM-20948 sensor, a simple python script is provided. This script is then installed as a service using systemd. This allows for managing the script via OS tools. 

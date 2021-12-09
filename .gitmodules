@@ -1,32 +1,32 @@
 [submodule "lib/gpsd"]
 	path = lib/gpsd
-	url = git@gitlab.com:gpsd/gpsd.git
+	url = https://gitlab.com/gpsd/gpsd.git
 
 
 [submodule "src/imu"]
 	path = src/imu
-	url = git@github.com:flucto-gmbh/msb_imu.git
+	url = https://github.com/flucto-gmbh/msb_imu.git
 [submodule "src/adc"]
 	path = src/adc
-	url = git@github.com:flucto-gmbh/msb_adc.git
+	url = https://github.com/flucto-gmbh/msb_adc.git
 [submodule "src/env"]
 	path = src/env
-	url = git@github.com:flucto-gmbh/msb_env.git
+	url = https://github.com/flucto-gmbh/msb_env.git
 [submodule "src/gps"]
 	path = src/gps
-	url = git@github.com:flucto-gmbh/msb_gps.git
+	url = https://github.com/flucto-gmbh/msb_gps.git
 [submodule "src/fusionlog"]
 	path = src/fusionlog
-	url = git@github.com:flucto-gmbh/msb_fusionlog.git
+	url = https://github.com/flucto-gmbh/msb_fusionlog.git
 [submodule "src/power"]
 	path = src/power
-	url = git@github.com:flucto-gmbh/msb_power.git
+	url = https://github.com/flucto-gmbh/msb_power.git
 [submodule "src/camera"]
 	path = src/camera
-	url = git@github.com:flucto-gmbh/msb_camera.git
+	url = https://github.com/flucto-gmbh/msb_camera.git
 [submodule "src/lora"]
 	path = src/lora
-	url = git@github.com:flucto-gmbh/msb_lora.git
+	url = https://github.com/flucto-gmbh/msb_lora.git
 [submodule "lib/strompi3"]
 	path = lib/strompi3
-	url = git@github.com:joy-it/strompi3.git
+	url = https://github.com/joy-it/strompi3.git
