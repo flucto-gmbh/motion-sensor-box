@@ -106,6 +106,11 @@ Login to the box using SSH (replace XXX with the last 3 digits of the serial num
 ssh pi@flucto.tech -p 65XXX -i "location-of-key-on-local-machine"
 ```
 
+ALternatively, if you are in the same WLAN you can login locally (replace XXX with the last 3 digits of the serial number):
+```bash
+ssh pi@msb-0XXX-a.local
+```
+
 Install git:
 
 ```bash
