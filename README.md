@@ -70,12 +70,17 @@ sudo cp /path-to-motion-sensor-box-repository/cfg/hostname /path-to-SD/rootfs/et
 sudo cp /path-to-motion-sensor-box-repository/cfg/wpa_supplicant.conf /path-to-SD/rootfs/etc/wpa_supplicant/
 sudo cp /path-to-motion-sensor-box-repository/cfg/rtunnel.service /path-to-SD/rootfs/etc/systemd/system
 ```
+3) in the boot partition, create an empty file called `ssh` to enable ssh login:
 
-3) afterwards, please open the file `/path-to-SD/rootfs/etc/hostname` and `/path-to-SD/Arootfs/etc/hosts` and edit the serial number of the motion sensor box to the corresponding value
+```bash
+touch /path-to-SD/rootfs/ssh
+```
 
-4) open the file `/path-to-SD/rootfs/etc/systemd/system/rtunnel.service` and repalce '[REMOTE PORT]' to 65000 + the erial number, e.g. 0014 (65000 + 0014  = 65014)
+4) afterwards, please open the file `/path-to-SD/rootfs/etc/hostname` and `/path-to-SD/Arootfs/etc/hosts` and edit the serial number of the motion sensor box to the corresponding value
 
-5) Sense hat's long pins must be removed: Use a screw driver to lift the yellow part and then cut the pins.
+5) open the file `/path-to-SD/rootfs/etc/systemd/system/rtunnel.service` and repalce '[REMOTE PORT]' to 65000 + the erial number, e.g. 0014 (65000 + 0014  = 65014)
+
+6) Sense hat's long pins must be removed: Use a screw driver to lift the yellow part and then cut the pins.
 
 ![cut_sensehat_pins](doc/cut_sensehat_pins.jpg)
 
