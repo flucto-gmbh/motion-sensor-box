@@ -30,3 +30,6 @@
 [submodule "lib/strompi3"]
 	path = lib/strompi3
 	url = https://github.com/joy-it/strompi3.git
+[submodule "src/attitude"]
+	path = src/attitude
+	url = git@github.com:flucto-gmbh/msb_attitude.git
