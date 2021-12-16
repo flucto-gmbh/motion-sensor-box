@@ -18,7 +18,7 @@ Image 72: Cable on StromPi
 Image 73: Cable on breadboard
 
 ## USB-GNSS cable
-How it should look like in the end: Image 62
+How it should look like in the end: Image 62_fullresolution
 
 USB side: Image 60
 
