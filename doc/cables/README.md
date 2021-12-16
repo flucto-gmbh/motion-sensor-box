@@ -12,7 +12,9 @@ Image 63
 
 ## Power switch cable
 Image 45: Solder to StromPi (and bread board)
+
 Image 72: Cable on StromPi
+
 Image 73: Cable on breadboard
 
 ## USB-GNSS cable
