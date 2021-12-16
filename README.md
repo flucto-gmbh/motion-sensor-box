@@ -73,7 +73,7 @@ sudo cp /path-to-motion-sensor-box-repository/cfg/rtunnel.service /path-to-SD/ro
 3) in the boot partition, create an empty file called `ssh` to enable ssh login:
 
 ```bash
-touch /path-to-SD/rootfs/ssh
+touch /path-to-SD/boot/ssh
 ```
 
 4) afterwards, please open the file `/path-to-SD/rootfs/etc/hostname` and `/path-to-SD/Arootfs/etc/hosts` and edit the serial number of the motion sensor box to the corresponding value
