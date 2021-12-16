@@ -84,7 +84,7 @@ touch /path-to-SD/rootfs/ssh
 
 ![cut_sensehat_pins](doc/cut_sensehat_pins.jpg)
 
-7) Prepare the cables (see https://github.com/flucto-gmbh/motion-sensor-box/tree/main/doc/cables)
+7) Prepare the cables (see doc/cables)
 
 *Assembly*
 
