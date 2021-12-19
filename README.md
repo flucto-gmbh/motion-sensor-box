@@ -30,12 +30,56 @@ The mechanical structure consists of:
  - Multiple smaller 3D printed parts
  - Two sheets that are laser cut
 
+### Software
+
+The software needed to run the motion sensor box is subdivided into a number of systemd service units. The reasoning behind this architecture is the following:
+
+1. complexity: dissecting the software into pieces, each focusing on one single task allows for compartmentalization of the overall complexity
+2. robustness: implementing each task as single service that communicates with the broker will increase overall robustness. If a service fails, it will (hopefully) not impair other services (except for the ones directly depending on the failed service)
+3. extensibility: adding or removing a serivce is much easier
+
+All interprocess communication between services is implemented using [zeroMQ](https://zeromq.org/)
+
+![software_architecture](./doc/software_architecture.png)
+
+### List of Services
+
+- **msb_imu.service:** manages the inertial measurement uni present on the sense hat. For more documentation, please see [doc/waveshare_sense_hat/ICM-20948.md](doc/waveshare_sense_hat/ICM-20948.md). Code is located at [src/imu](src/imu)
+- **msb_gps.service:** samples gnss data from `gpsd`'s socket and provides it to other motion sensor box services. Further documentation is available [here](doc/gpsd/gpds.md). Code is located at [src/gps](src/gps)
+- **msb_broker.service:** Creates and manages the publisher/subscriber model of motion sensor box services. code is located at [src/broker](src/broker)
+- **msb_fusionlog.service:** Subscribes to **all** available data and logs it to a specified location on disc. source is located at [src/fusionlog](src/fusionlog)
+- **msb_adc.service:**
+- **msb_attitude.service:**
+- **msb_camera.service:**
+- **msb_env.service:**
+- **msb_lora.service:**
+- **msb_power.service:**
+
+
+### Data format
+
+Each process must provide its data in the form of a json package:
+
+```javascript
+// inertial measurement unit
+{
+    "imu" : [timestamp, uptime, acc_x, acc_y, acc_z, rot_x, rot_y, rot_z, mag_x, mag_y, mag_z, temp]
+}
+
+// gpsd data
+{
+    "gnss" : 
+}
+```
+
+
+
  
-## System Setup
+## Setup
 
 motion sensor box runs the latest version of [Raspberry OS](https://www.raspberrypi.org/software/)
 
-## Assembly
+### Hardware assembly
 
 Two main sub assemblies need to be prepared before general assembly starts
  - Housing's lid (not yet documented)
@@ -131,13 +175,7 @@ Then clone the git repository to the box' `home/pi` folder:
 git clone https://github.com/flucto-gmbh/motion-sensor-box.git --recursive
 ```
 
-The software is developed with simplicity in mind. SystemD and Unix-Architecture and tools are used whereever possible. For each specific task - for instance: gathering acceleration measurements from the ICM-20948 sensor, a simple python script is provided. This script is then installed as a service using systemd. This allows for managing the script via OS tools. 
-Each script has been written such that no direct dependence on any other script is present. Only data is shared between yasb scripts, allowing for graceful failure in case anything goes wrong. 
-To exchange data between scripts, unix fifos are used.
-
-Checkout [System Setup](doc/system-setup.md) for details.
-
-Details to internal data formats can be found in [motion sensor box Datastructures](doc/yasb-data.md)
+To finish the setup, please follow through with [system Setup](doc/system-setup.md).
 
 ## Sensing
 

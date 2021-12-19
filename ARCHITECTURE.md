@@ -20,6 +20,13 @@ All interprocess communication between services is implemented using [zeroMQ](ht
 - **msb_gps.service:** samples gnss data from `gpsd`'s socket and provides it to other motion sensor box services. Further documentation is available [here](doc/gpsd/gpds.md). Code is located at [src/gps](src/gps)
 - **msb_broker.service:** Creates and manages the publisher/subscriber model of motion sensor box services. code is located at [src/broker](src/broker)
 - **msb_fusionlog.service:** Subscribes to **all** available data and logs it to a specified location on disc. source is located at [src/fusionlog](src/fusionlog)
+- **msb_adc.service:**
+- **msb_attitude.service:**
+- **msb_camera.service:**
+- **msb_env.service:**
+- **msb_lora.service:**
+- **msb_power.service:**
+
 
 ### Data format
 
