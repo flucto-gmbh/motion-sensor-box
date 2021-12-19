@@ -51,3 +51,9 @@
 	url = git@github.com:flucto-gmbh/msb_attitude.git
 	branch = main
 	update = merge
+[submodule "src/broker"]
+	path = src/broker
+    url = git@github.com:flucto-gmbh/msb_broker.git
+    branch = main
+	update = merge
+
