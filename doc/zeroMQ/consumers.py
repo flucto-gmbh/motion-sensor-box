@@ -30,10 +30,10 @@ class Poller(Thread):
 
 context = zmq.Context()
 
-poller1 = Poller(1, 'NASDA')
+poller1 = Poller(1, 'imu')
 poller1.start()
 
-poller2 = Poller(2, 'NASDAQ')
+poller2 = Poller(2, 'gps')
 poller2.start()
 
 
@@ -42,13 +42,14 @@ socket.connect("tcp://127.0.0.1:5560")
 
 for index in range(3):
     time.sleep(2)
-    socket.send_string('NASDA:' + time.strftime('%H:%M:%S'))
+    socket.send_string('imu: ' + time.strftime('%H:%M:%S'))
+    socket.send_string('imu: ' + 'hello world, this is a topic')
     time.sleep(2)
-    socket.send_string('NASDAQ:' + time.strftime('%H:%M:%S'))
+    socket.send_string('gps: ' + time.strftime('%H:%M:%S'))
 
 
 poller1.stop()
 poller2.stop()
-socket.send_string('NASDAQ:STOP')
+socket.send_string('imu:STOP')
 
 sys.exit(0)
