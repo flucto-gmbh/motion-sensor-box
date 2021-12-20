@@ -22,11 +22,11 @@ How it should look like in the end: Image 62_fullresolution
 
 Use the following table for soldering the Usb cable to the GNSS-cable with the JST-style GNSS cable: 
 
-| A     | B     | C   | D     | E    | 
-| :---  |:---:  |:---:|:---:  |:---: | 
-| white | green |*cut*| black | red  |
+|GNSS side   | A     | B     | C   | D     | E    | 
+|---         | :---: |:---:  |:---:|:---:  |:---: | 
+|USB side    | white | green |*cut*| black | red  |
 
-
+### GNSS Cable colours
 ![GNSS wiring](GNSS_Wires.png)
 
 USB side: Image 60
