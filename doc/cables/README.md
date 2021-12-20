@@ -7,7 +7,7 @@ Image 57: Combine + and - power cable
 
 Image 58: Assembly of power cable in box
 
-## Inside cybercude power cable
+## Inside cybercube power cable
 Image 63
 
 ## Power switch cable
@@ -19,6 +19,15 @@ Image 73: Cable on breadboard
 
 ## USB-GNSS cable
 How it should look like in the end: Image 62_fullresolution
+
+Use the following table for soldering the Usb cable to the GNSS-cable with the JST-style GNSS cable: 
+
+| A     | B     | C   | D     | E    | 
+| :---  |:---:  |:---:|:---:  |:---: | 
+| white | green |*cut*| black | red  |
+
+
+![GNSS wiring](GNSS_Wires.png)
 
 USB side: Image 60
 
