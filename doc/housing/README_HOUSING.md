@@ -2,7 +2,7 @@
 
 The following parts are bought by a supplier as a pre-assembled group.
 - [Assembly drawing](BoplaHousing_Zusammenbau.pdf)
-- [Projected drawings](BoplaHousing_AlleAnsichten.pdf)
+- [Projected drawings](BoplaHousing_AlleAnsichten.pdf), [unmachined housing](BoplaHousing_unmachined_96016334_B-261709-PC-V0-7024.pdf)
 - [Display](../waveshare_e-ink_display/tldr_eink_display.md)
 - [Membrane keyboard](BoplaHousing_Folientastatur_V02.pdf)
 
