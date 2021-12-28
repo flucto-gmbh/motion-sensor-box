@@ -48,12 +48,12 @@
 	url = https://github.com/joy-it/strompi3.git
 [submodule "src/attitude"]
 	path = src/attitude
-	url = git@github.com:flucto-gmbh/msb_attitude.git
+	url = https://github.com/flucto-gmbh/msb_attitude.git
 	branch = main
 	update = merge
 [submodule "src/broker"]
 	path = src/broker
-    url = git@github.com:flucto-gmbh/msb_broker.git
+    url = https://github.com/flucto-gmbh/msb_broker.git
     branch = main
 	update = merge
 
