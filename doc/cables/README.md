@@ -20,7 +20,7 @@ Image 73: Cable on breadboard
 ## USB-GNSS cable
 How it should look like in the end: Image 62_fullresolution
 
-Use the following table for soldering the Usb cable to the GNSS-cable with the JST-style GNSS cable: 
+Use the following table for soldering the USB-cable to the GNSS-cable with the JST-style connector: 
 
 |GNSS side   | A     | B     | C   | D     | E    | 
 |---         | :---: |:---:  |:---:|:---:  |:---: | 
