@@ -8,11 +8,11 @@ Image 57: Combine + and - power cable
 Image 58: Assembly of power cable in box
 
 ### Cable lengths
-Bulgins_out to cube + : Cut one side of the Fuse to 65mm length. Leave the other one as is      
-Bulgins_out to cube - : 265mm 1mm^2 
+Bulgins_out to cube + :  Cut one side of the Fuse to 65mm length. Leave the other one as is      
+Bulgins_out to cube - :  265mm 1mm^2 
 
-Bulgins_out to battery +: 240mm 1mm^2  
-Bulgins_out to battery -: 270mm 1mm^2
+Bulgins_out to battery +:  240mm 1mm^2  
+Bulgins_out to battery -:  270mm 1mm^2
 
 ### Assembly Tips
 
@@ -23,13 +23,17 @@ Bulgins_out to battery -: 270mm 1mm^2
 
 ## Inside cybercube power cable
 Image 63
-
+### Cable length
+175mm 
 ## Power switch cable
 Image 45: Solder to StromPi (and bread board)
 
 Image 72: Cable on StromPi
 
 Image 73: Cable on breadboard
+
+### Cable length
+95mm 
 
 ## USB-GNSS cable
 How it should look like in the end: Image 62_fullresolution
