@@ -104,7 +104,7 @@ After the subassemblies have been prepared general assembly can start:
 
 *Preparation of the electronics*
 
-1) Flash the SD card with Raspberry Pi OS lite and reinsert the SD card afterwards.
+1) Use Raspberry Pi Imager to flash the SD card with Raspberry Pi OS lite. Reinsert the SD card afterwards.
 
 2) open the partition named rootfs and from the motion sensor box github repository copy the following files (on linux):
 
