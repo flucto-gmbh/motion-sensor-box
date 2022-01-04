@@ -111,8 +111,9 @@ After the subassemblies have been prepared general assembly can start:
 ```bash
 sudo cp /path-to-motion-sensor-box-repository/cfg/hosts /path-to-SD/rootfs/etc
 sudo cp /path-to-motion-sensor-box-repository/cfg/hostname /path-to-SD/rootfs/etc
-sudo cp /path-to-motion-sensor-box-repository/cfg/wpa_supplicant.conf /path-to-SD/rootfs/etc/wpa_supplicant/
 sudo cp /path-to-motion-sensor-box-repository/cfg/rtunnel.service /path-to-SD/rootfs/etc/systemd/system
+
+sudo cp /path-to-motion-sensor-box-repository/cfg/wpa_supplicant.conf /path-to-SD/boot
 ```
 3) in the boot partition, create an empty file called `ssh` to enable ssh login:
 
