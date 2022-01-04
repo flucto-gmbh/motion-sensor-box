@@ -1,11 +1,25 @@
 # Preparing cables
 
 ## Power cable
-Image 56: Power cable (Sicherung missing)
+Image 56: Power cable (Fuse missing)
 
 Image 57: Combine + and - power cable
 
 Image 58: Assembly of power cable in box
+
+### Cable lengths
+Bulgins_out to cube + : Cut one side of the Fuse to 65mm length. Leave the other one as is      
+Bulgins_out to cube - : 265mm 1mm^2 
+
+Bulgins_out to battery +: 240mm 1mm^2  
+Bulgins_out to battery -: 270mm 1mm^2
+
+### Assembly Tips
+
+- start with connecting the pairs of power cables (both +, both -) and then solder the connectors to these ends
+- hot air will help shaping the power cables a bit, so they will fall easier into their place later
+- short rings of shrinking tube will help keeping the cables together while maintaining flexibility
+
 
 ## Inside cybercube power cable
 Image 63
@@ -28,6 +42,7 @@ Use the following table for soldering the USB-cable to the GNSS-cable with the J
 
 ### GNSS Cable colours
 ![GNSS wiring](GNSS_Wires.png)
+#### Caution! Before startup, make sure the GNSS connector is correctly oriented in the gnss board, since there are two different styles of connectors (5 pin/6 pin)
 
 USB side: Image 60
 
