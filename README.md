@@ -72,20 +72,19 @@ Each process must provide its data in the form of a json package:
 }
 ```
 
-
-
- 
 ## Setup
 
 motion sensor box runs the latest version of [Raspberry OS](https://www.raspberrypi.org/software/)
 
 ### Hardware assembly
 
-Two main sub assemblies need to be prepared before general assembly starts
+Two sub assemblies need to be prepared before general assembly starts
+
  - Housing's lid (not yet documented)
  - Electronics stack (see "Assembly of electronics" below)
 
 After the subassemblies have been prepared general assembly can start:
+
 1) Mount the camera glass
 2) Mount the round camera holder
 3) Mount the camera on the camera holder
@@ -98,16 +97,22 @@ After the subassemblies have been prepared general assembly can start:
 10) Mount the battery lid using four M3x12 screws
 11) To be continued: integration of the electronics stack 
 
-
-
 ### Assembly of electronics
 
-*Preparation of the electronics*
+#### Preparation of the electronics
 
 1) Use Raspberry Pi Imager to flash the SD card with Raspberry Pi OS lite. Reinsert the SD card afterwards.
 
 2) open the partition named rootfs and from the motion sensor box github repository copy the following files (on linux):
 
+<<<<<<< HEAD
+  ```bash
+  sudo cp /path-to-motion-sensor-box-repository/cfg/hosts /path-to-SD/rootfs/etc
+  sudo cp /path-to-motion-sensor-box-repository/cfg/hostname /path-to-SD/rootfs/etc
+  sudo cp /path-to-motion-sensor-box-repository/cfg/wpa_supplicant.conf /path-to-SD/rootfs/etc/wpa_supplicant/
+  sudo cp /path-to-motion-sensor-box-repository/cfg/rtunnel.service /path-to-SD/rootfs/etc/systemd/system
+  ```
+=======
 ```bash
 sudo cp /path-to-motion-sensor-box-repository/cfg/hosts /path-to-SD/rootfs/etc
 sudo cp /path-to-motion-sensor-box-repository/cfg/hostname /path-to-SD/rootfs/etc
@@ -115,6 +120,7 @@ sudo cp /path-to-motion-sensor-box-repository/cfg/rtunnel.service /path-to-SD/ro
 
 sudo cp /path-to-motion-sensor-box-repository/cfg/wpa_supplicant.conf /path-to-SD/boot
 ```
+>>>>>>> 053312a2f2e5901ec7457c84987600b899fc7923
 3) in the boot partition, create an empty file called `ssh` to enable ssh login:
 
 ```bash
@@ -131,7 +137,7 @@ touch /path-to-SD/boot/ssh
 
 7) Prepare the cables (see [cable documentation](doc/cables))
 
-*Assembly*
+#### Electronics Assembly
 
 Assemble the stack starting from the bottom to the top:
  - Raspberry Pi Zero W V1.1
@@ -150,8 +156,9 @@ The following schematics shows how the external hardware is connected to the pi'
 
 ![pinout](doc/MSB_pinout.png)
 
+### Software Setup
 
-### Software
+Connect the Electronics to power, either through a dedicated USB cable or through the Bulgin power connector. Wait 30 s for the raspberry pi to boot.
 
 Login to the box using SSH (replace XXX with the last 3 digits of the serial number and "location-of-key-on-local-machine"):
 ```bash
