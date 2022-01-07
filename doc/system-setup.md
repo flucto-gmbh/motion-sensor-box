@@ -147,10 +147,8 @@ High accuracy time stamps are provided by synchronizing the system time using th
 
 As a ntp server, chrony is used. For successful configuration of chrony, please continue [here](./chrony/time-synchronisation.md)
 
-## python
+### StromPi3
 
-YASB requires a number of python3 modules to be present on the system. For each python script that makes up the yasb system, a requirements.txt file can be found in the respective folder. As an example, before running yasb_imul.py, install all dependencies by running:
+Power is managed by the [strompi3](https://strompi.joy-it.net/strompi-family), an embedded USV. The strompi3 needs to be put into "serialless mode" to prevent
+serial communication breakdown of the pi with the LoRa board. To do so, use the config script: `lib/strompi3/Python-Scripts/Config Scripts only main Version/V1.72/Config Script ohne GUI/strompi_config.py`
 
-```bash
-python3 -m pip install -r yasb_imu/requirements.txt --user
-```
