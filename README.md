@@ -105,14 +105,6 @@ After the subassemblies have been prepared general assembly can start:
 
 2) open the partition named rootfs and from the motion sensor box github repository copy the following files (on linux):
 
-<<<<<<< HEAD
-  ```bash
-  sudo cp /path-to-motion-sensor-box-repository/cfg/hosts /path-to-SD/rootfs/etc
-  sudo cp /path-to-motion-sensor-box-repository/cfg/hostname /path-to-SD/rootfs/etc
-  sudo cp /path-to-motion-sensor-box-repository/cfg/wpa_supplicant.conf /path-to-SD/rootfs/etc/wpa_supplicant/
-  sudo cp /path-to-motion-sensor-box-repository/cfg/rtunnel.service /path-to-SD/rootfs/etc/systemd/system
-  ```
-=======
 ```bash
 sudo cp /path-to-motion-sensor-box-repository/cfg/hosts /path-to-SD/rootfs/etc
 sudo cp /path-to-motion-sensor-box-repository/cfg/hostname /path-to-SD/rootfs/etc
@@ -120,7 +112,6 @@ sudo cp /path-to-motion-sensor-box-repository/cfg/rtunnel.service /path-to-SD/ro
 
 sudo cp /path-to-motion-sensor-box-repository/cfg/wpa_supplicant.conf /path-to-SD/boot
 ```
->>>>>>> 053312a2f2e5901ec7457c84987600b899fc7923
 3) in the boot partition, create an empty file called `ssh` to enable ssh login:
 
 ```bash
