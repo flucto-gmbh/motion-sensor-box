@@ -150,5 +150,12 @@ As a ntp server, chrony is used. For successful configuration of chrony, please 
 ### StromPi3
 
 Power is managed by the [strompi3](https://strompi.joy-it.net/strompi-family), an embedded USV. The strompi3 needs to be put into "serialless mode" to prevent
-serial communication breakdown of the pi with the LoRa board. To do so, use the config script: `lib/strompi3/Python-Scripts/Config Scripts only main Version/V1.72/Config Script ohne GUI/strompi_config.py`
+serial communication breakdown of the pi with the LoRa board. To do so, use the config script: `scripts/strompi3/strompi_config.py`
+
+Upon first boot, configure the strompi3 such that all options except the serialless mode are disabled. Reboot.
+
+Then, on every boot, first start the serialless mode via the script `scripts/strompi3/start_serialless.py`. Afterwards, the serial connection can be used by the lora board.
+
+To power off, first stop the lora service (e.g. `sudo systemctl stop msb-lora.service`), disable serialless mode via `scripts/strompi3/stop_serialless.py` and then power off via `scripts/strompi3/poweroff.py`. 
+
 
