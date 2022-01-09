@@ -1,4 +1,4 @@
-# System setup
+ss Mode" geschieht nur mit Hilfe der Python Skripte, der Jumper hat nur die Fun# System setup
 
 The YASB boxes are based on a raspberry pi zero WH running raspberry os. The following packages are needed to successfully set up a yasb device:
 
@@ -88,11 +88,12 @@ The following packages need to be installed via the package manager `apt`.
 - autossh
 - mosh
 - numpy
+- scons
 
 To install the packages, type the following:
 
 ```bash
-sudo apt -y install git python3 python3-dev python3-pip i2c-tools spi-tools python3-spidev python3-smbus screen asciidoctor python3-matplotlib libncurses5-dev python3-dev pps-tools build-essential manpages-dev pkg-config python3-cairo-dev libgtk-3-dev python3-serial libdbus-1-dev autossh mosh python3-numpy
+sudo apt -y install git python3 python3-dev python3-pip i2c-tools spi-tools python3-spidev python3-smbus screen asciidoctor python3-matplotlib libncurses5-dev python3-dev pps-tools build-essential manpages-dev pkg-config python3-cairo-dev libgtk-3-dev python3-serial libdbus-1-dev autossh mosh python3-numpy scons
 ```
 
 Some packages need to be installed via pip:
@@ -152,3 +153,4 @@ As a ntp server, chrony is used. For successful configuration of chrony, please 
 Power is managed by the [strompi3](https://strompi.joy-it.net/strompi-family), an embedded USV. The strompi3 needs to be put into "serialless mode" to prevent
 serial communication breakdown of the pi with the LoRa board. To do so, use the config script: `lib/strompi3/Python-Scripts/Config Scripts only main Version/V1.72/Config Script ohne GUI/strompi_config.py`
 
+The Serialless jumper on the strompi only controls whether signals will be put through to pin 21 on the pi, needed for communication with the strompi with serialless mode active. It needs to be put in the "on" position.
