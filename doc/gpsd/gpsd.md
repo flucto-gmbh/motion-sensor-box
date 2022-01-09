@@ -34,26 +34,20 @@ proceed with the installation.
 
 ## Installation of gpsd
 
-1. install dependencies by copying the following line into the command line:
-
-```bash
-sudo apt install scons libncurses5-dev python-dev pps-tools
-```
-
-2. change into the source folder lib/gpsd. gpsd is a submodule in the yasb repository.
-3. build gpsd by running:
+1. change into the source folder lib/gpsd. gpsd is a submodule in the yasb repository.
+2. build gpsd by running:
 
 ```bash
 scons -config=force
 ```
 
-4. check the build by running
+3. check the build by running
 
 ```bash
 scons check
 ```
 
-5. install udev rules by running
+4. install udev rules by running
 
 ```bash
 sudo scons udev-install
