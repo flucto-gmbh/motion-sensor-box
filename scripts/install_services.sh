@@ -28,6 +28,7 @@ done
 sudo systemctl daemon-reload
 
 sudo systemctl enable gpsd.service
+sudo systemctl enable rtunnel.service
 sudo systemctl enable msb-imu.service
 sudo systemctl enable msb-gps.service
 sudo systemctl enable msb-fusionlog.service
