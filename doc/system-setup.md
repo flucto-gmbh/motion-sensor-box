@@ -171,12 +171,15 @@ cp gpsd.rules.in gpsd-3.23.2~dev/gpsd.rules
 sudo scons udev-install
 ```
 
+After compilation, the gps python package is located under `/usr/local/lib/python3/dist-packages/`. This is hard coded in `msb_gps.py`. 
+
 #### Running gpsd
 
-gpsd is now installed and can be tested by running which will run gpsd in the foreground. To stop gpsd again, press `CTRL+C`.
+gpsd is now installed and can be tested by running the commands below which will run gpsd in the background. To stop gpsd again, press `CTRL+C`.
 
 ```bash
-sudo gpsd -N -n /dev/ttyACM0
+sudo gpsd -N -n /dev/ttyACM0 &
+gpsmon -n
 ```
 
 #### Configuration
