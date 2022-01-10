@@ -57,3 +57,6 @@
     branch = main
 	update = merge
 
+[submodule "src/wifi"]
+	path = src/wifi
+	url = git@github.com:flucto-gmbh/msb_wifi.git
