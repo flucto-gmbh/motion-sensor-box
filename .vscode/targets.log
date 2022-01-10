@@ -1,0 +1,377 @@
+make all --print-data-base --no-builtin-variables --no-builtin-rules --question
+# GNU Make 4.3
+# Built for x86_64-redhat-linux-gnu
+# Copyright (C) 1988-2020 Free Software Foundation, Inc.
+# License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+# This is free software: you are free to change and redistribute it.
+# There is NO WARRANTY, to the extent permitted by law.
+
+# Make data base, printed on Sun Jan  9 15:59:18 2022
+
+# Variables
+
+# environment
+TMUX_PANE = %9
+# environment
+GDK_BACKEND = x11
+# environment
+LC_ALL = C
+# environment
+NO_AT_BRIDGE = 1
+# environment
+GTK_RC_FILES = /etc/gtk/gtkrc:/home/san/.gtkrc:/home/san/.config/gtkrc
+# environment
+LMOD_SETTARG_FULL_SUPPORT = no
+# environment
+MYTHICDATA = /home/san/Projekte/mythicwind/data
+# environment
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-aea4deec-363f-49a2-b0e6-dbe09ee77771.sock
+# environment
+VSCODE_CWD = /home/san/Projects/motion-sensor-box
+# environment
+WINDOWID = 90177538
+# default
+MAKE_COMMAND := make
+# environment
+LMOD_ROOT = /usr/share/lmod
+# automatic
+@D = $(patsubst %/,%,$(dir $@))
+# environment
+PYTHONSTARTUP = /home/san/.dotfiles/python_startup.py
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# default
+.VARIABLES := 
+# environment
+PWD = /home/san/Projects/motion-sensor-box
+# automatic
+%D = $(patsubst %/,%,$(dir $%))
+# environment
+HOSTNAME = san-thinkpad
+# environment
+LSCOLORS = Gxfxcxdxbxegedabagacad
+# environment
+MAIL = /var/spool/mail/san
+# environment
+XDG_DATA_DIRS = /home/san/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share
+# environment
+OLDPWD = /home/san
+# automatic
+^D = $(patsubst %/,%,$(dir $^))
+# environment
+VSCODE_LOG_STACK = false
+# automatic
+%F = $(notdir $%)
+# environment
+VSCODE_CODE_CACHE_PATH = /home/san/.config/Code/CachedData/ee8c7def80afc00dd6e593ef12f37756d8f504ea
+# environment
+XDG_SESSION_PATH = /org/freedesktop/DisplayManager/Session1
+# environment
+SSH_ASKPASS = /usr/bin/ksshaskpass
+# environment
+LANG = C
+# environment
+XAUTHORITY = /run/user/1000/xauth_XZBFuf
+# default
+.LOADED := 
+# default
+.INCLUDE_DIRS = /usr/include /usr/local/include /usr/include
+# environment
+LMOD_CMD = /usr/share/lmod/lmod/libexec/lmod
+# makefile
+MAKEFLAGS = pqrR
+# makefile
+CURDIR := /home/san/Projects/motion-sensor-box
+# environment
+VSCODE_PIPE_LOGGING = true
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
+# environment
+LMOD_DIR = /usr/share/lmod/lmod/libexec
+# environment
+LESSOPEN = ||/usr/bin/lesspipe.sh %s
+# environment
+ZSH_TMUX_TERM = screen-256color
+# automatic
+*D = $(patsubst %/,%,$(dir $*))
+# environment
+PAM_KWALLET5_LOGIN = /run/user/1000/kwallet5.socket
+# environment
+MFLAGS = -pqrR
+# environment
+SSH_AUTH_SOCK = /tmp/ssh-XXXXXXH2Ygoq/agent.5652
+# default
+.SHELLFLAGS := -c
+# environment
+_ZSH_TMUX_FIXED_CONFIG = /home/san/.oh-my-zsh/plugins/tmux/tmux.extra.conf
+# environment
+HISTSIZE = 50000
+# environment
+XDG_CONFIG_DIRS = /home/san/.config/kdedefaults:/etc/xdg:/usr/share/kde-settings/kde-profile/default/xdg
+# automatic
++D = $(patsubst %/,%,$(dir $+))
+# environment
+XCURSOR_THEME = breeze_cursors
+# environment
+XDG_SESSION_DESKTOP = KDE
+# environment
+VSCODE_CRASH_REPORTER_START_OPTIONS = {"companyName":"Microsoft","productName":"VSCode","submitURL":"appcenter://code?aid=fba07a4d-84bd-4fc8-a125-9640fc8ce171&uid=e772080f-4e0a-4217-99f2-bcec5a2cb3ea&iid=e772080f-4e0a-4217-99f2-bcec5a2cb3ea&sid=e772080f-4e0a-4217-99f2-bcec5a2cb3ea","uploadToServer":true}
+# makefile
+MAKEFILE_LIST := 
+# automatic
+@F = $(notdir $@)
+# environment
+ZSH = /home/san/.oh-my-zsh
+# environment
+VSCODE_VERBOSE_LOGGING = true
+# environment
+VSCODE_PID = 43627
+# environment
+XDG_SESSION_TYPE = x11
+# environment
+TMUX = /tmp//tmux-1000/default,6515,0
+# automatic
+?D = $(patsubst %/,%,$(dir $?))
+# environment
+GDK_CORE_DEVICE_EVENTS = 1
+# environment
+SESSION_MANAGER = local/unix:@/tmp/.ICE-unix/5722,unix/unix:/tmp/.ICE-unix/5722
+# automatic
+*F = $(notdir $*)
+# environment
+MANPATH = /usr/share/lmod/lmod/share/man:
+# environment
+MODULEPATH = /etc/modulefiles:/usr/share/modulefiles:/usr/share/modulefiles/Linux:/usr/share/modulefiles/Core:/usr/share/lmod/lmod/modulefiles/Core
+# environment
+CHROME_DESKTOP = code-url-handler.desktop
+# environment
+DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
+# automatic
+<D = $(patsubst %/,%,$(dir $<))
+# environment
+VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
+# environment
+BREAKPAD_DUMP_LOCATION = /home/san/.config/Code/exthost Crash Reports
+# default
+MAKE_HOST := x86_64-redhat-linux-gnu
+# makefile
+SHELL = /bin/sh
+# default
+MAKECMDGOALS := all
+# environment
+LD_LIBRARY_PATH = /usr/lib64/openmpi/lib/:
+# environment
+SHLVL = 3
+# environment
+MAKELEVEL := 0
+# environment
+ZSH_TMUX_CONFIG = /home/san/.tmux.conf
+# default
+MAKE = $(MAKE_COMMAND)
+# environment
+PATH = /home/san/.bin:/usr/lib64/openmpi/bin/:/home/san/Projekte/mythicwind/src/scripts:/home/san/Projekte/mythicwind/src/utils:/usr/lib64/openmpi/bin:/home/san/bin:/home/san/.bin:/home/san/.local/bin:/usr/local/bin:/home/san/Projekte/mythicwind/src/scripts:/home/san/Projekte/mythicwind/src/utils:/usr/lib64/openmpi/bin:/home/san/bin:/home/san/.bin:/home/san/.local/bin:/usr/local/bin:/usr/lib64/ccache:/usr/local/bin:/usr/bin:/bin:/home/san/bin:/usr/local/sbin:/usr/sbin:/home/san/.bin:/home/san/.cargo/bin:/home/san/bin:/home/san/.bin:/home/san/.cargo/bin
+# environment
+MOZ_GMP_PATH = /usr/lib64/mozilla/plugins/gmp-gmpopenh264/system-installed
+# default
+MAKEFILES := 
+# environment
+MODULESHOME = /usr/share/lmod/lmod
+# automatic
+^F = $(notdir $^)
+# environment
+LMOD_sys = Linux
+# environment
+INVOCATION_ID = 6816a857efba45e2a149303ba2f9ffd2
+# environment
+VSCODE_LOG_NATIVE = false
+# automatic
+?F = $(notdir $?)
+# environment
+KDE_APPLICATIONS_AS_SCOPE = 1
+# environment
+XDG_SEAT = seat0
+# environment
+XDG_CURRENT_DESKTOP = KDE
+# environment
+KDEDIRS = /usr
+# environment
+ALACRITTY_LOG = /tmp/Alacritty-6469.log
+# environment
+LS_COLORS = rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=01;37;41:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=01;36:*.au=01;36:*.flac=01;36:*.m4a=01;36:*.mid=01;36:*.midi=01;36:*.mka=01;36:*.mp3=01;36:*.mpc=01;36:*.ogg=01;36:*.ra=01;36:*.wav=01;36:*.oga=01;36:*.opus=01;36:*.spx=01;36:*.xspf=01;36:
+# automatic
++F = $(notdir $+)
+# environment
+XDG_SEAT_PATH = /org/freedesktop/DisplayManager/Seat0
+# environment
+LESS = -R
+# environment
+DESKTOP_SESSION = /usr/share/xsessions/plasmax11
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = KDE
+# 'override' directive
+GNUMAKEFLAGS := 
+# environment
+MYTHICWIND = /home/san/Projekte/mythicwind
+# environment
+QT_SCREEN_SCALE_FACTORS = eDP-1=1.25;DP-1=1.25;HDMI-1=1.25;DP-2=1.25;HDMI-2=1.25;DP-2-1=1.25;DP-2-2=1.25;DP-2-3=1.25;
+# environment
+LOGNAME = san
+# environment
+TERMINAL = alacritty
+# environment
+BASH_ENV = /usr/share/lmod/lmod/init/bash
+# environment
+XDG_VTNR = 2
+# makefile
+.DEFAULT_GOAL := 
+# environment
+SYSTEMD_EXEC_PID = 5791
+# environment
+MODULEPATH_ROOT = /usr/share/modulefiles
+# environment
+HISTCONTROL = ignoredups
+# environment
+EDITOR = nvim
+# environment
+DISPLAY = :0
+# environment
+USER = san
+# default
+MAKE_VERSION := 4.3
+# environment
+KDE_SESSION_UID = 1000
+# environment
+MANAGERPID = 5633
+# environment
+which_declare = typeset -f
+# environment
+SSH_AGENT_PID = 5681
+# environment
+PAGER = less
+# environment
+_ = /usr/bin/make
+# environment
+XDG_RUNTIME_DIR = /run/user/1000
+# environment
+COLORTERM = truecolor
+# environment
+JOURNAL_STREAM = 8:40219
+# environment
+XDG_SESSION_CLASS = user
+# environment
+VSCODE_AMD_ENTRYPOINT = vs/workbench/services/extensions/node/extensionHostProcess
+# environment
+GTK2_RC_FILES = /etc/gtk-2.0/gtkrc:/home/san/.gtkrc-2.0:/home/san/.gtkrc-2.0-kde4:/home/san/.config/gtkrc-2.0
+# environment
+HOME = /home/san
+# environment
+ELECTRON_RUN_AS_NODE = 1
+# environment
+VSCODE_IPC_HOOK = /run/user/1000/vscode-07d55eda-1.61.0-main.sock
+# environment
+TERM = screen-256color
+# environment
+XDG_SESSION_ID = 2
+# environment
+XCURSOR_SIZE = 24
+ 
+make: *** No rule to make target 'all'.  Stop.
+ 
+# environment
+is_vim = ps -o state= -o comm= -t '#{pane_tty}' | grep -iqE '^[^TXZ ]+ +(\S+\/)?g?(view|n?vim?x?)(diff)?$'
+# default
+.RECIPEPREFIX := 
+# automatic
+<F = $(notdir $<)
+# environment
+JUPYTERLAB_DIR = /home/san/.local/share/jupyter/lab
+# default
+SUFFIXES := 
+# environment
+QT_AUTO_SCREEN_SCALE_FACTOR = 0
+# environment
+VSCODE_CLI = 1
+# environment
+LMOD_PKG = /usr/share/lmod/lmod
+# environment
+ELECTRON_NO_ATTACH_CONSOLE = 1
+# environment
+KDE_SESSION_VERSION = 5
+# default
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync check-symlink guile load
+# environment
+KDE_FULL_SESSION = true
+# environment
+XDG_MENU_PREFIX = kf5-
+# environment
+LMOD_VERSION = 8.4.23
+# variable set hash-table stats:
+# Load=146/1024=14%, Rehash=0, Collisions=13/173=8%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# . (device 41, inode 230182): 15 files, no impossibilities.
+
+# 15 files, no impossibilities in 1 directories.
+
+# Implicit Rules
+
+# No implicit rules.
+
+# Files
+
+# Not a target:
+Makefile:
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Failed to be updated.
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+all:
+#  Command line target.
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has not been updated.
+
+# Not a target:
+makefile:
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Failed to be updated.
+
+# Not a target:
+GNUmakefile:
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Failed to be updated.
+
+# files hash-table stats:
+# Load=6/1024=1%, Rehash=0, Collisions=0/15=0%
+# VPATH Search Paths
+
+# No 'vpath' search paths.
+
+# No general ('VPATH' variable) search path.
+
+# strcache buffers: 1 (0) / strings = 23 / storage = 203 B / avg = 8 B
+# current buf: size = 8162 B / used = 203 B / count = 23 / avg = 8 B
+
+# strcache performance: lookups = 26 / hit rate = 11%
+# hash-table stats:
+# Load=23/8192=0%, Rehash=0, Collisions=0/26=0%
+# Finished Make data base on Sun Jan  9 15:59:18 2022
+
+ 
