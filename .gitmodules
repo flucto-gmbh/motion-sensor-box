@@ -53,10 +53,12 @@
 	update = merge
 [submodule "src/broker"]
 	path = src/broker
-    url = https://github.com/flucto-gmbh/msb_broker.git
-    branch = main
+    	url = https://github.com/flucto-gmbh/msb_broker.git
+    	branch = main
 	update = merge
 
 [submodule "src/wifi"]
 	path = src/wifi
-	url = git@github.com:flucto-gmbh/msb_wifi.git
+	url = https://github.com/flucto-gmbh/msb_wifi.git
+    	branch = main
+	update = merge
