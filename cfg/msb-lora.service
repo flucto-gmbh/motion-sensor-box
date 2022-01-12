@@ -1,6 +1,6 @@
 [Unit]
 Description=Motion Sensor Box LoRa Messaging Service
-After=network.target
+After=msb-serialless-on.service
 StartLimitIntervalSec=0
 
 [Service]
@@ -9,7 +9,7 @@ Type=simple
 Restart=always
 RestartSec=1
 User=pi
-ExecStart=/usr/bin/python3 /home/pi/motion-sensor-box/src/imu/src/msb_imu.py --logfile ''
+ExecStart=/usr/bin/python3 /home/pi/motion-sensor-box/src/lora/src/msb_lora.py
 
 [Install]
 WantedBy=multi-user.target

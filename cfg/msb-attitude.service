@@ -1,6 +1,6 @@
 [Unit]
 Description=Motion Sensor Box Attitude Estimation Service
-After=network.target
+After=msb-imu.service
 StartLimitIntervalSec=0
 
 [Service]

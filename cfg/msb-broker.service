@@ -9,7 +9,7 @@ Type=simple
 Restart=always
 RestartSec=1
 User=pi
-ExecStart=/usr/bin/python3 /home/pi/motion-sensor-box/src/broker/src/msb_broker.py --logfile ''
+ExecStart=/usr/bin/python3 /home/pi/motion-sensor-box/src/broker/src/msb_broker.py
 
 [Install]
 WantedBy=multi-user.target

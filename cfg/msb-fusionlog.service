@@ -1,6 +1,6 @@
 [Unit]
 Description=Motion Sensor Box Sensor Fusion and Logging Service
-After=network.target
+After=msb-broker.service
 StartLimitIntervalSec=0
 
 [Service]
