@@ -34,3 +34,6 @@ sudo systemctl enable msb-gps.service
 sudo systemctl enable msb-fusionlog.service
 sudo systemctl enable msb-broker.service
 sudo systemctl enable msb-attitude.service
+sudo systemctl enable msb-lora.service
+sudo systemctl enable msb-serialless-off.service
+sudo systemctl enable msb-wifi.service
