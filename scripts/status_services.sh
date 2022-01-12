@@ -2,8 +2,9 @@
 
 echo "stopping all services"
 
-for service in /etc/systemd/system/multi-user.target.wants/msb-*.service
+for service_path in /etc/systemd/system/multi-user.target.wants/msb-*.service
 do
+	service=$(basename $service_path)
         echo "status of $service"
         sudo systemctl status $service
         echo ""
