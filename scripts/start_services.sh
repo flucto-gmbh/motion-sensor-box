@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "stopping all services"
+echo "starting all services"
 
 for service_path in /etc/systemd/system/multi-user.target.wants/msb*service
 do
