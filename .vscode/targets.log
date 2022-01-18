@@ -1,4 +1,6 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
+make: *** No rule to make target 'all'.  Stop.
+ 
 # GNU Make 4.3
 # Built for x86_64-redhat-linux-gnu
 # Copyright (C) 1988-2020 Free Software Foundation, Inc.
@@ -6,12 +8,10 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sun Jan  9 15:59:18 2022
+# Make data base, printed on Thu Jan 13 12:45:22 2022
 
 # Variables
 
-# environment
-TMUX_PANE = %9
 # environment
 GDK_BACKEND = x11
 # environment
@@ -25,11 +25,9 @@ LMOD_SETTARG_FULL_SUPPORT = no
 # environment
 MYTHICDATA = /home/san/Projekte/mythicwind/data
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-aea4deec-363f-49a2-b0e6-dbe09ee77771.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-8cd2ecdd-376a-47ce-bb2a-e9cdffe81204.sock
 # environment
-VSCODE_CWD = /home/san/Projects/motion-sensor-box
-# environment
-WINDOWID = 90177538
+VSCODE_CWD = /home/san
 # default
 MAKE_COMMAND := make
 # environment
@@ -47,7 +45,7 @@ PWD = /home/san/Projects/motion-sensor-box
 # automatic
 %D = $(patsubst %/,%,$(dir $%))
 # environment
-HOSTNAME = san-thinkpad
+HOSTNAME = san-e14
 # environment
 LSCOLORS = Gxfxcxdxbxegedabagacad
 # environment
@@ -63,7 +61,7 @@ VSCODE_LOG_STACK = false
 # automatic
 %F = $(notdir $%)
 # environment
-VSCODE_CODE_CACHE_PATH = /home/san/.config/Code/CachedData/ee8c7def80afc00dd6e593ef12f37756d8f504ea
+VSCODE_CODE_CACHE_PATH = /home/san/.config/Code/CachedData/899d46d82c4c95423fb7e10e68eba52050e30ba3
 # environment
 XDG_SESSION_PATH = /org/freedesktop/DisplayManager/Session1
 # environment
@@ -71,7 +69,7 @@ SSH_ASKPASS = /usr/bin/ksshaskpass
 # environment
 LANG = C
 # environment
-XAUTHORITY = /run/user/1000/xauth_XZBFuf
+XAUTHORITY = /run/user/1000/xauth_kLEJDJ
 # default
 .LOADED := 
 # default
@@ -91,7 +89,7 @@ LMOD_DIR = /usr/share/lmod/lmod/libexec
 # environment
 LESSOPEN = ||/usr/bin/lesspipe.sh %s
 # environment
-ZSH_TMUX_TERM = screen-256color
+ZSH_TMUX_TERM = screen
 # automatic
 *D = $(patsubst %/,%,$(dir $*))
 # environment
@@ -99,7 +97,7 @@ PAM_KWALLET5_LOGIN = /run/user/1000/kwallet5.socket
 # environment
 MFLAGS = -pqrR
 # environment
-SSH_AUTH_SOCK = /tmp/ssh-XXXXXXH2Ygoq/agent.5652
+SSH_AUTH_SOCK = /tmp/ssh-XXXXXXf2R52Y/agent.3798
 # default
 .SHELLFLAGS := -c
 # environment
@@ -115,7 +113,7 @@ XCURSOR_THEME = breeze_cursors
 # environment
 XDG_SESSION_DESKTOP = KDE
 # environment
-VSCODE_CRASH_REPORTER_START_OPTIONS = {"companyName":"Microsoft","productName":"VSCode","submitURL":"appcenter://code?aid=fba07a4d-84bd-4fc8-a125-9640fc8ce171&uid=e772080f-4e0a-4217-99f2-bcec5a2cb3ea&iid=e772080f-4e0a-4217-99f2-bcec5a2cb3ea&sid=e772080f-4e0a-4217-99f2-bcec5a2cb3ea","uploadToServer":true}
+VSCODE_CRASH_REPORTER_START_OPTIONS = {"companyName":"Microsoft","productName":"VSCode","submitURL":"appcenter://code?aid=fba07a4d-84bd-4fc8-a125-9640fc8ce171&uid=68e292e0-f7ea-4a63-9295-ce4a49a4a32b&iid=68e292e0-f7ea-4a63-9295-ce4a49a4a32b&sid=68e292e0-f7ea-4a63-9295-ce4a49a4a32b","uploadToServer":true}
 # makefile
 MAKEFILE_LIST := 
 # automatic
@@ -125,17 +123,15 @@ ZSH = /home/san/.oh-my-zsh
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-VSCODE_PID = 43627
+VSCODE_PID = 35450
 # environment
 XDG_SESSION_TYPE = x11
-# environment
-TMUX = /tmp//tmux-1000/default,6515,0
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # environment
 GDK_CORE_DEVICE_EVENTS = 1
 # environment
-SESSION_MANAGER = local/unix:@/tmp/.ICE-unix/5722,unix/unix:/tmp/.ICE-unix/5722
+SESSION_MANAGER = local/unix:@/tmp/.ICE-unix/3916,unix/unix:/tmp/.ICE-unix/3916
 # automatic
 *F = $(notdir $*)
 # environment
@@ -149,7 +145,7 @@ DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
 # automatic
 <D = $(patsubst %/,%,$(dir $<))
 # environment
-VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
+VSCODE_NLS_CONFIG = {"locale":"en-gb","availableLanguages":{},"_languagePackSupport":true}
 # environment
 BREAKPAD_DUMP_LOCATION = /home/san/.config/Code/exthost Crash Reports
 # default
@@ -161,7 +157,7 @@ MAKECMDGOALS := all
 # environment
 LD_LIBRARY_PATH = /usr/lib64/openmpi/lib/:
 # environment
-SHLVL = 3
+SHLVL = 0
 # environment
 MAKELEVEL := 0
 # environment
@@ -169,7 +165,7 @@ ZSH_TMUX_CONFIG = /home/san/.tmux.conf
 # default
 MAKE = $(MAKE_COMMAND)
 # environment
-PATH = /home/san/.bin:/usr/lib64/openmpi/bin/:/home/san/Projekte/mythicwind/src/scripts:/home/san/Projekte/mythicwind/src/utils:/usr/lib64/openmpi/bin:/home/san/bin:/home/san/.bin:/home/san/.local/bin:/usr/local/bin:/home/san/Projekte/mythicwind/src/scripts:/home/san/Projekte/mythicwind/src/utils:/usr/lib64/openmpi/bin:/home/san/bin:/home/san/.bin:/home/san/.local/bin:/usr/local/bin:/usr/lib64/ccache:/usr/local/bin:/usr/bin:/bin:/home/san/bin:/usr/local/sbin:/usr/sbin:/home/san/.bin:/home/san/.cargo/bin:/home/san/bin:/home/san/.bin:/home/san/.cargo/bin
+PATH = /home/san/.bin:/usr/lib64/openmpi/bin/:/home/san/Projekte/mythicwind/src/scripts:/home/san/Projekte/mythicwind/src/utils:/usr/lib64/openmpi/bin:/home/san/bin:/home/san/.bin:/home/san/.local/bin:/usr/local/bin:/usr/lib64/ccache:/usr/local/bin:/usr/bin:/bin:/home/san/bin:/usr/local/sbin:/usr/sbin:/home/san/bin:/home/san/.bin:/home/san/.cargo/bin
 # environment
 MOZ_GMP_PATH = /usr/lib64/mozilla/plugins/gmp-gmpopenh264/system-installed
 # default
@@ -181,7 +177,7 @@ MODULESHOME = /usr/share/lmod/lmod
 # environment
 LMOD_sys = Linux
 # environment
-INVOCATION_ID = 6816a857efba45e2a149303ba2f9ffd2
+INVOCATION_ID = 58dc0bb312e0483cb39b406b1f135178
 # environment
 VSCODE_LOG_NATIVE = false
 # automatic
@@ -195,9 +191,7 @@ XDG_CURRENT_DESKTOP = KDE
 # environment
 KDEDIRS = /usr
 # environment
-ALACRITTY_LOG = /tmp/Alacritty-6469.log
-# environment
-LS_COLORS = rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=01;37;41:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=01;36:*.au=01;36:*.flac=01;36:*.m4a=01;36:*.mid=01;36:*.midi=01;36:*.mka=01;36:*.mp3=01;36:*.mpc=01;36:*.ogg=01;36:*.ra=01;36:*.wav=01;36:*.oga=01;36:*.opus=01;36:*.spx=01;36:*.xspf=01;36:
+LS_COLORS = 
 # automatic
 +F = $(notdir $+)
 # environment
@@ -213,8 +207,6 @@ GNUMAKEFLAGS :=
 # environment
 MYTHICWIND = /home/san/Projekte/mythicwind
 # environment
-QT_SCREEN_SCALE_FACTORS = eDP-1=1.25;DP-1=1.25;HDMI-1=1.25;DP-2=1.25;HDMI-2=1.25;DP-2-1=1.25;DP-2-2=1.25;DP-2-3=1.25;
-# environment
 LOGNAME = san
 # environment
 TERMINAL = alacritty
@@ -225,7 +217,7 @@ XDG_VTNR = 2
 # makefile
 .DEFAULT_GOAL := 
 # environment
-SYSTEMD_EXEC_PID = 5791
+SYSTEMD_EXEC_PID = 4018
 # environment
 MODULEPATH_ROOT = /usr/share/modulefiles
 # environment
@@ -241,11 +233,11 @@ MAKE_VERSION := 4.3
 # environment
 KDE_SESSION_UID = 1000
 # environment
-MANAGERPID = 5633
+MANAGERPID = 3779
 # environment
 which_declare = typeset -f
 # environment
-SSH_AGENT_PID = 5681
+SSH_AGENT_PID = 3875
 # environment
 PAGER = less
 # environment
@@ -253,9 +245,7 @@ _ = /usr/bin/make
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
-COLORTERM = truecolor
-# environment
-JOURNAL_STREAM = 8:40219
+JOURNAL_STREAM = 8:38229
 # environment
 XDG_SESSION_CLASS = user
 # environment
@@ -267,18 +257,11 @@ HOME = /home/san
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-VSCODE_IPC_HOOK = /run/user/1000/vscode-07d55eda-1.61.0-main.sock
-# environment
-TERM = screen-256color
+VSCODE_IPC_HOOK = /run/user/1000/vscode-07d55eda-1.63.2-main.sock
 # environment
 XDG_SESSION_ID = 2
 # environment
 XCURSOR_SIZE = 24
- 
-make: *** No rule to make target 'all'.  Stop.
- 
-# environment
-is_vim = ps -o state= -o comm= -t '#{pane_tty}' | grep -iqE '^[^TXZ ]+ +(\S+\/)?g?(view|n?vim?x?)(diff)?$'
 # default
 .RECIPEPREFIX := 
 # automatic
@@ -290,23 +273,20 @@ SUFFIXES :=
 # environment
 QT_AUTO_SCREEN_SCALE_FACTOR = 0
 # environment
-VSCODE_CLI = 1
-# environment
 LMOD_PKG = /usr/share/lmod/lmod
-# environment
-ELECTRON_NO_ATTACH_CONSOLE = 1
 # environment
 KDE_SESSION_VERSION = 5
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync check-symlink guile load
 # environment
+ 
 KDE_FULL_SESSION = true
 # environment
 XDG_MENU_PREFIX = kf5-
 # environment
 LMOD_VERSION = 8.4.23
 # variable set hash-table stats:
-# Load=146/1024=14%, Rehash=0, Collisions=13/173=8%
+# Load=136/1024=13%, Rehash=0, Collisions=11/163=7%
 
 # Pattern-specific Variable Values
 
@@ -314,7 +294,7 @@ LMOD_VERSION = 8.4.23
 
 # Directories
 
-# . (device 41, inode 230182): 15 files, no impossibilities.
+# . (device 64769, inode 55984155): 15 files, no impossibilities.
 
 # 15 files, no impossibilities in 1 directories.
 
@@ -372,6 +352,6 @@ GNUmakefile:
 # strcache performance: lookups = 26 / hit rate = 11%
 # hash-table stats:
 # Load=23/8192=0%, Rehash=0, Collisions=0/26=0%
-# Finished Make data base on Sun Jan  9 15:59:18 2022
+# Finished Make data base on Thu Jan 13 12:45:22 2022
 
  
