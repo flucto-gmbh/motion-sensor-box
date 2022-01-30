@@ -40,7 +40,7 @@ and add the following lines to the end of the file:
 dtoverlay=pps-gpio,gpiopin=13
 ```
 
-On Raspberry OS, the default python version is 2.7.16 However, the motion sensor box requires python3 system wide. In order to configure this, please run 
+On older versions of Raspberry OS, the default python version is 2.7.16 However, the motion sensor box requires python3 system wide. In order to configure this, please run 
 
 ```bash
 sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.9 2
@@ -99,7 +99,6 @@ sudo apt -y install git python3 python3-dev python3-pip i2c-tools spi-tools pyth
 Some packages need to be installed via pip:
 
 ```bash
-pip3 install scons --user
 pip3 install -r requirements.txt --user
 ```
 
