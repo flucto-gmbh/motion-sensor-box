@@ -1,6 +1,6 @@
 ss Mode" geschieht nur mit Hilfe der Python Skripte, der Jumper hat nur die Fun# System setup
 
-The YASB boxes are based on a raspberry pi zero WH running raspberry os. The following packages are needed to successfully set up a yasb device:
+The motion sensor boxes are based on a raspberry pi zero WH running raspberry os. The following packages are needed to successfully set up a yasb device:
 
 ## system configuration
 
@@ -62,44 +62,21 @@ This nifty configuration trick was copied from [linuxconfig](https://linuxconfig
 
 ## system packages
 
-The following packages need to be installed via the package manager `apt`.
-
-- git
-- python3
-- python3-dev
-- python3-pip
-- i2c-tools
-- spi-tools
-- python3-spidev
-- python3-smbus
-- python3-uptime
-- nmcli
-- screen
-- libncurses5-dev
-- python-dev
-- pps-tools
-- build-essential 
-- manpages-dev
-- pkg-config
-- python3-cairo-dev
-- libgtk-3-dev
-- python3-serial
-- libdbus-1-dev
-- autossh
-- mosh
-- numpy
-- scons
-
+A number of packages are needed in order for the software stack to function properly.
 To install the packages, type the following:
 
 ```bash
-sudo apt -y install git python3 python3-dev python3-pip i2c-tools spi-tools python3-spidev python3-smbus screen asciidoctor python3-matplotlib libncurses5-dev python3-dev pps-tools build-essential manpages-dev pkg-config python3-cairo-dev libgtk-3-dev python3-serial libdbus-1-dev autossh mosh python3-numpy scons
+sudo apt -y install git python3 python3-dev python3-pip i2c-tools spi-tools\
+                    python3-spidev python3-smbus screen asciidoctor python3-matplotlib\
+                    libncurses5-dev python3-dev pps-tools build-essential manpages-dev\
+                    pkg-config python3-cairo-dev libgtk-3-dev python3-serial libdbus-1-dev\
+                    autossh mosh python3-numpy scons rsync
 ```
 
 Some packages need to be installed via pip:
 
 ```bash
-pip3 install -r requirements.txt --user
+python -m pip install -r requirements.txt --user
 ```
 
 ### autossh
