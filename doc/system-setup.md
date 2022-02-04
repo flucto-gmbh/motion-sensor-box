@@ -70,7 +70,7 @@ sudo apt -y install git python3 python3-dev python3-pip i2c-tools spi-tools\
                     python3-spidev python3-smbus screen asciidoctor python3-matplotlib\
                     libncurses5-dev python3-dev pps-tools build-essential manpages-dev\
                     pkg-config python3-cairo-dev libgtk-3-dev python3-serial libdbus-1-dev\
-                    autossh mosh python3-numpy scons rsync
+                    autossh mosh python3-numpy scons rsync vim
 ```
 
 Some packages need to be installed via pip:
