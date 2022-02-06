@@ -44,16 +44,17 @@ All interprocess communication between services is implemented using [zeroMQ](ht
 
 ### List of Services
 
-- **msb_imu.service:** manages the inertial measurement uni present on the sense hat. For more documentation, please see [doc/waveshare_sense_hat/ICM-20948.md](doc/waveshare_sense_hat/ICM-20948.md). Code is located at [src/imu](src/imu)
-- **msb_gps.service:** samples gnss data from `gpsd`'s socket and provides it to other motion sensor box services. Further documentation is available [here](doc/gpsd/gpds.md). Code is located at [src/gps](src/gps)
-- **msb_broker.service:** Creates and manages the publisher/subscriber model of motion sensor box services. code is located at [src/broker](src/broker)
-- **msb_fusionlog.service:** Subscribes to **all** available data and logs it to a specified location on disc. source is located at [src/fusionlog](src/fusionlog)
-- **msb_adc.service:**
-- **msb_attitude.service:**
-- **msb_camera.service:**
-- **msb_env.service:**
-- **msb_lora.service:**
-- **msb_power.service:**
+- **msb-imu.service:** manages the inertial measurement uni present on the sense hat. For more documentation, please see [doc/waveshare_sense_hat/ICM-20948.md](doc/waveshare_sense_hat/ICM-20948.md). Code is located at [src/imu](src/imu)
+- **msb-gps.service:** samples gnss data from `gpsd`'s socket and provides it to other motion sensor box services. Further documentation is available [here](doc/gpsd/gpds.md). Code is located at [src/gps](src/gps)
+- **msb-broker.service:** Creates and manages the publisher/subscriber model of motion sensor box services. code is located at [src/broker](src/broker)
+- **msb-fusionlog.service:** Subscribes to **all** available data and logs it to a specified location on disc (default is $HOME/msb_data). source is located at [src/fusionlog](src/fusionlog)
+- **msb-adc.service:** reads data from the analog-digital-converters and sends them to the broker service. Not implemented yet.
+- **msb-attitude.service:** Uses the inertial measurement data from to estimate the orientation of a motion sensor box in space (reltative to the gravitation vector). Source available under [src/attitude](src/attitude)
+- **msb-camera.service:** Manages the pi cam installed in the motion sensor boxes. Not implemented yet
+- **msb-env.service:** Reads the environmental sensors in the motion sensor box and publishes them on the broker. Not implemented yet.
+- **msb-lora.service:** Sends attitude information to the base station via lora. Sources at [msb/lora](msb/lora)
+- **msb-wifi.service:** Sends all available data from the broker to the base station (or any other ip address) via UDP. Source at [src/wifi](src/wifi)
+- **msb-power.service:** Manages power on the motion sensor boxes (shutdown, boot). Not implemented yet
 
 
 ### Data format
