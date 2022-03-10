@@ -37,3 +37,4 @@ sudo systemctl enable msb-attitude.service
 sudo systemctl enable msb-lora.service
 sudo systemctl enable msb-serialless-on.service
 sudo systemctl enable msb-wifi.service
+sudo systemctl enable msb-mqtt.service
