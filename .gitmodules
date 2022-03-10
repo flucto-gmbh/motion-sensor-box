@@ -1,8 +1,6 @@
 [submodule "lib/gpsd"]
 	path = lib/gpsd
 	url = https://gitlab.com/gpsd/gpsd.git
-
-
 [submodule "src/imu"]
 	path = src/imu
 	url = https://github.com/flucto-gmbh/msb_imu.git
@@ -53,12 +51,11 @@
 	update = merge
 [submodule "src/broker"]
 	path = src/broker
-    	url = https://github.com/flucto-gmbh/msb_broker.git
-    	branch = main
+	url = https://github.com/flucto-gmbh/msb_broker.git
+	branch = main
 	update = merge
-
 [submodule "src/wifi"]
 	path = src/wifi
 	url = https://github.com/flucto-gmbh/msb_wifi.git
-    	branch = main
+	branch = main
 	update = merge
