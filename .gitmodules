@@ -59,3 +59,6 @@
 	url = https://github.com/flucto-gmbh/msb_wifi.git
 	branch = main
 	update = merge
+[submodule "src/mqtt"]
+	path = src/mqtt
+	url = https://github.com/ahaselsteiner/msb-mqtt
