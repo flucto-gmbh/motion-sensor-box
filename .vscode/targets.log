@@ -1,6 +1,4 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
-make: *** No rule to make target 'all'.  Stop.
- 
 # GNU Make 4.3
 # Built for x86_64-redhat-linux-gnu
 # Copyright (C) 1988-2020 Free Software Foundation, Inc.
@@ -8,7 +6,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Thu Jan 13 12:45:22 2022
+# Make data base, printed on Fri Jan 21 09:19:29 2022
 
 # Variables
 
@@ -25,7 +23,7 @@ LMOD_SETTARG_FULL_SUPPORT = no
 # environment
 MYTHICDATA = /home/san/Projekte/mythicwind/data
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-8cd2ecdd-376a-47ce-bb2a-e9cdffe81204.sock
+VSCODE_IPC_HOOK_EXTHOST = /run/user/1000/vscode-ipc-832ce932-5f13-46c6-8fdc-b33be33f92c0.sock
 # environment
 VSCODE_CWD = /home/san
 # default
@@ -69,7 +67,7 @@ SSH_ASKPASS = /usr/bin/ksshaskpass
 # environment
 LANG = C
 # environment
-XAUTHORITY = /run/user/1000/xauth_kLEJDJ
+XAUTHORITY = /run/user/1000/xauth_BqhEgb
 # default
 .LOADED := 
 # default
@@ -97,7 +95,7 @@ PAM_KWALLET5_LOGIN = /run/user/1000/kwallet5.socket
 # environment
 MFLAGS = -pqrR
 # environment
-SSH_AUTH_SOCK = /tmp/ssh-XXXXXXf2R52Y/agent.3798
+SSH_AUTH_SOCK = /tmp/ssh-XXXXXX0LoIzY/agent.3434
 # default
 .SHELLFLAGS := -c
 # environment
@@ -123,7 +121,7 @@ ZSH = /home/san/.oh-my-zsh
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-VSCODE_PID = 35450
+VSCODE_PID = 54073
 # environment
 XDG_SESSION_TYPE = x11
 # automatic
@@ -131,7 +129,7 @@ XDG_SESSION_TYPE = x11
 # environment
 GDK_CORE_DEVICE_EVENTS = 1
 # environment
-SESSION_MANAGER = local/unix:@/tmp/.ICE-unix/3916,unix/unix:/tmp/.ICE-unix/3916
+SESSION_MANAGER = local/unix:@/tmp/.ICE-unix/3573,unix/unix:/tmp/.ICE-unix/3573
 # automatic
 *F = $(notdir $*)
 # environment
@@ -177,7 +175,7 @@ MODULESHOME = /usr/share/lmod/lmod
 # environment
 LMOD_sys = Linux
 # environment
-INVOCATION_ID = 58dc0bb312e0483cb39b406b1f135178
+INVOCATION_ID = f28038dabba94ca7aa716f5650750081
 # environment
 VSCODE_LOG_NATIVE = false
 # automatic
@@ -217,7 +215,7 @@ XDG_VTNR = 2
 # makefile
 .DEFAULT_GOAL := 
 # environment
-SYSTEMD_EXEC_PID = 4018
+SYSTEMD_EXEC_PID = 34034
 # environment
 MODULEPATH_ROOT = /usr/share/modulefiles
 # environment
@@ -233,11 +231,11 @@ MAKE_VERSION := 4.3
 # environment
 KDE_SESSION_UID = 1000
 # environment
-MANAGERPID = 3779
+MANAGERPID = 3414
 # environment
 which_declare = typeset -f
 # environment
-SSH_AGENT_PID = 3875
+SSH_AGENT_PID = 3511
 # environment
 PAGER = less
 # environment
@@ -245,7 +243,7 @@ _ = /usr/bin/make
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
-JOURNAL_STREAM = 8:38229
+JOURNAL_STREAM = 8:327957
 # environment
 XDG_SESSION_CLASS = user
 # environment
@@ -278,8 +276,10 @@ LMOD_PKG = /usr/share/lmod/lmod
 KDE_SESSION_VERSION = 5
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync check-symlink guile load
-# environment
  
+make: *** No rule to make target 'all'.  Stop.
+ 
+# environment
 KDE_FULL_SESSION = true
 # environment
 XDG_MENU_PREFIX = kf5-
@@ -352,6 +352,6 @@ GNUmakefile:
 # strcache performance: lookups = 26 / hit rate = 11%
 # hash-table stats:
 # Load=23/8192=0%, Rehash=0, Collisions=0/26=0%
-# Finished Make data base on Thu Jan 13 12:45:22 2022
+# Finished Make data base on Fri Jan 21 09:19:29 2022
 
  

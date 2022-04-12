@@ -62,3 +62,6 @@
 	url = https://github.com/flucto-gmbh/msb_wifi.git
     	branch = main
 	update = merge
+[submodule "src/azure"]
+	path = src/azure
+	url = git@github.com:flucto-gmbh/msb_azure.git
