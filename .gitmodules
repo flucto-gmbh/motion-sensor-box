@@ -62,8 +62,10 @@
 [submodule "src/mqtt"]
 	path = src/mqtt
     url = https://github.com/ahaselsteiner/msb-mqtt
-        branch = main
-        update = merge
+    branch = main
+    update = merge
 [submodule "src/azure"]
 	path = src/azure
-	url = https://github.com/flucto-gmbh/msb_azure
+        url = https://github.com/flucto-gmbh/msb_azure
+    branch = main
+        update = merge
