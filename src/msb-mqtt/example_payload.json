@@ -1,0 +1,36 @@
+{
+    "content-spec": "urn:spec://eclipse.org/unide/measurement-message#v3",
+    "device": {
+        "id": "urn:uni-bremen:bik:wio:1:1:nacs:0001"
+    },
+    "measurements": [
+        {
+            "context": {
+                "acc_x": {
+                    "unit": "m s-2"
+                },
+                "acc_y": {
+                    "unit": "m s-2"
+                },
+                "acc_z": {
+                    "unit": "m s-2"
+                }
+            },
+            "ts": "2021-09-02T12:49:14.259290+00:00",
+            "series": {
+                "time": [
+                    0
+                ],
+                "acc_x": [
+                    -0.0024451392870795106
+                ],
+                "acc_y": [
+                    -0.00026753432403160037
+                ],
+                "acc_z": [
+                    0.104805016007263
+                ]
+            }
+        }
+    ]
+}

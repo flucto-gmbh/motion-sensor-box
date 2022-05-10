@@ -1,0 +1,9 @@
+{
+    "print": true,
+    "url": "windio-contact.northeurope.cloudapp.azure.com",
+    "port": 1883,
+    "user": "urn:uni-bremen:bik:wio:0:0:msbi:xxxx@3",
+    "password": "xxxxxx",
+    "edge_id": "urn:uni-bremen:bik:wio:0:0:msb:xxxx",
+    "device_id": "urn:uni-bremen:bik:wio:0:0:msbi:xxxx"
+}
