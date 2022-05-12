@@ -29,12 +29,10 @@ messages_to_send = 10
 imu_buffer = deque(maxlen=1)
 
 def read_from_zeromq(socket):
-    print(f'in consumer thread')
     global imu_buffer
     try:
         while True:
             topic_bin, data_bin = socket.recv_multipart()
-            print(f'received {topic_bin}')
             imu_buffer.append(data_bin)
 
     except Exception as e:
