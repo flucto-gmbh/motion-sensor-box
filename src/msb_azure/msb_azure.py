@@ -84,7 +84,7 @@ async def msb_azure():
                 imu_buffer.pop()
             )
             await send_message(json.dumps(data), device_client, config)
-            time.sleep(1)
+            time.sleep(0.01)
 
     await device_client.shutdown()
 
