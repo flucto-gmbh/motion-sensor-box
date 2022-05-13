@@ -15,7 +15,6 @@ import uuid
 
 messages_to_send = 10
 
-
 async def main():
     # The connection string for a device should never be stored in code. For the sake of simplicity we're using an environment variable here.
     conn_str = os.getenv("ACS")
