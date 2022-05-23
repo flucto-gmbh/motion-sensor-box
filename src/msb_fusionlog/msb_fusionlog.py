@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta, timezone
 import os
 import pickle
 import sys
@@ -8,25 +9,15 @@ sys.path.append(os.path.dirname(SCRIPT_DIR))
 from msb_config.MSBConfig import MSBConfig
 from msb_config.zeromq import open_zmq_sub_socket
 
-class FusionlogConfig(MSBConfig):
-    def __init__(self, subconf = "msb-fusionlog"):
-        super().__init__()
-        self._load_conf(subconf=subconf)
+from FusionlogConfig import FusionlogConfig
+from TimeSeriesLogger import TimeSeriesLogger
 
-class TemporalLogger():
-    def __init__(self, topic, config):
-        pass
+# TODO
+# - quit gracefully
+# - finding the initial intervals takes an aweful long time if the logging interval is short
+# - currently, an existing file is overwritten!
 
-    def write(data):
-        pass
-        
-def get_data_dir(config : FusionlogConfig) -> str:
-    if not os.path.isdir(config.data_dir):
-        raise Exception("no such file or directory: {config.data_dir}")
-    data_dir = os.path.join(config.data_dir, config.msb_sn)
-    os.makedirs(data_dir, exist_ok=True)
-    return data_dir
-
+       
 def get_data(zmq_socket):
     while True:
         try:
@@ -48,17 +39,15 @@ def msb_fusionlog():
     print(f"{config}")
     print(f"opening zermoq socket and subscribing to {config.zmq['xpub_connect_string']}")
     zmq_sub_socket = open_zmq_sub_socket(config.zmq['xpub_connect_string'])
-    data_dir = get_data_dir(config)
     loggers = dict()
     for topic, data in get_data(zmq_sub_socket):
         if config.print:
             print(f"{topic} : {data}")
-        if not topic in fhandles:
+        if not topic in loggers:
             if config.verbose:
                 print(f"not a logger yet: {topic}, creating")
-            loggers[topic] = TemporalLogger(topic, config)
-        loggers[topic].write()
-        
+            loggers[topic] = TimeSeriesLogger(topic, config)
+        loggers[topic].write(data)
 
 if __name__ == "__main__":
     msb_fusionlog()

@@ -6,6 +6,7 @@ import time
 import json
 import pickle
 import socket
+from datetime import datetime, timezone
 from math import sin, cos, pi
 
 try:
@@ -76,6 +77,7 @@ class IMU():
         self._update_data()
 
         return [
+            datetime.fromtimestamp(self._time, tz=timezone.utc),
             self._time,
             self._uptime,
 

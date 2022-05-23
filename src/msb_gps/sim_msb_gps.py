@@ -4,7 +4,7 @@ import sys
 import time
 import uptime
 import pickle
-from datetime import datetime
+from datetime import datetime, timezone
 
 from os import path
 
@@ -16,18 +16,20 @@ except ImportError:
 
 def gen_gps_message():
     return [ 
-        time.time(),
-        uptime.uptime(),
-        {
-          "class": "TPV",
-          "device": "/dev/ttyACM0",
-          "mode": 1,
-          "timestamp" : time.time(),
-          "leapseconds": 18,
-          "lat" : 8.66645,
-          "lon" : 53.5555,
-          "alt" : 6.5546,
-        }
+        datetime.fromtimestamp(ts := time.time(), tz=timezone.utc),
+        ts,              # epoch
+        uptime.uptime(), # system uptime
+        1,               # mode
+        "2022-05-23",    # gps time stamp
+        18,              # leapseconds
+        8.66645,         # latitude
+        53.5555,         # longitude
+        6.5546,          # altitude
+        20.0123,         # altiude MSL
+        243,             # track
+        245,             # magtrack
+        2,               # magvar
+        0.1,             # speed
     ]
 
 
