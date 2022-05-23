@@ -12,6 +12,13 @@ class FusionlogConfig(MSBConfig):
     def __init__(self, subconf = "msb-fusionlog"):
         super().__init__()
         self._load_conf(subconf=subconf)
+
+class TemporalLogger():
+    def __init__(self, topic, config):
+        pass
+
+    def write(data):
+        pass
         
 def get_data_dir(config : FusionlogConfig) -> str:
     if not os.path.isdir(config.data_dir):
@@ -20,7 +27,7 @@ def get_data_dir(config : FusionlogConfig) -> str:
     os.makedirs(data_dir, exist_ok=True)
     return data_dir
 
-def get_data() -> tuple:
+def get_data(zmq_socket):
     while True:
         try:
             (topic, data) = zmq_socket.recv_multipart()
@@ -33,16 +40,7 @@ def get_data() -> tuple:
         except Exception as e:
             print(f'failed to load pickle message, skipping: {e}')
             continue
-        break
-    return (topic, data)
-
-def write_data(topic : str, data : str):
-    global fhandles
-
-def log_data(config : FusionlogConfig, zmq_sub_socket):
-    fhandles = dict()
-    while True:
-        write_data(*get_data(zmq_sub_socket))
+        yield (topic, data)
 
 def msb_fusionlog():
     print(f"parsing fusionlog config")
@@ -51,7 +49,16 @@ def msb_fusionlog():
     print(f"opening zermoq socket and subscribing to {config.zmq['xpub_connect_string']}")
     zmq_sub_socket = open_zmq_sub_socket(config.zmq['xpub_connect_string'])
     data_dir = get_data_dir(config)
-    log_data(config, zmq_sub_socket)
+    loggers = dict()
+    for topic, data in get_data(zmq_sub_socket):
+        if config.print:
+            print(f"{topic} : {data}")
+        if not topic in fhandles:
+            if config.verbose:
+                print(f"not a logger yet: {topic}, creating")
+            loggers[topic] = TemporalLogger(topic, config)
+        loggers[topic].write()
+        
 
 if __name__ == "__main__":
     msb_fusionlog()
