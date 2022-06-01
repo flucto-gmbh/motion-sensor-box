@@ -14,7 +14,7 @@ class FusionlogConfig(MSBConfig):
 
     def _create_data_dir(self):
         if not os.path.isdir(self.data_dir):
-            raise Exception("no such file or directory: {config.data_dir}")
+            print(f"no such file or directory: {self.data_dir}, creating")
         os.makedirs(self.data_dir, exist_ok=True)
 
 if __name__ == "__main__":

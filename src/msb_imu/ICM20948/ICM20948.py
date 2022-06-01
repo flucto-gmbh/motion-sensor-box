@@ -1,6 +1,5 @@
 import smbus
 import uptime
-import logging
 import sys
 import time
 
@@ -101,7 +100,6 @@ class ICM20948(ICM20938_REGISTERS, ICM20948_SETTINGS):
     _output_data_div = 10
     _verbose = False
 
-
     REG_BANK_SEL = 0x7F
 
     # Constructor
@@ -121,7 +119,7 @@ class ICM20948(ICM20938_REGISTERS, ICM20948_SETTINGS):
         if i2c_driver == None:
             self._i2c = smbus.SMBus(1)
             if self._i2c == None:
-                logging.error("Unable to load I2C driver for this platform.")
+                print("Unable to load I2C driver for this platform.")
                 sys.exit(-1)
         else:
             self._i2c = i2c_driver
@@ -130,7 +128,7 @@ class ICM20948(ICM20938_REGISTERS, ICM20948_SETTINGS):
             self._selected_accelerometer_sensitvity = self._accelerometer_sensitivity[accelerometer_sensitivity]
             self._selected_accelerometer_scale = self._accelerometer_scale[accelerometer_sensitivity]
         else: 
-            logging.warning("invalid accelerometer sensitivity, defaulting to +- 2g")
+            print("invalid accelerometer sensitivity, defaulting to +- 2g")
             self._selected_accelerometer_sensitvity = self._accelerometer_sensitivity['2g']
             self._selected_accelerometer_scale = self._accelerometer_scale['2g']
 
@@ -138,7 +136,7 @@ class ICM20948(ICM20938_REGISTERS, ICM20948_SETTINGS):
             self._selected_gyroscope_sensitvity = self._gyroscope_sensitivity[gyroscope_sensitivity]
             self._selected_gyroscope_scale = self._gyroscope_scale[gyroscope_sensitivity]
         else:
-            logging.warning('invalid gyroscope sensitivity, defaulting to +- 250 degree / second')
+            print('invalid gyroscope sensitivity, defaulting to +- 250 degree / second')
             self._selected_gyroscope_sensitvity = self._gyroscope_sensitivity['250dps']
             self._selected_gyroscope_scale = self._gyroscope_scale['250dps']
 
@@ -161,10 +159,10 @@ class ICM20948(ICM20938_REGISTERS, ICM20948_SETTINGS):
         self._set_bank(0)
         chip_ID = self._i2c.read_byte_data(self.address, self._AGB0_REG_WHO_A_M_I)
         if not chip_ID in _validChipIDs:
-            logging.error("Invalid Chip ID: 0x%.2X" % chip_ID)
+            print("Invalid Chip ID: 0x%.2X" % chip_ID)
             sys.exit(-1)
         else:
-            logging.debug(f'sensor {chip_ID} is online')
+            print(f'sensor {chip_ID} is online')
         
         # software reset
         self.sw_reset()
@@ -232,7 +230,8 @@ class ICM20948(ICM20938_REGISTERS, ICM20948_SETTINGS):
 
         """
 
-        #logging.debug(f'{time.time()}: updating data via triggered interrupt pin {pin}')
+        if self._verbose:
+            print(f'{time.time()}: updating data via triggered interrupt pin {pin}')
 
         # Read all of the readings starting at _AGB0_REG_ACCEL_XOUT_H
         numbytes = 14 + 9 # Read Accel, gyro, temp, and 9 bytes of mag
@@ -286,19 +285,19 @@ class ICM20948(ICM20938_REGISTERS, ICM20948_SETTINGS):
         self._set_bank(0)
         register = self._i2c.read_byte_data(self.address, self._AGB0_REG_INT_ENABLE_1)
         
-        logging.debug(f'_AGB0_REG_INT_ENABLE_1: {register}')
+        print(f'_AGB0_REG_INT_ENABLE_1: {register}')
 
         register = (1<<0)
 
         # Write register
         self._set_bank(0)
         ret = self._i2c.write_byte_data(self.address, self._AGB0_REG_INT_ENABLE_1, register)
-        logging.debug(f'enabling interrupt returned {ret}')
+        print(f'enabling interrupt returned {ret}')
 
         self._set_bank(0)
         register = self._i2c.read_byte_data(self.address, self._AGB0_REG_INT_ENABLE_1)
         
-        logging.debug(f'_AGB0_REG_INT_ENABLE_1: {register}')
+        print(f'_AGB0_REG_INT_ENABLE_1: {register}')
         if not register == 1:
             raise Exception("failed to activate interrupt")
 
@@ -480,8 +479,8 @@ class ICM20948(ICM20938_REGISTERS, ICM20948_SETTINGS):
 
         ret = self._i2c.write_byte_data(self.address, self._AGB2_REG_GYRO_SMPLRT_DIV, register)	
 
-        logging.debug(f'write function returned {ret}')
-        logging.debug(f'current output divisor {self.get_ODR_gyro()}')
+        print(f'write function returned {ret}')
+        print(f'current output divisor {self.get_ODR_gyro()}')
 
     def set_DLPF_cfg_accel(self, dlpcfg):
         """ 
@@ -495,7 +494,7 @@ class ICM20948(ICM20938_REGISTERS, ICM20948_SETTINGS):
         self._set_bank(2)
         register = self._i2c.read_byte_data(self.address, self._AGB2_REG_ACCEL_CONFIG_1)
 
-        logging.debug(f'current low pass filer for acceleration is: {register}')
+        print(f'current low pass filer for acceleration is: {register}')
 
         register &= ~(0b00111000) # clear bits 5:3 (0b00XX.X000)
 
@@ -517,7 +516,7 @@ class ICM20948(ICM20938_REGISTERS, ICM20948_SETTINGS):
         self._set_bank(2)
         register = self._i2c.read_byte_data(self.address, self._AGB2_REG_GYRO_CONFIG_1)
 
-        logging.debug(f'current low pass filer for gyroscope is: {register}')
+        print(f'current low pass filer for gyroscope is: {register}')
         
         register &= ~(0b00111000) # clear bits 5:3 (0b00XX.X000)
 
