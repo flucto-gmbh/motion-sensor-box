@@ -55,14 +55,14 @@ class TimeSeriesLogger:
             ),
         )
         try:
-            self._filehandle = open(self._filepath, "w")
+            self._filehandle = open(self._filepath, "a")
         except Exception as e:
             print(f"failed to open file handle {self._filepath}: {e}")
             sys.exit()
         else:
             self._write_header()
 
-    def _calc_timelimits(self, timestamp: float) -> tuple:
+    def _calc_timelimits(self, timestamp: float):
         while timestamp > self.upper_timelimit:
             self.lower_timelimit = self.upper_timelimit
             self.upper_timelimit += self.interval
