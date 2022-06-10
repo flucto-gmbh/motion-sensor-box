@@ -12,8 +12,7 @@ from .ICM20948_settings import ICM20948_SETTINGS
 
 # TODO
 # - fix temperature
-# - update filter selection
-# - add orientation estimation algorithm (mahony)
+# - add filter selection
 
 # -----------------------------------------------------------------------------
 # ICM20948.pi
@@ -107,8 +106,10 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
         zmq_pub_socket,
         address=None,
         i2c_driver=None,
-        accelerometer_sensitivity="2g",
-        gyroscope_sensitivity="500dps",
+        acc_sensitivity="2g",
+        acc_filter=1,
+        gyr_sensitivity="500dps",
+        gyr_filter=1,
         precision=6,
         output_data_div=22,
         verbose=False,
@@ -128,23 +129,35 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
         else:
             self._i2c = i2c_driver
 
-        if accelerometer_sensitivity in self._accelerometer_sensitivity:
-            self._acc_sensitivity = self._accelerometer_sensitivity[
-                accelerometer_sensitivity
+        if acc_sensitivity in self._acc_sensitivity_dict:
+            self._acc_sensitivity = self._acc_sensitivity_dict[
+                acc_sensitivity
             ]
-            self._acc_scale = self._accelerometer_scale[accelerometer_sensitivity]
+            self._acc_scale = self._acc_scale_dict[acc_sensitivity]
         else:
             print("invalid accelerometer sensitivity, defaulting to +- 2g")
-            self._acc_sensitivity = self._accelerometer_sensitivity["2g"]
-            self._acc_scale = self._accelerometer_scale["2g"]
+            self._acc_sensitivity = self._acc_sensitivity_dict["2g"]
+            self._acc_scale = self._acc_scale_dict["2g"]
 
-        if gyroscope_sensitivity in self._gyroscope_sensitivity:
-            self._gyr_sensitivity = self._gyroscope_sensitivity[gyroscope_sensitivity]
-            self._gyr_scale = self._gyroscope_scale[gyroscope_sensitivity]
+        if acc_filter < len(self._acc_filter_list):
+            self._acc_filter = self._acc_filter_list[acc_filter]
+        else:
+            print(f"invalid filter selection {acc_filter}, defaulting to filter 1")
+            self._acc_filter = self._acc_filter_list[0]
+
+        if gyr_sensitivity in self._gyr_sensitivity_dict:
+            self._gyr_sensitivity = self._gyr_sensitivity_dict[gyr_sensitivity]
+            self._gyr_scale = self._gyr_scale_dict[gyr_sensitivity]
         else:
             print("invalid gyroscope sensitivity, defaulting to +- 250 degree / second")
-            self._gyr_sensitivity = self._gyroscope_sensitivity["250dps"]
-            self._gyr_scale = self._gyroscope_scale["250dps"]
+            self._gyr_sensitivity = self._gyr_sensitivity_dict["250dps"]
+            self._gyr_scale = self._gyr_scale_dict["250dps"]
+
+        if gyr_filter < len(self._gyr_filter_list):
+            self._gyr_filter = self._gyr_filter_list[gyr_filter]
+        else:
+            print(f"invalid gyroscope filter selection {gyr_filter}, defaulting to filter 1")
+            self._gyr_filter = self._gyr_filter_list[0]
         
         self._precision = precision
         self._output_data_div = output_data_div
@@ -186,12 +199,12 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
         )
 
         # set full scale range for both accel and gryo (separate functions)
-        self.set_full_scale_range_accel()
-        self.set_full_scale_range_gyro()
+        self.set_acc_sensitivity()
+        self.set_gyr_sensitivity()
 
         # set low pass filter for both accel and gyro (separate functions)
-        self.set_DLPF_cfg_accel(self.acc_d50bw4_n68bw8)
-        self.set_DLPF_cfg_gyro(self.gyr_d51bw2_n73bw3)
+        self.set_DLPF_cfg_accel(self._acc_filter)
+        self.set_DLPF_cfg_gyro(self._gyr_filter)
 
         # enable digital low pass filters on both accel and gyro
         self.enable_DLPF_accel(True)
@@ -438,7 +451,7 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
             self.address, self._AGB0_REG_LP_CONFIG, register
         )
 
-    def set_full_scale_range_accel(self):
+    def set_acc_sensitivity(self):
         """
         Sets the full scale range for the accel in the ICM20948 module
 
@@ -462,7 +475,7 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
             self.address, self._AGB2_REG_ACCEL_CONFIG_1, register
         )
 
-    def set_full_scale_range_gyro(self):
+    def set_gyr_sensitivity(self):
         """
         Sets the full scale range for the gyro in the ICM20948 module
 
