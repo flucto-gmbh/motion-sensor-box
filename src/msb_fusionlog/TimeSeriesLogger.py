@@ -68,7 +68,7 @@ class TimeSeriesLogger:
             self.upper_timelimit += self.interval
 
     def _write_header(self):
-        if not self.topic in self._config.csv_headers:
+        if not self.topic in self._config.topic_headers:
             print(f"warning: {self.topic} has no matching header defined in {self._config._conf_fpath}")
             return
         self._filehandle.write("{}\n".format(",".join(self._config.csv_headers)))
