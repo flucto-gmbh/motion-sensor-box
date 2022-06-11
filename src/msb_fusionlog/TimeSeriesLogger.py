@@ -71,7 +71,7 @@ class TimeSeriesLogger:
         if not self.topic in self._config.topic_headers:
             print(f"warning: {self.topic} has no matching header defined in {self._config._conf_fpath}")
             return
-        self._filehandle.write("{}\n".format(",".join(self._config.csv_headers)))
+        self._filehandle.write("{}\n".format(",".join(self._config.topic_headers)))
 
     def _ts2str(self, timestamp: float) -> str:
         try:
