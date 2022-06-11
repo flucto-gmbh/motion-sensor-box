@@ -24,7 +24,12 @@ def msb_imu(imu_config: IMUConfig):
     signal.signal(signal.SIGINT, signal_handler)
     imu = ICM20948ZMQ(
         zmq_pub_socket=open_zmq_pub_socket(imu_config.zmq["xsub_connect_string"]),
-        verbose=False,
+        acc_filter=imu_config.acc_filter,
+        gyr_filter=imu_config.gyr_filter,
+        acc_sensitivity=imu_config.acc_sensitivity,
+        gyr_sensitivity=imu_config.gyr_sensitivity,
+        verbose=imu_config.verbose,
+        print_stdout=imu_config.print_stdout,
     )
     imu.begin()
 

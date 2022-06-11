@@ -97,6 +97,7 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
     _interrupt_enabled = False
     _output_data_div = None
     _verbose = False
+    _print_stdout = False
 
     REG_BANK_SEL = 0x7F
 
@@ -107,12 +108,13 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
         address=None,
         i2c_driver=None,
         acc_sensitivity="2g",
-        acc_filter=1,
+        acc_filter=0,
         gyr_sensitivity="500dps",
-        gyr_filter=1,
+        gyr_filter=0,
         precision=6,
         output_data_div=22,
         verbose=False,
+        print_stdout=False,
     ):
 
         self.zmq_pub_socket = zmq_pub_socket
@@ -164,6 +166,9 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
 
         if verbose:
             self._verbose = True
+
+        if print_stdout:
+            self._print_stdout = True
 
     def begin(self):
         """
@@ -283,6 +288,9 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
 
         if self._verbose:
             print(f"data: {self._data}")
+
+        if self._print_stdout:
+            print(self._data)
 
     def _configure_interrupt(self):
 

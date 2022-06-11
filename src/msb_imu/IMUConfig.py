@@ -19,6 +19,16 @@ class IMUConfig(MSBConfig):
     def _parse_cmdline_args(self):
         args = argparse.ArgumentParser()
         args.add_argument(
+            "--verbose",
+            action="store_true",
+            help="output debugging information"
+        )
+        args.add_argument(
+            "--print-stdout",
+            action="store_true",
+            help="print raw data to stdout",
+        )
+        args.add_argument(
             "--sample-rate-div",
             type=int,
             default=None,
@@ -101,6 +111,14 @@ class IMUConfig(MSBConfig):
         self._cmdline_conf = cmdline_conf
 
     def _cmdline_config_override(self):
+        if self._cmdline_conf['verbose'] and not self.verbose:
+            print(f"overriding verbose flag with command line flag")
+            self.verbose = True
+
+        if self._cmdline_conf['print_stdout'] and not self.print_stdout:
+            print(f"overriding print flag with command line flag")
+            self.print_stdout = True
+
         if self._cmdline_conf['sample_rate_div']:
             if self.verbose:
                 print(f"overriding output divisor with command line value {self._cmdline_conf['sample_rate_div']}")
