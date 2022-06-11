@@ -34,14 +34,14 @@ def get_data(zmq_socket):
 
 def msb_fusionlog():
     signal.signal(signal.SIGINT, signal_handler)
-    print(f"parsing fusionlog config")
     config = FusionlogConfig()
-    print(f"{config}")
-    print(f"opening zermoq socket and subscribing to {config.zmq['xpub_connect_string']}")
+    if config.verbose:
+        print(f"{config}")
+        print(f"opening zermoq socket and subscribing to {config.zmq['xpub_connect_string']}")
     zmq_sub_socket = open_zmq_sub_socket(config.zmq['xpub_connect_string'])
     loggers = dict()
     for topic, data in get_data(zmq_sub_socket):
-        if config.print:
+        if config.print_stdout:
             print(f"{topic} : {data}")
         if not topic in loggers:
             if config.verbose:
