@@ -55,23 +55,23 @@ class TimeSeriesLogger:
             ),
         )
         try:
-            self._filehandle = open(self._filepath, "w")
+            self._filehandle = open(self._filepath, "a")
         except Exception as e:
             print(f"failed to open file handle {self._filepath}: {e}")
             sys.exit()
         else:
             self._write_header()
 
-    def _calc_timelimits(self, timestamp: float) -> tuple:
+    def _calc_timelimits(self, timestamp: float):
         while timestamp > self.upper_timelimit:
             self.lower_timelimit = self.upper_timelimit
             self.upper_timelimit += self.interval
 
     def _write_header(self):
-        if not self.topic in self._config.csv_headers:
+        if not self.topic in self._config.topic_headers:
             print(f"warning: {self.topic} has no matching header defined in {self._config._conf_fpath}")
             return
-        self._filehandle.write("{}\n".format(",".join(self._config.csv_headers)))
+        self._filehandle.write("{}\n".format(",".join(self._config.topic_headers)))
 
     def _ts2str(self, timestamp: float) -> str:
         try:

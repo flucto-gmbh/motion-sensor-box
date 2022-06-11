@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta, timezone
 import os
 import pickle
+import signal
 import sys
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -12,12 +13,10 @@ from msb_config.zeromq import open_zmq_sub_socket
 from FusionlogConfig import FusionlogConfig
 from TimeSeriesLogger import TimeSeriesLogger
 
-# TODO
-# - quit gracefully
-# - finding the initial intervals takes an aweful long time if the logging interval is short
-# - currently, an existing file is overwritten!
+def signal_handler(sig, frame):
+    print('msb_fusionlog.py exit')
+    sys.exit(0)
 
-       
 def get_data(zmq_socket):
     while True:
         try:
@@ -34,14 +33,15 @@ def get_data(zmq_socket):
         yield (topic, data)
 
 def msb_fusionlog():
-    print(f"parsing fusionlog config")
+    signal.signal(signal.SIGINT, signal_handler)
     config = FusionlogConfig()
-    print(f"{config}")
-    print(f"opening zermoq socket and subscribing to {config.zmq['xpub_connect_string']}")
+    if config.verbose:
+        print(f"{config}")
+        print(f"opening zermoq socket and subscribing to {config.zmq['xpub_connect_string']}")
     zmq_sub_socket = open_zmq_sub_socket(config.zmq['xpub_connect_string'])
     loggers = dict()
     for topic, data in get_data(zmq_sub_socket):
-        if config.print:
+        if config.print_stdout:
             print(f"{topic} : {data}")
         if not topic in loggers:
             if config.verbose:
