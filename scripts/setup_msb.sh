@@ -25,12 +25,30 @@ function install_python_requirements () {
   python -m pip install pip --upgrade
   python -m pip install -r "${MSB_BASE_DIR}/requirements.txt"
 }
-  
+
+function copy_raspiconfig () {
+  sudo cp "${MSB_CONFIG_DIR}/config.txt" /boot/
+  sudo cp "${MSB_CONFIG_DIR}/cmdline.txt" /boot/
+}
+
+function insert_port () {
+  serial=$(hostname | cut -d "-" -f2 | tr "0" " ") 
+  port=$(python -c "port=65000+${serial}; print(f'{port}')")
+  sudo sed -i "s/\[REMOTE_PORT\]/${port}/" /etc/systemd/system/rtunnel.service 
+}
+
+function setup_services () {
+  sudo cp "${MSB_CONFIG_DIR}/services/*.service" /etc/systemd/system/
+  insert_port
+}
+
 
 function main () {
-  update_software
-  install_dependencies
-  install_python_requirements
+  #update_software
+  #install_dependencies
+  #install_python_requirements
+  setup_services
+  #copy_raspiconfig
 }
 
 main
