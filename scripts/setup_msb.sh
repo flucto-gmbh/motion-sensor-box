@@ -37,17 +37,16 @@ function insert_port () {
   sudo sed -i "s/\[REMOTE_PORT\]/${port}/" /etc/systemd/system/rtunnel.service 
 }
 
-function setup_services () {
-  sudo cp "${MSB_CONFIG_DIR}/services/*.service" /etc/systemd/system/
+function setup_rtunnel () {
+  sudo cp "${MSB_CONFIG_DIR}"/services/rtunnel.service /etc/systemd/system/
   insert_port
 }
-
 
 function main () {
   #update_software
   #install_dependencies
   #install_python_requirements
-  setup_services
+  setup_rtunnel
   #copy_raspiconfig
 }
 
