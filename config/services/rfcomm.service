@@ -1,0 +1,13 @@
+[Unit]
+Description=serial connection service for emergency bluetooth serial console access
+After=bluetooth.service
+Requires=bluetooth.service
+
+[Service]
+SyslogIdentifier=rfcomm
+Restart=always
+RestartSec=1
+ExecStart=/usr/bin/rfcomm -r watch hci0 1 mgetty -r -s 115200 /dev/rfcomm0
+
+[Install]
+WantedBy=multi-user.target
