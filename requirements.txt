@@ -1,5 +1,5 @@
 ahrs==0.3.1
-azure_storage==0.37.0
+# azure_storage==0.37.0
 gps==3.19
 Mock==4.0.3
 numpy==1.19.5
