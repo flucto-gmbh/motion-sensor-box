@@ -18,13 +18,13 @@ class MSBConfig(object):
         return json.dumps(self.__dict__, indent=4)
 
     def _load_conf(self, subconf : str):
-        print(f'opening logfile and parsing subconf {subconf}')
         try:
             with open(self._conf_fpath, 'r') as conf_fhandle:
                 for att_name, att_value in yaml.safe_load(conf_fhandle)[subconf].items():
                     setattr(self, att_name, att_value)
         except Exception as e:
             print(f"failed to open and parse config file: {e}")
+            sys.exit()
 
     # return f"{zmq_config['protocol']}://{zmq_config['address']}:{zmq_config['xpub_port']}"
     def _construct_zmq_socketstrings(self):

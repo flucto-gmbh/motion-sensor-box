@@ -185,7 +185,8 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
             print("Invalid Chip ID: 0x%.2X" % chip_ID)
             sys.exit(-1)
         else:
-            print(f"sensor {chip_ID} is online")
+            if self._verbose:
+                print(f"sensor {chip_ID} is online")
 
         # software reset
         self.sw_reset()
@@ -290,7 +291,7 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
             print(f"data: {self._data}")
 
         if self._print_stdout:
-            print(self._data)
+            print(','.join(map(str, self._data)))
 
     def _configure_interrupt(self):
 
@@ -305,7 +306,8 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
         self._set_bank(0)
         register = self._i2c.read_byte_data(self.address, self._AGB0_REG_INT_ENABLE_1)
 
-        print(f"_AGB0_REG_INT_ENABLE_1: {register}")
+        if self._verbose:
+            print(f"_AGB0_REG_INT_ENABLE_1: {register}")
 
         register = 1 << 0
 
@@ -314,12 +316,14 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
         ret = self._i2c.write_byte_data(
             self.address, self._AGB0_REG_INT_ENABLE_1, register
         )
-        print(f"enabling interrupt returned {ret}")
+        if self._verbose:
+            print(f"enabling interrupt returned {ret}")
 
         self._set_bank(0)
         register = self._i2c.read_byte_data(self.address, self._AGB0_REG_INT_ENABLE_1)
 
-        print(f"_AGB0_REG_INT_ENABLE_1: {register}")
+        if self._verbose:
+            print(f"_AGB0_REG_INT_ENABLE_1: {register}")
         if not register == 1:
             raise Exception("failed to activate interrupt")
 
@@ -528,8 +532,10 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
             self.address, self._AGB2_REG_GYRO_SMPLRT_DIV, register
         )
 
-        print(f"write function returned {ret}")
-        print(f"current output divisor {self.get_ODR_gyro()}")
+        if self._verbose:
+            print(f"write function returned {ret}")
+        if self._verbose:
+            print(f"current output divisor {self.get_ODR_gyro()}")
 
     def set_DLPF_cfg_accel(self, dlpcfg):
         """
@@ -543,7 +549,8 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
         self._set_bank(2)
         register = self._i2c.read_byte_data(self.address, self._AGB2_REG_ACCEL_CONFIG_1)
 
-        print(f"current low pass filer for acceleration is: {register}")
+        if self._verbose:
+            print(f"current low pass filer for gyroscope is: {register}")
 
         register &= ~(0b00111000)  # clear bits 5:3 (0b00XX.X000)
 
@@ -553,9 +560,13 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
 
         # Write register
         self._set_bank(2)
-        return self._i2c.write_byte_data(
+        self._i2c.write_byte_data(
             self.address, self._AGB2_REG_ACCEL_CONFIG_1, register
         )
+
+        register = self._i2c.read_byte_data(self.address, self._AGB2_REG_ACCEL_CONFIG_1)
+        if self._verbose:
+            print(f"low pass filer for acceleration is: {register >> 3}")
 
     def set_DLPF_cfg_gyro(self, dlpcfg):
         """
@@ -569,7 +580,8 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
         self._set_bank(2)
         register = self._i2c.read_byte_data(self.address, self._AGB2_REG_GYRO_CONFIG_1)
 
-        print(f"current low pass filer for gyroscope is: {register}")
+        if self._verbose:
+            print(f"current low pass filer for gyroscope is: {register}")
 
         register &= ~(0b00111000)  # clear bits 5:3 (0b00XX.X000)
 
@@ -579,9 +591,14 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
 
         # Write register
         self._set_bank(2)
-        return self._i2c.write_byte_data(
+        self._i2c.write_byte_data(
             self.address, self._AGB2_REG_GYRO_CONFIG_1, register
         )
+        register = self._i2c.read_byte_data(self.address, self._AGB2_REG_GYRO_CONFIG_1)
+        if self._verbose:
+            print(f"low pass filter for gyroscope is: {register >> 3}")
+
+
 
     def enable_DLPF_accel(self, on):
         """

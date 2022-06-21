@@ -116,7 +116,8 @@ class IMUConfig(MSBConfig):
             self.verbose = True
 
         if self._cmdline_conf['print_stdout'] and not self.print_stdout:
-            print(f"overriding print flag with command line flag")
+            if self._cmdline_conf['verbose'] or self.verbose:
+                print(f"overriding print flag with command line flag")
             self.print_stdout = True
 
         if self._cmdline_conf['sample_rate_div']:
@@ -137,15 +138,15 @@ class IMUConfig(MSBConfig):
             self.gyr_sensitivity = self._cmdline_conf['gyr_sensitivity']
 
         if self._cmdline_conf['acc_filter']:
-            assert cmdline_conf['acc_filter'] < len(ICM20948_SETTINGS._acc_filter_list), f"not a valid filter selection {cmdline_conf['acc_filter']}"
+            assert self._cmdline_conf['acc_filter'] < len(ICM20948_SETTINGS._acc_filter_list), f"not a valid filter selection {cmdline_conf['acc_filter']}"
             if self.verbose:
                 print(f"overriding acceleration filter setting with command line value {self._cmdline_conf['acc_filter']}")
             self.acc_filter = self._cmdline_conf['acc_filter']
 
         if self._cmdline_conf['gyr_filter']:
-            assert cmdline_conf['gyr_filter'] < len(ICM20948_SETTINGS._gyr_filter_list), f"not a valid filter selection {cmdline_conf['gyr_filter']}"
+            assert self._cmdline_conf['gyr_filter'] < len(ICM20948_SETTINGS._gyr_filter_list), f"not a valid filter selection {cmdline_conf['gyr_filter']}"
             if self.verbose:
-                print(f"overrideing gyroscope filter setting with command line value {self._cmdline_conf['gyr_filter']}")
+                print(f"overriding gyroscope filter setting with command line value {self._cmdline_conf['gyr_filter']}")
             self.gyr_filter = self._cmdline_conf['gyr_filter']
 
 if __name__ == "__main__":
