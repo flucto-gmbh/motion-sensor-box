@@ -204,6 +204,10 @@ git clone https://github.com/flucto-gmbh/motion-sensor-box.git --recursive
 
 To finish the setup, please follow through with [system Setup](doc/system-setup.md).
 
+### Software debugging
+
+To access a motion sensor box via a bluetooth serial console, follow [these steps](doc/bluetooth_shell.md)
+
 ## Sensing
 
 ### Waveshare's SenseHat
