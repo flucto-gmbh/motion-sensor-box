@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 import logging
-from os import path
+import os
 import pickle
 import sys
 import time
@@ -8,9 +8,9 @@ import uptime
 import zmq
 # add /usr/local/lib/python3/dist-packages to the system path
 GPS_DIR = '/usr/local/lib/python3/dist-packages/'
-if not path.isdir(path.join(GPS_DIR, 'gps')):
+if not os.path.isdir(os.path.join(GPS_DIR, 'gps')):
     raise Exception(f'no such file or directory: {GPS_DIR/gps}')
-sys.path.append(path.dirname(GPS_DIR))
+sys.path.append(os.path.dirname(GPS_DIR))
 try:
     import gps
 except ImportError as e:
@@ -20,7 +20,7 @@ except ImportError as e:
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.dirname(SCRIPT_DIR))
 from msb_config.zeromq import open_zmq_pub_socket
-from GPSConfig import GPSConfig
+from GPSConfig import GPSConfig, GPS_TOPIC
 
 zero_timestamp = datetime.fromtimestamp(0, tz=timezone.utc)
 data = [0] * 13
@@ -71,13 +71,9 @@ def consume_send_gps_data(gps_config : GPSConfig, zmq_socket, gpsd_socket):
             report = gpsd_socket.next().__dict__
             if report["class"] == "TPV":
                 if gps_config.verbose:
-                    print("received TPV report")
+                    print(f"received TPV report {report}")
                 if report["mode"] == 0 and gps_config.verbose:
                     print('no gps fix available')
-
-                if gps_config['print_stdout']:
-                    print(f'{data}')
-                
                 zmq_socket.send_multipart(
                     [
                         GPS_TOPIC,
@@ -87,19 +83,18 @@ def consume_send_gps_data(gps_config : GPSConfig, zmq_socket, gpsd_socket):
                     ]
                 )
                 # zmq_socket.send_pyobj(data)
-
+                if gps_config.print_stdout:
+                    print(f','.join(map(str, data)))
     except StopIteration:
         logging.fatal("GPSD has terminated")
-
     except KeyboardInterrupt:
         logging.info('goodbye')
         sys.exit(0)
 
-
 def msb_gps(gps_config : GPSConfig):
-    zmq_pub_socket = open_zmq_pub_socket(imu_config.zmq["xsub_connect_string"])
+    zmq_pub_socket = open_zmq_pub_socket(gps_config.zmq["xsub_connect_string"])
     gpsd_socket = open_gpsd_socket(gps_config)
-    consume_send_gps_data(gps_config, zmq_pub_socket)
+    consume_send_gps_data(gps_config, zmq_pub_socket, gpsd_socket)
 
 if __name__ == '__main__':
     gps_config = GPSConfig()
