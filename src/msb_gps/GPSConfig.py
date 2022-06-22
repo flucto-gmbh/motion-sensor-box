@@ -42,7 +42,6 @@ class GPSConfig(MSBConfig):
                 print(f"overriding print flag with command line flag")
             self.print_stdout = True
 
-
 if __name__ == "__main__":
     config = GPSConfig()
     if config.verbose:
