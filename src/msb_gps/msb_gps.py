@@ -23,7 +23,6 @@ from msb_config.zeromq import open_zmq_pub_socket
 from GPSConfig import GPSConfig, GPS_TOPIC
 
 zero_timestamp = datetime.fromtimestamp(0, tz=timezone.utc)
-data = [0] * 13
 
 def open_gpsd_socket(gps_config : GPSConfig):
     if gps_config.verbose:
@@ -39,7 +38,6 @@ def open_gpsd_socket(gps_config : GPSConfig):
     return gpsd_socket
 
 def assemble_data(report):
-    global data
     # {"class":"TPV","device":"/dev/ttyS0","mode":3,"time":"2022-06-22T06:46:30.000Z","ept":0.005,
     # "lat":24.146228333,"lon":120.680683333,"altHAE":124.6000,"altMSL":108.6000,"alt":108.6000,
     # "epx":7.429,"epy":6.761,"epv":17.710,"track":36.4000,"magtrack":32.0728,"magvar":-4.3,"speed
@@ -48,7 +46,7 @@ def assemble_data(report):
     # gps : ['datetime', 'epoch', 'uptime', 'gps_mode', 'gps_timestamp', 'leapseconds', 'latitude',
     # 'longitude', 'altitude', 'altitude_msl', 'track', 'mag_track', 'mag_var', 'speed']
 
-    data = [
+    return [
         datetime.fromtimestamp(ts := time.time(), tz=timezone.utc), 
         ts,
         uptime.uptime(),
@@ -65,7 +63,6 @@ def assemble_data(report):
     ]          
 
 def consume_send_gps_data(gps_config : GPSConfig, zmq_socket, gpsd_socket):
-    global data
     try:
         while True:
             report = gpsd_socket.next().__dict__
@@ -78,11 +75,10 @@ def consume_send_gps_data(gps_config : GPSConfig, zmq_socket, gpsd_socket):
                     [
                         GPS_TOPIC,
                         pickle.dumps(
-                            assemble_data(report)
+                            (data := assemble_data(report))
                         )
                     ]
                 )
-                # zmq_socket.send_pyobj(data)
                 if gps_config.print_stdout:
                     print(f','.join(map(str, data)))
     except StopIteration:
