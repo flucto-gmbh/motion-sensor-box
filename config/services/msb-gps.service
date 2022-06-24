@@ -8,8 +8,9 @@ SyslogIdentifier=msb-gps
 Type=simple
 Restart=always
 RestartSec=1
+Environment="MSB_CONFIG_DIR=/home/pi/motion-sensor-box/config"
 User=pi
-ExecStart=/usr/bin/python3 /home/pi/motion-sensor-box/src/gps/src/msb_gps.py
+ExecStart=/usr/bin/python3 /home/pi/motion-sensor-box/src/msb_gps/msb_gps.py
 
 [Install]
 WantedBy=multi-user.target
