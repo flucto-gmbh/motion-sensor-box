@@ -38,14 +38,6 @@ def open_gpsd_socket(gps_config : GPSConfig):
     return gpsd_socket
 
 def assemble_data(report):
-    # {"class":"TPV","device":"/dev/ttyS0","mode":3,"time":"2022-06-22T06:46:30.000Z","ept":0.005,
-    # "lat":24.146228333,"lon":120.680683333,"altHAE":124.6000,"altMSL":108.6000,"alt":108.6000,
-    # "epx":7.429,"epy":6.761,"epv":17.710,"track":36.4000,"magtrack":32.0728,"magvar":-4.3,"speed
-    # ":0.000,"climb":0.000,"eps":14.52,"epc":34.73,"geoidSep":16.000,"eph":12.160,"sep":19.000}
-               
-    # gps : ['datetime', 'epoch', 'uptime', 'gps_mode', 'gps_timestamp', 'leapseconds', 'latitude',
-    # 'longitude', 'altitude', 'altitude_msl', 'track', 'mag_track', 'mag_var', 'speed']
-
     return [
         datetime.fromtimestamp(ts := time.time(), tz=timezone.utc), 
         ts,

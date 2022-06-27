@@ -72,8 +72,9 @@ class IMU():
 
     def begin(self):
         pass
-
-    def get_data(self):
+    
+    @property
+    def data(self):
         self._update_data()
 
         return [
@@ -172,7 +173,7 @@ def main():
                     continue
 
             else:
-                data = imu.get_data()
+                data = imu.data
 
             if config['print']:
                 print(data)

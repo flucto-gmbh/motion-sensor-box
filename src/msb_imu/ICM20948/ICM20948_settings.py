@@ -1,7 +1,3 @@
-# TODO
-
-
-
 class ICM20948_SETTINGS(object):
     
     """
