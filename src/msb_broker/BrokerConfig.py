@@ -8,10 +8,8 @@ sys.path.append(os.path.dirname(SCRIPT_DIR))
 
 from msb_config.MSBConfig import MSBConfig
 
-GPS_TOPIC=b"gps"
-
-class GPSConfig(MSBConfig):
-    def __init__(self, subconf = "msb-gps"):
+class BrokerConfig(MSBConfig):
+    def __init__(self, subconf = "msb-broker"):
         super().__init__()
         self._load_conf(subconf=subconf)
         self._parse_cmdline_args()
