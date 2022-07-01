@@ -32,6 +32,14 @@ class MSBConfig(object):
             raise Exception("Missing zmq config")
         self.zmq['xsub_connect_string'] = f"{self.zmq['protocol']}://{self.zmq['address']}:{self.zmq['xsub_port']}"
         self.zmq['xpub_connect_string'] = f"{self.zmq['protocol']}://{self.zmq['address']}:{self.zmq['xpub_port']}"
+    
+    @property
+    def xsub_socketstring(self) -> str:
+        return f"{self.zmq['xsub_connect_string']}"
+    
+    @property
+    def xpub_socketstring(self) -> str:
+        return f"{self.zmq['xpub_connect_string']}"
 
 if __name__ == "__main__":
     msb_conf = MSBConfig()

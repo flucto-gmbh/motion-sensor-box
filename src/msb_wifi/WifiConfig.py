@@ -8,8 +8,8 @@ sys.path.append(os.path.dirname(SCRIPT_DIR))
 
 from msb_config.MSBConfig import MSBConfig
 
-class BrokerConfig(MSBConfig):
-    def __init__(self, subconf = "msb-broker"):
+class WifiConfig(MSBConfig):
+    def __init__(self, subconf = "msb-wifi"):
         super().__init__()
         self._load_conf(subconf=subconf)
         self._parse_cmdline_args()
@@ -41,6 +41,6 @@ class BrokerConfig(MSBConfig):
             self.print_stdout = True
 
 if __name__ == "__main__":
-    config = BrokerConfig()
+    config = WifiConfig()
     if config.verbose:
         print(json.dumps(config.__dict__, indent=4))

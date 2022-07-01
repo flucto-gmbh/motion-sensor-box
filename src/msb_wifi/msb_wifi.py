@@ -1,91 +1,83 @@
-import zmq
-import logging
-import socket
-import json
-import sys
+#!/bin/env python
+from multiprocessing import Process
+import os
 import pickle
+import socket
+import sys
+import signal
 
-try:
-    from wifi_config import init
-except Exception as e:
-    logging.fatal(f'failed to import init from wifi_config.py: {e}')
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.dirname(SCRIPT_DIR))
 
-def main():
+from msb_config.zeromq import open_zmq_sub_socket
+from WifiConfig import WifiConfig
 
-    config = init()
+wifi_processes = dict()
 
-    logging.debug('msb_wifi.py starting up')
-    connect_to = f'{config["ipc_protocol"]}:{config["ipc_port_pubx"]}'
-    logging.debug(f'trying to bind zmq to {connect_to}')
+def signal_handler(sig, frame):
+    global wifi_processes
+    for target, process in wifi_processes.items():
+        print(f"stopping process {target} : {process}")
+        process.kill()
+    print('msb_wifi.py exit')
+    sys.exit(0)
 
-    hostname = socket.gethostname()
-    logging.debug(f'hostname is: {hostname}')
+def construct_udp_socketstring(target : dict) -> str:
+    pass
 
-    ctx = zmq.Context()
-    zmq_socket = ctx.socket(zmq.SUB)
-
-    try:
-        zmq_socket.connect(connect_to)
-    except Exception as e:
-        logging.fatal(f'failed to bind to zeromq socket: {e}')
-        sys.exit(-1)
-
-    # let fusionlog subscribe to all available data
-    zmq_socket.setsockopt(zmq.SUBSCRIBE, b'')
-    
-    logging.debug('successfully bound to zeroMQ receiver socket as subscriber')
-
-    # open socket
-    logging.debug('creating UDP socket')
-    try:
-        udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    except Exception as e:
-        logging.fatal('failed to open udp socket: {e}')
-        sys.exit(-1)
-
-    wifi_target = (config["udp_address"], config["udp_port"])
-    logging.debug(f'udp sicket target: {wifi_target}')
-
-    logging.debug(f'entering endless loop')
-
+def get_data_zmqxpub(zmq_socket):
     while True:
-
-        # get data from zmq_socket
         try:
-            [topic, data] = zmq_socket.recv_multipart()
+            (topic, data) = zmq_socket.recv_multipart()
         except Exception as e:
-            logging.error(f'failed to receive data: {e}')
+            print(f'failed to receive message: {e}')
             continue
-        
-        # decode the topic as it is encoded as a bytestream (utf-8)
-        try:
-            topic = topic.decode('utf-8')
-        except Exception as e:
-            logging.error(f'failed to decode topic: {e}')
-            continue
-    
-        # try to unpickle the data
+        topic = topic.decode('utf-8')
         try:
             data = pickle.loads(data)
         except Exception as e:
-            logging.error(f'failed to load pickle: {e}')
+            print(f'failed to load pickle message, skipping: {e}')
             continue
-        
-        # if the print flag has been set, print to stdout
-        if config['print']: 
-            print(f'{topic}: {data}')
-        
-        # try to send data to the specified ip via udp
-        try:
-            udp_socket.sendto(
-                pickle.dumps( { "id" : hostname, "payload" : {topic : data}}), 
-                wifi_target
-            )
-        except Exception as e:
-            logging.error(f'failed to send to {wifi_target}: {e}')
-            continue
+        yield (topic, data)
 
-        # maybe implement tcp? any pros? any cons?
+def consume_send_msbdata(target : str, wifi_config : WifiConfig):
+    # open udp socket to send msb data to
+    # enter endless loop consuming msb data and sending data to udp target
+    try:
+        zmq_sub_socket = open_zmq_sub_socket(wifi_config.xpub_socketstring)
+    except Exception as e:
+        print(f"failed to connect to xpub zermoq socket: {e}")
+        sys.exit(-1)
+    if wifi_config.verbose:
+        print('creating UDP socket')
+    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as udp_socket:
+        for topic, data in get_data_zmqxpub(zmq_sub_socket):
+            if wifi_config.verbose:
+                print(f"target {target}: received {topic} : {data}")
+            try:
+                udp_socket.sendto(
+                    pickle.dumps({"msb-sn" : wifi_config.msb_sn, "payload" : {topic : data}}), 
+                    (wifi_config.targets[target]["target_address"], wifi_config.targets[target]["target_port"])
+                )
+            except Exception as e:
+                if wifi_config.verbose:
+                    print(f"""failed to send data for target {target} \
+{wifi_config.targets[target]['target_address']}:\
+{wifi_config.targets[target]['target_port']}: {e}""")
+                continue
 
-if __name__ == '__main__':
-    main()
+def msb_wifi(wifi_config : WifiConfig):
+    global wifi_processes
+    for target, _ in wifi_config.targets.items():
+        if wifi_config.verbose:
+            print(f"setting up consumer process for target {target}")
+            wifi_processes[target] = Process(target=consume_send_msbdata, args=(target, wifi_config,))
+            wifi_processes[target].start()
+    signal.pause()
+        
+
+if __name__ == "__main__":
+    signal.signal(signal.SIGINT, signal_handler)
+    wifi_config = WifiConfig()
+    msb_wifi(wifi_config)
+
