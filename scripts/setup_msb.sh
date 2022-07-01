@@ -7,6 +7,7 @@ CWD=$(pwd)
 SCRIPT_DIR=$(dirname $0)
 MSB_BASE_DIR="${PWD}/${SCRIPT_DIR}/.."
 MSB_CONFIG_DIR="${PWD}/${SCRIPT_DIR}/../config"
+MSB_TARGET_CONFIG_DIR="${HOME}/.config"
 MSB_SRC_DIR="${PWD}/${SCRIPT_DIR}/../src"
 MSB_SSH_KEY="${HOME}/.ssh/msb_key"
 
@@ -67,12 +68,9 @@ function setup_rtunnel () {
   sudo systemctl start rtunnel.service
 }
 
-function setup_msb () {
-  #update_software
-  #install_dependencies
-  #install_python_requirements
-  setup_rtunnel
-  #copy_raspiconfig
-}
+update_software
+install_dependencies
+install_python_requirements
+setup_rtunnel
+copy_raspiconfig
 
-setup_msb
