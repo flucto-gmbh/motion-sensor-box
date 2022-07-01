@@ -18,7 +18,13 @@ class FusionlogConfig(MSBConfig):
     def _create_data_dir(self):
         if not os.path.isdir(self.data_dir):
             print(f"no such file or directory: {self.data_dir}, creating")
-        os.makedirs(self.data_dir, exist_ok=True)
+        try:
+            os.makedirs(self.data_dir, exist_ok=True)
+        except Exception as e:
+            print(f"failed to create data directory {self.data_dir} : {e}")
+            print(f"falling back to $HOME/msb_data")
+            self.data_dir = path.join(os.environ["HOME"], "msb_data")
+            self._create_data_dir()
 
     def _parse_cmdline_args(self):
         args = argparse.ArgumentParser()
