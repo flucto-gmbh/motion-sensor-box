@@ -6,8 +6,8 @@ import sys
 import pickle
 
 def main():
-    zmq_xsub_socketstring = f'tcp://localhost:5555'
-    udp_socket_tuple = ("127.0.0.1", 5670)
+    zmq_xsub_socketstring = f'tcp://127.0.0.1:5555'
+    udp_socket_tuple = ("0.0.0.0", 9870)
     print(f'trying to bind zmq to {zmq_xsub_socketstring}')
     ctx = zmq.Context()
     zmq_socket = ctx.socket(zmq.PUB)
@@ -36,7 +36,7 @@ def main():
         data = pickle.loads(data)
         zmq_socket.send_multipart(
             [
-                data['id'].encode('utf-8'),
+                data['msb-sn'].encode('utf-8'),
                 pickle.dumps(data['payload'])
             ]
         )
