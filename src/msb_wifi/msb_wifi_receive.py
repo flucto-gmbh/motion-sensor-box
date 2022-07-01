@@ -6,7 +6,7 @@ import sys
 import pickle
 
 def main():
-    zmq_xsub_socketstring = f'tcp://127.0.0.1:5555'
+    zmq_xsub_socketstring = f'tcp://localhost:5555'
     udp_socket_tuple = ("127.0.0.1", 5670)
     print(f'trying to bind zmq to {zmq_xsub_socketstring}')
     ctx = zmq.Context()
