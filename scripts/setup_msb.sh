@@ -35,13 +35,25 @@ function install_python_requirements () {
 }
 
 function copy_raspiconfig () {
+  mkdir -p "${MSB_TARGET_CONFIG_DIR}"
   sudo cp "${MSB_CONFIG_DIR}/config.txt" /boot/
   sudo cp "${MSB_CONFIG_DIR}/cmdline.txt" /boot/
+  sudo cp "${MSB_CONFIG_DIR}/wpa_supplicant.conf" /etc/wpa_supplicant
+  cp "${MSB_CONFIG_DIR}/msb.conf" "${MSB_TARGET_CONFIG_DIR}"
+  cp "${MSB_CONFIG_DIR}/msb_env.sh" "${MSB_TARGET_CONFIG_DIR}"
+}
+
+function copy_services () {
+  sudo cp "${MSB_CONFIG_DIR}/services/*.service" /etc/systemd/system/ 
+}
+
+function add_path_profile () {
+  echo ". ${MSB_TARGET_CONFIG_DIR}/msb_env.sh" >> "${HOME}/.profile"
 }
 
 function get_port_from_hostname () {
-  serial=$(hostname | cut -d "-" -f2 | tr "0" " ") 
-  port=$(python -c "port=65000+${serial}; print(f'{port}')")
+  serialnumber=$(hostname | cut -d "-" -f2 | tr "0" " ") 
+  port=$(python -c "port=65000+${serialnumber}; print(f'{port}')")
   echo "${port}"
 }
 
@@ -73,4 +85,5 @@ install_dependencies
 install_python_requirements
 setup_rtunnel
 copy_raspiconfig
+add_path_profile
 
