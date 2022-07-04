@@ -71,8 +71,8 @@ def msb_wifi(wifi_config : WifiConfig):
     for target, _ in wifi_config.targets.items():
         if wifi_config.verbose:
             print(f"setting up consumer process for target {target}")
-            wifi_processes[target] = Process(target=consume_send_msbdata, args=(target, wifi_config,))
-            wifi_processes[target].start()
+        wifi_processes[target] = Process(target=consume_send_msbdata, args=(target, wifi_config,))
+        wifi_processes[target].start()
     signal.pause()
         
 
