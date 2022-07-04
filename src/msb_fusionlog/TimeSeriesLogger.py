@@ -5,12 +5,15 @@ import time
 import uptime
 from random import random
 
-from FusionlogConfig import FusionlogConfig
-
+from BaseFusionlogConfig import BaseFusionlogConfig
 
 class TimeSeriesLogger:
-    def __init__(self, topic, config):
+    def __init__(self, topic, config, msb_sn=""):
         self._config = config
+        if msb_sn:
+            self.msb_sn = msb_sn
+        else:
+            self.msb_sn = self._config.serialnumber
         self.topic = topic
         self.interval = timedelta(seconds=self._config.logfile_interval)
         self.lower_timelimit = (
@@ -48,7 +51,7 @@ class TimeSeriesLogger:
         self._filepath = os.path.join(
             self.topic_data_dir,
             "{}_{}_{}_{}.csv".format(
-                self._config.msb_sn.lower(),
+                self.msb_sn.lower(),
                 self.topic.lower(),
                 self._ts2str(self.lower_timelimit),
                 self._ts2str(self.upper_timelimit),

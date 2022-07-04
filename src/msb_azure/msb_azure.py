@@ -57,7 +57,7 @@ async def send_message(data : str, device_client : IoTHubDeviceClient, config : 
     msg = Message(data)
     msg.message_id = uuid.uuid4()
     msg.correlation_id = ""
-    msg.custom_properties["msb-sn"] = config['msb_sn']
+    msg.custom_properties["msb-sn"] = config['serialnumber']
     msg.content_encoding = "utf-8"
     msg.content_type = "application/json"
     await device_client.send_message(msg)

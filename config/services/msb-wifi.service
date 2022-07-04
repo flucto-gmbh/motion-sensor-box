@@ -8,8 +8,8 @@ SyslogIdentifier=msb-wifi
 Type=simple
 Restart=always
 RestartSec=1
-Environment="MSB_CONFIG_DIR=/MSB_CONFIG_DIR=/home/pi/.config"
 User=pi
+Environment="MSB_CONFIG_DIR=/home/pi/.config"
 ExecStart=/usr/bin/python3 /home/pi/motion-sensor-box/src/msb_wifi/msb_wifi.py
 
 [Install]

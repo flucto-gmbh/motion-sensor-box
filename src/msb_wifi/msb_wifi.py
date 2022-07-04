@@ -56,7 +56,7 @@ def consume_send_msbdata(target : str, wifi_config : WifiConfig):
                 print(f"target {target}: received {topic} : {data}")
             try:
                 udp_socket.sendto(
-                    pickle.dumps({"msb-sn" : wifi_config.msb_sn, "payload" : {topic : data}}), 
+                    pickle.dumps({"msb-sn" : wifi_config.serialnumber, "payload" : {topic : data}}), 
                     (wifi_config.targets[target]["target_address"], wifi_config.targets[target]["target_port"])
                 )
             except Exception as e:
