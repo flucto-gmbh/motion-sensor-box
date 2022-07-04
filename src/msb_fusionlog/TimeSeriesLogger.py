@@ -5,8 +5,6 @@ import time
 import uptime
 from random import random
 
-from BaseFusionlogConfig import BaseFusionlogConfig
-
 class TimeSeriesLogger:
     def __init__(self, topic, config, msb_sn=""):
         self._config = config
