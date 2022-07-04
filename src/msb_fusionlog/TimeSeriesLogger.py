@@ -45,6 +45,7 @@ class TimeSeriesLogger:
         self._create_filehandle(timestamp)
 
     def _create_filehandle(self, timestamp: float):
+        file_exists = False
         self._calc_timelimits(timestamp)
         self._filepath = os.path.join(
             self.topic_data_dir,
@@ -56,12 +57,18 @@ class TimeSeriesLogger:
             ),
         )
         try:
+            # check if we are appending to an already existing file
+            if os.path.isfile(self._filepath):
+                file_exists = True
             self._filehandle = open(self._filepath, "a")
         except Exception as e:
             print(f"failed to open file handle {self._filepath}: {e}")
             sys.exit()
         else:
-            self._write_header()
+            # if we are appending to an already existing file, 
+            # do not write out the headers
+            if not file_exists:
+                self._write_header()
 
     def _calc_timelimits(self, timestamp: float):
         while timestamp > self.upper_timelimit:
@@ -72,7 +79,7 @@ class TimeSeriesLogger:
         if not self.topic in self._config.topic_headers:
             print(f"warning: {self.topic} has no matching header defined in {self._config._conf_fpath}")
             return
-        self._filehandle.write("{}\n".format(",".join(self._config.topic_headers)))
+        self._filehandle.write("{}\n".format(",".join(self._config.topic_headers[self.topic])))
 
     def _ts2str(self, timestamp: float) -> str:
         try:
