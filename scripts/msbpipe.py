@@ -86,7 +86,7 @@ def print_json(topic, data):
 
 if __name__ == "__main__":
     signal.signal(signal.SIGINT, signal_handler)
-    signal.signal(signal.SIGPIPE, signal.SIG_DFL)
+    # signal.signal(signal.SIGPIPE, signal.SIG_DFL)
     config = MSBPipeConfig()
     if config.verbose:
         print(json.dumps(config.__dict__, indent=4))
