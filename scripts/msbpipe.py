@@ -57,7 +57,6 @@ def get_data_zmqxpub(zmq_socket):
             continue
         yield (topic, data)
 
-
 def print_json(topic, data):
     global config
     if not topic in config.topic_headers and config.verbose:
