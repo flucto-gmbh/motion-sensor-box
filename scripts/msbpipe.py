@@ -73,7 +73,8 @@ def print_json(topic, data):
                     key: value
                     for key, value in zip(config.topic_headers[topic], map(str, data))
                 }
-            }
+            },
+            indent=4,
         )
     )
 
