@@ -17,6 +17,7 @@ class MSBPipeConfig(MSBConfig):
         super().__init__()
         setattr(self, "json", False)
         setattr(self, "verbose", False)
+        setattr(self, "pretty_print", False)
         self._parse_cmdline_args()
         self._cmdline_config_override()
 
@@ -28,6 +29,9 @@ class MSBPipeConfig(MSBConfig):
         args.add_argument(
             "--json", action="store_true", help="output zeromq traffic as json"
         )
+        args.add_argument(
+            "--pretty-print", action="store_true", help="pretty prints jsons"
+        )
         cmdline_conf = args.parse_args().__dict__
         self._cmdline_conf = cmdline_conf
 
@@ -36,7 +40,8 @@ class MSBPipeConfig(MSBConfig):
             self.verbose = True
         if self._cmdline_conf["json"]:
             self.json = True
-
+        if self._cmdline_conf["pretty_print"]:
+            self.pretty_print = True
 
 def signal_handler(sig, frame):
     print("msbpipe.py exit")
@@ -66,17 +71,17 @@ def print_json(topic, data):
     assert len(len_topic_headers := config.topic_headers[topic]) == len(
         len_data := data
     ), f"length of topic headers {len_topic_headers} and length of data {len_data} do not match"
-    print(
-        json.dumps(
-            {
+    dict_data = {
                 topic: {
                     key: value
                     for key, value in zip(config.topic_headers[topic], map(str, data))
                 }
-            },
-            indent=4,
-        )
-    )
+            }
+    if config.pretty_print:
+        print(json.dumps(dict_data, indent=4))
+    else:
+        print(json.dumps(dict_data))
+
 
 
 if __name__ == "__main__":
