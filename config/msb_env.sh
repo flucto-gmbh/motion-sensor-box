@@ -1,6 +1,7 @@
 #!/bin/bash
 
 export MSB="${HOME}/motion-sensor-box"
+export MSB_SRC="${MSB}/src"
 export MSB_CONFIG_DIR="${HOME}/.config/"
 export MSB_DATA="${HOME}/msb_data"
 export MSB_PROCESSED="${HOME}/msb_processed"
