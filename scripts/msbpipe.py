@@ -62,7 +62,7 @@ def print_json(topic, data):
     global config
     if not topic in config.topic_headers and config.verbose:
         print(f"not a valid topic header {topic}, skipping")
-    assert len(len_topic_headers := topic_headers[topic]) == len(
+    assert len(len_topic_headers := config.topic_headers[topic]) == len(
         len_data := data
     ), f"length of topic headers {len_topic_headers} and length of data {len_data} do not match"
     json.dumps(
