@@ -37,6 +37,7 @@ class MSBPipeConfig(MSBConfig):
         if self._cmdline_conf["json"]:
             self.json = True
 
+
 def signal_handler(sig, frame):
     print("msbpipe.py exit")
     sys.exit(0)
@@ -57,6 +58,7 @@ def get_data_zmqxpub(zmq_socket):
             continue
         yield (topic, data)
 
+
 def print_json(topic, data):
     global config
     if not topic in config.topic_headers and config.verbose:
@@ -64,9 +66,17 @@ def print_json(topic, data):
     assert len(len_topic_headers := config.topic_headers[topic]) == len(
         len_data := data
     ), f"length of topic headers {len_topic_headers} and length of data {len_data} do not match"
-    json.dumps(
-        {topic: {key: value for key, value in zip(config.topic_headers[topic], map(str, data))}}
+    print(
+        json.dumps(
+            {
+                topic: {
+                    key: value
+                    for key, value in zip(config.topic_headers[topic], map(str, data))
+                }
+            }
+        )
     )
+
 
 if __name__ == "__main__":
     signal.signal(signal.SIGINT, signal_handler)
