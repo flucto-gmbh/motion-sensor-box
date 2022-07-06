@@ -1,3 +1,4 @@
+import json
 import os
 import signal
 import sys
@@ -6,18 +7,17 @@ import time
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.dirname(SCRIPT_DIR))
 
+# from ICM20948.ICM20948ZMQ import ICM20948ZMQ
 from ICM20948.ICM20948ZMQ import ICM20948ZMQ
 from IMUConfig import IMUConfig
 from msb_config.zeromq import open_zmq_pub_socket
 
 # TODO
-# - add argument parser to overwrite configuration
-#   - add output_div
-#   - add filters
-#   - 
+# - add polling option
+# - add 
 
 def signal_handler(sig, frame):
-    print('msb_imu.py exit')
+    print('imu_standalone.py exit')
     sys.exit(0)
 
 def msb_imu(imu_config: IMUConfig):
@@ -34,8 +34,11 @@ def msb_imu(imu_config: IMUConfig):
         polling=imu_config.polling,
     )
     imu.begin()
-    signal.pause()
+    if not imu_config.polling:
+        signal.pause()
 
 if __name__ == "__main__":
     imu_config = IMUConfig()
+    if imu_config.verbose:
+        print(f"{json.dumps(imu_config.__dict__, indent=4)}")
     msb_imu(imu_config)

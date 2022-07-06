@@ -12,7 +12,7 @@ from .ICM20948_settings import ICM20948_SETTINGS
 
 # TODO
 # - fix temperature
-# - add filter selection
+# - add polling option
 
 # -----------------------------------------------------------------------------
 # ICM20948.pi
@@ -115,6 +115,7 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
         output_data_div=22,
         verbose=False,
         print_stdout=False,
+        polling=False,
     ):
 
         self.zmq_pub_socket = zmq_pub_socket
@@ -163,12 +164,12 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
         
         self._precision = precision
         self._output_data_div = output_data_div
-
-        if verbose:
-            self._verbose = True
-
-        if print_stdout:
-            self._print_stdout = True
+        self._verbose = verbose
+        self._print_stdout = print_stdout
+        self._polling = polling
+        self._delta_t = 1 / (1125 / (self._output_data_div + 1))
+        if self._verbose:
+            print(f"delta t is: {self._delta_t}")
 
     def begin(self):
         """
@@ -222,13 +223,17 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
         # fire up the compass
         self.startup_magnetometer()
 
-        # setup the interrupt
-        self._configure_interrupt()
-
-        # set bank to 0
-        self._set_bank(0)
-
-        return True
+        if self._polling:
+            if self._verbose:
+                print(f"starting to poll imu")
+            self._set_bank(0)
+            self._poll()
+        else:
+            # setup the interrupt
+            self._configure_interrupt()
+            # set bank to 0
+            self._set_bank(0)
+            return True
 
     @property
     def data(self):
@@ -242,19 +247,19 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
         :rtype: bool
 
         """
-
         if self._verbose:
-            print(
-                f"{time.time()}: updating data via triggered interrupt pin {interrupt_pin}"
-            )
-
+            if self._polling:
+                print(f"{time.time()}: polling sensor")
+            else:
+                print(
+                    f"{time.time()}: updating data via triggered interrupt pin {interrupt_pin}"
+                )
         buff = self._i2c.read_i2c_block_data(
             self.address, self._AGB0_REG_ACCEL_XOUT_H, self._update_numbytes
         )
         self._data[0] = datetime.fromtimestamp(ts := time.time(), tz=timezone.utc)
         self._data[1] = ts
         self._data[2] = uptime.uptime()
-
         # acceleration
         self._data[3] = round(
             self.to_signed_int(((buff[0] << 8) | (buff[1] & 0xFF))) / self._acc_scale, self._precision
@@ -265,7 +270,6 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
         self._data[5] = round(
             self.to_signed_int(((buff[4] << 8) | (buff[5] & 0xFF))) / self._acc_scale, self._precision
         )
-
         # angular velocity
         self._data[6] = round(
             self.to_signed_int(((buff[6] << 8) | (buff[7] & 0xFF))) / self._gyr_scale, self._precision
@@ -282,16 +286,33 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
         self._data[10] = round((buff[18] << 8) | (buff[17] & 0xFF), self._precision)
         self._data[11] = round((buff[20] << 8) | (buff[19] & 0xFF), self._precision)
         self._data[12] = round((buff[12] << 8) | (buff[13] & 0xFF), self._precision)
-
         self.zmq_pub_socket.send_multipart(
             [IMU_TOPIC, pickle.dumps(self._data)]  # topic  # serialize the payload
         )
-
         if self._verbose:
             print(f"data: {self._data}")
-
         if self._print_stdout:
             print(','.join(map(str, self._data)))
+
+    def _poll(self):
+        while True:
+            start_time = time.monotonic()
+            try:
+                self._update_data(interrupt_pin=-1)
+            except KeyboardInterrupt:
+                if self._verbose:
+                    print(f"caught ctrl+x, exit")
+                    sys.exit(0)
+            except Exception as e:
+                if self._verbose:
+                    print(f"failed to update data: {e}, skipping")
+                sys.exit(-1)
+
+            while time.monotonic() < start_time + self._delta_t:
+                if self._verbose:
+                    print("sleeping 1 ms")
+                time.sleep(0.001)
+
 
     def _configure_interrupt(self):
 
