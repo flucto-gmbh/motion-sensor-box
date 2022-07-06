@@ -37,7 +37,6 @@ class MSBPipeConfig(MSBConfig):
         if self._cmdline_conf["json"]:
             self.json = True
 
-
 def signal_handler(sig, frame):
     print("msbpipe.py exit")
     sys.exit(0)
@@ -66,7 +65,7 @@ def print_json(topic, data):
         len_data := data
     ), f"length of topic headers {len_topic_headers} and length of data {len_data} do not match"
     json.dumps(
-        {topic: {key: value for key, value in zip(config.topic_headers[topic], data)}}
+        {topic: {key: value for key, value in zip(config.topic_headers[topic], map(str, data))}}
     )
 
 if __name__ == "__main__":
