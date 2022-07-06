@@ -5,3 +5,6 @@
 	path = lib/strompi3
 	url = https://github.com/joy-it/strompi3.git
 
+[submodule "lib/ahrs"]
+	path = lib/ahrs
+	url = https://github.com/Mayitzin/ahrs.git
