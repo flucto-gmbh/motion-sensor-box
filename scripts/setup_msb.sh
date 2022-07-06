@@ -34,20 +34,21 @@ function install_python_requirements () {
   python -m pip install -r "${MSB_BASE_DIR}/requirements.txt"
 }
 
-function copy_raspiconfig () {
+function copy_config () {
   mkdir -p "${MSB_TARGET_CONFIG_DIR}"
-  sudo cp "${MSB_CONFIG_DIR}/config.txt" /boot/
-  sudo cp "${MSB_CONFIG_DIR}/cmdline.txt" /boot/
-  sudo cp "${MSB_CONFIG_DIR}/wpa_supplicant.conf" /etc/wpa_supplicant
-  cp "${MSB_CONFIG_DIR}/msb.conf" "${MSB_TARGET_CONFIG_DIR}"
-  cp "${MSB_CONFIG_DIR}/msb_env.sh" "${MSB_TARGET_CONFIG_DIR}"
+  sudo cp "${MSB_CONFIG_DIR}"/config.txt /boot/
+  sudo cp "${MSB_CONFIG_DIR}"/cmdline.txt /boot/
+  sudo cp "${MSB_CONFIG_DIR}"/wpa_supplicant.conf /etc/wpa_supplicant
+  sudo cp "${MSB_CONFIG_DIR}"/gpsd /etc/default
+  cp "${MSB_CONFIG_DIR}"/msb.conf "${MSB_TARGET_CONFIG_DIR}"
+  cp "${MSB_CONFIG_DIR}"/msb_env.sh "${MSB_TARGET_CONFIG_DIR}"
 }
 
 function copy_services () {
-  sudo cp "${MSB_CONFIG_DIR}/services/*.service" /etc/systemd/system/ 
+  sudo cp "${MSB_CONFIG_DIR}"/services/*.service /etc/systemd/system/ 
 }
 
-function add_path_profile () {
+function add_configpath_profile () {
   echo ". ${MSB_TARGET_CONFIG_DIR}/msb_env.sh" >> "${HOME}/.profile"
 }
 
@@ -70,10 +71,14 @@ function check_ssh () {
     -l msb\
     flucto.tech \
     "hostname")
+  local_hostname=$(hostname)
+  if ! [[ $server_response -eq $(hostname) ]]
+  then
+    echo "hostnames do not match! ${server_response} != ${local_hostname}"
+  fi
 }
 
 function setup_rtunnel () {
-  sudo cp "${MSB_CONFIG_DIR}"/services/rtunnel.service /etc/systemd/system/
   insert_port
   check_ssh
   sudo systemctl enable rtunnel.service
@@ -83,7 +88,8 @@ function setup_rtunnel () {
 update_software
 install_dependencies
 install_python_requirements
+copy_services
 setup_rtunnel
-copy_raspiconfig
+copy_config
 add_path_profile
 

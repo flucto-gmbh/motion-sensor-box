@@ -107,6 +107,12 @@ class IMUConfig(MSBConfig):
             2000dps
             """
         )
+        args.add_argument(
+            "--polling",
+            action="store_true",
+            help="""Alternate mode: instead of using a sensor issued interrupt
+            use polling to retrieve data from the sensor"""
+        )
         cmdline_conf = args.parse_args().__dict__
         self._cmdline_conf = cmdline_conf
 
@@ -148,6 +154,11 @@ class IMUConfig(MSBConfig):
             if self.verbose:
                 print(f"overriding gyroscope filter setting with command line value {self._cmdline_conf['gyr_filter']}")
             self.gyr_filter = self._cmdline_conf['gyr_filter']
+
+        if self._cmdline_conf['polling'] and not self.polling:
+            if self.verbose:
+                print("overrriding polling setting with command line flag")
+            self.polling = True
 
 if __name__ == "__main__":
     config = IMUConfig()
