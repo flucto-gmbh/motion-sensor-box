@@ -62,7 +62,7 @@ _AVAILABLE_I2C_ADDRESS = [0x68, 0x69]  # depending wether the AD0 line is high o
 # two different addresses are available
 IMU_TOPIC = b"imu"
 # define our valid chip IDs
-_validChipIDs = [0xEA]
+_validChipIDs = [0xEA, 0xFF]
 
 
 class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
