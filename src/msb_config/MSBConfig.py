@@ -26,6 +26,10 @@ class MSBConfig(object):
             print(f"failed to open and parse config file: {e}")
             sys.exit()
 
+    def _print_verbose(self, msg : str):
+        if self._cmdline_conf['verbose'] or self.verbose:
+            print(msg)
+
     # return f"{zmq_config['protocol']}://{zmq_config['address']}:{zmq_config['xpub_port']}"
     def _construct_zmq_socketstrings(self):
         if not hasattr(self, 'zmq'):

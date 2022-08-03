@@ -9,7 +9,7 @@ sys.path.append(os.path.dirname(SCRIPT_DIR))
 from msb_config.MSBConfig import MSBConfig
 
 class CameraConfig(MSBConfig):
-    def __init__(self, subconf = "msb-imu"):
+    def __init__(self, subconf = "msb-camera"):
         super().__init__()
         self._load_conf(subconf=subconf)
         self._parse_cmdline_args()
@@ -47,7 +47,6 @@ class CameraConfig(MSBConfig):
             type=int,
             help="height of video"
         )
-
         args.add_argument(
             "--rollover-period",
             type=int,
