@@ -83,6 +83,12 @@ class PileTrackConfig(MSBConfig):
             type=int,
             help="height of video"
         )
+
+        args.add_argument(
+            "--rotate",
+            action="store_true",
+            help="rotate video 90 deg counterclockwise"
+        )
         
         args.add_argument(
             "--record-video",
@@ -109,9 +115,15 @@ class PileTrackConfig(MSBConfig):
         )
 
         args.add_argument(
-            "--pile-speed-calculation-interval",
+            "--pile-speed-update-interval",
             type=int,
             help="interval in frames at which pile speed is calculated"
+        )
+
+        args.add_argument(
+            "--px-to-m",
+            type=float,
+            help="conversion ratio from pixels to meters"
         )
 
         args.add_argument(
@@ -133,7 +145,13 @@ class PileTrackConfig(MSBConfig):
         )
 
         args.add_argument(
-            "--meter-markings-detection-interval",
+            "--meter-markings-calculation-interval",
+            type=int,
+            help="interval in frames at which pile speed is calculated"
+        )
+
+        args.add_argument(
+            "--meter-markings-update-interval",
             type=int,
             help="interval in frames at which the meter markings are matched to calculate self weight penetration depth"
         )
@@ -165,6 +183,10 @@ class PileTrackConfig(MSBConfig):
         if self._cmdline_conf['height']:
             self._print_verbose(f"overriding height setting with command line flag: {self._cmdline['height']}")
             self.height = self._cmdline_conf["height"]
+        
+        if self._cmdline_conf['rotate']:
+            self._print_verbose(f"overriding rotate flag with command line flag: rotating video by 90 deg counterclockwise")
+            self.rotate = True
 
         if self._cmdline_conf['record_video']:
             self._print_verbose("overriding record_video flag using command line")
@@ -175,16 +197,20 @@ class PileTrackConfig(MSBConfig):
             self.region_of_interest = self._parse_pile_tracking_roi()
 
         if self._cmdline_conf['max_number_of_features']:
-            self._print_verbose(f"overriding max. number of features via command line. Now tracking {self._cmdline_conf['number_of_features']} features")
+            self._print_verbose(f"overriding max. number of features via command line. Now tracking {self._cmdline_conf['max_number_of_features']} features")
             self.number_of_features = self._cmdline_conf['max_number_of_features']
 
         if self._cmdline_conf['max_track_length']:
             self._print_verbose(f"overriding max track length parameter using command line. New max track length is {self._cmdline_conf['max_track_length']}")
             self.max_track_length = self._cmdline_conf['max_track_length']
 
-        if self._cmdline_conf['pile_speed_calculation_interval']:
-            self._print_verbose(f"overriding pile speed calculation interval via command line. Calculating pile speed every {self._cmdline_conf['pile_speed_calculation_interval']} frames")
+        if self._cmdline_conf['pile_speed_update_interval']:
+            self._print_verbose(f"overriding pile speed calculation interval via command line. Calculating pile speed every {self._cmdline_conf['pile_speed_update_interval']} frames")
             self.pile_speed_calculation_interval = self._cmdline_conf['pile_speed_calculation_interval']
+        
+        if self._cmdline_conf['px_to_m']:
+            self._print_verbose(f"overriding pixels to meter ratio via command line. Pixels to meters ratio is now {self._cmdline_conf['px_to_m']} frames")
+            self.px_to_m = self._cmdline_conf['px_to_m']
 
         if self._cmdline_conf["track_meter_markings"]:
             self._print_verbose("overriding meter marking tracking flag")
@@ -198,7 +224,7 @@ class PileTrackConfig(MSBConfig):
             self._print_verbose(f"overriding meter markings region of interest via command line. Meter markings region of interest is now {self._cmdline_conf['meter_markings_region_of_interest']}")
             self.meter_markings_region_of_interest = self._parse_meter_markings_roi()
 
-        if self._cmdline_conf["meter_markings_calculation_interval"]:
+        if self._cmdline_conf["meter_markings_update_interval"]:
             self._print_verbose(f"overriding meter markings calculation interval via command line. Now calculating meter marking position every {self._construct_zmq_socketstrings['meter_markings_calculation_interval']} frames")
             self.meter_markings_calculation_interval = self._cmdline_conf['meter_markings_calculation_interval']
 
