@@ -14,6 +14,19 @@ class CameraConfig(MSBConfig):
         self._load_conf(subconf=subconf)
         self._parse_cmdline_args()
         self._cmdline_config_override()
+        self._create_video_dir
+
+    def _create_video_dir(self):
+        if not os.path.isdir(self.video_dir):
+            print(f"no such file or directory: {self.video_dir}, creating")
+        try:
+            os.makedirs(self.video_dir, exist_ok=True)
+        except Exception as e:
+            print(f"failed to create data directory {self.video_dir} : {e}")
+            print(f"falling back to $HOME/msb_data/cam")
+            self.video_dir = path.join(path.join(os.environ["HOME"], "msb_data"), "cam")
+            self._create_video_dir()
+
 
     def _parse_cmdline_args(self):
         args = argparse.ArgumentParser()
@@ -52,6 +65,12 @@ class CameraConfig(MSBConfig):
             type=int,
             help="time after which a new video file is generated"
         )
+
+        args.add_argument(
+            "--video-dir",
+            type=str,
+            help="directory to store videos in"
+        )
         cmdline_conf = args.parse_args().__dict__
         self._cmdline_conf = cmdline_conf
 
@@ -84,6 +103,11 @@ class CameraConfig(MSBConfig):
             if self._cmdline_conf['verbose'] or self.verbose:
                 print(f"overriding rollover period setting with command line flag: {self._cmdline['rollover_period']}")
             self.rollover_period = self._cmdline_conf["rollover_period"]
+        
+        if self._cmdline_conf['video_dir']:
+            if self._cmdline_conf['verbose'] or self.verbose:
+                print(f"overriding video dir setting with command line flag: {self._cmdline['video_dir']}")
+            self.video_dir = self._cmdline_conf["video_dir"]
 
 if __name__ == "__main__":
     config = CameraConfig()
