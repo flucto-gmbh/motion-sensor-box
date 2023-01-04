@@ -1,0 +1,13 @@
+{
+    "verbose": false,
+    "logfile": "",
+    "imu_output_div": 21,
+    "config_file": "",
+    "dump_config_file": "msb_imu.json",
+    "udp_stream": false,
+    "udp_address": "192.168.4.1",
+    "udp_port": 9870,
+    "ipc_port": 5555,
+    "ipc_protocol": "ipc",
+    "profile": false
+}

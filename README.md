@@ -42,7 +42,7 @@ All interprocess communication between services is implemented using [zeroMQ](ht
 
 ![software_architecture](./doc/software_architecture.png)
 
-### List of Services
+#### List of Services
 
 - **msb-imu.service:** manages the inertial measurement uni present on the sense hat. For more documentation, please see [doc/waveshare_sense_hat/ICM-20948.md](doc/waveshare_sense_hat/ICM-20948.md). Code is located at [src/imu](src/imu)
 - **msb-gps.service:** samples gnss data from `gpsd`'s socket and provides it to other motion sensor box services. Further documentation is available [here](doc/gpsd/gpds.md). Code is located at [src/gps](src/gps)
@@ -57,21 +57,48 @@ All interprocess communication between services is implemented using [zeroMQ](ht
 - **msb-power.service:** Manages power on the motion sensor boxes (shutdown, boot). Not implemented yet
 
 
-### Data format
+#### Data structure for interprocess-communication
 
-Each process must provide its data in the form of a json package:
+Each process must provide its data in the form of a pickled list via the zmq protocol.
+The first three elements of the list are set to be a timezone aware datetime object,
+the actual epoch and the uptime. The rest of the elements are left for whatever payload. 
 
-```javascript
-// inertial measurement unit
-{
-    "imu" : [timestamp, uptime, acc_x, acc_y, acc_z, rot_x, rot_y, rot_z, mag_x, mag_y, mag_z, temp]
-}
+As an example, the data structure from the imu service is shown. Please note, that
+the number of elements in the list must match the element names, defined in the
+[motion sensor box config file](config/msb.conf)
 
-// gpsd data
-{
-    "gnss" : 
-}
+
+```python
+import datetime
+import uptime
+import time
+# inertial measurement unit
+[ 
+  datetime.datetime.fromtimestamp(ts := time.time(), tz=datetime.timezone.utc),
+  ts,
+  uptime.uptime(),
+  acc_x,
+  acc_y,
+  acc_z,
+  rot_x,
+  rot_y,
+  rot_z,
+  mag_x,
+  mag_y,
+  mag_z,
+  temp,
+]
 ```
+The data is serialized using pickles and send as a multipart-message onto the zmq bus.
+To identify the data in other services, each serialized data package is designated with a 
+topic string. Here is a list of the topic strings used by the motion sensor box software:
+- msb-imu.service: `imu`
+- msb-gps.serivce: `gps`
+- msb-power.service: `pwr`
+- msb-attitude.serivce: `att`
+- msb-adc.serivce: `adc`
+- msb-ldr.service: `ldr`
+
 
 ## Setup
 
@@ -176,6 +203,10 @@ git clone https://github.com/flucto-gmbh/motion-sensor-box.git --recursive
 ```
 
 To finish the setup, please follow through with [system Setup](doc/system-setup.md).
+
+### Software debugging
+
+To access a motion sensor box via a bluetooth serial console, follow [these steps](doc/bluetooth_shell.md)
 
 ## Sensing
 

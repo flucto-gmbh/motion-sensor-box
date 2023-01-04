@@ -5,7 +5,7 @@ set -e
 
 CWD=$(pwd)
 SCRIPT_DIR=$(dirname $0)
-CONFIG_DIR="${PWD}/${SCRIPT_DIR}/../cfg"
+CONFIG_DIR="${PWD}/${SCRIPT_DIR}/../config/services/"
 SYSTEMD_DIR="/etc/systemd/system/"
 
 # iterate over service files

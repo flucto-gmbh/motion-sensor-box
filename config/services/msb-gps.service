@@ -1,0 +1,16 @@
+[Unit]
+Description=Motion Sensor Box Global Navigation Satellite System Service
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+SyslogIdentifier=msb-gps
+Type=simple
+Restart=always
+RestartSec=1
+Environment="MSB_CONFIG_DIR=/home/pi/.config"
+User=pi
+ExecStart=/usr/bin/python3 /home/pi/motion-sensor-box/src/msb_gps/msb_gps.py
+
+[Install]
+WantedBy=multi-user.target

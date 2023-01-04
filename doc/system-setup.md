@@ -1,5 +1,3 @@
-ss Mode" geschieht nur mit Hilfe der Python Skripte, der Jumper hat nur die Fun# System setup
-
 The motion sensor boxes are based on a raspberry pi zero WH running raspberry os. The following packages are needed to successfully set up a yasb device:
 
 ## system configuration
@@ -60,17 +58,40 @@ Additionally, cmdline.txt and config.txt both on the boot partition need to be m
 
 This nifty configuration trick was copied from [linuxconfig](https://linuxconfig.org/how-to-change-from-default-to-alternative-python-version-on-debian-linux)
 
+To ensure the raspberry pi does not run out of memory, the swap space needs to be configured. Open the file `/etc/dphys-swapfile`, comment out the current settings and add 
+``
+CONF_SWAPFACTOR=2
+CONF_MAXSWAP=2048
+
+``
+
 ## system packages
 
 A number of packages are needed in order for the software stack to function properly.
-To install the packages, type the following:
+To install the packages, we first need to add some sources (for the camera)
+```bash
+curl https://www.linux-projects.org/listing/uv4l_repo/lpkey.asc | sudo apt-key add -
+echo "deb https://www.linux-projects.org/listing/uv4l_repo/raspbian/stretch stretch main" | sudo tee /etc/apt/sources.list.d/uv4l.list
+sudo apt-get update
+```
+
+Now we can install system packages
 
 ```bash
-sudo apt -y install git python3 python3-dev python3-pip i2c-tools spi-tools\
-                    python3-spidev python3-smbus screen asciidoctor python3-matplotlib\
-                    libncurses5-dev python3-dev pps-tools build-essential manpages-dev\
-                    pkg-config python3-cairo-dev libgtk-3-dev python3-serial libdbus-1-dev\
-                    autossh mosh python3-numpy scons rsync vim
+sudo apt -y install git python3 python3-dev python3-pip i2c-tools spi-tools \
+                    python3-spidev python3-smbus screen asciidoctor python3-matplotlib \
+                    libncurses5-dev python3-dev pps-tools build-essential manpages-dev \
+                    pkg-config python3-cairo-dev libgtk-3-dev python3-serial libdbus-1-dev \
+                    autossh mosh python3-numpy scons rsync vim uv4l uv4l-raspicam \
+                    uv4l-raspicam-extras uv4l-server uv4l-uvc uv4l-xscreen uv4l-mjpegstream \
+                    uv4l-dummy uv4l-raspidisp uv4l-webrtc-armv6 uv4l-raspidisp-extras \
+                    gstreamer1.0-tools gstreamer1.0-plugins-bad gstreamer1.0-plugins-good \
+                    gstreamer1.0-libav python3-picamera cmake pkg-config libjpeg-dev \
+                    libtiff5-dev libjasper-dev libpng-dev libavcodec-dev libavformat-dev \
+                    libswscale-dev libv4l-dev libxvidcore-dev libx264-dev libfontconfig1-dev \
+                    libcairo2-dev libgdk-pixbuf2.0-dev libpango1.0-dev libgtk2.0-dev \
+                    libgtk-3-dev libatlas-base-dev gfortran libhdf5-dev libhdf5-serial-dev \
+                    libhdf5-103 python3-pyqt5 python3-dev python3-opencv chrony python3-pandas
 ```
 
 Some packages need to be installed via pip:

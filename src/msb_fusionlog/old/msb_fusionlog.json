@@ -1,0 +1,11 @@
+{
+    "verbose": false,
+    "logfile": "",
+    "config_file": "",
+    "dump_config_file": "msb_fusionlog.json",
+    "udp_address": "127.0.0.1",
+    "udp_port": 9870,
+    "ipc_port": 5555,
+    "ipc_protocol": "tcp://127.0.0.1",
+    "profile": false
+}

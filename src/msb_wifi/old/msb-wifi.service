@@ -1,0 +1,15 @@
+[Unit]
+Description=Motion Sensor Box Wifi Messaging Service
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+SyslogIdentifier=msb-wifi
+Type=simple
+Restart=always
+RestartSec=1
+User=pi
+ExecStart=/usr/bin/python3 /home/pi/motion-sensor-box/src/wifi/src/msb_wifi.py
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,16 @@
+[Unit]
+Description=Motion Sensor Box Sensor Fusion and Logging Service
+After=msb-broker.service
+StartLimitIntervalSec=0
+
+[Service]
+SyslogIdentifier=msb-fusionlog
+Type=simple
+Restart=always
+RestartSec=1
+Environment="MSB_CONFIG_DIR=/home/pi/.config"
+User=pi
+ExecStart=/usr/bin/python3 /home/pi/motion-sensor-box/src/msb_fusionlog/msb_fusionlog.py
+
+[Install]
+WantedBy=multi-user.target

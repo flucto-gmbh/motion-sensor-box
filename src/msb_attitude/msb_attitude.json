@@ -1,0 +1,9 @@
+{
+    "verbose": true,
+    "logfile": "",
+    "config_file": "",
+    "dump_config_file": "msb_attitude.json",
+    "ipc_port": 5555,
+    "ipc_protocol": "ipc",
+    "profile": false
+}

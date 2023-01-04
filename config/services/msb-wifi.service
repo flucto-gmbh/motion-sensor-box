@@ -1,0 +1,16 @@
+[Unit]
+Description=Motion Sensor Box Wifi Service
+After=msb-broker.service
+StartLimitIntervalSec=0
+
+[Service]
+SyslogIdentifier=msb-wifi
+Type=simple
+Restart=always
+RestartSec=1
+User=pi
+Environment="MSB_CONFIG_DIR=/home/pi/.config"
+ExecStart=/usr/bin/python3 /home/pi/motion-sensor-box/src/msb_wifi/msb_wifi.py
+
+[Install]
+WantedBy=multi-user.target

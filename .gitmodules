@@ -1,71 +1,10 @@
 [submodule "lib/gpsd"]
 	path = lib/gpsd
 	url = https://gitlab.com/gpsd/gpsd.git
-[submodule "src/imu"]
-	path = src/imu
-	url = https://github.com/flucto-gmbh/msb_imu.git
-	branch = main
-	update = merge
-[submodule "src/adc"]
-	path = src/adc
-	url = https://github.com/flucto-gmbh/msb_adc.git
-	branch = main
-	update = merge
-[submodule "src/env"]
-	path = src/env
-	url = https://github.com/flucto-gmbh/msb_env.git
-	branch = main
-	update = merge
-[submodule "src/gps"]
-	path = src/gps
-	url = https://github.com/flucto-gmbh/msb_gps.git
-	branch = main
-	update = merge
-[submodule "src/fusionlog"]
-	path = src/fusionlog
-	url = https://github.com/flucto-gmbh/msb_fusionlog.git
-	branch = main
-	update = merge
-[submodule "src/power"]
-	path = src/power
-	url = https://github.com/flucto-gmbh/msb_power.git
-	branch = main
-	update = merge
-[submodule "src/camera"]
-	path = src/camera
-	url = https://github.com/flucto-gmbh/msb_camera.git
-	branch = main
-	update = merge
-[submodule "src/lora"]
-	path = src/lora
-	url = https://github.com/flucto-gmbh/msb_lora.git
-	branch = main
-	update = merge
 [submodule "lib/strompi3"]
 	path = lib/strompi3
 	url = https://github.com/joy-it/strompi3.git
-[submodule "src/attitude"]
-	path = src/attitude
-	url = https://github.com/flucto-gmbh/msb_attitude.git
-	branch = main
-	update = merge
-[submodule "src/broker"]
-	path = src/broker
-	url = https://github.com/flucto-gmbh/msb_broker.git
-	branch = main
-	update = merge
-[submodule "src/wifi"]
-	path = src/wifi
-	url = https://github.com/flucto-gmbh/msb_wifi.git
-	branch = main
-	update = merge
-[submodule "src/mqtt"]
-	path = src/mqtt
-    url = https://github.com/ahaselsteiner/msb-mqtt
-    branch = main
-    update = merge
-[submodule "src/azure"]
-	path = src/azure
-        url = https://github.com/flucto-gmbh/msb_azure
-    branch = main
-        update = merge
+
+[submodule "lib/ahrs"]
+	path = lib/ahrs
+	url = https://github.com/Mayitzin/ahrs.git

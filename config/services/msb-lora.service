@@ -1,0 +1,16 @@
+[Unit]
+Description=Motion Sensor Box LoRa Messaging Service
+After=msb-serialless-on.service
+StartLimitIntervalSec=0
+
+[Service]
+SyslogIdentifier=msb-lora
+Type=simple
+Restart=always
+RestartSec=1
+Environment="MSB_CONFIG_DIR=/home/pi/.config"
+User=pi
+ExecStart=/usr/bin/python3 /home/pi/motion-sensor-box/src/msb_lora/msb_lora.py
+
+[Install]
+WantedBy=multi-user.target
