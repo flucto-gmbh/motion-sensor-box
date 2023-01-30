@@ -132,10 +132,20 @@ After connecting all electronic parts within the cybercube you put the electroni
 ## Main Assembly:
 
 1. Insert the battery into the base plate's battery compartement
-<img src="doc/assembly_cybercube/housing_with_baseplate_battery.PNG" width="250"/>
+<img src="doc/assembly_cybercube/housing_with_baseplate_battery.PNG" width="500"/>
 
 2. Insert the Cybercube into the baseplate
-<img src="doc/assembly_cybercube/housing_with_baseplate_battery_cybercube.PNG" width="250"/>
+<img src="doc/assembly_cybercube/housing_with_baseplate_battery_cybercube.PNG" width="500"/>
 
-3. 
+3. Close the compartement 
+<img src="doc/assembly_cybercube/housing_with_coverplate.PNG" width="500"/>
+
+4.Screw in the two WLAN-Antenna
+
+<img src="doc/assembly_cybercube/housing_with_coverplate_antenna.PNG" width="500"/>
+
+5.Attach the case lid 
+
+<img src="doc/assembly_cybercube/housing_with_coverplate_antenna_lid.PNG" width="500"/>
+
 
