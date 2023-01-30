@@ -3,29 +3,6 @@
 The Motion-Sensor-Box may be subdivided in the cybercube and all the other inner components within the housing. 
 Those components need to be assembled first before starting the main assembly.
 
-## Assembly of the inncomponents
-
-### The inner components are:
-
-   1. base-Plate (3D-Print)
-   2. coverplate (3D-Print)
-   3. housing 
-   <img src="doc/assembly_cybercube/MSB-Hülle_Front.jpg" width="250"/>
-   
-   4. housing´s Lid
-   5. spacer Bolds
-   6. camera glass 
-   7. camera cable
-   8. camera
-   9. battery
-   10. power supply
-   11. screws and nuts
-
-You start by mounting the camera glass and the camera holder. 
-
-Then you mount the camara on the camera holder. 
-   
-
 
 ## Assembly guide for the msb rev8´s cybercube
 
@@ -52,7 +29,7 @@ Then you mount the camara on the camera holder.
    7. SD-Card
    8. Fan
 
-Before you assemble the main components it is recommended to prepare the components first, this includes the cybercube power supply and the GPS cable.
+Before you assemble the main components it is higly recommended to prepare the components first, this includes the cybercube power supply and the GPS cable.
 
 # 1. GPS-cable:
 
@@ -69,8 +46,9 @@ Before soldering the two ends together it is highly recommended to twist the cab
 |---         | :---: |:---:  |:---:|:---:  |:---: | 
 |USB side    | white | green |*cut*| black | red  |
 
-<img src="img/GNSS_Wires.png"/>  
-and pull the shrink tubing over the cables before beeing soldered together. **Before using the GPS-Module make sure that the GNSS connector is correctly oriented.** 
+<img src="doc/assembly_cybercube/GNSS_Wires.png"/>  
+and pull the shrink tubing over the cables before beeing soldered together. 
+**Before using the GPS-Module make sure that the GNSS connector is correctly oriented.** 
 
 # 2. Cybercube power supply
 ................
@@ -113,5 +91,51 @@ After connecting all electronic parts within the cybercube you put the electroni
 <img src="doc/assembly_cybercube/IMG_1236.JPG" width="500"/>
 
 
+## Assembly of the inncomponents
 
+### The inner components are:
+
+   1. base-Plate (3D-Print)
+   <img src="doc/assembly_cybercube/baseplate_render.png" width="250"/>
+   
+   2. coverplate (3D-Print)
+   <img src="doc/assembly_cybercube/coverplate_render.png" width="250"/>
+   
+   3. housing 
+   <img src="doc/assembly_cybercube/MSB-Hülle_Front.jpg" width="250"/>
+   
+   4. housing´s Lid
+   5. spacer Bolds
+   6. camera (glass, cable, lense)
+   <img src="doc/assembly_cybercube/camera.png" width="250"/>
+   
+   7. battery
+   8. power supply
+   9. screws and nuts
+
+### Assembly guide for the inner components:
+
+1. You start by mounting the camera glass and the camera holder. 
+
+2. Then you mount the camara on the camera holder. 
+
+3. You follow by mounting the six spacers in to the housing. 
+
+<img src="doc/assembly_cybercube/housing_with_spacers.PNG" width="250"/>
+
+4. Then you insert the camera cable in the base plate's camera cable channel. After that you connect the camera cable with the camera.
+
+5.Insert the base plate into the housing.
+
+<img src="doc/assembly_cybercube/housing_with_baseplate.PNG" width="250"/>
+
+## Main Assembly:
+
+1. Insert the battery into the base plate's battery compartement
+<img src="doc/assembly_cybercube/housing_with_baseplate_battery.PNG" width="250"/>
+
+2. Insert the Cybercube into the baseplate
+<img src="doc/assembly_cybercube/housing_with_baseplate_battery_cybercube.PNG" width="250"/>
+
+3. 
 
