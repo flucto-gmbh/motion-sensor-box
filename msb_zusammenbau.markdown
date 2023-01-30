@@ -1,6 +1,6 @@
 # Hardware assembly
 
-The Motion-Sensor-Box may be subdided in the cybercube and all the other inner components within the housing. 
+The Motion-Sensor-Box may be subdivided in the cybercube and all the other inner components within the housing. 
 Those components need to be assembled first before starting the main assembly.
 
 ## Assembly of the inncomponents
@@ -10,6 +10,8 @@ Those components need to be assembled first before starting the main assembly.
    1. base-Plate (3D-Print)
    2. coverplate (3D-Print)
    3. housing 
+   <img src="doc/assembly_cybercube/MSB-Hülle_Front.jpg" width="250"/>
+   
    4. housing´s Lid
    5. spacer Bolds
    6. camera glass 
