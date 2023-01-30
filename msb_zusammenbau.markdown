@@ -149,3 +149,4 @@ After connecting all electronic parts within the cybercube you put the electroni
 <img src="doc/assembly_cybercube/housing_with_coverplate_antenna_lid.PNG" width="500"/>
 
 
+
