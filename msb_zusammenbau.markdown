@@ -63,8 +63,21 @@ After soldering all necessary cables together it is recommended to form a small 
 The 6-PIN connector can only be oriented the right way,  **if you are using the 5-PIN connector, make sure that the connector is correctly oriented (black / "E", aligned left)**
 
 
-# 2. Cybercube power supply
-................
+# 2. Power supply
+The power supply consists of to cable branches. 
+
+1. positive cable
+
+(BILD)
+
+You start by cutting the cable (black, DURCHMESSER) to a appropriate length (in etwa länge). After that you remove about 1 cm of the cable on both sides and apply tin on one of these ends. The end **with** the pre applied tin needs to be soldered to a little pin connector (BILD --> Hülse bzw- großer PIN). After soldering you may test connection by pulling on the cable. 
+Now you start to prepare the other cable of the branch which is used for the cybercube. First you assemble a small fuse (this prevents high currents from destroying the cybercube´s components).
+
+2. negative cable 
+
+(BILD)
+
+
 
 
 
