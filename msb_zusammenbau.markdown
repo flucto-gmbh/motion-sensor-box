@@ -34,21 +34,34 @@ Before you assemble the main components it is higly recommended to prepare the c
 # 1. GPS-cable:
 
 First you need a USB-A cable, a GNSS connector and cables as well as soldering equipment. 
-You start by cutting the USB-A cable to a length of 6-8cm. After cutting you prepare the USB for soldering. 
-This preparation includes pulling of the cable cover (about 1cm) and removing the aluminum protection. Additionally
+You start by cutting the USB-A cable to a length of 4-5cm. After cutting you prepare the USB-cable for soldering. 
+This preparation includes pulling of the cable cover (about 1cm) and removing the aluminum protection as well as the small copper cables. Additionally
 you cut off the glass fiber and remove the cable cover from each cable. 
 
-To prepare the cables comming from the GNNSS connector you only have to remove the individual cable cover, cut the 
+To prepare the cables comming from the GNNSS connector you only have to remove the individual cable covers, cut the 
 cables coming from the middle of the connector and cut the other cables to a length of 4-6cm. 
 
-Before soldering the two ends together it is highly recommended to twist the cable ends and to apply tin on each cable. **Be aware of the cable order** 
+Before soldering the two ends together it is highly recommended to twist the cable ends and to apply tin on each cable. **Be aware of the cable order.** You should also use a srinking tube for each cable to prevent any unwanted interferences between the different cables. 
+
+If you are using a 5-PIN connector you need to follow the cable order shown below. 
+
 |GNSS side   | A     | B     | C   | D     | E    | 
 |---         | :---: |:---:  |:---:|:---:  |:---: | 
 |USB side    | white | green |*cut*| black | red  |
 
 <img src="doc/assembly_cybercube/GNSS_Wires.png"/>  
-and pull the shrink tubing over the cables before beeing soldered together. 
-**Before using the GPS-Module make sure that the GNSS connector is correctly oriented.** 
+
+If you are using a 6-PIN connector you need to solder the cables together according to the order below.
+
+|GNSS side   | clock     | A     | B   | C     | D    |  E    |
+|---         | :---: |:---:  |:---:|:---:  |:---: | :---: |
+|USB side    | - | white |green| *cut* | black  |  red  |
+
+The clock-cable does not need to be connected to the USB-cable and can therefore be ignored.
+
+After soldering all necessary cables together it is recommended to form a small loop with the cables coming from the GNSS connector a nd use a larger shrinking tube. This prevents any strain on a specific cable and protects the connection. 
+The 6-PIN connector can only be oriented the right way,  **if you are using the 5-PIN connector, make sure that the connector is correctly oriented (black / "E", aligned left)**
+
 
 # 2. Cybercube power supply
 ................
