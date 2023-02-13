@@ -66,17 +66,51 @@ The 6-PIN connector can only be oriented the right way,  **if you are using the 
 # 2. Power supply
 The power supply consists of two cable branches. 
 
-1. positive cable
+1. **positive branch**
 
-(BILD)
+Front             |  TOP
+:-------------------------:|:-------------------------:
+<img src="doc/assembly_cybercube/positive_branch_front.png" width="500"/>  |  <img src="doc/assembly_cybercube/positive_branch_top.png" width="500"/>
 
-You start by cutting the cable (red, DURCHMESSER) to an appropriate length (in etwa länge). After that, you remove about 1 cm of the cable on both sides and apply tin on one of these ends. (BILD) The end **with** the pre-applied tin needs to be soldered to a little pin connector (BILD --> Hülse bzw- großer PIN). After soldering you may test the connection by pulling on the cable. 
-Now you start to prepare the other cable of the branch which is used for the cybercube. First, you assemble a small fuse (this prevents high currents from destroying the cybercube´s components). The fuse is connected with two black cables. On one end you need to twist the cable end, apply tin, and solder the end to a small connecting pin. (BILD) The small Pin connector will later be part of the power supply for the cybercube. 
-To connect the black cable with the fuse and the red cable with the pin attached we space out the little cables peeking out of the cable ends. (BILD) We then twist them into each other. (BILD)
-After that, we connect the cables permanently with a ferrule. (BILD)
+
+
+
+
+You start by cutting the cable (red, DURCHMESSER) to an appropriate length (in etwa länge). After that, you remove about 1 cm of the cable on both sides and apply tin on one of these ends. 
+
+<img src="doc/assembly_cybercube/IMG_1325.JPG" width="400"/>
+
+The end **with** the pre-applied tin needs to be soldered to a little pin connector.
+
+<img src="doc/assembly_cybercube/IMG_1326.JPG" width="400"/>
+
+After soldering you may test the connection by pulling on the cable. 
+Now you start to prepare the other cable of the branch which is used for the cybercube. First, you assemble a small fuse (this prevents high currents from destroying the cybercube´s components).
+
+<img src="doc/assembly_cybercube/IMG_1347.JPG" width="400"/>
+
+The fuse is connected with two black cables. On one end you need to twist the cable end, apply tin, and solder the end to a small connecting pin. 
+
+<img src="doc/assembly_cybercube/IMG_1328.JPG" width="400"/>
+
+The small pin connector will later be part of the power supply for the cybercube. 
+To connect the black cable with the fuse and the red cable with the pin attached we space out the little cables peeking out of the cable ends. 
+
+<img src="doc/assembly_cybercube/IMG_1344.JPG" width="400"/>
+
+We then twist them into each other. 
+
+<img src="doc/assembly_cybercube/IMG_1345.JPG" width="400"/>  |  <img src="doc/assembly_cybercube/IMG_1346.JPG" width="400"/>
+
+After that, we connect the cables permanently with a ferrule. 
+
+<img src="doc/assembly_cybercube/IMG_1356.JPG" width="400"/>
+
 To prevent any damage to the connection, we use a small shrinking tube to protect the cables.
 
-2. negative cable 
+<img src="doc/assembly_cybercube/IMG_1357.JPG" width="400"/>
+
+2. **negative branch**
 
 (BILD)
 
