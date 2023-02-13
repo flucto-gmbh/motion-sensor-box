@@ -130,7 +130,7 @@ After that, you need a second black cable which you cut to an appropriate length
 
 As the last step, you need to space out the little cables coming from the loose ends of the cables and twist them into each other. 
 
-<img src="doc/assembly_cybercube/IMG_1364.JPG" width="500"/>  |  <img src="doc/assembly_cybercube/IMG_1366.JPG" width="500"/>
+<img src="doc/assembly_cybercube/IMG_1364.JPG" width="400"/>  |  <img src="doc/assembly_cybercube/IMG_1366.JPG" width="400"/>
 
 You then connect them, using once again a ferrule. 
 
@@ -140,13 +140,16 @@ To prevent any damage to the connection, we use a small shrinking tube to protec
 
 <img src="doc/assembly_cybercube/IMG_1369.JPG" width="400"/>
 
-After preparing both branches, you may connect the long red cable and the long black cable to the Bulgin connector. (BILD)
+After preparing both branches, you may connect the long red cable and the long black cable to the Bulgin connector. 
+
+<img src="doc/assembly_cybercube/MSB_power_supply.png" width="400"/>
 
 After that, you may plug in the small pin connector of the two remaining cables into the connector for the cybercube´s power supply. 
 
+<img src="doc/assembly_cybercube/cybercube_power_supply.png" width="400"/> | <img src="doc/assembly_cybercube/power_supply.png" width="400"/>
 
 
-
+# 3. electronic stack
 
 After preparing the necessary parts you may start by screwing the four spacers into the Raspberry Pi. 
 
