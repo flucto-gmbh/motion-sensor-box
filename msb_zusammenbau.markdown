@@ -112,16 +112,38 @@ To prevent any damage to the connection, we use a small shrinking tube to protec
 
 2. **negative branch**
 
-(BILD)
+Front             |  TOP
+:-------------------------:|:-------------------------:
+<img src="doc/assembly_cybercube/negative_branch_front.png" width="500"/>  |  <img src="doc/assembly_cybercube/negative_branch_top.png" width="500"/>
 
-The negative cable is much more straightforward. You start by preparing one black cable (DURCHMESSER). Cut the cable to the same length as the red cable before. Follow by removing the cable cover on both sides (about 1 cm). (BILD) 
-Twist the small cables on one of the ends and apply tin as you did on the first cable. (BILD) You then solder this end to a pin connector (Hülse). 
-After that, you need a second black cable which you cut to an appropriate length (LÄNGE) (power supply for the cybercube, about the same length as the cable with the fuse). You remove the cable covers on both ends (1 cm), then apply tin on one side and solder a small pin connector to the end. (BILD)
-As the last step, you need to space out the little cables coming from the loose ends of the cables and twist them into each other. You then connect them, using once again a ferrule. (Bild) 
-To prevent any damage to the connection, we use a small shrinking tube to protect the cables. (BILD)
+The negative cable is much more straightforward. You start by preparing one black cable (DURCHMESSER). Cut the cable to the same length as the red cable before. Follow by removing the cable cover on both sides (about 1 cm). 
+
+<img src="doc/assembly_cybercube/IMG_1321.JPG" width="400"/>
+
+Twist the small cables on one of the ends and apply tin as you did on the first cable. You then solder this end to a pin connector (Hülse).
+
+<img src="doc/assembly_cybercube/IMG_1328.JPG" width="400"/>
+
+After that, you need a second black cable which you cut to an appropriate length (LÄNGE) (power supply for the cybercube, about the same length as the cable with the fuse). You remove the cable covers on both ends (1 cm), then apply tin on one side and solder a small pin connector to the end. 
+
+<img src="doc/assembly_cybercube/IMG_1328.JPG" width="400"/>
+
+As the last step, you need to space out the little cables coming from the loose ends of the cables and twist them into each other. 
+
+<img src="doc/assembly_cybercube/IMG_1364.JPG" width="500"/>  |  <img src="doc/assembly_cybercube/IMG_1366.JPG" width="500"/>
+
+You then connect them, using once again a ferrule. 
+
+<img src="doc/assembly_cybercube/IMG_1367.JPG" width="400"/>
+
+To prevent any damage to the connection, we use a small shrinking tube to protect the cables.
+
+<img src="doc/assembly_cybercube/IMG_1369.JPG" width="400"/>
 
 After preparing both branches, you may connect the long red cable and the long black cable to the Bulgin connector. (BILD)
-After that, you may plug in the small pin connector of the two remaining cables into the connector for the cybercube´s power supply. (BILD)
+
+After that, you may plug in the small pin connector of the two remaining cables into the connector for the cybercube´s power supply. 
+
 
 
 
