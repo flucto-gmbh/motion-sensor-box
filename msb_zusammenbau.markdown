@@ -26,8 +26,12 @@ Those components need to be assembled first before starting the main assembly.
    6. Sense-Hat
    
         <img src="doc/assembly_cybercube/IMG_1267.JPG" width="250"/> <img src="doc/assembly_cybercube/IMG_1269.JPG" width="250"/> 
+        
    7. SD-Card
+   
    8. Fan
+   
+      <img src="doc/assembly_cybercube/fan.png" width="250"/>
 
 Before you assemble the main components it is higly recommended to prepare the components first, this includes the cybercube power supply and the GPS cable.
 
