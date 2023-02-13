@@ -70,14 +70,24 @@ The power supply consists of two cable branches.
 
 (BILD)
 
-You start by cutting the cable (black, DURCHMESSER) to an appropriate length (in etwa länge). After that, you remove about 1 cm of the cable on both sides and apply tin on one of these ends. The end **with** the pre-applied tin needs to be soldered to a little pin connector (BILD --> Hülse bzw- großer PIN). After soldering you may test the connection by pulling on the cable. 
-Now you start to prepare the other cable of the branch which is used for the cybercube. First, you assemble a small fuse (this prevents high currents from destroying the cybercube´s components). The fuse is connected with 
+You start by cutting the cable (red, DURCHMESSER) to an appropriate length (in etwa länge). After that, you remove about 1 cm of the cable on both sides and apply tin on one of these ends. (BILD) The end **with** the pre-applied tin needs to be soldered to a little pin connector (BILD --> Hülse bzw- großer PIN). After soldering you may test the connection by pulling on the cable. 
+Now you start to prepare the other cable of the branch which is used for the cybercube. First, you assemble a small fuse (this prevents high currents from destroying the cybercube´s components). The fuse is connected with two black cables. On one end you need to twist the cable end, apply tin, and solder the end to a small connecting pin. (BILD) The small Pin connector will later be part of the power supply for the cybercube. 
+To connect the black cable with the fuse and the red cable with the pin attached we space out the little cables peeking out of the cable ends. (BILD) We then twist them into each other. (BILD)
+After that, we connect the cables permanently with a ferrule. (BILD)
+To prevent any damage to the connection, we use a small shrinking tube to protect the cables.
 
 2. negative cable 
 
 (BILD)
 
+The negative cable is much more straightforward. You start by preparing one black cable (DURCHMESSER). Cut the cable to the same length as the red cable before. Follow by removing the cable cover on both sides (about 1 cm). (BILD) 
+Twist the small cables on one of the ends and apply tin as you did on the first cable. (BILD) You then solder this end to a pin connector (Hülse). 
+After that, you need a second black cable which you cut to an appropriate length (LÄNGE) (power supply for the cybercube, about the same length as the cable with the fuse). You remove the cable covers on both ends (1 cm), then apply tin on one side and solder a small pin connector to the end. (BILD)
+As the last step, you need to space out the little cables coming from the loose ends of the cables and twist them into each other. You then connect them, using once again a ferrule. (Bild) 
+To prevent any damage to the connection, we use a small shrinking tube to protect the cables. (BILD)
 
+After preparing both branches, you may connect the long red cable and the long black cable to the Bulgin connector. (BILD)
+After that, you may plug in the small pin connector of the two remaining cables into the connector for the cybercube´s power supply. (BILD)
 
 
 
