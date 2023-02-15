@@ -189,7 +189,7 @@ You follow with the 4 screws on the top and connect the USB-A cable with the USB
 
 <img src="doc/assembly_cybercube/IMG_1298.JPG" width="500"/>
 
-After connecting all electronic parts within the cybercube you put the electronic stack into the cybercube housing. Put the GPS-module into it´s recess and connect the GPS-module with it´s specific connector.
+After connecting all electronic parts within the cybercube you put the electronic stack into the cybercube housing. Put the GPS-module into it´s recess and connect the GPS-module with it´s specific connector. Put the end of the antenna cable into the hole of the cybercube´s lid.
 Now you may close the cybercube´s lid with four screws and connect a ethernet cable with the ethernet port (The GPS-module is partly hold in place by the cybercube´s lid. The GPS-Module must be placed above the litte support structure.)
 
 <img src="doc/assembly_cybercube/GPS_Support.png" width="500"/>
@@ -263,14 +263,16 @@ Now you may close the cybercube´s lid with four screws and connect a ethernet c
 
 4. Place the end of the short cable into the small 3-D printed support piece and connect the camera cable (comming from the camera) with the connector.
 
-3. Connect a 
+5. Connect a USB-cable with the USB-port facing the case. You now connect an internet stick to enable remote access of the MSB.
 <img src="doc/assembly_cybercube/housing_with_coverplate.PNG" width="500"/>
 
-4. Screw in the two WLAN-Antenna
+6. The internet stick used in the MSB has two antenna ports which are both used and connected with two large antennas. Place them for now next to the MSB to facilitate the assembly.
 
 <img src="doc/assembly_cybercube/housing_with_coverplate_antenna.PNG" width="500"/>
 
-5. Attach the case lid 
+7. Screw in the LoRa-Antenna into the cybercube´s lid. 
+
+8. 
 
 <img src="doc/assembly_cybercube/housing_with_coverplate_antenna_lid.PNG" width="500"/>
 
