@@ -175,7 +175,11 @@ After that, you connect the Sense-Hat to the 40-Pin Adapter.
 
 <img src="doc/assembly_cybercube/IMG_1294.JPG" width="500"/>
 
-As the last step, you hold the USB-Hat against the underside of the Raspberry Pi and put one side of the stack into the 
+Now you put 4 bolts (M2,5) into the spacings of the stack sides (top).
+
+<img src="doc/assembly_cybercube/Stack_seite_links.PNG" width="400"/> <img src="doc/assembly_cybercube/Stack_seite_rechts.PNG" width="400"/>
+
+As the last step, you connect the antenna with the approriate connector on the Lora-HAT. To connect the USB-Hat, hold the USB-Hat against the underside of the Raspberry Pi and put one side of the stack into the 
 stack attachment. Then you attach the other side attachment to the stack and start by screwing in the 4 screws at the 
 bottom. 
 
