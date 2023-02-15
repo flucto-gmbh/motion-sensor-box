@@ -189,9 +189,13 @@ You follow with the 4 screws on the top and connect the USB-A cable with the USB
 
 <img src="doc/assembly_cybercube/IMG_1298.JPG" width="500"/>
 
-After connecting all electronic parts within the cybercube you put the electronic stack into the cybercube housing. Now you may close the cybercube´s lid with four screws. 
+After connecting all electronic parts within the cybercube you put the electronic stack into the cybercube housing. Put the GPS-module into it´s recess and connect the GPS-module with it´s specific connector.
+Now you may close the cybercube´s lid with four screws and connect a ethernet cable with the ethernet port (The GPS-module is partly hold in place by the cybercube´s lid. The GPS-Module must be placed above the litte support structure.)
 
-<img src="doc/assembly_cybercube/IMG_1236.JPG" width="500"/>
+<img src="doc/assembly_cybercube/GPS_Support.png" width="500"/>
+
+
+<img src="doc/assembly_cybercube/IMG_1236.JPG" width="1000"/>
 
 
 ## Assembly of the inner components
@@ -204,17 +208,26 @@ After connecting all electronic parts within the cybercube you put the electroni
    2. coverplate (3D-Print)
    <img src="doc/assembly_cybercube/coverplate_render.png" width="250"/>
    
-   3. housing 
-   <img src="doc/assembly_cybercube/MSB-Hülle_Front.jpg" width="250"/>
+   3. case 
+   <img src="doc/assembly_cybercube/case.png" width="250"/>
    
-   4. housing´s Lid
-   5. spacer Bolds
-   6. camera (glass, cable, lens)
+   4. case lid
+
+   <img src="doc/assembly_cybercube/lid.png" width="250"/>
+
+   6. 6x spacer bolds
+
+    <img src="doc/assembly_cybercube/spacer_bolds.png" width="250"/>
+
+   8. camera (glass, cable, lens)
    <img src="doc/assembly_cybercube/camera.png" width="250"/>
    
    7. battery
-   8. power supply
-   9. screws and nuts
+
+< img src="doc/assembly_cybercube/battery.png" width="250"/>
+
+   9. power supply
+   11. screws and nuts
 
 ### Assembly guide for the inner components:
 
@@ -222,25 +235,35 @@ After connecting all electronic parts within the cybercube you put the electroni
 
 2. Then you mount the camera on the camera holder. 
 
-3. You follow by mounting the six spacers into the housing. 
+3. You place the camera cable into the camera cable channel of the baseplate.
+
+4. After that, you follow by mounting the camera mount in to the baseplate.
 
 <img src="doc/assembly_cybercube/housing_with_spacers.PNG" width="250"/>
 
-4. Then you insert the camera cable in the base plate's camera cable channel. After that, you connect the camera cable to the camera.
+4. Connect the camera cable with the camera cable.
 
 5. Insert the base plate into the housing.
 
 <img src="doc/assembly_cybercube/housing_with_baseplate.PNG" width="250"/>
 
+6. Drill a hole into the case, for the ethernet port, and install the ethernet extension.
+
+7. Screw in the six spacers. 
+
+8. Install the two branches for the power supply. 
+
 ## Main Assembly:
 
 1. Insert the battery into the base plate's battery compartment
-<img src="doc/assembly_cybercube/housing_with_baseplate_battery.PNG" width="500"/>
 
-2. Insert the Cybercube into the baseplate
-<img src="doc/assembly_cybercube/housing_with_baseplate_battery_cybercube.PNG" width="500"/>
+2. Insert the cybercube into the baseplate
 
-3. Close the compartement 
+3. Connect a short camera cable to the port of the cybercube by using the small slit on the cybercube´s side.
+
+4. Place the end of the short cable into the small 3-D printed support piece and connect the camera cable (comming from the camera) with the connector.
+
+3. Connect a 
 <img src="doc/assembly_cybercube/housing_with_coverplate.PNG" width="500"/>
 
 4. Screw in the two WLAN-Antenna
