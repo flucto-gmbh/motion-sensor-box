@@ -70,7 +70,7 @@ The 6-PIN connector can only be oriented the right way,  **if you are using the 
 # 2. Power supply
 The power supply consists of two cable branches. 
 
-1. **positive branch**
+## **Positive branch**
 
 Front             |  TOP
 :-------------------------:|:-------------------------:
@@ -80,7 +80,7 @@ Front             |  TOP
 
 
 
-You start by cutting the cable (red, DURCHMESSER) to an appropriate length (in etwa länge). After that, you remove about 1 cm of the cable on both sides and apply tin on one of these ends. 
+You start by cutting the cable (red, 1mm^2) to an appropriate length (about 20 - 25 cm). After that, you remove about 1 cm of the cable cover on both sides and apply tin on one of these ends. 
 
 <img src="doc/assembly_cybercube/IMG_1325.JPG" width="400"/>
 
@@ -114,7 +114,7 @@ To prevent any damage to the connection, we use a small shrinking tube to protec
 
 <img src="doc/assembly_cybercube/IMG_1357.JPG" width="400"/>
 
-2. **negative branch**
+## **Negative branch**
 
 Front             |  TOP
 :-------------------------:|:-------------------------:
@@ -153,7 +153,7 @@ After that, you may plug in the small pin connector of the two remaining cables 
 <img src="doc/assembly_cybercube/cybercube_power_supply.png" width="400"/> | <img src="doc/assembly_cybercube/power_supply.png" width="400"/>
 
 
-# 3. electronic stack
+# 3. Electronic stack
 
 After preparing the necessary parts you may start by screwing the four spacers into the Raspberry Pi. 
 
@@ -198,7 +198,7 @@ Now you may close the cybercube´s lid with four screws and connect a ethernet c
 <img src="doc/assembly_cybercube/IMG_1236.JPG" width="1000"/>
 
 
-## Assembly of the inner components
+## Assembly of inner components
 
 ### The inner components are:
 
@@ -229,7 +229,7 @@ Now you may close the cybercube´s lid with four screws and connect a ethernet c
    9. power supply
    11. screws and nuts
 
-### Assembly guide for the inner components:
+### Assembly:
 
 1. You start by mounting the camera glass and the camera holder. 
 
@@ -241,7 +241,7 @@ Now you may close the cybercube´s lid with four screws and connect a ethernet c
 
 <img src="doc/assembly_cybercube/housing_with_spacers.PNG" width="250"/>
 
-4. Connect the camera cable with the camera cable.
+4. Connect the camera cable with the camera.
 
 5. Insert the base plate into the housing.
 
@@ -253,7 +253,7 @@ Now you may close the cybercube´s lid with four screws and connect a ethernet c
 
 8. Install the two branches for the power supply. 
 
-## Main Assembly:
+# Main Assembly:
 
 1. Insert the battery into the base plate's battery compartment
 
@@ -266,13 +266,13 @@ Now you may close the cybercube´s lid with four screws and connect a ethernet c
 5. Connect a USB-cable with the USB-port facing the case. You now connect an internet stick to enable remote access of the MSB.
 <img src="doc/assembly_cybercube/housing_with_coverplate.PNG" width="500"/>
 
-6. The internet stick used in the MSB has two antenna ports which are both used and connected with two large antennas. Place them for now next to the MSB to facilitate the assembly.
-
 <img src="doc/assembly_cybercube/housing_with_coverplate_antenna.PNG" width="500"/>
 
 7. Screw in the LoRa-Antenna into the cybercube´s lid. 
 
-8. 
+8. Screw two antennas into the case lid and connect the two cables coming from the antennas with the internet stick
+
+9. Close the lid and screw six screws into the six spacers. 
 
 <img src="doc/assembly_cybercube/housing_with_coverplate_antenna_lid.PNG" width="500"/>
 
