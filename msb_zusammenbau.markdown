@@ -242,7 +242,9 @@ Now you may close the cybercube´s lid with four screws and connect a ethernet c
 
    12. ethernet extension
 
-   13. screws and nuts
+   13. LoRa-Antenna
+
+   14. screws and nuts
 
 ### Assembly:
 
