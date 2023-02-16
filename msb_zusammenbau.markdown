@@ -146,13 +146,24 @@ To prevent any damage to the connection, we use a small shrinking tube to protec
 
 <img src="doc/assembly_cybercube/IMG_1369.JPG" width="400"/>
 
-After preparing both branches, you may connect the long red cable and the long black cable to the Bulgin connector. 
+After preparing both branches, you may connect the long red cable and the long black cable to the Bulgin connector. For an example for the assembly of the Bulding connector see table below. 
+
+|1| 2    | 3   | 4   | 5     | 6    | 
+|:----:| :---: |:---:  |:---:|:---:  |:---: | 
+| <img src="doc/assembly_cybercube/bulgin_1.JPG" width="250"/> | <img src="doc/assembly_cybercube/bulgin_2.JPG" width="250"/> |<img src="doc/assembly_cybercube/bulgin_3.JPG" width="250"/>| <img src="doc/assembly_cybercube/bulgin_4.JPG" width="250"/> | <img src="doc/assembly_cybercube/bulgin_5.JPG" width="250"/>  | <img src="doc/assembly_cybercube/bulgin_6.JPG" width="250"/>
+
+
+|7| 8    | 9   | 10  |11     | 12    | 
+|:---:| :---: |:---:  |:---:|:---:  |:---: | 
+| <img src="doc/assembly_cybercube/bulgin_7.JPG" width="250"/> | <img src="doc/assembly_cybercube/bulgin_8.JPG" width="250"/> |<img src="doc/assembly_cybercube/bulgin_9.JPG" width="250"/>| <img src="doc/assembly_cybercube/bulgin_10.JPG" width="250"/> | <img src="doc/assembly_cybercube/bulgin_11.JPG" width="250"/>  | <img src="doc/assembly_cybercube/bulgin_12.JPG" width="250"/>
+
 
 <img src="doc/assembly_cybercube/MSB_power_supply.png" width="400"/>
 
 After that, you may plug in the small pin connector of the two remaining cables into the connector for the cybercube´s power supply. 
 
 <img src="doc/assembly_cybercube/cybercube_power_supply.png" width="400"/> | <img src="doc/assembly_cybercube/power_supply.png" width="400"/>
+
 
 
 # 3. Electronic stack
