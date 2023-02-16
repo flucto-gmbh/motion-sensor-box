@@ -216,31 +216,33 @@ Now you may close the cybercube´s lid with four screws and connect a ethernet c
 ### The inner components are:
 
    1. base-Plate (3D-Print)
-   <img src="doc/assembly_cybercube/baseplate_render.png" width="250"/>
+
    
    2. coverplate (3D-Print)
-   <img src="doc/assembly_cybercube/coverplate_render.png" width="250"/>
-   
+
+
    3. case 
-   <img src="doc/assembly_cybercube/case.png" width="250"/>
+
    
    4. case lid
 
-   <img src="doc/assembly_cybercube/lid.png" width="250"/>
 
    6. 6x spacer bolds
 
-    <img src="doc/assembly_cybercube/spacer_bolds.png" width="250"/>
 
-   8. camera (glass, cable, lens)
-   <img src="doc/assembly_cybercube/camera.png" width="250"/>
-   
-   7. battery
+   7. camera (glass, cable, lens)
 
-< img src="doc/assembly_cybercube/battery.png" width="250"/>
+   8. battery
 
    9. power supply
-   11. screws and nuts
+
+   10. two antennas
+
+   11. internet stick
+
+   12. ethernet extension
+
+   13. screws and nuts
 
 ### Assembly:
 
