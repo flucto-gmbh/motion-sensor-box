@@ -269,44 +269,77 @@ Now you may close the cybercube´s lid with four screws and connect a ethernet c
 
 1. Drill a hole into the case, for the ethernet port.
 
+<img src="doc/assembly_cybercube/assembly_0.png" width="400"/>
+
 2. You start by mounting the camera glass and the camera holder. 
+
+<img src="doc/assembly_cybercube/assembly_1.jpg" width="400"/>
 
 3. Then you mount the camera on the camera holder. 
 
+<img src="doc/assembly_cybercube/assembly_2.jpg" width="400"/>
+
 4. You place the camera cable into the camera cable channel of the baseplate.
 
-5. Prepare the case screwing in the camera glass
+<img src="doc/assembly_cybercube/assembly_3.jpg" width="400"/>
+
+5. Prepare the case by screwing in the camera glass
+
+<img src="doc/assembly_cybercube/assembly_4.jpg" width="400"/>
 
 6. After that, you follow by putting the baseplate into the case and connect the camera with the cable 
 
+<img src="doc/assembly_cybercube/assembly_6.jpg" width="400"/>
+
 7. Install the ethernet extension.
 
-7. Screw in the six spacers. 
+<img src="doc/assembly_cybercube/assembly_7.jpg" width="400"/>
 
 8. Install the two branches for the power supply. 
 
 # Main Assembly:
 
-1. Insert the battery into the base plate's battery compartment
+1. Insert the battery into the baseplate's battery compartment
 
-2. Insert the cybercube into the baseplate
+<img src="doc/assembly_cybercube/assembly_8.jpg" width="400"/>
+
+2. Screw in the six spacers. 
+
+3. Insert the cybercube into the baseplate
+
+<img src="doc/assembly_cybercube/assembly_9.jpg" width="400"/>
 
 3. Connect a short camera cable to the port of the cybercube by using the small slit on the cybercube´s side.
 
+<img src="doc/assembly_cybercube/assembly_10.JPG" width="400"/> 
+
 4. Place the end of the short cable into the small 3-D printed support piece and connect the camera cable (comming from the camera) with the connector.
 
-5. Connect a USB-cable with the USB-port facing the case. You now connect an internet stick to enable remote access of the MSB.
-<img src="doc/assembly_cybercube/housing_with_coverplate.PNG" width="500"/>
+<img src="doc/assembly_cybercube/assembly_11.JPG" width="400"/>
 
-<img src="doc/assembly_cybercube/housing_with_coverplate_antenna.PNG" width="500"/>
+5. Connect a USB-cable with the USB-port facing the case. Connect a Wifi-Stick with this USB-cable.
 
-7. Screw in the LoRa-Antenna into the cybercube´s lid. 
+6. Screw in the LoRa-Antenna into the cybercube´s lid. 
 
-8. Screw two antennas into the case lid and connect the two cables coming from the antennas with the internet stick
+<img src="doc/assembly_cybercube/assembly_12.JPG" width="400"/> <img src="doc/assembly_cybercube/assembly_13.JPG" width="400"/>
 
-9. Close the lid and screw six screws into the six spacers. 
+7. Screw two antennas into the case lid.
 
-<img src="doc/assembly_cybercube/housing_with_coverplate_antenna_lid.PNG" width="500"/>
+<img src="doc/assembly_cybercube/assembly_14.jpg" width="400"/>
+
+8. Connect all electrical components (WIFI-Stick with Antennas, Ethernet-cable into Ethernet-Port)
+
+<img src="doc/assembly_cybercube/assembly_15.jpg" width="400"/>
+
+9. Close the baseplate with the coverplate and secure it´s fit with six screws. 
+
+<img src="doc/assembly_cybercube/assembly_16.jpg" width="400"/>
+
+10. Attach the latch and the lid of the case. 
+
+<img src="doc/assembly_cybercube/assembly_17.jpg" width="800"/>
+
+
 
 
 
