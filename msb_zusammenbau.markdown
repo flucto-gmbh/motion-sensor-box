@@ -29,9 +29,11 @@ Those components need to be assembled first before starting the main assembly.
         
    7. SD-Card
    
+        <img src="doc/assembly_cybercube/sd_card_front.JPG" width="250"/> <img src="doc/assembly_cybercube/sd_card_back.JPG" width="250"/> 
+  
    8. Fan
    
-      <img src="doc/assembly_cybercube/fan.png" width="250"/>
+        <img src="doc/assembly_cybercube/fan_front.JPG" width="250"/> <img src="doc/assembly_cybercube/fan_back.JPG" width="250"/> 
 
 Before you assemble the main components it is higly recommended to prepare the components first, this includes the cybercube power supply and the GPS cable.
 
@@ -84,9 +86,9 @@ You start by cutting the cable (red, 1mm^2) to an appropriate length (about 20 -
 
 <img src="doc/assembly_cybercube/IMG_1325.JPG" width="400"/>
 
-The end **with** the pre-applied tin needs to be soldered to a little pin connector.
+The end **with** the pre-applied tin needs to be soldered to a sleeve connector.
 
-<img src="doc/assembly_cybercube/IMG_1326.JPG" width="400"/>
+<img src="doc/assembly_cybercube/cable_red_sleeve.JPG" width="400"/>
 
 After soldering you may test the connection by pulling on the cable. 
 Now you start to prepare the other cable of the branch which is used for the cybercube. First, you assemble a small fuse (this prevents high currents from destroying the cybercube´s components).
@@ -120,15 +122,15 @@ Front             |  TOP
 :-------------------------:|:-------------------------:
 <img src="doc/assembly_cybercube/negative_branch_front.png" width="500"/>  |  <img src="doc/assembly_cybercube/negative_branch_top.png" width="500"/>
 
-The negative cable is much more straightforward. You start by preparing one black cable (DURCHMESSER). Cut the cable to the same length as the red cable before. Follow by removing the cable cover on both sides (about 1 cm). 
+The negative cable is much more straightforward. You start by preparing one black cable (1 mm^2). Cut the cable to the same length as the red cable before. Follow by removing the cable cover on both sides (about 1 cm). 
 
 <img src="doc/assembly_cybercube/IMG_1321.JPG" width="400"/>
 
-Twist the small cables on one of the ends and apply tin as you did on the first cable. You then solder this end to a pin connector (Hülse).
+Twist the small cables on one of the ends and apply tin as you did on the first cable. You then solder this end to a sleeve connector.
 
-<img src="doc/assembly_cybercube/IMG_1328.JPG" width="400"/>
+<img src="doc/assembly_cybercube/cable_black_sleeve.JPG" width="400"/>
 
-After that, you need a second black cable which you cut to an appropriate length (LÄNGE) (power supply for the cybercube, about the same length as the cable with the fuse). You remove the cable covers on both ends (1 cm), then apply tin on one side and solder a small pin connector to the end. 
+After that, you need a second black cable which you cut to an appropriate length (14 - 16 cm) (power supply for the cybercube, about the same length as the cable with the fuse). You remove the cable covers on both ends (1 cm), then apply tin on one side and solder a small pin connector to the end. 
 
 <img src="doc/assembly_cybercube/IMG_1328.JPG" width="400"/>
 
