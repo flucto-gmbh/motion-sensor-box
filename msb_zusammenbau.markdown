@@ -265,6 +265,10 @@ Now you may close the cybercube´s lid with four screws and connect a ethernet c
 
    14. screws and nuts
 
+   15. short camera cable
+
+   16. long camera cable 
+
 ### Assembly:
 
 1. Drill a hole into the case, for the ethernet port.
