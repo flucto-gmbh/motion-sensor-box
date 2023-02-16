@@ -217,54 +217,69 @@ Now you may close the cybercube´s lid with four screws and connect a ethernet c
 
    1. base-Plate (3D-Print)
 
+<img src="doc/assembly_cybercube/baseplate.png" width="400"/>
    
    2. coverplate (3D-Print)
 
+<img src="doc/assembly_cybercube/coverplate.png" width="400"/>
 
    3. case 
 
+<img src="doc/assembly_cybercube/case_iso.jpg" width="400"/>
    
    4. case lid
 
+<img src="doc/assembly_cybercube/case_lid_iso.jpg" width="400"/>
 
    6. 6x spacer bolds
 
+<img src="doc/assembly_cybercube/spacer_iso.jpg" width="400"/>
 
    7. camera (glass, cable, lens)
 
+<img src="doc/assembly_cybercube/camera_iso.jpg" width="400"/>
+
    8. battery
+
+<img src="doc/assembly_cybercube/battery_iso.jpg" width="400"/>
 
    9. power supply
 
+<img src="doc/assembly_cybercube/positive_branch_top.png" width="400"/> <img src="doc/assembly_cybercube/negative_branch_top.png" width="400"/>
+
    10. two antennas
+
+<img src="doc/assembly_cybercube/antennas.jpg" width="400"/>
 
    11. internet stick
 
+<img src="doc/assembly_cybercube/usb.jpg" width="400"/>
+
    12. ethernet extension
 
+<img src="doc/assembly_cybercube/ethernet.jpg" width="400"/>
+
    13. LoRa-Antenna
+
+<img src="doc/assembly_cybercube/LoRa-Antenna.jpg" width="400"/>
 
    14. screws and nuts
 
 ### Assembly:
 
-1. You start by mounting the camera glass and the camera holder. 
+1. Drill a hole into the case, for the ethernet port.
 
-2. Then you mount the camera on the camera holder. 
+2. You start by mounting the camera glass and the camera holder. 
 
-3. You place the camera cable into the camera cable channel of the baseplate.
+3. Then you mount the camera on the camera holder. 
 
-4. After that, you follow by mounting the camera mount in to the baseplate.
+4. You place the camera cable into the camera cable channel of the baseplate.
 
-<img src="doc/assembly_cybercube/housing_with_spacers.PNG" width="250"/>
+5. Prepare the case screwing in the camera glass
 
-4. Connect the camera cable with the camera.
+6. After that, you follow by putting the baseplate into the case and connect the camera with the cable 
 
-5. Insert the base plate into the housing.
-
-<img src="doc/assembly_cybercube/housing_with_baseplate.PNG" width="250"/>
-
-6. Drill a hole into the case, for the ethernet port, and install the ethernet extension.
+7. Install the ethernet extension.
 
 7. Screw in the six spacers. 
 
