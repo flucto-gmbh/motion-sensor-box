@@ -216,7 +216,7 @@ Now you may close the cybercube´s lid with four screws and connect a ethernet c
 
 You have now completed the cybercube assembly and may now start with the assembly of the inner components.
 
-<img src="doc/assembly_cybercube/assembly_cybercube.jpg" width="800"/>
+<img src="doc/assembly_cybercube/cybercube_assembly.png" width="800"/>
 
 ## Assembly of inner components
 
