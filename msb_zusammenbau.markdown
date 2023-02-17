@@ -146,7 +146,7 @@ To prevent any damage to the connection, we use a small shrinking tube to protec
 
 <img src="doc/assembly_cybercube/IMG_1369.JPG" width="400"/>
 
-After preparing both branches, you may connect the long red cable and the long black cable to the Bulgin connector. For an example for the assembly of the Bulding connector see table below. 
+After preparing both branches, you may connect the long red cable and the long black cable to the Bulgin connector. For an example of the assembly of the Bulgin connector, see table below. 
 
 |1| 2    | 3   | 4   | 5     | 6    | 
 |:----:| :---: |:---:  |:---:|:---:  |:---: | 
@@ -192,7 +192,7 @@ Now you put 4 bolts (M2,5) into the spacings of the stack sides (top).
 
 <img src="doc/assembly_cybercube/Stack_seite_links.PNG" width="400"/> <img src="doc/assembly_cybercube/Stack_seite_rechts.PNG" width="400"/>
 
-As the last step, you connect the antenna with the approriate connector on the Lora-HAT. To connect the USB-Hat, hold the USB-Hat against the underside of the Raspberry Pi and put one side of the stack into the 
+As the last step, you connect the antenna with the approriate connector on the LoRa-Hat. To connect the USB-Hat, hold the USB-Hat against the underside of the Raspberry Pi and put one side of the stack into the 
 stack attachment. Then you attach the other side attachment to the stack and start by screwing in the 4 screws at the 
 bottom. 
 
@@ -202,7 +202,11 @@ You follow with the 4 screws on the top and connect the USB-A cable with the USB
 
 <img src="doc/assembly_cybercube/IMG_1298.JPG" width="500"/>
 
-After connecting all electronic parts within the cybercube you put the electronic stack into the cybercube housing. Put the GPS-module into it´s recess and connect the GPS-module with it´s specific connector. Put the end of the antenna cable into the hole of the cybercube´s lid. For better cooling it is possible to attach a little fan to the inner side of the lid.
+Before you can put the electronic stack into the cybercube housing, you need to first screw in the bulgin connector into the cybercube´s side.
+
+<img src="doc/assembly_cybercube/cybercube_housing.png" width="500"/>
+
+After that, you may put the electronic stack into the cybercube´s housing. Put the GPS-module into it´s recess and connect the GPS-module with it´s specific connector. Put the end of the antenna cable into the hole of the cybercube´s lid. For better cooling it is also possible to attach a little fan to the inner side of the lid.
 
 <img src="doc/assembly_cybercube/fan.png" width="500"/>
 
@@ -210,9 +214,9 @@ Now you may close the cybercube´s lid with four screws and connect a ethernet c
 
 <img src="doc/assembly_cybercube/gps_cut.jpg" width="500"/>
 
+You have now completed the cybercube assembly and may now start with the assembly of the inner components.
 
-<img src="doc/assembly_cybercube/IMG_1236.JPG" width="1000"/>
-
+<img src="doc/assembly_cybercube/assembly_cybercube.jpg" width="800"/>
 
 ## Assembly of inner components
 
