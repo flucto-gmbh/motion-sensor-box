@@ -202,10 +202,13 @@ You follow with the 4 screws on the top and connect the USB-A cable with the USB
 
 <img src="doc/assembly_cybercube/IMG_1298.JPG" width="500"/>
 
-After connecting all electronic parts within the cybercube you put the electronic stack into the cybercube housing. Put the GPS-module into it´s recess and connect the GPS-module with it´s specific connector. Put the end of the antenna cable into the hole of the cybercube´s lid.
+After connecting all electronic parts within the cybercube you put the electronic stack into the cybercube housing. Put the GPS-module into it´s recess and connect the GPS-module with it´s specific connector. Put the end of the antenna cable into the hole of the cybercube´s lid. For better cooling it is possible to attach a little fan to the inner side of the lid.
+
+<img src="doc/assembly_cybercube/fan.png" width="500"/>
+
 Now you may close the cybercube´s lid with four screws and connect a ethernet cable with the ethernet port (The GPS-module is partly hold in place by the cybercube´s lid. The GPS-Module must be placed above the litte support structure.)
 
-<img src="doc/assembly_cybercube/GPS_Support.png" width="500"/>
+<img src="doc/assembly_cybercube/gps_cut.jpg" width="500"/>
 
 
 <img src="doc/assembly_cybercube/IMG_1236.JPG" width="1000"/>
