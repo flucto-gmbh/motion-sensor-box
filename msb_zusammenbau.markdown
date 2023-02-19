@@ -353,9 +353,9 @@ You have now completed the cybercube assembly and may now start with the assembl
 
 10. Attach the latch and the lid of the case. 
 
-<img src="doc/assembly_cybercube/assembly_17.jpg" width="800"/>
+<img src="doc/assembly_cybercube/assembly_17.jpg" width="1000"/>
 
-
+**Congratulations! You completed the hardware assembly.**
 
 
 
