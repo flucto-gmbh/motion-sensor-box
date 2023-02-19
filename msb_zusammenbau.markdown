@@ -44,7 +44,7 @@ You start by cutting the USB-A cable to a length of 4-5cm. After cutting you pre
 This preparation includes pulling the cable cover (about 1cm) and removing the aluminum protection as well as the small copper cables. Additionally,
 you cut off the glass fiber and remove the cable cover from each cable. 
 
-To prepare the cables coming from the GNNSS connector you only have to remove the individual cable covers, cut the 
+To prepare the cables coming from the GNSS connector you only have to remove the individual cable covers, cut the 
 cables coming from the middle of the connector and cut the other cables to a length of 4-6cm. 
 
 Before soldering the two ends together it is highly recommended to twist the cable ends and to apply tin on each cable. **Be aware of the cable order.** You should also use a shrinking tube for each cable to prevent any unwanted interferences between the different cables. 
@@ -70,7 +70,7 @@ The 6-PIN connector can only be oriented the right way,  **if you are using the 
 
 
 # 2. Power supply
-The power supply consists of two cable branches. 
+The power supply consists of two cable branches. Prepare them seperately.
 
 ## **Positive branch**
 
@@ -82,7 +82,7 @@ Front             |  TOP
 
 
 
-You start by cutting the cable (red, 1mm^2) to an appropriate length (about 20 - 25 cm). After that, you remove about 1 cm of the cable cover on both sides and apply tin on one of these ends. 
+You start by cutting the cable (red, 1mm^2) to an appropriate length (about 20 - 25 cm). After that, you remove about 1 cm of the cable cover on both sides and apply tin on **one** of these ends. 
 
 <img src="doc/assembly_cybercube/IMG_1325.JPG" width="400"/>
 
@@ -90,7 +90,7 @@ The end **with** the pre-applied tin needs to be soldered to a sleeve connector.
 
 <img src="doc/assembly_cybercube/cable_red_sleeve.JPG" width="400"/>
 
-After soldering you may test the connection by pulling on the cable. 
+After soldering, you may test the connection by pulling on the cable. 
 Now you start to prepare the other cable of the branch which is used for the cybercube. First, you assemble a small fuse (this prevents high currents from destroying the cybercube´s components).
 
 <img src="doc/assembly_cybercube/IMG_1347.JPG" width="400"/>
@@ -214,6 +214,10 @@ Now you may close the cybercube´s lid with four screws and connect a ethernet c
 
 <img src="doc/assembly_cybercube/gps_cut.jpg" width="500"/>
 
+Connect a short camera cable to the port of the cybercube by using the small slit on the cybercube´s side. Place the end of the short cable into the small 3D-Printed support piece.
+
+<img src="doc/assembly_cybercube/assembly_10.JPG" width="400"/>  <img src="doc/assembly_cybercube/assembly_11.JPG" width="400"/>
+
 You have now completed the cybercube assembly and may now start with the assembly of the inner components.
 
 <img src="doc/assembly_cybercube/cybercube_assembly.png" width="800"/>
@@ -254,7 +258,7 @@ You have now completed the cybercube assembly and may now start with the assembl
 
 <img src="doc/assembly_cybercube/positive_branch_top.png" width="400"/> <img src="doc/assembly_cybercube/negative_branch_top.png" width="400"/>
 
-   10. two antennas
+   10. 2x antennas
 
 <img src="doc/assembly_cybercube/antennas.jpg" width="400"/>
 
@@ -276,6 +280,11 @@ You have now completed the cybercube assembly and may now start with the assembl
 
    16. long camera cable 
 
+   17. cybercube
+
+<img src="doc/assembly_cybercube/cybercube_assembly.png" width="400"/>
+
+   18. USB-cable and Ethernet-cable
 ### Assembly:
 
 1. Drill a hole into the case, for the ethernet port.
@@ -300,7 +309,7 @@ You have now completed the cybercube assembly and may now start with the assembl
 
 6. After that, you follow by putting the baseplate into the case and connect the camera with the cable 
 
-<img src="doc/assembly_cybercube/assembly_6.jpg" width="400"/>
+<img src="doc/assembly_cybercube/assembly_5.jpg" width="400"/>
 
 7. Install the ethernet extension.
 
@@ -318,19 +327,15 @@ You have now completed the cybercube assembly and may now start with the assembl
 
 3. Insert the cybercube into the baseplate
 
-<img src="doc/assembly_cybercube/assembly_9.jpg" width="400"/>
+<img src="doc/assembly_cybercube/assembly_9.jpg" width="600"/>
 
-3. Connect a short camera cable to the port of the cybercube by using the small slit on the cybercube´s side.
-
-<img src="doc/assembly_cybercube/assembly_10.JPG" width="400"/> 
-
-4. Place the end of the short cable into the small 3-D printed support piece and connect the camera cable (comming from the camera) with the connector.
+4. Connect the camera cable (comming from the camera) with the connector.
 
 <img src="doc/assembly_cybercube/assembly_11.JPG" width="400"/>
 
-5. Connect a USB-cable with the USB-port facing the case. Connect a Wifi-Stick with this USB-cable.
+5. Connect a USB-cable with the USB-port facing the side of the case. Connect a Wifi-Stick with this USB-cable.
 
-6. Screw in the LoRa-Antenna into the cybercube´s lid. 
+6. Screw the LoRa-Antenna into the cybercube´s lid. 
 
 <img src="doc/assembly_cybercube/assembly_12.JPG" width="400"/> <img src="doc/assembly_cybercube/assembly_13.JPG" width="400"/>
 
