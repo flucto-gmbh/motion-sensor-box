@@ -206,7 +206,7 @@ Before you can put the electronic stack into the cybercube housing, you need to 
 
 <img src="doc/assembly_cybercube/cybercube_housing.png" width="500"/>
 
-After that, you may put the electronic stack into the cybercube´s housing. Put the GPS-module into it´s recess and connect the GPS-module with it´s specific connector. Put the end of the antenna cable into the hole of the cybercube´s lid. For better cooling it is also possible to attach a little fan to the inner side of the lid.
+After that, you connect the cables (power supply) with the bulgin connector. Now, you may put the electronic stack into the cybercube´s housing. Put the GPS-module into it´s recess and connect the GPS-module with it´s specific connector. Put the end of the antenna cable into the hole of the cybercube´s lid. For better cooling it is also possible to attach a little fan to the inner side of the lid.
 
 <img src="doc/assembly_cybercube/fan.png" width="500"/>
 
