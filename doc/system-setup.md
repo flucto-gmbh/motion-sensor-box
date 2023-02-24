@@ -1,3 +1,5 @@
+# System Setup Motion Sensor Box
+
 The motion sensor boxes are based on a raspberry pi zero WH running raspberry os. The following packages are needed to successfully set up a yasb device:
 
 ## system configuration
@@ -6,48 +8,35 @@ To install packages, internet connectivity is required!
 
 using raspi-config, the following settings must be set.
 Enter the configuration by typing `sudo raspi-config`
-- inteface options:
+- under `3 Inteface Options`:
   - activate i2c
   - activate spi
-  - disable login shell on serial and enable the hardware serial port
-- Performance options
+  - ssh
+  - serial port: disable login shell on serial and enable the hardware serial port
+- under `4 Performance options`
   - set GPU memory split to 16 MB
-- Advanced Options:
-  - enable perdictable network interface names
+- under `6 Advanced Options`:
+  - enable perdictable network interface names under the option `A4`
+  - under `AA network config` choose network manager
 
-Optional for wifi:
+Next, finish and reboot the system.
 
-- System Options
-  - Wireless LAN
+### wifi setup
 
-To check for wifi connectivity, type `ifconfig` and check if you have been assigned an IP address under the wifi adaptor `wlan0` -> inet
-
-Finish the configuration and reboot the system.
-
-To enable the serial expansion hat and pps, the following lines need to be added to `/boot/config.txt`.
-
-Edit the file by running
+check if the wifi interface (usually `wlan0`) is available:
 
 ```bash
-sudo nano /boot/config.txt
+nmcli dev show wlan0
+```
+If so, you can add a new wifi connection like so:
+
+```bash
+nmcli dev wifi connect <SSID> password <password> ifname wlan0
 ```
 
-and add the following lines to the end of the file:
-
+You can check the status of your wifi connection via the following command:
 ```bash
-dtoverlay=pps-gpio,gpiopin=13
-```
-
-On older versions of Raspberry OS, the default python version is 2.7.16 However, the motion sensor box requires python3 system wide. In order to configure this, please run 
-
-```bash
-sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.9 2
-```
-
-This makes python 3.9 the default version on the system (highest priority number wins). To list all available python alternatives and configure them, type:
-
-```bash
-update-alternatives --config python
+nmcli con show
 ```
 
 TODO: add description
@@ -58,12 +47,17 @@ Additionally, cmdline.txt and config.txt both on the boot partition need to be m
 
 This nifty configuration trick was copied from [linuxconfig](https://linuxconfig.org/how-to-change-from-default-to-alternative-python-version-on-debian-linux)
 
-To ensure the raspberry pi does not run out of memory, the swap space needs to be configured. Open the file `/etc/dphys-swapfile`, comment out the current settings and add 
+To ensure the raspberry pi does not run out of memory, the swap space needs to be configured. 
+Open the file `/etc/dphys-swapfile`, comment out the current settings and add 
 ``
 CONF_SWAPFACTOR=2
 CONF_MAXSWAP=2048
 
 ``
+
+## Clone the github repository
+
+Change into your home directory and 
 
 ## system packages
 
