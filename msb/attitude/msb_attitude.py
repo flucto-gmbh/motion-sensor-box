@@ -11,7 +11,7 @@ import math
 
 
 try:
-    from attitude_config import (init, ATTITUDE_TOPIC, IMU_TOPIC, TIME_STEP)
+    from attitude.attitude_config import (init, ATTITUDE_TOPIC, IMU_TOPIC, TIME_STEP)
 except ImportError as e:
     print(f'failed to import: {e} - exit')
     sys.exit(-1)

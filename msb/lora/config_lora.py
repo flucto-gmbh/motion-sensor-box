@@ -2,7 +2,7 @@ import logging
 import logging.config
 import os
 
-from driver import (
+from lora.driver import (
     BaudRate,
     ParityBit,
     AirSpeed,

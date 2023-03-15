@@ -1,15 +1,8 @@
-import json
-import logging
-import os
 import signal
-import socket
 import sys
 import zmq
 
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(os.path.dirname(SCRIPT_DIR))
-
-from BrokerConfig import BrokerConfig
+from broker.BrokerConfig import BrokerConfig
 
 def signal_handler(sig, frame):
     print('msb_broker.py exit')
@@ -47,7 +40,7 @@ def msb_broker(broker_config : BrokerConfig):
         print(f'failed to create proxy: {e}')
         sys.exit(-1)
 
-if __name__ == "__main__":
+def main():
     signal.signal(signal.SIGINT, signal_handler)
     broker_config = BrokerConfig()
     msb_broker(broker_config)

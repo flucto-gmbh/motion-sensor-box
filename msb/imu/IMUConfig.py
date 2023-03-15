@@ -1,13 +1,8 @@
 import argparse
 import json
-import os
-import sys
 
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(os.path.dirname(SCRIPT_DIR))
-
-from msb_config.MSBConfig import MSBConfig
-from ICM20948.ICM20948_settings import ICM20948_SETTINGS
+from config.MSBConfig import MSBConfig
+from imu.ICM20948.ICM20948_settings import ICM20948_SETTINGS
 
 class IMUConfig(MSBConfig):
     def __init__(self, subconf = "msb-imu"):

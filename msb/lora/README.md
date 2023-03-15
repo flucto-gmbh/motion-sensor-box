@@ -1,6 +1,6 @@
 # msb_lora
 
-Documentation by Kai is available at [here](report/Report.md).
+Documentation by Kai is available [here](/doc/msb/lora/Report.md).
 
 # Sending from MSB
 
@@ -8,7 +8,7 @@ To start sending lora on a motion sensor box:
 
 in motion-sensor-box/lora
 ```
-python src/msb_lora.py
+python msb/msb_lora.py
 ```
 
 # Receiving on base station
@@ -16,5 +16,6 @@ python src/msb_lora.py
 
 in basestation/lora
 ```
-python src/basestation_lora.py
+python msb/basestation_lora.py
 ```
+

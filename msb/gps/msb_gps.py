@@ -17,10 +17,9 @@ except ImportError as e:
     raise Exception('failed to import gps module')
     sys.exit(-1)
 # local imports
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(os.path.dirname(SCRIPT_DIR))
-from msb_config.zeromq import open_zmq_pub_socket
-from GPSConfig import GPSConfig, GPS_TOPIC
+
+from config.zeromq import open_zmq_pub_socket
+from gps.GPSConfig import GPSConfig, GPS_TOPIC
 
 zero_timestamp = datetime.fromtimestamp(0, tz=timezone.utc)
 

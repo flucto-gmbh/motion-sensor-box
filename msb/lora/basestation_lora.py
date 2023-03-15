@@ -7,15 +7,15 @@ import zmq
 
 import logging.config
 
-from driver import LoRaHatDriver
-from config_lora import lora_hat_config, logging_config_dict
-from message import TimeAttGPSMessage, DeserializeError
+from lora.driver import LoRaHatDriver
+from lora.config_lora import lora_hat_config, logging_config_dict
+from lora.message import TimeAttGPSMessage, DeserializeError
 
 logging.config.dictConfig(logging_config_dict)
 
 # overwrite basestation specifics in lora hat config
 try:
-    import config_basestation
+    import lora.config_basestation as config_basestation
 
     lora_hat_config.update(config_basestation.lora_hat_config)
 except ImportError:

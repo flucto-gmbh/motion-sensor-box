@@ -4,13 +4,10 @@ import signal
 import sys
 import time
 
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(os.path.dirname(SCRIPT_DIR))
-
 # from ICM20948.ICM20948ZMQ import ICM20948ZMQ
-from ICM20948.ICM20948ZMQ import ICM20948ZMQ
-from IMUConfig import IMUConfig
-from msb_config.zeromq import open_zmq_pub_socket
+from imu.ICM20948.ICM20948ZMQ import ICM20948ZMQ
+from imu.IMUConfig import IMUConfig
+from config.zeromq import open_zmq_pub_socket
 
 # TODO
 # - add polling option

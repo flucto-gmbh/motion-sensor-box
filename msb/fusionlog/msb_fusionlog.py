@@ -1,17 +1,11 @@
-from datetime import datetime, timedelta, timezone
-import os
 import pickle
 import signal
 import sys
 
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(os.path.dirname(SCRIPT_DIR))
+from config.zeromq import open_zmq_sub_socket
 
-from msb_config.MSBConfig import MSBConfig
-from msb_config.zeromq import open_zmq_sub_socket
-
-from FusionlogConfig import FusionlogConfig
-from TimeSeriesLogger import TimeSeriesLogger
+from fusionlog.FusionlogConfig import FusionlogConfig
+from fusionlog.TimeSeriesLogger import TimeSeriesLogger
 
 def signal_handler(sig, frame):
     print('msb_fusionlog.py exit')

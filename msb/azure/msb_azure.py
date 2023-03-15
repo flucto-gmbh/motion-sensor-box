@@ -18,11 +18,8 @@ import time
 import uuid
 import zmq
 
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(os.path.dirname(SCRIPT_DIR))
-
-from msb_config.parse import get_msb_config_filepath, parse_msb_config
-from msb_config.zeromq import get_zmq_xpub_socketstring
+from config.parse import get_msb_config_filepath, parse_msb_config
+from config.zeromq import get_zmq_xpub_socketstring
 
 messages_to_send = 10
 
