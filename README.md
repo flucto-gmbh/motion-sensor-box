@@ -47,12 +47,13 @@ All interprocess communication between services is implemented using [zeroMQ](ht
 
 #### List of Services
 
-- **msb-imu.service:** manages the inertial measurement uni present on the sense hat. For more documentation, please see [doc/hardware/waveshare_sense_hat/ICM-20948.md](doc/hardware/waveshare_sense_hat/ICM-20948.md). Code is located at [msb/imu](msb/imu)
-- **msb-gps.service:** samples gnss data from `gpsd`'s socket and provides it to other motion sensor box services. Further documentation is available [here](doc/dependencies/gpsd/gpds.md). Code is located at [msb/gps](msb/gps)
+- **msb-imu.service:** manages the inertial measurement uni present on the sense hat. For more documentation, please see [doc/hardware/waveshare_sense_hat/ICM-20948.md](doc/hardware/waveshare_sense-hat/ICM-20948.md). 
+Code is located at [msb/imu](msb/imu).
+- **msb-gps.service:** samples gnss data from `gpsd`'s socket and provides it to other motion sensor box services. Further documentation is available [here](/doc/dependencies/gpsd/gpsd.md). Code is located at [msb/gps](msb/gps)
 - **msb-broker.service:** Creates and manages the publisher/subscriber model of motion sensor box services. code is located at [msb/broker](msb/broker)
 - **msb-fusionlog.service:** Subscribes to **all** available data and logs it to a specified location on disc (default is $HOME/msb_data). source is located at [msb/fusionlog](msb/fusionlog)
 - **msb-adc.service:** reads data from the analog-digital-converters and sends them to the broker service. Not implemented yet.
-- **msb-attitude.service:** Uses the inertial measurement data from to estimate the orientation of a motion sensor box in space (reltative to the gravitation vector). Source available under [msb/attitude](msb/attitude)
+- **msb-attitude.service:** Uses the inertial measurement data from to estimate the orientation of a motion sensor box in space (relative to the gravitation vector). Source available under [msb/attitude](msb/attitude)
 - **msb-camera.service:** Manages the pi cam installed in the motion sensor boxes. Not implemented yet
 - **msb-env.service:** Reads the environmental sensors in the motion sensor box and publishes them on the broker. Not implemented yet.
 - **msb-lora.service:** Sends attitude information to the base station via lora. Sources at [msb/lora](msb/lora)
@@ -242,5 +243,5 @@ Four analog inputs are available via the SenseHat. Additionally, I2C piuns are a
 The original motion sensor box was jointly developed by Uni Bremen and Flucto GmbH. 
 Its development was inspired by a sensor box that was designed for a research project by Uni Bremen's Institute for Integrated Product Development (BIK) where measurements during the installation of "Trianel Windpark Borkum" were conducted.
 
-<img src="doc/UHB_Logo_Englisch_Web_RGB.png" height="60">
-<img src="doc/flucto_logo_cropped.png" height="120">
+<img msb="doc/UHB_Logo_Englisch_Web_RGB.png" height="60">
+<img msb="doc/flucto_logo_cropped.png" height="120">

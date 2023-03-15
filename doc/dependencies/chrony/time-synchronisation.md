@@ -1,12 +1,12 @@
 # YASB Temporal synchronisations
 
-In order to enable precise, distributed measurements with multiple YASB boxes, gnss time synchronisation is required (see [gpsd.md](gpsd.md) for details). 
+In order to enable precise, distributed measurements with multiple YASB boxes, gnss time synchronization is required (see [gpsd.md](../gpsd/gpsd.md) for details). 
 
-To set the system wide clock precisly, yasb relies on chrony and it's daemon chronyd. 
+To set the system wide clock precisely, yasb relies on chrony and its daemon chronyd. 
 
 ## Prerequisities
 
-Please make sure you have a functioning GNSS sensor with a pps device. If not, please refere to [gpsd.md](gpsd.md)
+Please make sure you have a functioning GNSS sensor with a pps device. If not, please refer to [gpsd.md](../gpsd/gpsd.md)
 
 ## Installation
 
@@ -18,7 +18,7 @@ sudo apt install chrony -y
 
 ## Configuration
 
-Chronys configuration file can be found at /etc/chrony.conf
+Chrony's configuration file can be found at /etc/chrony.conf
 
 Please paste the following into your configuration file
 

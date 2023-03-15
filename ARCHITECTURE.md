@@ -16,10 +16,10 @@ All interprocess communication between services is implemented using [zeroMQ](ht
 
 ### List of Services
 
-- **msb-imu.service:** manages the inertial measurement uni present on the sense hat. For more documentation, please see [doc/waveshare_sense_hat/ICM-20948.md](doc/waveshare_sense_hat/ICM-20948.md). Code is located at [src/imu](src/imu)
-- **msb-gps.service:** samples gnss data from `gpsd`'s socket and provides it to other motion sensor box services. Further documentation is available [here](doc/gpsd/gpds.md). Code is located at [src/gps](src/gps)
-- **msb-broker.service:** Creates and manages the publisher/subscriber model of motion sensor box services. code is located at [src/broker](src/broker)
-- **msb-fusionlog.service:** Subscribes to **all** available data and logs it to a specified location on disc. source is located at [src/fusionlog](src/fusionlog)
+- **msb-imu.service:** manages the inertial measurement uni present on the sense hat. For more documentation, please see [doc/waveshare_sense_hat/ICM-20948.md](doc/waveshare_sense_hat/ICM-20948.md). Code is located at [msb/imu](msb/imu)
+- **msb-gps.service:** samples gnss data from `gpsd`'s socket and provides it to other motion sensor box services. Further documentation is available [here](doc/gpsd/gpds.md). Code is located at [msb/gps](msb/gps)
+- **msb-broker.service:** Creates and manages the publisher/subscriber model of motion sensor box services. code is located at [msb/broker](msb/broker)
+- **msb-fusionlog.service:** Subscribes to **all** available data and logs it to a specified location on disc. source is located at [msb/fusionlog](msb/fusionlog)
 - **msb-attitude.service:**
 - **msb-camera.service:**
 - **msb-env.service:**
