@@ -1,6 +1,6 @@
 # Motion Sensor Box
 
-![motion sensor box](doc/IMG_6590.JPG)
+![motion sensor box](doc/images/IMG_6590.JPG)
 
 ## Overview
 
@@ -15,17 +15,20 @@ The following lists the electronic components:
 
 - [Raspberry Pi Zero W](https://www.raspberrypi.com/products/raspberry-pi-zero-w/)
 - SD-Card
-- [Waveshare Sense Hat](doc/waveshare_sense_hat/tldr_sense_hat.md)
-- [Waveshare LoRa Hat](doc/waveshare_lora_hat/tldr_lora_hat.md)
-- [Navilock GNSS-Reveiver](doc/Navilock_GNSS/tldr_navilock_gnss.md)
-- [4.2 Inch E-Ink Display](doc/waveshare_e-ink_display/tldr_eink_display.md)
+- [Waveshare Sense Hat](doc/hardware/waveshare_sense_hat/tldr_sense_hat.md)
+- [Waveshare LoRa Hat](doc/hardware/waveshare_lora-hat/tldr_lora_hat.md)
+- [Navilock GNSS-Reveiver](doc/hardware/navilock_gnss/tldr_navilock_gnss.md)
+- [4.2 Inch E-Ink Display](doc/hardware/waveshare_e-ink-display/tldr_eink_display.md)
 - e-Paper driver hat (board for the 4.2 inch display)
 - [Raspberry Pi Camera V2.1](https://www.raspberrypi.com/documentation/accessories/camera.html)
-- [Strom Pi 3](doc/strompi3/tldr_strompi.md)
-- [LiFePO battery](doc/battery/README_BATTERY.md)
+- [Strom Pi 3](doc/hardware/strompi3/tldr_strompi.md)
+- [LiFePO battery](doc/hardware/battery/README_BATTERY.md)
+
+- [link]
+
 
 The mechanical structure consists of:
- - [Housing assembly](doc/housing/README_HOUSING.md)
+ - [Housing assembly](doc/hardware/housing/README_HOUSING.md)
  - A big 3D printed part that is used to position the components ("base plate")
  - Multiple smaller 3D printed parts
  - Two sheets that are laser cut
@@ -40,20 +43,20 @@ The software needed to run the motion sensor box is subdivided into a number of 
 
 All interprocess communication between services is implemented using [zeroMQ](https://zeromq.org/)
 
-![software_architecture](./doc/software_architecture.png)
+![software_architecture](./doc/images/software_architecture.png)
 
 #### List of Services
 
-- **msb-imu.service:** manages the inertial measurement uni present on the sense hat. For more documentation, please see [doc/waveshare_sense_hat/ICM-20948.md](doc/waveshare_sense_hat/ICM-20948.md). Code is located at [src/imu](src/imu)
-- **msb-gps.service:** samples gnss data from `gpsd`'s socket and provides it to other motion sensor box services. Further documentation is available [here](doc/gpsd/gpds.md). Code is located at [src/gps](src/gps)
-- **msb-broker.service:** Creates and manages the publisher/subscriber model of motion sensor box services. code is located at [src/broker](src/broker)
-- **msb-fusionlog.service:** Subscribes to **all** available data and logs it to a specified location on disc (default is $HOME/msb_data). source is located at [src/fusionlog](src/fusionlog)
+- **msb-imu.service:** manages the inertial measurement uni present on the sense hat. For more documentation, please see [doc/hardware/waveshare_sense_hat/ICM-20948.md](doc/hardware/waveshare_sense_hat/ICM-20948.md). Code is located at [msb/imu](msb/imu)
+- **msb-gps.service:** samples gnss data from `gpsd`'s socket and provides it to other motion sensor box services. Further documentation is available [here](doc/dependencies/gpsd/gpds.md). Code is located at [msb/gps](msb/gps)
+- **msb-broker.service:** Creates and manages the publisher/subscriber model of motion sensor box services. code is located at [msb/broker](msb/broker)
+- **msb-fusionlog.service:** Subscribes to **all** available data and logs it to a specified location on disc (default is $HOME/msb_data). source is located at [msb/fusionlog](msb/fusionlog)
 - **msb-adc.service:** reads data from the analog-digital-converters and sends them to the broker service. Not implemented yet.
-- **msb-attitude.service:** Uses the inertial measurement data from to estimate the orientation of a motion sensor box in space (reltative to the gravitation vector). Source available under [src/attitude](src/attitude)
+- **msb-attitude.service:** Uses the inertial measurement data from to estimate the orientation of a motion sensor box in space (reltative to the gravitation vector). Source available under [msb/attitude](msb/attitude)
 - **msb-camera.service:** Manages the pi cam installed in the motion sensor boxes. Not implemented yet
 - **msb-env.service:** Reads the environmental sensors in the motion sensor box and publishes them on the broker. Not implemented yet.
 - **msb-lora.service:** Sends attitude information to the base station via lora. Sources at [msb/lora](msb/lora)
-- **msb-wifi.service:** Sends all available data from the broker to the base station (or any other ip address) via UDP. Source at [src/wifi](src/wifi)
+- **msb-wifi.service:** Sends all available data from the broker to the base station (or any other ip address) via UDP. Source at [msb/wifi](msb/wifi)
 - **msb-power.service:** Manages power on the motion sensor boxes (shutdown, boot). Not implemented yet
 
 
@@ -148,13 +151,13 @@ touch /path-to-SD/boot/ssh
 
 4) afterwards, please open the file `/path-to-SD/rootfs/etc/hostname` and `/path-to-SD/Arootfs/etc/hosts` and edit the serial number of the motion sensor box to the corresponding value
 
-5) open the file `/path-to-SD/rootfs/etc/systemd/system/rtunnel.service` and repalce '[REMOTE PORT]' to 65000 + the erial number, e.g. 0014 (65000 + 0014  = 65014)
+5) open the file `/path-to-SD/rootfs/etc/systemd/system/rtunnel.service` and replace '[REMOTE PORT]' to 65000 + the serial number, e.g. 0014 (65000 + 0014  = 65014)
 
-6) Sense hat's long pins must be removed: Use a screw driver to lift the yellow part and then cut the pins.
+6) Sense hat's long pins must be removed: Use a screwdriver to lift the yellow part and then cut the pins.
 
-![cut_sensehat_pins](doc/cut_sensehat_pins.jpg)
+![cut_sensehat_pins](doc/images/cut_sensehat_pins.jpg)
 
-7) Prepare the cables (see [cable documentation](doc/cables))
+7) Prepare the cables (see [cable documentation](/doc/hardware/cables/README.md))
 
 #### Electronics Assembly
 
@@ -168,12 +171,12 @@ Assemble the stack starting from the bottom to the top:
  - e-paper driver hat (Display driver)
  
 
-![electronic stack](doc/electronic_stack.jpg)
+![electronic stack](/doc/images/electronic_stack.jpg)
 
 
 The following schematics shows how the external hardware is connected to the pi's header:
 
-![pinout](doc/MSB_pinout.png)
+![pinout](/doc/images/MSB_pinout.png)
 
 ### Software Setup
 
