@@ -1,6 +1,0 @@
-#!/bin/python3
-
-import broker.msb_broker as broker
-
-if __name__ == "__main__":
-    broker.main()
