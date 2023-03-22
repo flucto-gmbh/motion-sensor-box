@@ -18,7 +18,6 @@ def test_config_import():
     import msb.config.zeromq
 
 def test_fusionlog_import():
-    import uptime
     import msb.fusionlog.FusionlogConfig
     import msb.fusionlog.TimeSeriesLogger
     import msb.fusionlog.msb_fusionlog
