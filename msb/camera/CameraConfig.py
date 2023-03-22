@@ -3,10 +3,7 @@ import json
 import os
 import sys
 
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(os.path.dirname(SCRIPT_DIR))
-
-from msb_config.MSBConfig import MSBConfig
+from msb.config.MSBConfig import MSBConfig
 
 class CameraConfig(MSBConfig):
     def __init__(self, subconf = "msb-camera"):
@@ -24,7 +21,7 @@ class CameraConfig(MSBConfig):
         except Exception as e:
             print(f"failed to create data directory {self.video_dir} : {e}")
             print(f"falling back to $HOME/msb_data/cam")
-            self.video_dir = path.join(path.join(os.environ["HOME"], "msb_data"), "cam")
+            self.video_dir = os.path.join(os.path.join(os.environ["HOME"], "msb_data"), "cam")
             self._create_video_dir()
 
 

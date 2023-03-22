@@ -2,7 +2,7 @@ import signal
 import sys
 import zmq
 
-from broker.BrokerConfig import BrokerConfig
+from .BrokerConfig import BrokerConfig
 
 def signal_handler(sig, frame):
     print('msb_broker.py exit')

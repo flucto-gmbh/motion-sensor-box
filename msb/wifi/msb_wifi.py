@@ -6,10 +6,7 @@ import socket
 import sys
 import signal
 
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(os.path.dirname(SCRIPT_DIR))
-
-from msb_config.zeromq import open_zmq_sub_socket
+from msb.config.zeromq import open_zmq_sub_socket
 from WifiConfig import WifiConfig
 
 wifi_processes = dict()

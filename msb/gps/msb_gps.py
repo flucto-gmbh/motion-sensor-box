@@ -11,6 +11,7 @@ GPS_DIR = '/usr/local/lib/python3/dist-packages/'
 if not os.path.isdir(os.path.join(GPS_DIR, 'gps')):
     raise Exception(f'no such file or directory: {GPS_DIR/gps}')
 sys.path.append(os.path.dirname(GPS_DIR))
+
 try:
     import gps
 except ImportError as e:

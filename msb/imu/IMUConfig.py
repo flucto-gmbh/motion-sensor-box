@@ -1,8 +1,8 @@
 import argparse
 import json
 
-from config.MSBConfig import MSBConfig
-from imu.ICM20948.ICM20948_settings import ICM20948_SETTINGS
+from msb.config.MSBConfig import MSBConfig
+from .ICM20948.ICM20948_settings import ICM20948_SETTINGS
 
 class IMUConfig(MSBConfig):
     def __init__(self, subconf = "msb-imu"):

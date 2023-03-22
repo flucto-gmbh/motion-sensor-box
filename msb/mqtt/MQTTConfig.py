@@ -2,10 +2,7 @@ import argparse
 import os
 import sys
 
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(os.path.dirname(SCRIPT_DIR))
-
-from config.MSBConfig import MSBConfig
+from msb.config.MSBConfig import MSBConfig
 
 class MQTTConfig(MSBConfig):
     def __init__(self, subconf = "msb-mqtt", override=dict()):

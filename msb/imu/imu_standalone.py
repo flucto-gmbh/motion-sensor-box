@@ -5,9 +5,9 @@ import sys
 import time
 
 # from ICM20948.ICM20948ZMQ import ICM20948ZMQ
-from imu.ICM20948.ICM20948ZMQ import ICM20948ZMQ
-from imu.IMUConfig import IMUConfig
-from config.zeromq import open_zmq_pub_socket
+from msb.imu.ICM20948.ICM20948ZMQ import ICM20948ZMQ
+from msb.imu.IMUConfig import IMUConfig
+from msb.config.zeromq import open_zmq_pub_socket
 
 # TODO
 # - add polling option

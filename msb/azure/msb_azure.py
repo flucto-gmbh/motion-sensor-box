@@ -18,8 +18,8 @@ import time
 import uuid
 import zmq
 
-from config.parse import get_msb_config_filepath, parse_msb_config
-from config.zeromq import get_zmq_xpub_socketstring
+from msb.config.parse import get_msb_config_filepath, parse_msb_config
+from msb.config.zeromq import get_zmq_xpub_socketstring
 
 messages_to_send = 10
 

@@ -7,11 +7,8 @@ import sys
 import time
 import uptime
 
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(os.path.dirname(SCRIPT_DIR))
-
-from IMUConfig import IMUConfig
-from msb_config.zeromq import open_zmq_pub_socket
+from .IMUConfig import IMUConfig
+from msb.config.zeromq import open_zmq_pub_socket
 
 IMU_TOPIC=b'imu'
 

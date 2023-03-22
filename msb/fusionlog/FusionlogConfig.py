@@ -2,7 +2,7 @@ import argparse
 import os
 import sys
 
-from config.MSBConfig import MSBConfig
+from msb.config.MSBConfig import MSBConfig
 
 class FusionlogConfig(MSBConfig):
     def __init__(self, subconf = "msb-fusionlog"):

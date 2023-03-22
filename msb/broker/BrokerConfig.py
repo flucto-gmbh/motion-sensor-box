@@ -3,7 +3,7 @@ import json
 import os
 import sys
 
-from config.MSBConfig import MSBConfig
+from msb.config.MSBConfig import MSBConfig
 
 class BrokerConfig(MSBConfig):
     def __init__(self, subconf = "msb-broker"):

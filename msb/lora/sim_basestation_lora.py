@@ -5,10 +5,11 @@ import pickle
 import zmq
 import numpy as np
 
+import logging
 import logging.config
 
-from lora.config_lora import logging_config_dict
-from lora.message import TimeAttGPSMessage, Topic
+from msb.lora.config_lora import logging_config_dict
+from msb.lora.message import TimeAttGPSMessage, Topic
 
 logging.config.dictConfig(logging_config_dict)
 

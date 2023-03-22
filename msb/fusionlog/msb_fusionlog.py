@@ -2,10 +2,10 @@ import pickle
 import signal
 import sys
 
-from config.zeromq import open_zmq_sub_socket
+from msb.config.zeromq import open_zmq_sub_socket
 
-from fusionlog.FusionlogConfig import FusionlogConfig
-from fusionlog.TimeSeriesLogger import TimeSeriesLogger
+from msb.fusionlog.FusionlogConfig import FusionlogConfig
+from msb.fusionlog.TimeSeriesLogger import TimeSeriesLogger
 
 def signal_handler(sig, frame):
     print('msb_fusionlog.py exit')

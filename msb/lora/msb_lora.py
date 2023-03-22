@@ -23,7 +23,7 @@ logging.config.dictConfig(logging_config_dict)
 try:
     import config_msb
 
-    lora_hat_config.update(config_lora_hat_config)
+    lora_hat_config.update(lora_hat_config)
 except ImportError:
     pass
 

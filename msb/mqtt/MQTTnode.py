@@ -3,8 +3,8 @@ import sys, os
 import ssl
 import time
 
-from zmq_base.Subscriber import Subscriber
-from mqtt.MQTTConfig import MQTTConfig
+from msb.zmq_base.Subscriber import Subscriber
+from msb.mqtt.MQTTConfig import MQTTConfig
 
 class MQTTnode:
     def __init__(self, config_override={}):
