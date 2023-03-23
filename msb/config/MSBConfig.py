@@ -6,7 +6,7 @@ import yaml
 class MSBConfig(object):
 
     def __init__(self, subconf : str = "general"):
-        self._conf_fname = "conf"
+        self._conf_fname = "msb.conf"
         self._env_varname = "MSB_CONFIG_DIR"
         if not self._env_varname in os.environ:
             raise Exception("please set the $MSB_CONFIG_DIR environment variable")
