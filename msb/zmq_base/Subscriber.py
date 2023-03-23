@@ -5,7 +5,7 @@ import time
 
 
 class Subscriber:
-    def __init__(self, topic = "", protocol="tcp", ip="localhost", port="5555", connect_to = None):
+    def __init__(self, topic, protocol="tcp", ip="localhost", port="5555", connect_to = None):
         self.topic = topic.encode() if type(topic) != bytes else topic
 
 
@@ -26,7 +26,7 @@ class Subscriber:
 
     def receive(self):
         (topic, message) = self.socket.recv_multipart()
-        print(f"Received data {message.decode()}")
+        message = pickle.loads(message)
         return (topic, message)
 
 

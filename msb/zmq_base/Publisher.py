@@ -12,7 +12,8 @@ class Publisher:
         self.socket = self.context.socket(zmq.PUB)
 
         try:
-            self.socket.bind(connect_to)
+            self.socket.connect(connect_to)
+            # self.socket.bind(connect_to)
         except Exception as e:
             print(f'failed to bind to zeromq socket: {e}')
             sys.exit(-1)
@@ -23,8 +24,9 @@ class Publisher:
     #     self.context.term()
     
 
-    def send(self, topic, data):
-        self.socket.send(b"Hello")
+    def send(self, topic, payload):
+        # data = payload.pack()
+        data = pickle.dumps(payload)
 
         self.socket.send_multipart(
             [
@@ -32,5 +34,3 @@ class Publisher:
                 data
             ]
         )
-
-        print("Sent data via Publisher")
