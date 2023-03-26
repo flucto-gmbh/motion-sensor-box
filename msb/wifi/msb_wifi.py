@@ -7,7 +7,7 @@ import sys
 import signal
 
 from msb.config.zeromq import open_zmq_sub_socket
-from WifiConfig import WifiConfig
+from .WifiConfig import WifiConfig
 
 wifi_processes = dict()
 
@@ -73,7 +73,7 @@ def msb_wifi(wifi_config : WifiConfig):
     signal.pause()
         
 
-if __name__ == "__main__":
+def main():
     signal.signal(signal.SIGINT, signal_handler)
     wifi_config = WifiConfig()
     msb_wifi(wifi_config)
