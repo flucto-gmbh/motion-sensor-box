@@ -72,6 +72,6 @@ class MQTTnode:
         self.client.loop_stop()
 
 
-if __name__ == "__main__":
+def main():
     mqtt_tester = MQTTnode()
     print(mqtt_tester.config.user)

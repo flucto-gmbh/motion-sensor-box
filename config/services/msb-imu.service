@@ -8,9 +8,9 @@ SyslogIdentifier=msb-imu
 Type=simple
 Restart=always
 RestartSec=1
-Environment="MSB_CONFIG_DIR=/home/pi/.config"
-User=pi
-ExecStart=/usr/bin/python3 /home/pi/motion-sensor-box/src/msb_imu/msb_imu.py
+Environment="MSB_CONFIG_DIR=/home/msb/.config"
+User=msb
+ExecStart=/usr/bin/python3 /home/msb/motion-sensor-box/run/msb_imu.py
 
 [Install]
 WantedBy=multi-user.target

@@ -20,7 +20,7 @@ class FusionlogConfig(MSBConfig):
         except Exception as e:
             print(f"failed to create data directory {self.data_dir} : {e}")
             print(f"falling back to $HOME/msb_data")
-            self.data_dir = path.join(os.environ["HOME"], "msb_data")
+            self.data_dir = os.path.join(os.environ["HOME"], "msb_data")
             self._create_data_dir()
 
     def _parse_cmdline_args(self):

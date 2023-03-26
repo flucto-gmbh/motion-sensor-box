@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+import gps
 import logging
 import os
 import pickle
@@ -6,21 +7,10 @@ import sys
 import time
 import uptime
 import zmq
-# add /usr/local/lib/python3/dist-packages to the system path
-GPS_DIR = '/usr/local/lib/python3/dist-packages/'
-if not os.path.isdir(os.path.join(GPS_DIR, 'gps')):
-    raise Exception(f'no such file or directory: {GPS_DIR/gps}')
-sys.path.append(os.path.dirname(GPS_DIR))
 
-try:
-    import gps
-except ImportError as e:
-    raise Exception('failed to import gps module')
-    sys.exit(-1)
-# local imports
 
-from config.zeromq import open_zmq_pub_socket
-from gps.GPSConfig import GPSConfig, GPS_TOPIC
+from msb.config.zeromq import open_zmq_pub_socket
+from .GPSConfig import GPSConfig, GPS_TOPIC
 
 zero_timestamp = datetime.fromtimestamp(0, tz=timezone.utc)
 
@@ -84,7 +74,7 @@ def msb_gps(gps_config : GPSConfig):
     gpsd_socket = open_gpsd_socket(gps_config)
     consume_send_gps_data(gps_config, zmq_pub_socket, gpsd_socket)
 
-if __name__ == '__main__':
+def main():
     gps_config = GPSConfig()
     msb_gps(gps_config)
 

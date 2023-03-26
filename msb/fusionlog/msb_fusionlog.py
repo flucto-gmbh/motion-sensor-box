@@ -4,8 +4,8 @@ import sys
 
 from msb.config.zeromq import open_zmq_sub_socket
 
-from msb.fusionlog.FusionlogConfig import FusionlogConfig
-from msb.fusionlog.TimeSeriesLogger import TimeSeriesLogger
+from .FusionlogConfig import FusionlogConfig
+from .TimeSeriesLogger import TimeSeriesLogger
 
 def signal_handler(sig, frame):
     print('msb_fusionlog.py exit')
@@ -43,5 +43,5 @@ def msb_fusionlog():
             loggers[topic] = TimeSeriesLogger(topic, config)
         loggers[topic].write(data)
 
-if __name__ == "__main__":
+def main():
     msb_fusionlog()
