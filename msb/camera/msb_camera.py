@@ -9,7 +9,7 @@ import time
 timeformat = "%Y%m%dT%H%M%S%z"
 split_interval = 60 # seconds
 
-from CameraConfig import CameraConfig
+from .CameraConfig import CameraConfig
 
 def signal_handler(sig, frame):
     print("msb_piletrack.py exit")
@@ -72,7 +72,7 @@ def msb_camera(camera_config : CameraConfig):
         camera.annotate_text = get_datetime_str(timestamp=ts)
         camera.wait_recording(0.05)
 
-if __name__ == "__main__":
+def main():
     signal.signal(signal.SIGINT, signal_handler)
     camera_config = CameraConfig()
     msb_camera(camera_config)

@@ -1,12 +1,12 @@
 [Unit]
-Description=Motion Sensor Box Strompi Serialless Mode
+Description=Motion Sensor Box Strommsb Serialless Mode
 After=network.target
 
 [Service]
 SyslogIdentifier=msb-serialless-on
 Type=simple
-User=pi
-ExecStart=/usr/bin/python3 /home/pi/motion-sensor-box/scripts/strompi/start_serialless.py
+User=msb
+ExecStart=/usr/bin/python3 /home/msb/motion-sensor-box/scripts/strompi/start_serialless.py
 
 [Install]
 WantedBy=multi-user.target
