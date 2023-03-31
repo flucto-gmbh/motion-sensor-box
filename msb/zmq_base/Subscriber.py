@@ -12,6 +12,10 @@ class Subscriber:
         self.socket = self.context.socket(zmq.SUB)
         self.socket.connect(config.connect_to)
         self.subscribe(topic_or_topics)
+
+        # Possible to add a switch via config here
+        # unpacker = pickle
+        self.unpacker = json
     
     def subscribe(self, topics):
         # Acceps single topic or list of topics
@@ -27,10 +31,8 @@ class Subscriber:
 
 
     def receive(self):
-        (topic, message) = self.socket.recv_multipart()
-        unpacker = json
-        # message = pickle.loads(message)
-        message = unpacker.loads(message)
+        (topic, message) = self.socket.recv_multipat()
+        message = self.unpacker.loads(message.decode())
         return (topic, message)
 
 
