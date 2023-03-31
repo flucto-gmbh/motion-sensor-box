@@ -1,24 +1,26 @@
 import zmq
 import pickle
-import sys
-import time
+import json
 
 
 class Subscriber:
-    def __init__(self, topic, protocol="tcp", ip="localhost", port="5555", connect_to = None):
-        self.topic = topic.encode() if type(topic) != bytes else topic
+    def __init__(self, topic_or_topics, config):
 
-
-        if not connect_to:
-            connect_to = f"{protocol}://{ip}:{port}"
-            print(f"connecting to : {connect_to}")
+        self.config = config
 
         self.context = zmq.Context.instance()
         self.socket = self.context.socket(zmq.SUB)
-        self.socket.connect(connect_to)
-        self.socket.setsockopt(zmq.SUBSCRIBE, self.topic)
-        print(f"Subscribed to {self.topic.decode()}")
+        self.socket.connect(config.connect_to)
+        self.subscribe(topic_or_topics)
     
+    def subscribe(self, topics):
+        # Acceps single topic or list of topics
+        if type(topics) is not list:
+            self.socket.setsockopt(zmq.SUBSCRIBE, topics)
+        else:
+            for topic in topics:
+                self.socket.setsockopt(zmq.SUBSCRIBE, topic)
+
 
     def __del__(self):
         self.socket.close()
@@ -26,7 +28,9 @@ class Subscriber:
 
     def receive(self):
         (topic, message) = self.socket.recv_multipart()
-        message = pickle.loads(message)
+        unpacker = json
+        # message = pickle.loads(message)
+        message = unpacker.loads(message)
         return (topic, message)
 
 
