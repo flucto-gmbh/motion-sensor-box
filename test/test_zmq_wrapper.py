@@ -10,30 +10,9 @@ from msb.zmq_base.Broker import Broker
 from msb.broker.BrokerConfig import BrokerConfig
 from msb.zmq_base.Config import PublisherConfig, SubscriberConfig
 
-import contextlib
-import os
-
-import filelock
-
-
-@pytest.fixture(scope='session')
-def lock(tmp_path_factory):
-    base_temp = tmp_path_factory.getbasetemp()
-    lock_file = base_temp.parent / 'serial.lock'
-    yield filelock.FileLock(lock_file=str(lock_file))
-    with contextlib.suppress(OSError):
-        os.remove(path=lock_file)
-
-
-@pytest.fixture()
-def serial(lock):
-    with lock.acquire(poll_interval=0.1):
-        yield
-
-
 
 @pytest.fixture
-def run_broker(serial):
+def run_broker():
     def setup_broker():
         env["MSB_CONFIG_DIR"] = f"{getcwd()}/config"
         config = BrokerConfig()
@@ -75,13 +54,13 @@ def test_send_complex_data(run_broker, setup_publisher_and_subscriber):
     pub.send(topic, data)
     sleep(0.1)
 
-    inc_topic, incoming_data = sub.receive()
+    _, incoming_data = sub.receive()
 
     print(incoming_data)
     assert incoming_data == data
     
 
-@pytest.mark.skip(reason="not implemented yet")
+# @pytest.mark.skip(reason="not implemented yet")
 def test_send_dict_via_broker(run_broker, setup_publisher_and_subscriber):
     pub, sub, topic = setup_publisher_and_subscriber
     data = {"testkey": "testvalue"}
@@ -89,7 +68,7 @@ def test_send_dict_via_broker(run_broker, setup_publisher_and_subscriber):
     print("data sent")
     sleep(0.1)
 
-    inc_topic, incoming_data = sub.receive()
+    _, incoming_data = sub.receive()
     print("data received")
 
     assert incoming_data == data

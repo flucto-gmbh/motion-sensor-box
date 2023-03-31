@@ -15,6 +15,8 @@ class Publisher:
         # self.packer = pickle
         self.packer = json
 
+        self.connect()
+
 
     def connect(self):
         try:

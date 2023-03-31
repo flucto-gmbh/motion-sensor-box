@@ -31,7 +31,7 @@ class Subscriber:
 
 
     def receive(self):
-        (topic, message) = self.socket.recv_multipat()
+        (topic, message) = self.socket.recv_multipart()
         message = self.unpacker.loads(message.decode())
         return (topic, message)
 
