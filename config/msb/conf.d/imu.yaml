@@ -1,0 +1,11 @@
+msb-imu:
+  verbose         : false     # print debugging information
+  print_stdout    : false     # print data to stdout
+  sample_rate_div : 31        # output data rate (odr) is calculated like this: odr = 1125 / (1 + sample_rate_div)
+  acc_filter      : 0         # available filters go from 0 - 7
+  gyr_filter      : 0         # available filters go from 0 - 7
+  acc_sensitivity : "2g"      # acceleration sensitivity options are 2g, 4g, 8g, 16g
+  gyr_sensitivity : "250dps"  # gyroscope sensitivity options are 250dps, 500dps, 1000dps, 2000dps
+  polling         : false
+
+
