@@ -1,7 +1,16 @@
+from dataclasses import dataclass
 import json
 import os
 import sys
 import yaml
+
+@dataclass
+class MSBConf():
+    """
+    default configuration class for generic configuration info
+    """
+    pass
+
 
 class MSBConfig(object):
 
