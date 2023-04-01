@@ -1,8 +1,29 @@
 import argparse
+from dataclasses import dataclass
 import json
+
+from numpy import format_float_scientific
 
 from msb.config.MSBConfig import MSBConfig
 from .ICM20948.ICM20948_settings import ICM20948_SETTINGS
+
+@dataclass
+class IMUConf():
+    """
+
+    configuration class for the inertial measurement unit (imu) service
+
+    """
+
+    verbose : bool = False
+    print_stdout : bool = False
+    sample_rate_div : int = 30
+    acc_filter : int = 0
+    gyr_filter : int = 0
+    acc_sens : str = "2g"
+    gyr_sens : str = "500dps"
+
+
 
 class IMUConfig(MSBConfig):
     def __init__(self, subconf = "msb-imu"):

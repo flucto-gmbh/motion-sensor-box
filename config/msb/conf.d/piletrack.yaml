@@ -1,0 +1,27 @@
+msb-piletrack:
+  verbose : false
+  show_video : false     # requires a running desktop environment!
+  print_stdout : false
+  rotate : true
+  fps : 10
+  width : 1280
+  height : 720
+  record_video : false
+  region_of_interest : 
+      x1 : 1
+      y1 : 1
+      x2 : 1279
+      y2 : 719
+  max_number_of_features : 5
+  max_track_length : 10
+  pile_speed_update_interval : 5
+  track_meter_markings : false
+  meter_markings_score_threshold : 0.4
+  meter_markings_region_of_interest:
+      x1 : 0.8
+      y1 : 0.2
+      x2 : 0.9
+      y2 : 0.8
+  meter_markings_calculation_interval : 10
+
+

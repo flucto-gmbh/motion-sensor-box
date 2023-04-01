@@ -1,0 +1,19 @@
+serialnumber : msb-0022-a       # serial number of the motion sensor box
+
+wifi:
+  ssid : flucto-base-03-a
+  key : MgnfSNhCgo86hIrM
+  priority : 9
+
+zmq:
+  xsub_port : 5555        # port used by primary producers
+  xpub_port : 5556        # port used by primary consumers
+  protocol : "tcp"        # ipc protocol
+  address : "127.0.0.1"   # the local loopback interface
+
+topic_headers:
+  att : ['datetime', 'epoch', 'uptime', 'roll', 'roll_corr', 'pitch', 'pitch_corr']
+  imu : ['datetime', 'epoch', 'uptime', 'acc_x', 'acc_y', 'acc_z', 'rot_x', 'rot_y', 'rot_z', 'mag_x', 'mag_y', 'mag_z', 'temp']
+  gps : ['datetime', 'epoch', 'uptime', 'gps_mode', 'gps_timestamp', 'latitude', 'longitude', 'altitude', 'altitude_msl', 'track', 'mag_track', 'mag_var', 'speed']
+  pwr : ['datetime', 'epoch', 'uptime', 'load-1', 'load-5', 'load-15', 'mem-available', 'swap-cached']
+
