@@ -2,6 +2,7 @@ from dataclasses import dataclass
 import json
 import os
 import sys
+import warnings
 import yaml
 
 @dataclass
@@ -9,7 +10,11 @@ class MSBConf():
     """
     default configuration class for generic configuration info
     """
-    pass
+    def __setitem__(self, key, value):
+        if hasattr(self, key):
+            self.__setattr__(key, value)
+        else:
+            warnings.warn(UserWarning(f"no such class member: {key}"))
 
 
 class MSBConfig(object):
