@@ -1,29 +1,61 @@
 import argparse
 from dataclasses import dataclass
+from enum import Enum, auto
 import json
 
 from numpy import format_float_scientific
 
-from msb.config.MSBConfig import MSBConfig
-from .ICM20948.ICM20948_settings import ICM20948_SETTINGS
+from msb.config.MSBConfig import MSBConfig, MSBConf
+from msb.imu.ICM20948.ICM20948_settings import ICM20948_SETTINGS
+
+class GyroSensitivity(Enum):
+    DPS250  = "250dps"
+    DPS500  = "500dps"
+    DPS1000 = "1000dps"
+    DPS2000 = "2000dps"
+
+class AccelerationSensitivity(Enum):
+    G2  = "2g"
+    G4  = "4g"
+    G8  = "8g"
+    G16 = "16g"
+
+"""
+class AccelerationFilter(Enum):
+    d473bw_n499bw,
+    d246bw_n265bw_1,
+    d111bw4_n136bw,
+    d50bw4_n68bw8,
+    d23bw9_n34bw4,
+    d11bw5_n17bw,
+    d11bw5_n17bw,
+    d11bw5_n17bw,
+
+class GyroFilter(Enum):
+              _gyr_d361bw4_n376bw5,
+                _gyr_d196bw6_n229bw8,
+                _gyr_d151bw8_n187bw6,
+                _gyr_d119bw5_n154bw3,
+                _gyr_d51bw2_n73bw3,
+                _gyr_d23bw9_n35bw9,
+                _gyr_d11bw6_n17bw8,
+                _gyr_d5bw7_n8bw9,
+"""
 
 @dataclass
-class IMUConf():
+class IMUConf(MSBConf):
     """
 
     configuration class for the inertial measurement unit (imu) service
 
     """
-
     verbose : bool = False
     print_stdout : bool = False
     sample_rate_div : int = 30
     acc_filter : int = 0
     gyr_filter : int = 0
-    acc_sens : str = "2g"
-    gyr_sens : str = "500dps"
-
-
+    acc_sens       = AccelerationSensitivity.G2
+    gyr_sens       = GyroSensitivity.DPS250
 
 class IMUConfig(MSBConfig):
     def __init__(self, subconf = "msb-imu"):

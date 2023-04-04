@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 import json
 import os
 import sys
@@ -18,6 +19,14 @@ def parse_msb_config(msb_config_filepath : str) -> dict:
    with open(msb_config_filepath, 'r') as msb_config_filehandle:
         msb_config = yaml.safe_load(msb_config_filehandle)
         return msb_config
+
+def read_yaml_config_file(config_fpath : str) -> dict:
+    with open(config_fpath, 'r') as config_filehandle:
+        return yaml.safe_load(config_filehandle)
+
+def update_config(config_object, config_conffile : dict):
+    for config_key, config_value in config_conffile.items():
+        config_object[config_key] = config_value
 
 if __name__ == "__main__":
     msb_config = parse_msb_config(get_msb_config_filepath())
