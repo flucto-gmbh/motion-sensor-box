@@ -16,6 +16,12 @@ class MSBConf():
         else:
             warnings.warn(UserWarning(f"no such class member: {key}"))
 
+    def __getitem__(self, key):
+        if hasattr(self, key):
+            return getattr(self, key)
+        else:
+            warnings.warn(UserWarning(f"no such class member: {key}"))
+
 
 class MSBConfig(object):
 
