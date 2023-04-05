@@ -4,6 +4,7 @@ import os
 import sys
 import yaml
 
+
 def get_msb_config_filepath(config_filename : str = "msb.conf") -> str:
     try:
         config_filepath = os.path.join(os.environ['MSB_CONFIG'], config_filename)
@@ -26,7 +27,13 @@ def read_yaml_config_file(config_fpath : str) -> dict:
 
 def update_config(config_object, config_conffile : dict):
     for config_key, config_value in config_conffile.items():
-        config_object[config_key] = config_value
+        # get expected type of element from config_object:
+        cast_func = type(config_object[config_key])
+        try:
+            config_object[config_key] = cast_func(config_value)
+        except Exception as e:
+            print(f'failed to cast {config_value} to {type(config_object[config_key])}. skipping')
+            continue
 
 if __name__ == "__main__":
     msb_config = parse_msb_config(get_msb_config_filepath())
