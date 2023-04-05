@@ -34,4 +34,25 @@ def test_attribute_does_not_exists_warning():
     with pytest.warns(UserWarning):
         update_config(imu_conf, updated_config)
     #assert imu_conf.verbose == updated_config['verbose']
-    
+
+def test_argparse_key_value():
+    import argparse
+    from msb.config.cmdline import KeyValue
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--params', nargs='*', action = KeyValue)
+    args = parser.parse_args("--params key=value1".split())
+    assert args.params['key'] == "value1"
+
+def test_argparse():
+    from msb.config.cmdline import get_cmdline
+    from msb.imu.IMUConfig import IMUConf
+    from msb.config.parse import update_config
+    imu_conf = IMUConf()
+    updated_config = { 'verbose' : True, }
+    args = get_cmdline("--print-stdout --params sample_rate_div=31".split()) # should return: {'print_stdout' : True}
+    update_config(imu_conf, updated_config)
+    update_config(imu_conf, args)
+    assert imu_conf.verbose == updated_config['verbose']
+    assert imu_conf.print_stdout == args['print_stdout']
+    assert imu_conf.sample_rate_div == int(args['sample_rate_div'])
+
