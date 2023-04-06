@@ -2,6 +2,7 @@ from dataclasses import dataclass
 import json
 import os
 import sys
+import warnings
 import yaml
 
 
@@ -23,10 +24,13 @@ def read_yaml_config_file(config_fpath : str) -> dict:
 def update_config(config_object, config_conffile : dict):
     for config_key, config_value in config_conffile.items():
         # get expected type of element from config_object:
+        if not hasattr(config_object, config_key):
+            warnings.warn(f"no such configuration parameter: {config_key}, skipping")
+            continue
         cast_func = type(config_object[config_key])
         try:
             config_object[config_key] = cast_func(config_value)
         except Exception as e:
-            print(f'failed to cast {config_value} to {type(config_object[config_key])}. skipping')
+            print(f'failed to cast {config_value} to {type(config_object[config_key])}: {e}. skipping')
             continue
 
