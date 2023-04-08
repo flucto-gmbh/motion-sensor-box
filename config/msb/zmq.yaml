@@ -1,7 +1,6 @@
-zmq:
-  xsub_port : 5555        # port used by primary producers
-  xpub_port : 5556        # port used by primary consumers
-  protocol : "tcp"        # ipc protocol
-  address : "127.0.0.1"   # the local loopback interface
+subscriber_port : 5555        # port used by primary producers
+publisher_port : 5556        # port used by primary consumers
+protocol : "tcp"        # ipc protocol
+address : "127.0.0.1"   # the local loopback interface
 
 
