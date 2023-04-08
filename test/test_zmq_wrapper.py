@@ -8,7 +8,7 @@ from msb.zmq_base.Publisher import Publisher
 from msb.zmq_base.Subscriber import Subscriber
 from msb.zmq_base.Broker import Broker
 from msb.broker.BrokerConfig import BrokerConfig
-from msb.zmq_base.Config import PublisherConfig, SubscriberConfig
+# from msb.zmq_base.Config import PublisherConfig, SubscriberConfig
 
 
 @pytest.fixture
@@ -19,17 +19,18 @@ def run_broker():
         broker = Broker(config)
     threading.Thread(target=setup_broker, daemon=True, args=[]).start()
     sleep(0.1)
-    return threading.Thread(target=setup_broker, daemon=True, args=[])
+    # return threading.Thread(target=setup_broker, daemon=True, args=[])
 
 
 @pytest.fixture
 def setup_publisher_and_subscriber():
-    publisher_config = PublisherConfig()
-    pub = Publisher(publisher_config)
+    # publisher_config = PublisherConfig()
+    # pub = Publisher(publisher_config)
+    pub = Publisher()
 
-    subscriber_config = SubscriberConfig()
-    topic = subscriber_config.topic
-    sub = Subscriber(topic, subscriber_config)
+    # subscriber_config = SubscriberConfig()
+    topic = b'test'
+    sub = Subscriber(topic)
     sleep(0.1)
 
     return pub, sub, topic
