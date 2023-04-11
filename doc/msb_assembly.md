@@ -358,5 +358,31 @@ You have now completed the cybercube assembly and may now start with the assembl
 
 **Congratulations! You completed the hardware assembly.**
 
+## Assembly of power adapter:
+
+Flucto uses the following power adapter for the power supply. [Power Supply](https://www.digikey.de/de/products/detail/GC30B-4P1J/1866-1763-ND/7703260?itemSeq=384743038)
+Unfortunatly, the power adapter needs to be modified to fit the built-in configuration of the Motion Sensor Box.
+
+1. Start by cutting of the end of the power supply.
+
+2. Remove the cable cover (approx. 7 - 8 cm).
+
+3. Seperate the white shielded cable from the small cables. Twist the small cables together.
+
+4. Remove about 1 cm of the cable cover of the white cable and apply tin at the end. Follow by applying tin on the other twisted cable.
+
+5. Cover the unprotected cable with a shrinking tube so that about 1 cm of uncovered cable sticks out at the end.
+
+6. Solder a little pin connector to both ends.
+
+7. Protect the two small cables by covering them with a large shrinking tube.
+
+8. Slide the power adapter components over the cable and screw them together as shown in the img.
+
+9. Put the **white** cable into the hole with the engraving **2** beneath it. The **black** cable needs to be put into the hole with the engraving **1**.
+
+10. Now connect the two ends with each other to finish the assembly. 
+
+
 
 
