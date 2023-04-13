@@ -1,14 +1,13 @@
 import zmq
-import pickle
 import sys
 import json
 
 from msb.zmq_base.Config import ZMQConf
 
-class Publisher:
-    def __init__(self):
 
-        self.config = ZMQConf()
+class Publisher:
+    def __init__(self, config):
+        self.config = config
         # after merging with configuration branch, update of
         # configuration through configuration file should happen here
 
@@ -22,16 +21,22 @@ class Publisher:
 
     def connect(self):
         try:
-            self.socket.connect(self.config.connect_to_publisher)
+            # print(f"Connecting to { self.config.producer_connection }")
+            self.socket.connect(self.config.producer_connection)
             # self.socket.bind(connect_to)
         except Exception as e:
-            print(f'failed to bind to zeromq socket: {e}')
+            print(f"failed to bind to zeromq socket: {e}")
             sys.exit(-1)
 
     def send(self, topic, data):
-        data = self.packer.dumps(data)
+        # data = self.packer.dumps(data)
+        data = json.dumps(data)
         self.socket.send_multipart([topic, data.encode()])
-    
+
     def __del__(self):
         self.socket.close()
-    #     self.context.term()
+
+
+def get_default_publisher():
+    default_config = ZMQConf()
+    return Publisher(default_config)

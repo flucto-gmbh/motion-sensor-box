@@ -1,166 +1,113 @@
 import pytest
 from time import sleep
 from datetime import datetime
+
 import zmq
-from dataclasses import dataclass
+import json
+from threading import Thread
 
-from msb.zmq_base.Publisher import Publisher
-from msb.zmq_base.Subscriber import Subscriber
-<<<<<<< .merge_file_klxoRw
-from msb.zmq_base.Config import PublisherConfig, SubscriberConfig
-=======
-from msb.zmq_base.Broker import Broker
-from msb.broker.BrokerConfig import BrokerConfig
-# from msb.zmq_base.Config import PublisherConfig, SubscriberConfig
->>>>>>> .merge_file_uV0xeP
+from msb.zmq_base.Publisher import Publisher, get_default_publisher
+from msb.zmq_base.Subscriber import Subscriber, get_default_subscriber
+from msb.zmq_base.Config import ZMQConf
+
+SLEEPTIME = 0.1
 
 
-SLEEPTIME = 0.01
+def wait():
+    sleep(SLEEPTIME)
 
 
-@pytest.fixture
-def get_zmq_config():
-    @dataclass
-    class Config:
-        protocol: str = "tcp"
-        address: str = "127.0.SLEEPTIME"
-        port = "5555"
+@pytest.fixture(scope="module")
+def mock_broker():
+    """
+    Fixture which runs a mock broker in a separate thread.
+    Only one instance of this fixture is used per test module (scope)
+    Is not exactly beautiful yet and can be replaced
+    by running the broker in a separate terminal
+    """
+    config = ZMQConf()
+    context = zmq.Context.instance()
+    # create the mock broker as described above
+    xpub_socket = context.socket(zmq.XPUB)
+    xpub_socket.bind(config.consumer_connection)
+    xsub_socket = context.socket(zmq.XSUB)
+    xsub_socket.bind(config.producer_connection)
 
-        @property
-        def connect_to(self):
-            return f"{self.protocol}://{self.address}:{self.port}"
+    # start the proxy in a separate thread
+    def proxy_loop():
+        zmq.proxy(xpub_socket, xsub_socket)
 
-    return Config()
+    proxy_thread = Thread(target=proxy_loop, daemon=False)
+    proxy_thread.start()
+
+    # yield the mock broker so that it can be used in the test cases
+    yield
+
+    # Unfortunately, this raises an exception in the broker thread.
+    # But the tests won't end without that exception.
+    # I have not figured out how to exit the proxy cleanly.
+    xpub_socket.close()
+    xsub_socket.close()
+    proxy_thread.join()
 
 
-@pytest.fixture
-<<<<<<< .merge_file_klxoRw
-def setup_zmq_subscriber(get_zmq_config):
-    config = get_zmq_config
-    test_topic = b"test"
+@pytest.mark.parametrize(
+    "test_data",
+    [
+        "hello world",  # string
+        1234,  # number
+        [1, 2, 3, 4],  # list
+        {"hello": "world"},  # simple dict
+        {
+            "name": "test",  # complex dict
+            "timeformat": "%Y-%m-%d %H:%M:%S.%f",
+            "timestamp": datetime.strftime(datetime.now(),
+                                           "%Y-%m-%d %H:%M:%S.%f"),
+            "uptime": 1234,
+            "from": "test_location",
+            "accx": 1.0,
+            "acc_y": 2.0,
+            "mag_acc_x": 1e-5,
+        }
+        # ("a", "b"), this doesn't work, returns ["a", "b"]
+        # b"hello world", this doesn't work either
+    ],
+)
+def test_publisher_subscriber_via_mock_broker(test_data, mock_broker):
+    """
+    Test the transport via mock broker.
+    Tests sending different data
+    """
+    topic = b"tst"
+    # create the pub-sub pair and connect to the mock broker
+    pub = get_default_publisher()
+    sub = get_default_subscriber(topic)
+    wait()
+
+    # send a message to the mock broker
+    pub.send(topic, test_data)
+    _, received_message = sub.receive()
+    assert received_message == test_data
+
+
+def test_subscriber_without_broker():
+    """
+    Test the subscriber class directly,
+    without using the mock broker.
+    This approach does not work for the publisher class,
+    due to the bind / connect strategy
+    """
+    test_topic = b"tst"
+    port = 7755
 
     ctx = zmq.Context.instance()
-    socket = ctx.socket(zmq.SUB)
-    socket.bind(config.connect_to)
-    socket.setsockopt(zmq.SUBSCRIBE, test_topic)
-    sleep(SLEEPTIME)
+    pub = ctx.socket(zmq.PUB)
+    pub.bind(f"tcp://*:{port}")
+    subscriber_config = ZMQConf(consumer_port=port)
+    sub = Subscriber(test_topic, subscriber_config)
+    wait()
 
-    return socket
+    pub.send_multipart([test_topic, json.dumps("hello from pub").encode()])
 
-
-@pytest.fixture
-def setup_zmq_publisher(get_zmq_config):
-    config = get_zmq_config
-
-    ctx = zmq.Context.instance()
-    socket = ctx.socket(zmq.PUB)
-    socket.bind(config.connect_to)
-    sleep(SLEEPTIME)
-
-    return socket
-
-
-def test_publisher(setup_zmq_subscriber):
-    sub = setup_zmq_subscriber
-    test_topic = b"test"
-
-    publisher_config = PublisherConfig()
-    pub = Publisher(publisher_config)
-    pub.send(test_topic, "hello from pub")
-    sleep(SLEEPTIME)
-
-    _, return_data = sub.recv_multipart().decode()
+    _, return_data = sub.receive()
     assert return_data == "hello from pub"
-
-
-def test_subscriber(setup_zmq_publisher):
-    pub = setup_zmq_publisher
-    test_topic = b"test"
-
-    subscriber_config = SubscriberConfig()
-    sub = Subscriber(subscriber_config)
-    sleep(SLEEPTIME)
-    pub.send(test_topic, "hello from pub")
-    sleep(SLEEPTIME)
-
-    _, return_data = sub.recv_multipart().decode()
-    assert return_data == "hello from pub"
-=======
-def run_broker():
-    def setup_broker():
-        env["MSB_CONFIG_DIR"] = f"{getcwd()}/config"
-        config = BrokerConfig()
-        broker = Broker(config)
-    threading.Thread(target=setup_broker, daemon=True, args=[]).start()
-    sleep(0.1)
-    # return threading.Thread(target=setup_broker, daemon=True, args=[])
->>>>>>> .merge_file_uV0xeP
-
-
-@pytest.fixture
-def setup_publisher_and_subscriber():
-    # publisher_config = PublisherConfig()
-    # pub = Publisher(publisher_config)
-    pub = Publisher()
-
-<<<<<<< .merge_file_klxoRw
-    subscriber_config = SubscriberConfig()
-    topic = subscriber_config.topic
-    sub = Subscriber(topic, subscriber_config)
-    sleep(SLEEPTIME)
-=======
-    # subscriber_config = SubscriberConfig()
-    topic = b'test'
-    sub = Subscriber(topic)
-    sleep(0.1)
->>>>>>> .merge_file_uV0xeP
-
-    return pub, sub, topic
-
-
-def correct_transport(pub, sub, topic, message):
-    pub.send(topic, message)
-    sleep(SLEEPTIME)
-
-    _, return_data = sub.recv_multipart().decode()
-    assert return_data == message
-
-
-@pytest.mark.skip(reason="not implemented yet")
-def test_send_complex_data(setup_publisher_and_subscriber):
-    pub, sub, topic = setup_publisher_and_subscriber
-
-    format = "%Y-%m-%d %H:%M:%S.%f"
-
-    data = {
-        "name": "test",
-        "timeformat": format,
-        "timestamp": datetime.strftime(datetime.now(), format),
-        "uptime": 1234,
-        "from": "test_location",
-        "accx": 1.0,
-        "acc_y": 2.0,
-        "mag_acc_x": 1e-5,
-    }
-
-    pub.send(topic, data)
-    sleep(SLEEPTIME)
-
-    _, incoming_data = sub.receive()
-
-    print(incoming_data)
-    assert incoming_data == data
-
-
-@pytest.mark.skip(reason="not implemented yet")
-def test_send_dict_via_broker(run_broker, setup_publisher_and_subscriber):
-    pub, sub, topic = setup_publisher_and_subscriber
-    data = {"testkey": "testvalue"}
-    pub.send(topic, data)
-    print("data sent")
-    sleep(SLEEPTIME)
-
-    _, incoming_data = sub.receive()
-    print("data received")
-
-    assert incoming_data == data
