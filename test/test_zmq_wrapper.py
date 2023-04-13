@@ -6,7 +6,13 @@ from dataclasses import dataclass
 
 from msb.zmq_base.Publisher import Publisher
 from msb.zmq_base.Subscriber import Subscriber
+<<<<<<< .merge_file_klxoRw
 from msb.zmq_base.Config import PublisherConfig, SubscriberConfig
+=======
+from msb.zmq_base.Broker import Broker
+from msb.broker.BrokerConfig import BrokerConfig
+# from msb.zmq_base.Config import PublisherConfig, SubscriberConfig
+>>>>>>> .merge_file_uV0xeP
 
 
 SLEEPTIME = 0.01
@@ -28,6 +34,7 @@ def get_zmq_config():
 
 
 @pytest.fixture
+<<<<<<< .merge_file_klxoRw
 def setup_zmq_subscriber(get_zmq_config):
     config = get_zmq_config
     test_topic = b"test"
@@ -78,17 +85,35 @@ def test_subscriber(setup_zmq_publisher):
 
     _, return_data = sub.recv_multipart().decode()
     assert return_data == "hello from pub"
+=======
+def run_broker():
+    def setup_broker():
+        env["MSB_CONFIG_DIR"] = f"{getcwd()}/config"
+        config = BrokerConfig()
+        broker = Broker(config)
+    threading.Thread(target=setup_broker, daemon=True, args=[]).start()
+    sleep(0.1)
+    # return threading.Thread(target=setup_broker, daemon=True, args=[])
+>>>>>>> .merge_file_uV0xeP
 
 
 @pytest.fixture
 def setup_publisher_and_subscriber():
-    publisher_config = PublisherConfig()
-    pub = Publisher(publisher_config)
+    # publisher_config = PublisherConfig()
+    # pub = Publisher(publisher_config)
+    pub = Publisher()
 
+<<<<<<< .merge_file_klxoRw
     subscriber_config = SubscriberConfig()
     topic = subscriber_config.topic
     sub = Subscriber(topic, subscriber_config)
     sleep(SLEEPTIME)
+=======
+    # subscriber_config = SubscriberConfig()
+    topic = b'test'
+    sub = Subscriber(topic)
+    sleep(0.1)
+>>>>>>> .merge_file_uV0xeP
 
     return pub, sub, topic
 
