@@ -28,7 +28,7 @@ class Publisher:
             print(f"failed to bind to zeromq socket: {e}")
             sys.exit(-1)
 
-    def send(self, topic, data):
+    def send(self, topic: bytes, data: dict):
         # data = self.packer.dumps(data)
         data = json.dumps(data)
         self.socket.send_multipart([topic, data.encode()])
@@ -37,6 +37,6 @@ class Publisher:
         self.socket.close()
 
 
-def get_default_publisher():
+def get_default_publisher() -> Publisher:
     default_config = ZMQConf()
     return Publisher(default_config)
