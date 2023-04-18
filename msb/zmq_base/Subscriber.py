@@ -21,7 +21,7 @@ class Subscriber:
         self.unpacker = json
 
     def connect(self):
-        try
+        try:
             # print(f"Connecting to { self.config.consumer_connection }")
             self.socket.connect(self.config.consumer_connection)
             # self.socket.bind(connect_to)
