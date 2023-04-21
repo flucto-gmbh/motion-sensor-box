@@ -59,4 +59,4 @@ def main():
     for _ in tracker.tracking_loop():
         tracks = tracker.tracks
         payload = optr_payload(tracks)
-        pub.send(payload)
+        pub.send(b"optr", payload)
