@@ -9,8 +9,8 @@ class BrokerConfig(MSBConfig):
     def __init__(self, subconf = "msb-broker"):
         super().__init__()
         self._load_conf(subconf=subconf)
-        self._parse_cmdline_args()
-        self._cmdline_config_override()
+        # self._parse_cmdline_args()
+        # self._cmdline_config_override()
 
     def _parse_cmdline_args(self):
         args = argparse.ArgumentParser()
@@ -37,7 +37,7 @@ class BrokerConfig(MSBConfig):
                 print(f"overriding print flag with command line flag")
             self.print_stdout = True
 
-if __name__ == "__main__":
-    config = BrokerConfig()
-    if config.verbose:
-        print(json.dumps(config.__dict__, indent=4))
+# if __name__ == "__main__":
+#     config = BrokerConfig()
+#     if config.verbose:
+#         print(json.dumps(config.__dict__, indent=4))
