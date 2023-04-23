@@ -2,15 +2,18 @@ import pytest
 
 def test_config_import():
     from msb.imu.IMUConfig import IMUConf
+    print(IMUConf)
 
 def test_config_yaml_parse():
     example_config_fpath = "../config/msb/imu.yaml"
     from msb.config.parse import read_yaml_config_file
     conf = read_yaml_config_file(example_config_fpath)
+    print(conf)
 
 def test_imu_config_class():
     from msb.imu.IMUConfig import IMUConf
     imu_conf = IMUConf()
+    print(imu_conf)
 
 def test_update_config_class():
     from msb.imu.IMUConfig import IMUConf
