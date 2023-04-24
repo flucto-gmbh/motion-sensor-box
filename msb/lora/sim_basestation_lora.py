@@ -49,6 +49,9 @@ with socket.connect(socket_name):
             "alt": message.gps[2],
         }
         socket.send_multipart(
-            ["lor".encode("utf-8"), pickle.dumps(data_dict),]
+            [
+                "lor".encode("utf-8"),
+                pickle.dumps(data_dict),
+            ]
         )
         time.sleep(0.3)

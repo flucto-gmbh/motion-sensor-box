@@ -7,9 +7,11 @@ from .ICM20948.ICM20948ZMQ import ICM20948ZMQ
 from .IMUConfig import IMUConfig
 from msb.config.zeromq import open_zmq_pub_socket
 
+
 def signal_handler(sig, frame):
-    print('msb_imu.py exit')
+    print("msb_imu.py exit")
     sys.exit(0)
+
 
 def msb_imu(imu_config: IMUConfig):
     signal.signal(signal.SIGINT, signal_handler)
@@ -26,6 +28,7 @@ def msb_imu(imu_config: IMUConfig):
     )
     imu.begin()
     signal.pause()
+
 
 def main():
     imu_config = IMUConfig()

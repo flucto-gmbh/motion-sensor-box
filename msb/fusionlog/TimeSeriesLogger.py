@@ -5,6 +5,7 @@ import time
 import uptime
 from random import random
 
+
 class TimeSeriesLogger:
     def __init__(self, topic, config, msb_sn=""):
         self._config = config
@@ -23,7 +24,7 @@ class TimeSeriesLogger:
         self.topic_data_dir = os.path.join(config.data_dir, topic)
         if not os.path.isdir(self.topic_data_dir):
             os.makedirs(self.topic_data_dir)
-    
+
     def __del__(self):
         if not self._filehandle.closed:
             self._filehandle.flush()
@@ -65,7 +66,7 @@ class TimeSeriesLogger:
             print(f"failed to open file handle {self._filepath}: {e}")
             sys.exit()
         else:
-            # if we are appending to an already existing file, 
+            # if we are appending to an already existing file,
             # do not write out the headers
             if not file_exists:
                 self._write_header()
@@ -77,9 +78,13 @@ class TimeSeriesLogger:
 
     def _write_header(self):
         if not self.topic in self._config.topic_headers:
-            print(f"warning: {self.topic} has no matching header defined in {self._config._conf_fpath}")
+            print(
+                f"warning: {self.topic} has no matching header defined in {self._config._conf_fpath}"
+            )
             return
-        self._filehandle.write("{}\n".format(",".join(self._config.topic_headers[self.topic])))
+        self._filehandle.write(
+            "{}\n".format(",".join(self._config.topic_headers[self.topic]))
+        )
 
     def _ts2str(self, timestamp: float) -> str:
         try:
@@ -87,6 +92,7 @@ class TimeSeriesLogger:
         except Exception as e:
             print(f"failed to convert to string: {timestamp}: {e}")
             sys.exit()
+
 
 if __name__ == "__main__":
     config = FusionlogConfig()

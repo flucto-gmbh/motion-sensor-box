@@ -9,8 +9,6 @@ class Payload:
         self.owner = "msb"
         self.date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-
-
     def to_json(self):
         return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
 
@@ -37,6 +35,7 @@ class Unpacker:
         data_dict = json.loads(data)
         return self.unpackers[unpack_type](data_dict)
 
+
 def unpack_to_dataclass(data_dict):
     class dc:
         def __init__(self, data_dict):
@@ -45,12 +44,16 @@ def unpack_to_dataclass(data_dict):
 
     return dc(data_dict)
 
+
 def unpack_to_dict(data):
     return data
 
 
 packer = Packer()
-packer.register("json", lambda x: json.dumps(x, default=lambda o: o.__dict__, sort_keys=True, indent=4))
+packer.register(
+    "json",
+    lambda x: json.dumps(x, default=lambda o: o.__dict__, sort_keys=True, indent=4),
+)
 
 unpacker = Unpacker()
 unpacker.register("dataclass", unpack_to_dataclass)

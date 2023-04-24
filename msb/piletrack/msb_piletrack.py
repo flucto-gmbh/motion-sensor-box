@@ -123,12 +123,15 @@ def get_frame(camera, piletrack_config):
         raw_capture.truncate(0)
         yield (frame_id, frame)
 
+
 def draw_tracks(frame, tracks, color=[0, 255, 0]):
     cv.polylines(frame, [np.int32(tr) for tr in tracks], False, (0, 255, 0))
+
 
 def show_video(frame, piletrack_config):
     cv.imshow("Frame", frame)
     key = cv.waitKey(1) & 0xFF
+
 
 def setup_recorder(frame, piletrack_config):
     # Thanks to: https://stackoverflow.com/questions/29317262/opencv-video-saving-in-python
@@ -149,6 +152,7 @@ def setup_recorder(frame, piletrack_config):
     )
     return out
     # out = cv.VideoWriter("output.avi", cv.VideoWriter_fourcc(*"MJPG"), 30,(640,480))
+
 
 def get_mask(frame, piletrack_config):
     # pile_mask = np.zeros(frame.shape[:2], dtype="uint8")
@@ -174,6 +178,7 @@ def get_mask(frame, piletrack_config):
     )
     return pile_mask
 
+
 def draw_roi(frame, piletrack_config):
     cv.rectangle(
         frame,
@@ -188,6 +193,7 @@ def draw_roi(frame, piletrack_config):
         (0, 255, 0),
         1,
     )
+
 
 def update_features(
     frame_id: int,
@@ -212,6 +218,7 @@ def update_features(
                 feature_tracks.append([(x, y)])
     return feature_tracks
 
+
 def filter_features(p0, p0r, p1, ylim, diff_limit=1):
     # calculate deviations between forwards optical flow and backwards optical flow
     tracking_diff = abs(p0 - p0r).reshape(-1, 2).max(-1)
@@ -220,6 +227,7 @@ def filter_features(p0, p0r, p1, ylim, diff_limit=1):
     # Monopile limit
     features_in_roi = np.array([item[0][1] for item in p1]) < ylim
     return features_to_keep & features_in_roi
+
 
 def calculate_velocity(feature_tracks, p1, features_to_keep):
     new_feature_tracks = []
@@ -242,6 +250,7 @@ def calculate_velocity(feature_tracks, p1, features_to_keep):
         all_x.append(new_x)  # For pixel-to-m conversion
 
     return (new_feature_tracks, feature_track_velocities, all_x)
+
 
 def track_features(
     frame_id: int,
@@ -342,6 +351,7 @@ def msb_piletrack(piletrack_config: PileTrackConfig):
         if piletrack_config.record_video:
             recorder.write(frame)
         previous_frame_gray = current_frame_gray.copy()
+
 
 if __name__ == "__main__":
     piletrack_config = PileTrackConfig()

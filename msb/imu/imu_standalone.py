@@ -11,11 +11,13 @@ from msb.config.zeromq import open_zmq_pub_socket
 
 # TODO
 # - add polling option
-# - add 
+# - add
+
 
 def signal_handler(sig, frame):
-    print('imu_standalone.py exit')
+    print("imu_standalone.py exit")
     sys.exit(0)
+
 
 def msb_imu(imu_config: IMUConfig):
     signal.signal(signal.SIGINT, signal_handler)
@@ -33,6 +35,7 @@ def msb_imu(imu_config: IMUConfig):
     imu.begin()
     if not imu_config.polling:
         signal.pause()
+
 
 if __name__ == "__main__":
     imu_config = IMUConfig()

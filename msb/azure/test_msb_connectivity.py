@@ -15,11 +15,14 @@ import uuid
 
 messages_to_send = 10
 
+
 async def main():
     # The connection string for a device should never be stored in code. For the sake of simplicity we're using an environment variable here.
     conn_str = os.getenv("ACS")
     if not conn_str:
-        print(f'empty connection string environment variable! please make sure, the correct environment variable containing the connecition string has been set')
+        print(
+            f"empty connection string environment variable! please make sure, the correct environment variable containing the connecition string has been set"
+        )
         sys.exit()
 
     # The client object is used to interact with your Azure IoT hub.
@@ -30,7 +33,7 @@ async def main():
 
     async def send_test_message(i):
         print(f"sending message #{i}")
-        msg = Message(json.dumps({'data1' : 1234, 'data2' : 1234}))
+        msg = Message(json.dumps({"data1": 1234, "data2": 1234}))
         msg.message_id = uuid.uuid4()
         msg.correlation_id = ""
         msg.custom_properties["msb-sn"] = f"{gethostname()}"
@@ -40,7 +43,9 @@ async def main():
         print("done sending message #" + str(i))
 
     # send `messages_to_send` messages in parallel
-    await asyncio.gather(*[send_test_message(i) for i in range(1, messages_to_send + 1)])
+    await asyncio.gather(
+        *[send_test_message(i) for i in range(1, messages_to_send + 1)]
+    )
 
     # Finally, shut down the client
     await device_client.shutdown()

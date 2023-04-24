@@ -117,7 +117,6 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
         print_stdout=False,
         polling=False,
     ):
-
         self.zmq_pub_socket = zmq_pub_socket
         # if an address is provided, us this, otherwise fall back to the first of the two default
         # addresses (0x68)
@@ -133,9 +132,7 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
             self._i2c = i2c_driver
 
         if acc_sensitivity in self._acc_sensitivity_dict:
-            self._acc_sensitivity = self._acc_sensitivity_dict[
-                acc_sensitivity
-            ]
+            self._acc_sensitivity = self._acc_sensitivity_dict[acc_sensitivity]
             self._acc_scale = self._acc_scale_dict[acc_sensitivity]
         else:
             print("invalid accelerometer sensitivity, defaulting to +- 2g")
@@ -159,9 +156,11 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
         if gyr_filter < len(self._gyr_filter_list):
             self._gyr_filter = self._gyr_filter_list[gyr_filter]
         else:
-            print(f"invalid gyroscope filter selection {gyr_filter}, defaulting to filter 1")
+            print(
+                f"invalid gyroscope filter selection {gyr_filter}, defaulting to filter 1"
+            )
             self._gyr_filter = self._gyr_filter_list[0]
-        
+
         self._precision = precision
         self._output_data_div = output_data_div
         self._verbose = verbose
@@ -262,27 +261,33 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
         self._data[2] = uptime.uptime()
         # acceleration
         self._data[3] = round(
-            self.to_signed_int(((buff[0] << 8) | (buff[1] & 0xFF))) / self._acc_scale, self._precision
+            self.to_signed_int(((buff[0] << 8) | (buff[1] & 0xFF))) / self._acc_scale,
+            self._precision,
         )
         self._data[4] = round(
-            self.to_signed_int(((buff[2] << 8) | (buff[3] & 0xFF))) / self._acc_scale, self._precision
+            self.to_signed_int(((buff[2] << 8) | (buff[3] & 0xFF))) / self._acc_scale,
+            self._precision,
         )
         self._data[5] = round(
-            self.to_signed_int(((buff[4] << 8) | (buff[5] & 0xFF))) / self._acc_scale, self._precision
+            self.to_signed_int(((buff[4] << 8) | (buff[5] & 0xFF))) / self._acc_scale,
+            self._precision,
         )
         # angular velocity
         self._data[6] = round(
-            self.to_signed_int(((buff[6] << 8) | (buff[7] & 0xFF))) / self._gyr_scale, self._precision
+            self.to_signed_int(((buff[6] << 8) | (buff[7] & 0xFF))) / self._gyr_scale,
+            self._precision,
         )
         self._data[7] = round(
-            self.to_signed_int(((buff[8] << 8) | (buff[9] & 0xFF))) / self._gyr_scale, self._precision
+            self.to_signed_int(((buff[8] << 8) | (buff[9] & 0xFF))) / self._gyr_scale,
+            self._precision,
         )
         self._data[8] = round(
-            self.to_signed_int(((buff[10] << 8) | (buff[11] & 0xFF))) / self._gyr_scale, self._precision
+            self.to_signed_int(((buff[10] << 8) | (buff[11] & 0xFF))) / self._gyr_scale,
+            self._precision,
         )
         # magnetic field
         # careful: magnetic data is read little endian
-        self._data[9]  = round((buff[16] << 8) | (buff[15] & 0xFF), self._precision)
+        self._data[9] = round((buff[16] << 8) | (buff[15] & 0xFF), self._precision)
         self._data[10] = round((buff[18] << 8) | (buff[17] & 0xFF), self._precision)
         self._data[11] = round((buff[20] << 8) | (buff[19] & 0xFF), self._precision)
         self._data[12] = round((buff[12] << 8) | (buff[13] & 0xFF), self._precision)
@@ -292,7 +297,7 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
         if self._verbose:
             print(f"data: {self._data}")
         if self._print_stdout:
-            print(','.join(map(str, self._data)))
+            print(",".join(map(str, self._data)))
 
     def _poll(self):
         while True:
@@ -313,9 +318,7 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
                     print("sleeping 1 ms")
                 time.sleep(0.001)
 
-
     def _configure_interrupt(self):
-
         gpio.setmode(gpio.BCM)
         gpio.setup(self.interrupt_pin, gpio.IN, pull_up_down=gpio.PUD_UP)
         gpio.add_event_detect(
@@ -581,9 +584,7 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
 
         # Write register
         self._set_bank(2)
-        self._i2c.write_byte_data(
-            self.address, self._AGB2_REG_ACCEL_CONFIG_1, register
-        )
+        self._i2c.write_byte_data(self.address, self._AGB2_REG_ACCEL_CONFIG_1, register)
 
         register = self._i2c.read_byte_data(self.address, self._AGB2_REG_ACCEL_CONFIG_1)
         if self._verbose:
@@ -612,14 +613,10 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
 
         # Write register
         self._set_bank(2)
-        self._i2c.write_byte_data(
-            self.address, self._AGB2_REG_GYRO_CONFIG_1, register
-        )
+        self._i2c.write_byte_data(self.address, self._AGB2_REG_GYRO_CONFIG_1, register)
         register = self._i2c.read_byte_data(self.address, self._AGB2_REG_GYRO_CONFIG_1)
         if self._verbose:
             print(f"low pass filter for gyroscope is: {register >> 3}")
-
-
 
     def enable_DLPF_accel(self, on):
         """
