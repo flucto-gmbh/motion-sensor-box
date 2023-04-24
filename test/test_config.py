@@ -26,7 +26,6 @@ def test_update_config_class():
     update_config(imu_conf, updated_config)
     assert imu_conf.verbose == updated_config['verbose']
 
-
 def test_attribute_does_not_exists_warning():
     from msb.imu.IMUConfig import IMUConf
     from msb.config.parse import update_config
