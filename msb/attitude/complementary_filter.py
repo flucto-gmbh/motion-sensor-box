@@ -1,4 +1,4 @@
-class complementaryFilter:
+class complementaryFilter():
     def __init__():
         pass
 

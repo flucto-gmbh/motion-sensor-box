@@ -10,8 +10,7 @@ import uptime
 from .IMUConfig import IMUConfig
 from msb.config.zeromq import open_zmq_pub_socket
 
-IMU_TOPIC = b"imu"
-
+IMU_TOPIC=b'imu'
 
 class IMU:
 
@@ -47,6 +46,7 @@ class IMU:
         pass
 
     def _update_data(self):
+
         """
         this funciton is regularly called by the data_generator_process to
         provide updated values of the simulated sensor

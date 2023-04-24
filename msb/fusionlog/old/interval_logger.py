@@ -15,6 +15,7 @@ def exit_handler(signal, frame):
 
 
 def calc_interval_from_timestamp(t: float, dt_interval: int = DT_INTERVAL):
+
     interval_minutes = dt_interval / 60
 
     # convert unix epoch to datetime object
@@ -75,6 +76,7 @@ def update_interval_file_handle(
     dt_interval: int = DT_INTERVAL,
     verbose: bool = False,
 ) -> tuple:
+
     # get the next interval
     next_interval = get_next_interval(
         current_interval=current_interval, dt_interval=dt_interval

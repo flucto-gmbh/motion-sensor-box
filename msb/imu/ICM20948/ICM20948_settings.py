@@ -1,12 +1,12 @@
 class ICM20948_SETTINGS(object):
-
+    
     """
     ICM20948 Settings class
         : param  blabla: asfdasg
         : return:        ICM20938 Settings object
         : rtype:         Object
     """
-
+    
     def __init__(self):
         pass
 
@@ -15,38 +15,38 @@ class ICM20948_SETTINGS(object):
 
     # Gyro full scale range options [_AGB2_REG_GYRO_CONFIG_1]
     _gyr_sensitivity_dict = {
-        "250dps": 0x00,
-        "500dps": 0x01,
-        "1000dps": 0x02,
-        "2000dps": 0x03,
+        '250dps'  : 0x00,
+        '500dps'  : 0x01,
+        '1000dps' : 0x02,
+        '2000dps' : 0x03,
     }
 
-    # Gyro scaling factors
+     # Gyro scaling factors
     _gyr_scale_dict = {
-        "250dps": 131.0,
-        "500dps": 65.5,
-        "1000dps": 32.8,
-        "2000dps": 16.4,
+        '250dps'  : 131.0,
+        '500dps'  :  65.5,
+        '1000dps' :  32.8,
+        '2000dps' :  16.4
     }
-
+    
     # Accelerometer full scale range options [_AGB2_REG_ACCEL_CONFIG]
     _acc_sensitivity_dict = {
-        "2g": 0x00,
-        "4g": 0x01,
-        "8g": 0x02,
-        "16g": 0x03,
+         '2g' : 0x00,
+         '4g' : 0x01,
+         '8g' : 0x02,
+        '16g' : 0x03,
     }
 
     # Accelerometer scaling factors depending on accelerometer sensitivity
     _acc_scale_dict = {
-        "2g": 16384.0,
-        "4g": 8192.0,
-        "8g": 4096.0,
-        "16g": 2048.0,
+         '2g' : 16384.0,
+         '4g' :  8192.0,
+         '8g' :  4096.0,
+        '16g' :  2048.0,
     }
 
     # Accelerometer low pass filter configuration options
-    # Format is dAbwB_nXbwY - A is the integer part of 3db BW, B is the fraction.
+    # Format is dAbwB_nXbwY - A is the integer part of 3db BW, B is the fraction. 
     # X is integer part of nyquist bandwidth, Y is the fraction
     _acc_d246bw_n265bw = 0x00
     _acc_d246bw_n265bw_1 = 0x01

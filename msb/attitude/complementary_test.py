@@ -3,17 +3,9 @@ from scipy.signal import filtfilt, butter
 from quaternion import quaternion, from_rotation_vector, rotate_vectors
 
 
-def estimate_orientation(
-    a,
-    w,
-    t,
-    alpha=0.9,
-    g_ref=(0.0, 0.0, 1.0),
-    theta_min=1e-6,
-    highpass=0.01,
-    lowpass=0.05,
-):
-    """Estimate orientation with a complementary filter.
+def estimate_orientation(a, w, t, alpha=0.9, g_ref=(0., 0., 1.),
+                         theta_min=1e-6, highpass=.01, lowpass=.05):
+    """ Estimate orientation with a complementary filter.
     Fuse linear acceleration and angular velocity measurements to obtain an
     estimate of orientation using a complementary filter as described in
     `Wetzstein 2017: 3-DOF Orientation Tracking with IMUs`_
@@ -53,14 +45,15 @@ def estimate_orientation(
     q = np.ones(N, dtype=quaternion)
 
     # get high-passed angular velocity
-    w = filtfilt(*butter(5, highpass, btype="high"), w, axis=0)
+    w = filtfilt(*butter(5, highpass, btype='high'), w, axis=0)
     w[np.linalg.norm(w, axis=1) < theta_min] = 0
     q_delta = from_rotation_vector(w[1:] * dt[:, None])
 
     # get low-passed linear acceleration
-    a = filtfilt(*butter(5, lowpass, btype="low"), a, axis=0)
+    a = filtfilt(*butter(5, lowpass, btype='low'), a, axis=0)
 
     for i in range(1, N):
+
         # get rotation estimate from gyroscope
         q_w = q[i - 1] * q_delta[i - 1]
 
@@ -68,9 +61,8 @@ def estimate_orientation(
         v_world = rotate_vectors(q_w, a[i])
         n = np.cross(v_world, g_ref)
         phi = np.arccos(np.dot(v_world / np.linalg.norm(v_world), g_ref))
-        q_a = from_rotation_vector((1 - alpha) * phi * n[None, :] / np.linalg.norm(n))[
-            0
-        ]
+        q_a = from_rotation_vector(
+            (1 - alpha) * phi * n[None, :] / np.linalg.norm(n))[0]
 
         # fuse both estimates
         q[i] = q_a * q_w

@@ -14,24 +14,22 @@ from .GPSConfig import GPSConfig, GPS_TOPIC
 
 zero_timestamp = datetime.fromtimestamp(0, tz=timezone.utc)
 
-
-def open_gpsd_socket(gps_config: GPSConfig):
+def open_gpsd_socket(gps_config : GPSConfig):
     if gps_config.verbose:
-        print(f"connecting to gpsd socket")
+        print(f'connecting to gpsd socket')
     try:
         gpsd_socket = gps.gps(mode=gps.WATCH_ENABLE)
     except Exception as e:
-        print("failed to connect to gpsd")
+        print('failed to connect to gpsd')
         sys.exit(-1)
     if gps_config.verbose:
-        print(f"connected to gpsd socket")
+        print(f'connected to gpsd socket')
 
     return gpsd_socket
 
-
 def assemble_data(report):
     return [
-        datetime.fromtimestamp(ts := time.time(), tz=timezone.utc),
+        datetime.fromtimestamp(ts := time.time(), tz=timezone.utc), 
         ts,
         uptime.uptime(),
         report["mode"] if "mode" in report else 0,
@@ -44,10 +42,9 @@ def assemble_data(report):
         report["magtrack"] if "magtrack" in report else 0,
         report["magvar"] if "magvar" in report else 0,
         report["speed"] if "speed" in report else 0,
-    ]
+    ]          
 
-
-def consume_send_gps_data(gps_config: GPSConfig, zmq_socket, gpsd_socket):
+def consume_send_gps_data(gps_config : GPSConfig, zmq_socket, gpsd_socket):
     try:
         while True:
             report = gpsd_socket.next().__dict__
@@ -55,25 +52,29 @@ def consume_send_gps_data(gps_config: GPSConfig, zmq_socket, gpsd_socket):
                 if gps_config.verbose:
                     print(f"received TPV report {report}")
                 if report["mode"] == 0 and gps_config.verbose:
-                    print("no gps fix available")
+                    print('no gps fix available')
                 zmq_socket.send_multipart(
-                    [GPS_TOPIC, pickle.dumps((data := assemble_data(report)))]
+                    [
+                        GPS_TOPIC,
+                        pickle.dumps(
+                            (data := assemble_data(report))
+                        )
+                    ]
                 )
                 if gps_config.print_stdout:
-                    print(f",".join(map(str, data)))
+                    print(f','.join(map(str, data)))
     except StopIteration:
         logging.fatal("GPSD has terminated")
     except KeyboardInterrupt:
-        logging.info("goodbye")
+        logging.info('goodbye')
         sys.exit(0)
 
-
-def msb_gps(gps_config: GPSConfig):
+def msb_gps(gps_config : GPSConfig):
     zmq_pub_socket = open_zmq_pub_socket(gps_config.zmq["xsub_connect_string"])
     gpsd_socket = open_gpsd_socket(gps_config)
     consume_send_gps_data(gps_config, zmq_pub_socket, gpsd_socket)
 
-
 def main():
     gps_config = GPSConfig()
     msb_gps(gps_config)
+

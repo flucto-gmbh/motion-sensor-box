@@ -1,12 +1,12 @@
-class exponentialFilter:
+class exponentialFilter():
 
     """
-    exponentialFilter
+    exponentialFilter 
 
-    implements a simple exonential filter on
+    implements a simple exonential filter on  
     """
-
-    def __init__(self, weight=0.1):
+    
+    def __init__(self, weight = 0.1):
         self._weight = weight
 
     def __del__(self):

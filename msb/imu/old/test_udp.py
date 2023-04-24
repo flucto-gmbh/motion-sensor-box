@@ -5,4 +5,4 @@ s.bind(("192.168.1.3", 6666))
 
 while True:
     d = s.recvfrom(1024)
-    print(f"received: {d}")
+    print(f'received: {d}')

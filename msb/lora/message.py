@@ -24,6 +24,7 @@ class DeserializeError(ValueError):
 
 
 class Message(ABC):
+
     topic = Topic.UNDEFINED
     _sender_dtype = np.ushort
 
@@ -107,6 +108,7 @@ class PickleMessage(Message):
 
 
 class NumpyMessage(Message):
+
     array_dtype = np.float32
 
     @classmethod
@@ -130,6 +132,7 @@ class NumpyMessage(Message):
 
 
 class TimeAttGPSMessage(Message):
+
     timestamp_dtype = np.float64
     attitude_dtype = np.float32
     gps_dtype = np.float32

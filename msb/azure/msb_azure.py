@@ -25,7 +25,6 @@ messages_to_send = 10
 
 imu_buffer = deque(maxlen=1)
 
-
 def read_from_zeromq(socket):
     global imu_buffer
     try:
@@ -37,57 +36,50 @@ def read_from_zeromq(socket):
         print(f"failed: {e}")
         sys.exit(-1)
 
-
 async def create_client(verbose=False) -> IoTHubDeviceClient:
     # The connection string for a device should never be stored in code. For the sake of simplicity we're using an environment variable here.
     conn_str = os.getenv("ACS")
     if not conn_str:
-        print(
-            f"empty connection string environment variable! please make sure, the correct environment variable containing the connecition string has been set"
-        )
+        print(f'empty connection string environment variable! please make sure, the correct environment variable containing the connecition string has been set')
         sys.exit()
     # The client object is used to interact with your Azure IoT hub.
     # if the websockets flag is set to True, MQTT via websockets will be used
-    device_client = IoTHubDeviceClient.create_from_connection_string(
-        conn_str, websockets=True
-    )
+    device_client = IoTHubDeviceClient.create_from_connection_string(conn_str, websockets=True)
     # Connect the client.
-    # this can time out, so a time out exception must be catched.
+    # this can time out, so a time out exception must be catched. 
     await device_client.connect()
     return device_client
 
-
-async def send_message(
-    data: str, device_client: IoTHubDeviceClient, config: str, verbose=False
-):
+async def send_message(data : str, device_client : IoTHubDeviceClient, config : str, verbose=False):
     msg = Message(data)
     msg.message_id = uuid.uuid4()
     msg.correlation_id = ""
-    msg.custom_properties["msb-sn"] = config["serialnumber"]
+    msg.custom_properties["msb-sn"] = config['serialnumber']
     msg.content_encoding = "utf-8"
     msg.content_type = "application/json"
     await device_client.send_message(msg)
 
-
 async def msb_azure():
     config = parse_msb_config(get_msb_config_filepath())
     connect_to = get_zmq_xpub_socketstring(config)
-    print(f"binding to {connect_to} for zeroMQ IPC")
+    print(f'binding to {connect_to} for zeroMQ IPC')
     ctx = zmq.Context()
     s = ctx.socket(zmq.SUB)
     s.connect(connect_to)
-    print(f"connected to zeroMQ IPC socket")
-    s.setsockopt(zmq.SUBSCRIBE, b"imu")
+    print(f'connected to zeroMQ IPC socket')
+    s.setsockopt(zmq.SUBSCRIBE, b'imu')
 
     threading.Thread(target=read_from_zeromq, daemon=True, args=[s]).start()
 
     device_client = await create_client()
     while True:
         if len(imu_buffer) == 0:
-            print(f"no imu data in buffer")
+            print(f'no imu data in buffer')
             time.sleep(0.01)
         else:
-            data = pickle.loads(imu_buffer.pop())
+            data = pickle.loads(
+                imu_buffer.pop()
+            )
             await send_message(json.dumps(data), device_client, config)
             time.sleep(0.01)
 

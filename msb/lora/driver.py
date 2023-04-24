@@ -168,7 +168,7 @@ def make_reg_00h_byte(module_address: int) -> int:
     :return: High bits of address.
     """
 
-    assert 0 <= module_address < 2**16
+    assert 0 <= module_address < 2 ** 16
     address_str = format(module_address, "016b")
     assert len(address_str) == 16
     return int(address_str[:8], 2)
@@ -192,7 +192,7 @@ def make_reg_01h_byte(module_address: int) -> int:
     :return: Low bits of address.
     """
 
-    assert 0 <= module_address < 2**16
+    assert 0 <= module_address < 2 ** 16
     address_str = format(module_address, "016b")
     assert len(address_str) == 16
     return int(address_str[8:], 2)
@@ -351,7 +351,7 @@ def make_reg_07h_byte(key: int) -> int:
     :param key: The encryption key. (0-2^16-1)
     :return: The high bits of the key.
     """
-    assert 0 <= key < 2**16
+    assert 0 <= key < 2 ** 16
     key_str = format(key, "016b")
     assert len(key_str) == 16
     return int(key_str[:8], 2)
@@ -367,13 +367,14 @@ def make_reg_08h_byte(key: int) -> int:
     :param key: The encryption key. (0-2^16-1)
     :return: The high bits of the key.
     """
-    assert 0 <= key < 2**16
+    assert 0 <= key < 2 ** 16
     key_str = format(key, "016b")
     assert len(key_str) == 16
     return int(key_str[8:], 2)
 
 
 class LoRaHatDriver:
+
     M0 = 22
     M1 = 27
 
@@ -425,6 +426,7 @@ class LoRaHatDriver:
         logging.info("Successfully shut down.")
 
     def apply_config(self):
+
         command_bytes = serialize_config(self.config)
         answer_bytes = bytes([RET_HEADER]) + command_bytes[1:]
 
