@@ -3,37 +3,44 @@ import sys
 import zmq
 
 from .BrokerConfig import BrokerConfig
+from msb.broker.config import BrokerConf
+from msb.config import load_config
 
 def signal_handler(sig, frame):
     print('msb_broker.py exit')
     sys.exit(0)
 
-def msb_broker(broker_config : BrokerConfig):
-    if broker_config.verbose:
+
+def msb_broker(config : BrokerConf):
+    # xsub binds to publisher address/port
+    xsub_address = config.publisher_address
+    # xpub binds to subscriber address/port
+    xpub_address = config.subscriber_address
+    if config.verbose:
         print("creating zmq context object")
     ctx = zmq.Context()
-    if broker_config.verbose:
+    if config.verbose:
         print("creating xpub socket")
     xpub = ctx.socket(zmq.XPUB)
-    if broker_config.verbose:
+    if config.verbose:
         print("creating zsub socket")
     xsub = ctx.socket(zmq.XSUB)
     try:
-        xpub.bind(broker_config.zmq["xpub_connect_string"])
-    except Exception as e:
+        xpub.bind(xpub_address)
+    except Exception as e: # TODO limit exceptions
         print(f'failed to bind to publisher: {e}')
-        sys.exit(-1)
-    if broker_config.verbose:
-        print(f'successully bound to publisher socket: {broker_config.zmq["xpub_connect_string"]}')
+        sys.exit(-1) # TODO why use -1?
+    if config.verbose:
+        print(f'successfully bound to publisher socket: {xpub_address}')
     try:
-        xsub.bind(broker_config.zmq["xsub_connect_string"])
+        xsub.bind(xsub_address)
     except Exception as e:
         print(f'failed to bin to subscriber: {e}')
         sys.exit(-1)
-    if broker_config.verbose:
-        print(f'successully bound to subscriber socket: {broker_config.zmq["xsub_connect_string"]}')
+    if config.verbose:
+        print(f'successully bound to subscriber socket: {xsub_address}')
     try:
-        if broker_config.verbose:
+        if config.verbose:
             print("creating proxy")
         zmq.proxy(xpub, xsub)
     except Exception as e:
@@ -42,5 +49,5 @@ def msb_broker(broker_config : BrokerConfig):
 
 def main():
     signal.signal(signal.SIGINT, signal_handler)
-    broker_config = BrokerConfig()
+    broker_config = load_config(BrokerConf(), "broker")
     msb_broker(broker_config)
