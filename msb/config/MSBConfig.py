@@ -10,6 +10,9 @@ class MSBConf():
     """
     default configuration class for generic configuration info
     """
+    verbose: bool = False
+    print_stdout: bool = False
+
     def __setitem__(self, key, value):
         if hasattr(self, key):
             self.__setattr__(key, value)
