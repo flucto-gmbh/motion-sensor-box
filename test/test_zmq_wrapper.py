@@ -8,7 +8,7 @@ from threading import Thread
 
 from msb.zmq_base.Publisher import Publisher, get_default_publisher
 from msb.zmq_base.Subscriber import Subscriber, get_default_subscriber
-from msb.zmq_base.Config import ZMQConf
+from msb.zmq_base.config import PublisherSubscriberConf
 
 SLEEPTIME = 0.1
 
@@ -25,7 +25,7 @@ def mock_broker():
     Is not exactly beautiful yet and can be replaced
     by running the broker in a separate terminal
     """
-    config = ZMQConf()
+    config = PublisherSubscriberConf()
     context = zmq.Context.instance()
     # create the mock broker as described above
     xpub_socket = context.socket(zmq.XPUB)
@@ -103,7 +103,7 @@ def test_subscriber_without_broker():
     ctx = zmq.Context.instance()
     pub = ctx.socket(zmq.PUB)
     pub.bind(f"tcp://*:{port}")
-    subscriber_config = ZMQConf(consumer_port=port)
+    subscriber_config = PublisherSubscriberConf(subscriber_port=port)
     sub = Subscriber(test_topic, subscriber_config)
     wait()
 
