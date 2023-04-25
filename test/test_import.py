@@ -6,7 +6,7 @@ def test_mqtt_import():
 
 def test_broker_import():
     import msb.broker.msb_broker
-    import msb.broker.BrokerConfig
+    from msb.broker.config import BrokerConf
 
 def test_attitude_import():
     import msb.attitude.msb_attitude

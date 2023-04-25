@@ -2,7 +2,6 @@ import signal
 import sys
 import zmq
 
-from .BrokerConfig import BrokerConfig
 from msb.broker.config import BrokerConf
 from msb.config import load_config
 
