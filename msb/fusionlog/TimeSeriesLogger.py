@@ -5,15 +5,18 @@ import time
 import uptime
 from random import random
 
+from msb.fusionlog.config import FusionlogConf
+
+
 class TimeSeriesLogger:
-    def __init__(self, topic, config, msb_sn=""):
-        self._config = config
+    def __init__(self, topic, config: FusionlogConf, msb_sn: str = ""):
+        self.config = config
         if msb_sn:
             self.msb_sn = msb_sn
         else:
-            self.msb_sn = self._config.serialnumber
+            self.msb_sn = self.config.serial_number
         self.topic = topic
-        self.interval = timedelta(seconds=self._config.logfile_interval)
+        self.interval = timedelta(seconds=self.config.logfile_interval)
         self.lower_timelimit = (
             datetime.fromtimestamp(0, tz=timezone.utc) - self.interval
         )
@@ -23,13 +26,17 @@ class TimeSeriesLogger:
         self.topic_data_dir = os.path.join(config.data_dir, topic)
         if not os.path.isdir(self.topic_data_dir):
             os.makedirs(self.topic_data_dir)
-    
+
     def __del__(self):
         if not self._filehandle.closed:
             self._filehandle.flush()
             self._filehandle.close()
 
     def write(self, data):
+        # TODO data[0] does not exist for new json data
+        # data["datetime"] is str not datetime object
+        # we would need to use e.g. datetime.fromisoformat(data["datetime"])
+        # or datetime.strptime(data["datetime"], data["datetime_fmt"])
         if (timestamp := data[0]) > self.upper_timelimit:
             self._update_filehandle(timestamp)
         try:
@@ -38,13 +45,13 @@ class TimeSeriesLogger:
             print(f"failed to write data to filehandle {self._filepath}: {e}")
             sys.exit()
 
-    def _update_filehandle(self, timestamp: float):
+    def _update_filehandle(self, timestamp: datetime):
         if self._filehandle:
             self._filehandle.flush()
             self._filehandle.close()
         self._create_filehandle(timestamp)
 
-    def _create_filehandle(self, timestamp: float):
+    def _create_filehandle(self, timestamp: datetime):
         file_exists = False
         self._calc_timelimits(timestamp)
         self._filepath = os.path.join(
@@ -61,35 +68,42 @@ class TimeSeriesLogger:
             if os.path.isfile(self._filepath):
                 file_exists = True
             self._filehandle = open(self._filepath, "a")
-        except Exception as e:
+        except Exception as e:  # TODO catch proper exception
             print(f"failed to open file handle {self._filepath}: {e}")
             sys.exit()
         else:
-            # if we are appending to an already existing file, 
+            # if we are appending to an already existing file,
             # do not write out the headers
             if not file_exists:
                 self._write_header()
 
-    def _calc_timelimits(self, timestamp: float):
+    def _calc_timelimits(self, timestamp: datetime):
         while timestamp > self.upper_timelimit:
             self.lower_timelimit = self.upper_timelimit
             self.upper_timelimit += self.interval
 
     def _write_header(self):
-        if not self.topic in self._config.topic_headers:
-            print(f"warning: {self.topic} has no matching header defined in {self._config._conf_fpath}")
-            return
-        self._filehandle.write("{}\n".format(",".join(self._config.topic_headers[self.topic])))
+        pass
+        # TODO update to new dict/json data
+        # if not self.topic in self.config.topic_headers:
+        #     print(
+        #         f"warning: {self.topic} has no matching header defined in {self.config._conf_fpath}"
+        #     )
+        #     return
+        # self._filehandle.write(
+        #     "{}\n".format(",".join(self.config.topic_headers[self.topic]))
+        # )
 
-    def _ts2str(self, timestamp: float) -> str:
+    def _ts2str(self, timestamp: datetime) -> str:
         try:
-            return timestamp.strftime(self._config.datetime_fmt)
+            return timestamp.strftime(self.config.datetime_fmt)
         except Exception as e:
             print(f"failed to convert to string: {timestamp}: {e}")
             sys.exit()
 
+
 if __name__ == "__main__":
-    config = FusionlogConfig()
+    config = FusionlogConf()
     # set the log interval to a small number to test overflowing of the interval
     config.logfile_interval = 60
     logger = TimeSeriesLogger("imu", config)
