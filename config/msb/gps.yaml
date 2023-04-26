@@ -1,5 +1,3 @@
-msb-gps:
-  verbose         : false
-  print_stdout    : false
+topic: "gps"
 
 
