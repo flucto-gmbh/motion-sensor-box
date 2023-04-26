@@ -11,8 +11,9 @@ ConfigType = TypeVar("ConfigType", bound=MSBConf)
 
 
 def get_msb_config_filepath(config_filename : str = "msb.conf") -> str:
+    config_subpath = os.path.join("msb/conf.d/", config_filename)
     try:
-        config_filepath = os.path.join(os.environ['MSB_CONFIG'], config_filename)
+        config_filepath = os.path.join(os.environ['MSB_CONFIG_DIR'], config_subpath)
     except Exception as e:
         print(f"could no get MSB_CONFIG from PATH: {e}")
         sys.exit() # TODO use 1 or the error str as exit value
