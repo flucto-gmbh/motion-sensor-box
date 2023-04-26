@@ -59,7 +59,7 @@ class MQTT_Publisher(MQTT_Base):
         self.subscriber = zmq_subscriber
         self.client.on_publish = self._on_publish
 
-    def map_topic(zmq_topic):
+    def _map_topic(zmq_topic):
         return zmq_topic
 
     def _on_publish(self, client, userdata, message_id):
@@ -73,7 +73,7 @@ class MQTT_Publisher(MQTT_Base):
         while True:
             # This is blocking
             (zmq_topic, data) = self.subscriber.receive()
-            mqtt_topic = self.map_topic(zmq_topic)
+            mqtt_topic = self._map_topic(zmq_topic)
 
             self.send(mqtt_topic, data)
 
@@ -82,23 +82,37 @@ class MQTT_Subscriber(MQTT_Base):
     def __init__(self, config, zmq_publisher):
         super().__init__(config)
         self.publisher = zmq_publisher
+        self._subscribe_to_topics()
         self.client.on_message = self._on_message
         self.client.loop_start()
 
     def __del__(self):
         self.client.loop_stop()
 
+    def _subscribe_to_topics(self):
+        # if subscribing to multiple topics, use a list of tuples
+        subscription_list = [(topic, self.config.qos) for topic in self.config.topics]
+        self.client.subscribe(subscription_list)
+
     def _on_message(self, client, userdata, message):
         """
-        Callback for when a message is received
+        Callback on message, processes message and sends via ZMQ
         """
         try:
-            decoded_message = message.payload.decode()
-            data = json.loads(decoded_message)
-            print(f"Received message '{decoded_message}' on topic '{message.topic}'")
+            self._process_message(message)
         except Exception as e:
             print("Could not unpack message")
             print(e)
+
+    def _process_message(self, message):
+        decoded_message = message.payload.decode()
+        data = json.loads(decoded_message)
+        zmq_topic = self._map_topic(message.topic)
+        self.publisher.send(zmq_topic, data)
+        print(f"Received message '{decoded_message}' on topic '{message.topic}'")
+
+    def _map_topic(self, mqtt_topic):
+        return mqtt_topic
 
 
 def main():
