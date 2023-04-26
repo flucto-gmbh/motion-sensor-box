@@ -4,6 +4,7 @@ import os
 import sys
 import warnings
 import yaml
+import socket
 
 @dataclass
 class MSBConf():
@@ -24,6 +25,10 @@ class MSBConf():
             return getattr(self, key)
         else:
             warnings.warn(UserWarning(f"no such class member: {key}"))
+
+    @property
+    def serial_number(self):
+        return socket.gethostname().upper()
 
 
 class MSBConfig(object):
