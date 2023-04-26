@@ -48,5 +48,5 @@ def msb_broker(config : BrokerConf):
 
 def main():
     signal.signal(signal.SIGINT, signal_handler)
-    broker_config = load_config(BrokerConf(), "broker")
+    broker_config = load_config(BrokerConf(), "zmq")
     msb_broker(broker_config)
