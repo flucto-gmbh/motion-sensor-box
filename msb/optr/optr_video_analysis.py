@@ -53,6 +53,6 @@ def main():
 
     with open("tracks.txt", "w") as f:
         for velocities in tracker.tracking_loop():
-            tracks = tracker.tracks
+            tracks = tracker._tracks
             payload = optr_payload(tracks)
             f.write(str(payload["distance"]))
