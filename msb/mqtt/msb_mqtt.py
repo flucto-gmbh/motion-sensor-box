@@ -14,19 +14,18 @@ class MQTTConfig:
     password: str = "mqttpass"
     port: int = 1883
     ssl: bool = False
-    zmq_topics: list = []
-    mqtt_topics: list = []
-    timesource: str = "default"
+    qos: int = 0
+    # zmq_topics: list = []
+    # mqtt_topics: list = []
 
 
 class MQTT_Base:
     def __init__(self, config):
         self.config = config
-        self.create_topic_mapping()
         self.connect()
 
     # MQTT callbacks
-    def on_connect(self, client, userdata, flags, return_code):
+    def _on_connect(self, client, userdata, flags, return_code):
         if return_code == 0:
             print(f"MQTT node connected to {self.config.broker}:{self.config.port}")
         else:
@@ -37,7 +36,7 @@ class MQTT_Base:
 
     def connect(self):
         self.client = mqtt_client.Client()
-        self.client.username_pw_set(self.config.user, self.config.passwd)
+        self.client.username_pw_set(self.config.user, self.config.password)
         self.client.on_connect = self._on_connect
         self.client.on_disconnect = self._on_disconnect
 
@@ -49,9 +48,12 @@ class MQTT_Base:
         self.client.connect(self.config.broker, self.config.port)
 
     def send(self, topic: str, data: dict):
-        payload = json.dumps(data)
+        payload = self.pack(data)
         self.client.publish(topic, payload, qos=self.config.qos)
-
+    
+    def pack(self, data):
+        payload = json.dumps(data)
+        return payload
 
 class MQTT_Publisher(MQTT_Base):
     def __init__(self, config, zmq_subscriber):
