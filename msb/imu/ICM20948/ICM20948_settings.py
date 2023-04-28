@@ -42,9 +42,6 @@ class ICM20948_SETTINGS(object):
         : return:        ICM20938 Settings object
         : rtype:         Object
     """
-    
-    def __init__(self):
-        pass
 
     def parse_config_file(self, filepath):
         pass
@@ -84,45 +81,28 @@ class ICM20948_SETTINGS(object):
     # Accelerometer low pass filter configuration options
     # Format is dAbwB_nXbwY - A is the integer part of 3db BW, B is the fraction. 
     # X is integer part of nyquist bandwidth, Y is the fraction
+    _acc_filter_dict = {
+        AccelerationFilter.DLPF_246: 0x00,
+        # AccelerationFilter.DLPF_246: 0x01,
+        AccelerationFilter.DLPF_111: 0x02,
+        AccelerationFilter.DLPF_50: 0x03,
+        AccelerationFilter.DLPF_23: 0x04,
+        AccelerationFilter.DLPF_11: 0x05,
+        AccelerationFilter.DLPF_5: 0x06,
+        AccelerationFilter.DLPF_473: 0x07,
 
-    _acc_d246bw_n265bw = 0x00
-    _acc_d246bw_n265bw_1 = 0x01
-    _acc_d111bw4_n136bw = 0x02
-    _acc_d50bw4_n68bw8 = 0x03
-    _acc_d23bw9_n34bw4 = 0x04
-    _acc_d11bw5_n17bw = 0x05
-    _acc_d5bw7_n8bw3 = 0x06
-    _acc_d473bw_n499bw = 0x07
-
-    _acc_filter_list = [
-        _acc_d473bw_n499bw,
-        _acc_d246bw_n265bw_1,
-        _acc_d111bw4_n136bw,
-        _acc_d50bw4_n68bw8,
-        _acc_d23bw9_n34bw4,
-        _acc_d11bw5_n17bw,
-        _acc_d11bw5_n17bw,
-        _acc_d11bw5_n17bw,
-    ]
+    }
 
     # Gryo low pass filter configuration options
     # Format is dAbwB_nXbwZ - A is integer part of 3db BW, B is fraction. X is integer part of nyquist bandwidth, Y is fraction
-    _gyr_d196bw6_n229bw8 = 0x00
-    _gyr_d151bw8_n187bw6 = 0x01
-    _gyr_d119bw5_n154bw3 = 0x02
-    _gyr_d51bw2_n73bw3 = 0x03
-    _gyr_d23bw9_n35bw9 = 0x04
-    _gyr_d11bw6_n17bw8 = 0x05
-    _gyr_d5bw7_n8bw9 = 0x06
-    _gyr_d361bw4_n376bw5 = 0x07
+    _gyr_filter_dict = {
+        GyroFilter.DLPF_196: 0x00,
+        GyroFilter.DLPF_151: 0x01,
+        GyroFilter.DLPF_119: 0x02,
+        GyroFilter.DLPF_51: 0x03,
+        GyroFilter.DLPF_23: 0x04,
+        GyroFilter.DLPF_11: 0x05,
+        GyroFilter.DLPF_5: 0x06,
+        GyroFilter.DLPF_361: 0x07,
 
-    _gyr_filter_list = [
-        _gyr_d361bw4_n376bw5,
-        _gyr_d196bw6_n229bw8,
-        _gyr_d151bw8_n187bw6,
-        _gyr_d119bw5_n154bw3,
-        _gyr_d51bw2_n73bw3,
-        _gyr_d23bw9_n35bw9,
-        _gyr_d11bw6_n17bw8,
-        _gyr_d5bw7_n8bw9,
-    ]
+    }

@@ -11,7 +11,7 @@ from msb.zmq_base.Publisher import Publisher
 from msb.imu.IMUConfig import IMUConf
 
 from .ICM20948_registers import ICM20938_REGISTERS
-from .ICM20948_settings import ICM20948_SETTINGS
+from .ICM20948_settings import ICM20948_SETTINGS, AccelerationFilter, AccelerationSensitivity, GyroFilter, GyroSensitivity
 
 # TODO
 # - fix temperature
@@ -86,10 +86,10 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
     available_addresses = _AVAILABLE_I2C_ADDRESS
     interrupt_pin = 6
 
-    _acc_sensitivity = None
-    _acc_scale = None
-    _gyr_sensitivity = None
-    _gyr_scale = None
+    _acc_sensitivity: int = None
+    _acc_scale: int = None
+    _gyr_sensitivity: int = None
+    _gyr_scale: int = None
 
     _precision = 6
 
@@ -123,37 +123,37 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
         self._i2c = smbus.SMBus(1)
         if self._i2c == None: # TODO: proper error handling
             print("Unable to load I2C driver for this platform.")
-            sys.exit(-1)
+            sys.exit(-1) # TODO why -1?
 
         if config.acc_sensitivity in self._acc_sensitivity_dict:
             self._acc_sensitivity = self._acc_sensitivity_dict[
-                acc_sensitivity
+                config.acc_sensitivity
             ]
-            self._acc_scale = self._acc_scale_dict[acc_sensitivity]
+            self._acc_scale = self._acc_scale_dict[config.acc_sensitivity]
         else:
             print("invalid accelerometer sensitivity, defaulting to +- 2g")
-            self._acc_sensitivity = self._acc_sensitivity_dict["2g"]
-            self._acc_scale = self._acc_scale_dict["2g"]
+            self._acc_sensitivity = self._acc_sensitivity_dict[AccelerationSensitivity.G_2]
+            self._acc_scale = self._acc_scale_dict[AccelerationSensitivity.G_2]
 
-        if acc_filter < len(self._acc_filter_list):
-            self._acc_filter = self._acc_filter_list[acc_filter]
-        else:
-            print(f"invalid filter selection {acc_filter}, defaulting to filter 1")
-            self._acc_filter = self._acc_filter_list[0]
+        try:
+            self._acc_filter = self._acc_filter_dict[config.acc_filter]
+        except KeyError:
+            print(f"invalid filter selection {config.acc_filter}, defaulting to filter AccelerationFilter.DLPF_473")
+            self._acc_filter = self._acc_filter_dict[AccelerationFilter.DLPF_473]
 
-        if gyr_sensitivity in self._gyr_sensitivity_dict:
-            self._gyr_sensitivity = self._gyr_sensitivity_dict[gyr_sensitivity]
-            self._gyr_scale = self._gyr_scale_dict[gyr_sensitivity]
+        if config.gyr_sensitivity in self._gyr_sensitivity_dict:
+            self._gyr_sensitivity = self._gyr_sensitivity_dict[config.gyr_sensitivity]
+            self._gyr_scale = self._gyr_scale_dict[config.gyr_sensitivity]
         else:
             print("invalid gyroscope sensitivity, defaulting to +- 250 degree / second")
-            self._gyr_sensitivity = self._gyr_sensitivity_dict["250dps"]
-            self._gyr_scale = self._gyr_scale_dict["250dps"]
+            self._gyr_sensitivity = self._gyr_sensitivity_dict[GyroSensitivity.DPS_250]
+            self._gyr_scale = self._gyr_scale_dict[GyroSensitivity.DPS_250]
 
-        if gyr_filter < len(self._gyr_filter_list):
-            self._gyr_filter = self._gyr_filter_list[gyr_filter]
-        else:
-            print(f"invalid gyroscope filter selection {gyr_filter}, defaulting to filter 1")
-            self._gyr_filter = self._gyr_filter_list[0]
+        try:
+            self._gyr_filter = self._gyr_filter_dict[config.gyr_filter]
+        except KeyError:
+            print(f"invalid gyroscope filter selection {config.gyr_filter}, defaulting to filter GyroFilter.DLPF_361")
+            self._gyr_filter = self._gyr_filter_dict[GyroFilter.DLPF_361]
         
         self._precision = precision
         self._output_data_divisor = output_data_divisor
