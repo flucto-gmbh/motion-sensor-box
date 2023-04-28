@@ -95,8 +95,10 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
 
     _update_numbytes = 23  # Read Accel, gyro, temp, and 9 bytes of mag
     # _data = np.zeros(13)
-    _data = [0] * 13
-
+    # _data = [0] * 13
+    _data =  {key: None for key in
+              ["epoch" "uptime", "acc_x", "acc_y", "acc_z", "rot_x", "rot_y", "rot_z", "mag_x", "mag_y", "mag_z", "temp"]
+    }
     _interrupt_enabled = False
     _output_data_divisor = 22
     _verbose = False
@@ -107,7 +109,6 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
     # Constructor
     def __init__(self, config : IMUConf, publisher : Publisher):
 
-        #self.zmq_pub_socket = zmq_pub_socket
         # if an address is provided, us this, otherwise fall back to the first of the two default
         # addresses (0x68)
         self.config = config
@@ -245,39 +246,37 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
         buff = self._i2c.read_i2c_block_data(
             self.address, self._AGB0_REG_ACCEL_XOUT_H, self._update_numbytes
         )
-        self._data[0] = datetime.fromtimestamp(ts := time.time(), tz=timezone.utc)
-        self._data[1] = ts
-        self._data[2] = uptime.uptime()
+        self._data["epoch"] = time.time()
+        self._data["uptime"] = uptime.uptime()
         # acceleration
-        self._data[3] = round(
+        self._data["acc_x"] = round(
             self.to_signed_int(((buff[0] << 8) | (buff[1] & 0xFF))) / self._acc_scale, self._precision
         )
-        self._data[4] = round(
+        self._data["acc_y"] = round(
             self.to_signed_int(((buff[2] << 8) | (buff[3] & 0xFF))) / self._acc_scale, self._precision
         )
-        self._data[5] = round(
+        self._data["acc_z"] = round(
             self.to_signed_int(((buff[4] << 8) | (buff[5] & 0xFF))) / self._acc_scale, self._precision
         )
         # angular velocity
-        self._data[6] = round(
+        self._data["rot_x"] = round(
             self.to_signed_int(((buff[6] << 8) | (buff[7] & 0xFF))) / self._gyr_scale, self._precision
         )
-        self._data[7] = round(
+        self._data["rot_y"] = round(
             self.to_signed_int(((buff[8] << 8) | (buff[9] & 0xFF))) / self._gyr_scale, self._precision
         )
-        self._data[8] = round(
+        self._data["rot_z"] = round(
             self.to_signed_int(((buff[10] << 8) | (buff[11] & 0xFF))) / self._gyr_scale, self._precision
         )
         # magnetic field
         # careful: magnetic data is read little endian
-        self._data[9]  = round((buff[16] << 8) | (buff[15] & 0xFF), self._precision)
-        self._data[10] = round((buff[18] << 8) | (buff[17] & 0xFF), self._precision)
-        self._data[11] = round((buff[20] << 8) | (buff[19] & 0xFF), self._precision)
-        self._data[12] = round((buff[12] << 8) | (buff[13] & 0xFF), self._precision)
+        self._data["mag_x"]  = round((buff[16] << 8) | (buff[15] & 0xFF), self._precision)
+        self._data["mag_y"] = round((buff[18] << 8) | (buff[17] & 0xFF), self._precision)
+        self._data["mag_z"] = round((buff[20] << 8) | (buff[19] & 0xFF), self._precision)
+        self._data["temp"] = round((buff[12] << 8) | (buff[13] & 0xFF), self._precision)
 
 
         # TODO: move topic from send method to constructor of publisher
-        # TODO: move data from list to dict
         self.publisher.send(self.config.topic, self._data)
         if self._verbose:
             print(f"data: {self._data}")
