@@ -1,3 +1,39 @@
+from enum import Enum
+
+class GyroSensitivity(Enum):
+    DPS_250  = "250dps"
+    DPS_500  = "500dps"
+    DPS_1000 = "1000dps"
+    DPS_2000 = "2000dps"
+
+class AccelerationSensitivity(Enum):
+    G_2  = "2g"
+    G_4  = "4g"
+    G_8  = "8g"
+    G_16 = "16g"
+
+class AccelerationFilter(Enum):
+    DLPF_OFF = "dlpf_off"
+    DLPF_246 = "dlpf_246"
+    DLPF_111 = "dlpf_111.4"
+    DLPF_50  = "dlpf_50.4"
+    DLPF_23  = "dlpf_23.9"
+    DLPF_11  = "dlpf_11.5"
+    DLPF_5   = "dlpf_5.7"
+    DLPF_473 = "dlpf_473"
+
+class GyroFilter(Enum):
+    DLPF_OFF = "dlpf_off"
+    DLPF_196 = "dlpf_196.6"
+    DLPF_151 = "dlpf_151.8"
+    DLPF_119 = "dlpf_119.5"
+    DLPF_51  = "dlpf_51.2"
+    DLPF_23  = "dlpf_23.9"
+    DLPF_11  = "dlpf_11.6"
+    DLPF_5   = "dlpf_5.7"
+    DLPF_361 = "dlpf_361.4"
+
+
 class ICM20948_SETTINGS(object):
     
     """
@@ -15,39 +51,40 @@ class ICM20948_SETTINGS(object):
 
     # Gyro full scale range options [_AGB2_REG_GYRO_CONFIG_1]
     _gyr_sensitivity_dict = {
-        '250dps'  : 0x00,
-        '500dps'  : 0x01,
-        '1000dps' : 0x02,
-        '2000dps' : 0x03,
+        GyroSensitivity.DPS_250  : 0x00,
+        GyroSensitivity.DPS_500  : 0x01,
+        GyroSensitivity.DPS_1000 : 0x02,
+        GyroSensitivity.DPS_2000 : 0x03,
     }
 
      # Gyro scaling factors
     _gyr_scale_dict = {
-        '250dps'  : 131.0,
-        '500dps'  :  65.5,
-        '1000dps' :  32.8,
-        '2000dps' :  16.4
+        GyroSensitivity.DPS_250  : 131.0,
+        GyroSensitivity.DPS_500  :  65.5,
+        GyroSensitivity.DPS_1000 :  32.8,
+        GyroSensitivity.DPS_2000 :  16.4
     }
     
     # Accelerometer full scale range options [_AGB2_REG_ACCEL_CONFIG]
     _acc_sensitivity_dict = {
-         '2g' : 0x00,
-         '4g' : 0x01,
-         '8g' : 0x02,
-        '16g' : 0x03,
+        AccelerationSensitivity.G_2  : 0x00,
+        AccelerationSensitivity.G_4  : 0x01,
+        AccelerationSensitivity.G_8  : 0x02,
+        AccelerationSensitivity.G_16 : 0x03,
     }
 
     # Accelerometer scaling factors depending on accelerometer sensitivity
     _acc_scale_dict = {
-         '2g' : 16384.0,
-         '4g' :  8192.0,
-         '8g' :  4096.0,
-        '16g' :  2048.0,
+        AccelerationSensitivity.G_2  : 16384.0,
+        AccelerationSensitivity.G_4  :  8192.0,
+        AccelerationSensitivity.G_8  :  4096.0,
+        AccelerationSensitivity.G_16 :  2048.0,
     }
 
     # Accelerometer low pass filter configuration options
     # Format is dAbwB_nXbwY - A is the integer part of 3db BW, B is the fraction. 
     # X is integer part of nyquist bandwidth, Y is the fraction
+
     _acc_d246bw_n265bw = 0x00
     _acc_d246bw_n265bw_1 = 0x01
     _acc_d111bw4_n136bw = 0x02

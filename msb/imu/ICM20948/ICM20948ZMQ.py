@@ -7,6 +7,9 @@ import sys
 import time
 import uptime
 
+from msb.zmq_base.Publisher import Publisher
+from msb.imu.IMUConfig import IMUConf
+
 from .ICM20948_registers import ICM20938_REGISTERS
 from .ICM20948_settings import ICM20948_SETTINGS
 
@@ -95,7 +98,7 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
     _data = [0] * 13
 
     _interrupt_enabled = False
-    _output_data_div = None
+    _output_data_divisor = 22
     _verbose = False
     _print_stdout = False
 
@@ -104,35 +107,25 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
     # Constructor
     def __init__(
         self,
-        zmq_pub_socket,
-        address=None,
-        i2c_driver=None,
-        acc_sensitivity="2g",
-        acc_filter=0,
-        gyr_sensitivity="500dps",
-        gyr_filter=0,
-        precision=6,
-        output_data_div=22,
-        verbose=False,
-        print_stdout=False,
-        polling=False,
+        #zmq_pub_socket,
+        config : IMUConf,
+        publisher : Publisher
     ):
 
-        self.zmq_pub_socket = zmq_pub_socket
+        #self.zmq_pub_socket = zmq_pub_socket
         # if an address is provided, us this, otherwise fall back to the first of the two default
         # addresses (0x68)
-        self.address = address if address != None else self.available_addresses[0]
+        self.config = config
+        self.publisher = publisher
+        self.address = self.config.i2c_address
 
         # load the I2C driver if one isn't provided
-        if i2c_driver == None:
-            self._i2c = smbus.SMBus(1)
-            if self._i2c == None:
-                print("Unable to load I2C driver for this platform.")
-                sys.exit(-1)
-        else:
-            self._i2c = i2c_driver
+        self._i2c = smbus.SMBus(1)
+        if self._i2c == None: # TODO: proper error handling
+            print("Unable to load I2C driver for this platform.")
+            sys.exit(-1)
 
-        if acc_sensitivity in self._acc_sensitivity_dict:
+        if config.acc_sensitivity in self._acc_sensitivity_dict:
             self._acc_sensitivity = self._acc_sensitivity_dict[
                 acc_sensitivity
             ]
@@ -163,11 +156,11 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
             self._gyr_filter = self._gyr_filter_list[0]
         
         self._precision = precision
-        self._output_data_div = output_data_div
+        self._output_data_divisor = output_data_divisor
         self._verbose = verbose
         self._print_stdout = print_stdout
         self._polling = polling
-        self._delta_t = 1 / (1125 / (self._output_data_div + 1))
+        self._delta_t = 1 / (1125 / (self._output_data_divisor + 1))
         if self._verbose:
             print(f"delta t is: {self._delta_t}")
 
@@ -218,7 +211,7 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
         self.enable_DLPF_gyro(True)
 
         # set output data rate
-        self.set_ODR_gyro(rate=self._output_data_div)
+        self.set_ODR_gyro(rate=self._output_data_divisor)
 
         # fire up the compass
         self.startup_magnetometer()
@@ -286,9 +279,15 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
         self._data[10] = round((buff[18] << 8) | (buff[17] & 0xFF), self._precision)
         self._data[11] = round((buff[20] << 8) | (buff[19] & 0xFF), self._precision)
         self._data[12] = round((buff[12] << 8) | (buff[13] & 0xFF), self._precision)
-        self.zmq_pub_socket.send_multipart(
-            [IMU_TOPIC, pickle.dumps(self._data)]  # topic  # serialize the payload
-        )
+        
+        # TODO: remove hardcoded topic
+        # TODO: move topic from send method to constructor of publisher
+        # TODO: move data from list to dict
+        self.publisher.send(b'imu', self._data) 
+
+        # self.zmq_pub_socket.send_multipart(
+        #    [IMU_TOPIC, pickle.dumps(self._data)]  # topic  # serialize the payload
+        #)
         if self._verbose:
             print(f"data: {self._data}")
         if self._print_stdout:
