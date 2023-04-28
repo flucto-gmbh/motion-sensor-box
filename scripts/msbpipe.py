@@ -45,14 +45,15 @@ def main():
 
     try:
         while True:
-            _, data = sub.receive()
-            print_stdout(data, args.pretty_print)
+            topic, data = sub.receive()
+            print_stdout(topic.decode(), data, args.pretty_print)
     except KeyboardInterrupt:
         print("msbpipe.py exit")
         sys.exit(0)
 
 
-def print_stdout(data, pretty_print=False):
+def print_stdout(topic, data, pretty_print=False):
+    print(topic)
     if pretty_print:
         print(json.dumps(data, indent=4))
     else:
