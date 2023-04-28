@@ -30,6 +30,7 @@ def parse_user_input():
         "-t",
         "--topic",
         type=str,
+        default="",
         help="topic to subscribe to",
     )
 
