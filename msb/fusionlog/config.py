@@ -1,6 +1,5 @@
 from msb.config import MSBConf
 
-
 class FusionlogConf(MSBConf):
     data_dir: str = "/home/msb/msb_data"
     datetime_fmt: str = "%Y%m%dT%H%M%S%z"

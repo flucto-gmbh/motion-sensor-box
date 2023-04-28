@@ -1,5 +1,6 @@
 from datetime import datetime, timezone
 import gps
+import json
 import logging
 
 import sys
@@ -10,15 +11,16 @@ from msb.config import load_config
 from msb.gps.config import GPSConf
 from msb.zmq_base.Publisher import Publisher, get_default_publisher
 
-
 zero_timestamp = datetime.fromtimestamp(0, tz=timezone.utc)
-
 
 class GPSService:
     def __init__(self, config: GPSConf, publisher: Publisher):
         self.config = config
         self.publisher = publisher
         self.gpsd_socket = self.open_gpsd_socket()
+
+        if self.config.verbose:
+            print(self.config)
 
     def open_gpsd_socket(self):
         if self.config.verbose:
@@ -72,7 +74,7 @@ class GPSService:
                         self.config.topic, data := self.prepare_data(report)
                     )
                     if self.config.print_stdout:
-                        print(f",".join(map(str, data)))
+                        print(f",".join(map(str, [v for _, v in data.items()])))
         except StopIteration:
             logging.fatal("GPSD has terminated")
         except KeyboardInterrupt:

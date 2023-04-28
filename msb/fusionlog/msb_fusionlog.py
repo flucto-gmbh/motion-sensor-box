@@ -18,6 +18,8 @@ class FusionlogService:
         self.config = config
         self.subscriber = subscriber
         self.loggers = {}
+        if self.config.verbose:
+            print(self.config)
 
     def get_data(self):
         while True:
@@ -40,12 +42,13 @@ class FusionlogService:
                 if self.config.verbose:
                     print(f"not a logger yet: {topic}, creating")
                 self.loggers[topic] = TimeSeriesLogger(topic, self.config)
-            self.loggers[topic].write(data)
+            #self.loggers[topic].write(data)
 
 
 def main():
     signal.signal(signal.SIGINT, signal_handler)
     fusionlog_config = load_config(FusionlogConf(), "fusionlog")
+    print(fusionlog_config)
     subscriber = get_default_subscriber(topic=b"")
     fusionlog_service = FusionlogService(fusionlog_config, subscriber)
     fusionlog_service.run()

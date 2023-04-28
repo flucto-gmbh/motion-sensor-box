@@ -3,6 +3,7 @@ from msb.config.MSBConfig import MSBConf
 
 
 class ZMQConf(MSBConf):
+    verbose: bool = True
     protocol: str = "tcp"
     interface: str = "127.0.0.1"
     publisher_port: int = 5555
