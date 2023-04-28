@@ -20,29 +20,27 @@ class AccelerationSensitivity(Enum):
     G8  = "8g"
     G16 = "16g"
 
-"""
 class AccelerationFilter(Enum):
-    d473bw_n499bw,
-    d246bw_n265bw_1,
-    d111bw4_n136bw,
-    d50bw4_n68bw8,
-    d23bw9_n34bw4,
-    d11bw5_n17bw,
-    d11bw5_n17bw,
-    d11bw5_n17bw,
+    DLPFOFF = "dlpf_off"
+    DLPF246 = "dlpf_246"
+    DLPF111 = "dlpf_111.4"
+    DLPF50  = "dlpf_50.4"
+    DLPF23  = "dlpf_23.9"
+    DLPF11  = "dlpf_11.5"
+    DLPF5   = "dlpf_5.7"
+    DLPF473 = "dlpf_473"
 
 class GyroFilter(Enum):
-              _gyr_d361bw4_n376bw5,
-                _gyr_d196bw6_n229bw8,
-                _gyr_d151bw8_n187bw6,
-                _gyr_d119bw5_n154bw3,
-                _gyr_d51bw2_n73bw3,
-                _gyr_d23bw9_n35bw9,
-                _gyr_d11bw6_n17bw8,
-                _gyr_d5bw7_n8bw9,
-"""
+    DLPFOFF = "dlpf_off"
+    DLPF196 = "dlpf_196.6"
+    DLPF151 = "dlpf_151.8"
+    DLPF119 = "dlpf_119.5"
+    DLPF51  = "dlpf_51.2"
+    DLPF23  = "dlpf_23.9"
+    DLPF11  = "dlpf_11.6"
+    DLPF5   = "dlpf_5.7"
+    DLPF361 = "dlpf_361.4"
 
-@dataclass
 class IMUConf(MSBConf):
     """
 
@@ -54,8 +52,8 @@ class IMUConf(MSBConf):
     sample_rate_div : int = 30
     acc_filter : int = 0
     gyr_filter : int = 0
-    acc_sens       = AccelerationSensitivity.G2
-    gyr_sens       = GyroSensitivity.DPS250
+    acc_sensitivity : AccelerationSensitivity = AccelerationSensitivity.G2
+    gyr_sensitivity : GyroSensitivity = GyroSensitivity.DPS250
 
 class IMUConfig(MSBConfig):
     def __init__(self, subconf = "msb-imu"):

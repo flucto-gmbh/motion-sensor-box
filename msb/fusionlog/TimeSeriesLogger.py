@@ -9,13 +9,10 @@ from msb.fusionlog.config import FusionlogConf
 
 
 class TimeSeriesLogger:
-    def __init__(self, topic, config: FusionlogConf, msb_sn: str = ""):
+    def __init__(self, topic, config: FusionlogConf):
         self.config = config
-        if msb_sn:
-            self.msb_sn = msb_sn
-        else:
-            self.msb_sn = self.config.serial_number
-        self.topic = topic
+        # self.msb_sn = self.config.serial_number
+        self.topic = str(topic)
         self.interval = timedelta(seconds=self.config.logfile_interval)
         self.lower_timelimit = (
             datetime.fromtimestamp(0, tz=timezone.utc) - self.interval
@@ -28,7 +25,7 @@ class TimeSeriesLogger:
             os.makedirs(self.topic_data_dir)
 
     def __del__(self):
-        if not self._filehandle.closed:
+        if self._filehandle and not self._filehandle.closed:
             self._filehandle.flush()
             self._filehandle.close()
 
@@ -37,9 +34,13 @@ class TimeSeriesLogger:
         # data["datetime"] is str not datetime object
         # we would need to use e.g. datetime.fromisoformat(data["datetime"])
         # or datetime.strptime(data["datetime"], data["datetime_fmt"])
-        if (timestamp := data[0]) > self.upper_timelimit:
+
+        # data is a dict now, where the data timestamp is a unix epoch
+        # found at data['timestamp']
+        if (timestamp := datetime.fromtimestamp(data['timestamp'], tz=timezone.utc)) > self.upper_timelimit:
             self._update_filehandle(timestamp)
         try:
+            #self._filehandle.writelines("{}\n".format(",".join(map(str, data))))
             self._filehandle.writelines("{}\n".format(",".join(map(str, data))))
         except Exception as e:
             print(f"failed to write data to filehandle {self._filepath}: {e}")
@@ -57,7 +58,7 @@ class TimeSeriesLogger:
         self._filepath = os.path.join(
             self.topic_data_dir,
             "{}_{}_{}_{}.csv".format(
-                self.msb_sn.lower(),
+                self.config.serial_number.lower(),
                 self.topic.lower(),
                 self._ts2str(self.lower_timelimit),
                 self._ts2str(self.upper_timelimit),
