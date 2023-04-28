@@ -29,17 +29,20 @@ class Subscriber:
             print(f"failed to bind to zeromq socket: {e}")
             sys.exit(-1)
 
-    def subscribe(self, topic: bytes):
+    def subscribe(self, topic: bytes | list[bytes]):
         # Acceps single topic or list of topics
-        self.socket.setsockopt(zmq.SUBSCRIBE, topic)
+        if isinstance(topic, list):
+            for t in topic:
+                self.socket.setsockopt(zmq.SUBSCRIBE, t)
+        else:
+            self.socket.setsockopt(zmq.SUBSCRIBE, topic)
 
-    def receive(self) -> tuple:
+    def receive(self) -> tuple[bytes, dict]:
         """
         reads a message from the zmq bus and returns it
 
-        returns:
-            tuple(topic, message), where topic is a byte string identifying the
-            source service of the message
+        Returns:
+            tuple(topic: bytes, message: dict): the message received
         """
         (topic, message) = self.socket.recv_multipart()
         message = self.unpacker.loads(message.decode())
