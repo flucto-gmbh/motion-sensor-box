@@ -63,7 +63,7 @@ This library is loosely based on Sparkfuns [Qwiic ICM-20948 library](https://git
 _DEFAULT_NAME = "ICM20948"
 _AVAILABLE_I2C_ADDRESS = [0x68, 0x69]  # depending wether the AD0 line is high or low,
 # two different addresses are available
-IMU_TOPIC = b"imu"
+
 # define our valid chip IDs
 _validChipIDs = [0xEA, 0xFF, 0x1F]
 
@@ -105,12 +105,7 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
     REG_BANK_SEL = 0x7F
 
     # Constructor
-    def __init__(
-        self,
-        #zmq_pub_socket,
-        config : IMUConf,
-        publisher : Publisher
-    ):
+    def __init__(self, config : IMUConf, publisher : Publisher):
 
         #self.zmq_pub_socket = zmq_pub_socket
         # if an address is provided, us this, otherwise fall back to the first of the two default
@@ -154,12 +149,12 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
         except KeyError:
             print(f"invalid gyroscope filter selection {config.gyr_filter}, defaulting to filter GyroFilter.DLPF_361")
             self._gyr_filter = self._gyr_filter_dict[GyroFilter.DLPF_361]
-        
-        self._precision = precision
-        self._output_data_divisor = output_data_divisor
-        self._verbose = verbose
-        self._print_stdout = print_stdout
-        self._polling = polling
+
+        self._precision = config.precision
+        self._output_data_divisor = config.output_data_divisor
+        self._verbose = config.verbose
+        self._print_stdout = config.print_stdout
+        self._polling = config.polling
         self._delta_t = 1 / (1125 / (self._output_data_divisor + 1))
         if self._verbose:
             print(f"delta t is: {self._delta_t}")
@@ -279,15 +274,11 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
         self._data[10] = round((buff[18] << 8) | (buff[17] & 0xFF), self._precision)
         self._data[11] = round((buff[20] << 8) | (buff[19] & 0xFF), self._precision)
         self._data[12] = round((buff[12] << 8) | (buff[13] & 0xFF), self._precision)
-        
-        # TODO: remove hardcoded topic
+
+
         # TODO: move topic from send method to constructor of publisher
         # TODO: move data from list to dict
-        self.publisher.send(b'imu', self._data) 
-
-        # self.zmq_pub_socket.send_multipart(
-        #    [IMU_TOPIC, pickle.dumps(self._data)]  # topic  # serialize the payload
-        #)
+        self.publisher.send(self.config.topic, self._data)
         if self._verbose:
             print(f"data: {self._data}")
         if self._print_stdout:
@@ -321,7 +312,7 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
             self.interrupt_pin, gpio.RISING, callback=self._update_data
         )
 
-        # currently only raw data ready mode is suported.
+        # currently only raw data ready mode is supported.
         # first check the current mode
         self._set_bank(0)
         register = self._i2c.read_byte_data(self.address, self._AGB0_REG_INT_ENABLE_1)
