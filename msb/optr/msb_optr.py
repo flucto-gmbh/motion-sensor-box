@@ -1,7 +1,6 @@
 from msb.zmq_base.Publisher import get_default_publisher
 from .tracker import OpticalFlowTracker, OptrConfig
 from .video import video_source, gui_split, add_draw_func
-from .analysis import calc_velocity, optr_payload
 from .filter import filter_generator, add_filter_func
 
 import cv2
@@ -38,11 +37,18 @@ def filter_rotate_cv(img):
     return rotated
 
 
+def optr_payload(velocity):
+    return {
+        "name": "optical flow",
+        "velocity": float(velocity),
+    }
+
+
 def main():
     pub = get_default_publisher()
 
     # Not yet implemented in OpticalFlowTracker
-    config = OptrConfig()
+    # config = OptrConfig()
 
     # Pipeline
     source = video_source("webcam", 0)
@@ -50,13 +56,18 @@ def main():
     tracker = OpticalFlowTracker(filter)
 
     # Functions
-    add_filter_func(filter_roi)
+    # add_filter_func(filter_roi)
     # add_filter_func(filter_sobel)
     # add_filter_func(filter_rotate_cv)
 
-    # Currently, tracker has its own velocity calc function. 
+    # Currently, tracker has its own velocity calc function.
     # This will be refactored asap
     for _ in tracker.tracking_loop():
         tracks = tracker.tracks
-        payload = optr_payload(tracks)
-        pub.send(b"optr", payload)
+        velocities = np.array(tracker.velocities)
+        if len(velocities):
+            velocities = velocities[np.isfinite(velocities[:, 0])]
+            velocity_mean = np.median(velocities)
+            if velocity_mean:
+                payload = optr_payload(velocity_mean)
+                pub.send(b"optr", payload)

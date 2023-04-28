@@ -76,24 +76,23 @@ def test_video_generator():
         cv2.polylines(img, [np.int32(tr) for tr in tracks], False, (0, 255, 0))
 
     # Modification
-    add_draw_func(draw_tracks)
+    # add_draw_func(draw_tracks)
     # add_filter_func(filter_roi)
     add_filter_func(filter_sobel)
     # add_filter_func(filter_roi)
 
-    with open("tracks.txt", "w") as f:
-        for _ in tracker.tracking_loop():
-            # time.sleep(0.03)
-            # f.write(str(calc_velocity(tracks)))
-            # f.write("\n")
-            tracks = tracker.tracks
-            velocities = np.array(tracker.velocities)
-            if len(velocities):
-                velocities = velocities[np.isfinite(velocities[:, 0])]
-                print(np.mean(velocities, axis=0))
-            c = cv2.waitKey(1)
-            if c == 27:
-                break
+    for _ in tracker.tracking_loop():
+        # time.sleep(0.03)
+        # f.write(str(calc_velocity(tracks)))
+        # f.write("\n")
+        tracks = tracker.tracks
+        velocities = np.array(tracker.velocities)
+        if len(velocities):
+            velocities = velocities[np.isfinite(velocities[:, 0])]
+            print(np.mean(velocities, axis=0))
+        c = cv2.waitKey(1)
+        if c == 27:
+            break
 
 
 if __name__ == "__main__":
