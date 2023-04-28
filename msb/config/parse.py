@@ -18,7 +18,7 @@ def get_msb_config_filepath(config_filename : str = "msb.conf") -> str:
         print(f"could no get MSB_CONFIG from PATH: {e}")
         sys.exit() # TODO use 1 or the error str as exit value
     if not os.path.isfile(config_filepath):
-        print('not a file: {config_filepath}!')
+        print(f'not a file: {config_filepath}!')
         sys.exit()
     return config_filepath
 
