@@ -56,28 +56,5 @@ def print_stdout(data, pretty_print=False):
         print(data)
 
 
-def signal_handler(sig, frame):
-    print("msbpipe.py exit")
-    sys.exit(0)
-
-
-def get_data_zmqxpub(zmq_socket):
-    while True:
-        try:
-            (topic, data) = zmq_socket.recv_multipart()
-        except Exception as e:
-            print(f"failed to receive message: {e}")
-            continue
-        topic = topic.decode("utf-8")
-        try:
-            data = pickle.loads(data)
-        except Exception as e:
-            print(f"failed to load pickle message, skipping: {e}")
-            continue
-        yield (topic, data)
-
-
 if __name__ == "__main__":
-    signal.signal(signal.SIGINT, signal_handler)
-    # signal.signal(signal.SIGPIPE, signal.SIG_DFL)
     main()
