@@ -8,7 +8,7 @@ import time
 import uptime
 
 from msb.zmq_base.Publisher import Publisher
-from msb.imu.IMUConfig import IMUConf
+from msb.imu.config import IMUConf
 
 from .ICM20948_registers import ICM20938_REGISTERS
 from .ICM20948_settings import ICM20948_SETTINGS, AccelerationFilter, AccelerationSensitivity, GyroFilter, GyroSensitivity

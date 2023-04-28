@@ -4,7 +4,7 @@ import sys
 import time
 
 from .ICM20948.ICM20948ZMQ import ICM20948ZMQ
-from .IMUConfig import IMUConf, AccelerationFilter, GyroFilter, GyroSensitivity, AccelerationSensitivity
+from .config import IMUConf, AccelerationFilter, GyroFilter, GyroSensitivity, AccelerationSensitivity
 from msb.config import load_config
 from msb.zmq_base.Publisher import Publisher, get_default_publisher
 from msb.config.zeromq import open_zmq_pub_socket

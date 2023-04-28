@@ -2,7 +2,7 @@ import pytest
 
 
 def test_config_import():
-    from msb.imu.IMUConfig import IMUConf
+    from msb.imu.config import IMUConf
 
     print(IMUConf)
 
@@ -17,14 +17,14 @@ def test_config_yaml_parse(pytestconfig):
 
 
 def test_imu_config_class():
-    from msb.imu.IMUConfig import IMUConf
+    from msb.imu.config import IMUConf
 
     imu_conf = IMUConf()
     print(imu_conf)
 
 
 def test_update_config_class():
-    from msb.imu.IMUConfig import IMUConf
+    from msb.imu.config import IMUConf
     from msb.config.parse import update_config
 
     updated_config = {
@@ -37,7 +37,7 @@ def test_update_config_class():
 
 
 def test_attribute_does_not_exists_warning():
-    from msb.imu.IMUConfig import IMUConf
+    from msb.imu.config import IMUConf
     from msb.config.parse import update_config
 
     updated_config = {
@@ -61,7 +61,7 @@ def test_argparse_key_value():
 
 def test_argparse():
     from msb.config.cmdline import get_cmdline
-    from msb.imu.IMUConfig import IMUConf
+    from msb.imu.config import IMUConf
     from msb.config.parse import update_config
 
     imu_conf = IMUConf()
