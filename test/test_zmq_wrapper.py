@@ -90,6 +90,21 @@ def test_publisher_subscriber_via_mock_broker(test_data, mock_broker):
     assert received_message == test_data
 
 
+def test_subscribe_multiple_topics(mock_broker):
+    topics = [b"apples", b"pears", b"carrots"]
+
+    pub = get_default_publisher()
+    sub = get_default_subscriber(topics)
+    wait()
+
+    for topic in topics:
+        message = f"hello from {topic.decode()}"
+        pub.send(topic, message)
+        rec_topic, received_message = sub.receive()
+        assert rec_topic == topic
+        assert received_message == message
+
+
 def test_subscriber_without_broker():
     """
     Test the subscriber class directly,
