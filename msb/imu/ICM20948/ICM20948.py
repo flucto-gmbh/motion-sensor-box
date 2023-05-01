@@ -108,7 +108,7 @@ class ICM20948(ICM20938_REGISTERS, ICM20948_SETTINGS):
                  i2c_driver=None, 
                  accelerometer_sensitivity='2g',
                  gyroscope_sensitivity='500dps',
-                 output_data_div=None,
+                 output_data_divisor=None,
                  verbose=False,
                  ):
         # if an address is provided, us this, otherwise fall back to the first of the two default
@@ -140,8 +140,8 @@ class ICM20948(ICM20938_REGISTERS, ICM20948_SETTINGS):
             self._selected_gyroscope_sensitvity = self._gyroscope_sensitivity['250dps']
             self._selected_gyroscope_scale = self._gyroscope_scale['250dps']
 
-        if output_data_div:
-            self._output_data_div = output_data_div
+        if output_data_divisor:
+            self._output_data_divisor = output_data_div
         
         if verbose:
             self._verbose = True
@@ -190,7 +190,7 @@ class ICM20948(ICM20938_REGISTERS, ICM20948_SETTINGS):
         self.enable_DLPF_gyro(True)
 
         # set output data rate
-        self.set_ODR_gyro(rate=self._output_data_div)
+        self.set_ODR_gyro(rate=self._output_data_divisor)
 
         # fire up the compass
         self.startup_magnetometer()

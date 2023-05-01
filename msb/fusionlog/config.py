@@ -1,6 +1,5 @@
 from msb.config import MSBConf
 
-
 _default_key_order = {
     "att": [
         "datetime",
@@ -52,7 +51,6 @@ _default_key_order = {
         "swap-cached",
     ],
 }
-
 
 class FusionlogConf(MSBConf):
     data_dir: str = "/home/msb/msb_data"

@@ -36,7 +36,10 @@ def update_config(config: ConfigType, config_dict : dict) -> ConfigType:
             continue
         cast_func = type(config[config_key])
         try:
-            config[config_key] = cast_func(config_value)
+            if config_key == "topic":
+                config[config_key] = config_value.encode('utf-8')
+            else:
+                config[config_key] = cast_func(config_value)
         except Exception as e:
             print(f'failed to cast {config_value} to {type(config[config_key])}: {e}. skipping')
             continue

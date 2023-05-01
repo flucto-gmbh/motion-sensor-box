@@ -10,6 +10,7 @@ from msb.fusionlog.TimeSeriesLogger import TimeSeriesLogger
 
 def signal_handler(sig, frame):
     print("msb_fusionlog.py exit")
+
     sys.exit(0)
 
 
@@ -18,6 +19,8 @@ class FusionlogService:
         self.config = config
         self.subscriber = subscriber
         self.loggers = {}
+        if self.config.verbose:
+            print(self.config)
 
     def get_data(self):
         while True:
@@ -30,9 +33,6 @@ class FusionlogService:
             yield topic, data
 
     def run(self):
-        if self.config.verbose:
-            print(f"{self.config}")
-
         for topic, data in self.get_data():
             if self.config.print_stdout:
                 print(f"{topic} : {data}")
@@ -46,6 +46,7 @@ class FusionlogService:
 def main():
     signal.signal(signal.SIGINT, signal_handler)
     fusionlog_config = load_config(FusionlogConf(), "fusionlog")
+    print(fusionlog_config)
     subscriber = get_default_subscriber(topic=b"")
     fusionlog_service = FusionlogService(fusionlog_config, subscriber)
     fusionlog_service.run()

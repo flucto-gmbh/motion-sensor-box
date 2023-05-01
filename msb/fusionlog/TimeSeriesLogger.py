@@ -28,7 +28,7 @@ class TimeSeriesLogger:
         self.key_order = []
 
     def __del__(self):
-        if not self._filehandle.closed:
+        if self._filehandle and not self._filehandle.closed:
             self._filehandle.flush()
             self._filehandle.close()
 
@@ -66,7 +66,7 @@ class TimeSeriesLogger:
         self._filepath = os.path.join(
             self.topic_data_dir,
             "{}_{}_{}_{}.csv".format(
-                self.msb_sn.lower(),
+                self.config.serial_number.lower(),
                 self.topic.lower(),
                 self._ts2str(self.lower_timelimit, self.config.filename_datetime_fmt),
                 self._ts2str(self.upper_timelimit, self.config.filename_datetime_fmt),

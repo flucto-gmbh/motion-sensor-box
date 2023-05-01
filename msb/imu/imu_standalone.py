@@ -6,7 +6,7 @@ import time
 
 # from ICM20948.ICM20948ZMQ import ICM20948ZMQ
 from msb.imu.ICM20948.ICM20948ZMQ import ICM20948ZMQ
-from msb.imu.IMUConfig import IMUConfig
+from msb.imu.config import IMUConfig
 from msb.config.zeromq import open_zmq_pub_socket
 
 # TODO
