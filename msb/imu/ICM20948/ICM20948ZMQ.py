@@ -152,7 +152,7 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
             self._gyr_filter = self._gyr_filter_dict[GyroFilter.DLPF_361]
 
         self._precision = config.precision
-        self._output_data_divisor = config.output_data_divisor
+        self._output_data_divisor = config.sample_rate_divisor
         self._verbose = config.verbose
         self._print_stdout = config.print_stdout
         self._polling = config.polling

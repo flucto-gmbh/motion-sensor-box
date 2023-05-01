@@ -21,6 +21,8 @@ class IMUConf(MSBConf):
     gyr_filter: GyroFilter = GyroFilter.DLPF_OFF
     acc_sensitivity: AccelerationSensitivity = AccelerationSensitivity.G_2
     gyr_sensitivity: GyroSensitivity = GyroSensitivity.DPS_250
+    precision: int = 3
+    polling: bool = True
 
     # TODO add the following attributes: precision, output_data_divisor, polling
     # TODO update the imu.yaml with these attributes
