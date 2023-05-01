@@ -37,7 +37,7 @@ class TimeSeriesLogger:
 
         # data is a dict now, where the data timestamp is a unix epoch
         # found at data['timestamp']
-        if (timestamp := datetime.fromtimestamp(data['timestamp'], tz=timezone.utc)) > self.upper_timelimit:
+        if (timestamp := datetime.fromtimestamp(data['epoch'], tz=timezone.utc)) > self.upper_timelimit:
             self._update_filehandle(timestamp)
         try:
             #self._filehandle.writelines("{}\n".format(",".join(map(str, data))))
