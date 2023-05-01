@@ -26,10 +26,7 @@ def load_config(config: ConfigType, config_filename: str, read_commandline: bool
     config_filename = config_filename if "." in config_filename else config_filename + ".yaml"
     config_filepath = get_msb_config_filepath(config_filename)
     config_dict = read_yaml_config_file(config_filepath)
-    print(config)
-    print(config_dict)
     config = update_config(config, config_dict)
-    print(config)
 
     if not read_commandline:
         return config
