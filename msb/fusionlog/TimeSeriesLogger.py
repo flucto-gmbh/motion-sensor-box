@@ -109,7 +109,7 @@ class TimeSeriesLogger:
         self._filehandle.write(f"{','.join(self.key_order)}\n")
 
     @staticmethod
-    def _ts2str(timestamp: float, datetime_fmt: str | None = None) -> str:
+    def _ts2str(timestamp: float, datetime_fmt: None) -> str:
         dt = datetime.fromtimestamp(timestamp, tz=timezone.utc)
         return (
             datetime.strftime(dt, datetime_fmt)
