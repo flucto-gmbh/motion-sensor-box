@@ -24,6 +24,5 @@ def test_fusionlog_import():
 
 def test_imu_import():
     import msb.imu.config
-    import msb.imu.IPhonePoller
     # with pytest.raises(RuntimeError):
     #     import msb.imu.imu_standalone

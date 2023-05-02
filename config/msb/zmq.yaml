@@ -1,9 +1,0 @@
-protocol : "tcp"  # ipc protocol
-interface: "127.0.0.1"  # the interface to bind to
-publisher_port : 5555  # port used by primary producers
-  #publisher_port: int = 5555  # port used by primary producers
-subscriber_port: 5556  # port used by primary consumers
-  #subscriber_port: int = 5556  # port used by primary consumers
-
-
-

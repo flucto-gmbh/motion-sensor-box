@@ -9,7 +9,7 @@ def test_config_import():
 
 def test_config_yaml_parse(pytestconfig):
     root_dir = pytestconfig.rootdir
-    example_config_fpath = root_dir + "/config/msb/imu.yaml"
+    example_config_fpath = root_dir + "/config/msb/conf.d/imu.yaml"
     from msb.config.parse import read_yaml_config_file
 
     conf = read_yaml_config_file(example_config_fpath)
@@ -69,10 +69,10 @@ def test_argparse():
         "verbose": True,
     }
     args = get_cmdline(
-        "--print-stdout --params sample_rate_div=31".split()
+        "--print-stdout --params sample_rate_divisor=31".split()
     )  # should return: {'print_stdout' : True}
     update_config(imu_conf, updated_config)
     update_config(imu_conf, args)
     assert imu_conf.verbose == updated_config["verbose"]
     assert imu_conf.print_stdout == args["print_stdout"]
-    assert imu_conf.sample_rate_div == int(args["sample_rate_div"])
+    assert imu_conf.sample_rate_divisor == int(args["sample_rate_divisor"])

@@ -12,12 +12,8 @@ from msb.fusionlog.config import FusionlogConf
 
 
 class TimeSeriesLogger:
-    def __init__(self, topic : str, config: FusionlogConf, msb_sn: str = ""):
+    def __init__(self, topic : str, config: FusionlogConf):
         self.config = config
-        if msb_sn:
-            self.msb_sn = msb_sn
-        else:
-            self.msb_sn = self.config.serial_number
         self.topic: str = topic
         self.interval: int = self.config.logfile_interval
         self.lower_timelimit: float = 0.0 - self.interval

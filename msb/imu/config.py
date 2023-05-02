@@ -24,5 +24,3 @@ class IMUConf(MSBConf):
     precision: int = 3
     polling: bool = True
 
-    # TODO add the following attributes: precision, output_data_divisor, polling
-    # TODO update the imu.yaml with these attributes

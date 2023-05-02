@@ -1,9 +1,0 @@
-verbose : false
-print_stdout : false
-data_dir : "/home/msb/msb_data"
-datetime_fmt : "%Y%m%dT%H%M%S%z"
-logfile_interval : 3600  # temporal length in seconds of each logfile: 1h (3600s)
-# logfile_interval : 10  # for testing purposes
-max_logfiles : 100 # maximum number of logfiles before oldest logfiles get overwritten
-
-
