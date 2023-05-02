@@ -1,9 +1,12 @@
+from __future__ import annotations
+
 from datetime import datetime, timedelta, timezone
 import os
 import sys
 import time
 import uptime
 from random import random
+
 
 from msb.fusionlog.config import FusionlogConf
 
@@ -109,7 +112,7 @@ class TimeSeriesLogger:
         self._filehandle.write(f"{','.join(self.key_order)}\n")
 
     @staticmethod
-    def _ts2str(timestamp: float, datetime_fmt: None) -> str:
+    def _ts2str(timestamp: float, datetime_fmt: str | None = None) -> str:
         dt = datetime.fromtimestamp(timestamp, tz=timezone.utc)
         return (
             datetime.strftime(dt, datetime_fmt)
