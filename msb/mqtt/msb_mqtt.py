@@ -116,6 +116,6 @@ class MQTT_Subscriber(MQTT_Base):
 
 def main():
     config = load_config(MQTTconf(), "mqtt")
-    zmq_sub = get_default_subscriber()
+    zmq_sub = get_default_subscriber([topic.encode() for topic in config.topics])
     mqtt_publisher = MQTT_Publisher(config, zmq_sub)
     mqtt_publisher.zmq_to_mqtt_loop()
