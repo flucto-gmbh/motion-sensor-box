@@ -15,24 +15,30 @@ class MQTTConfig:
     port: int = 1883
     ssl: bool = False
     qos: int = 0
-    # zmq_topics: list = []
-    # mqtt_topics: list = []
+    topics: list[bytes] = ([],)
+    mapping: str = "/msb/"
+    packstyle: str = "json"
+
+
+def fluxpacker(data):
+    time = data["timestamp"]  # convert to nanoseconds
+    measurement = data["measurement"]
+    return f"{measurement} {measurement}={data['data']}{time}"
+
+
+def packer_factory(style):
+    packstyles = {"json": json.dumps, "flux": fluxpacker, "default": json.dumps}
+    if style in packstyles:
+        return packstyles[style]
+    else:
+        return packstyles["default"]
 
 
 class MQTT_Base:
     def __init__(self, config):
         self.config = config
         self.connect()
-
-    # MQTT callbacks
-    def _on_connect(self, client, userdata, flags, return_code):
-        if return_code == 0:
-            print(f"MQTT node connected to {self.config.broker}:{self.config.port}")
-        else:
-            print("Connection failed!")
-
-    def _on_disconnect(self, client, userdata, return_code):
-        print(f"Disconnected from broker with return code {return_code}")
+        self.select_packer()
 
     def connect(self):
         self.client = mqtt_client.Client()
@@ -50,10 +56,23 @@ class MQTT_Base:
     def send(self, topic: str, data: dict):
         payload = self.pack(data)
         self.client.publish(topic, payload, qos=self.config.qos)
-    
+
+    def select_packer(self):
+        self._packer = packer_factory(self.config.packstyle)
+
     def pack(self, data):
-        payload = json.dumps(data)
-        return payload
+        return self._packer(data)
+
+    # MQTT callbacks
+    def _on_connect(self, client, userdata, flags, return_code):
+        if return_code == 0:
+            print(f"MQTT node connected to {self.config.broker}:{self.config.port}")
+        else:
+            print("Connection failed!")
+
+    def _on_disconnect(self, client, userdata, return_code):
+        print(f"Disconnected from broker with return code {return_code}")
+
 
 class MQTT_Publisher(MQTT_Base):
     def __init__(self, config, zmq_subscriber):
@@ -67,17 +86,20 @@ class MQTT_Publisher(MQTT_Base):
     def _on_publish(self, client, userdata, message_id):
         print(f"Published message with id {message_id}")
 
+    def _zmq_to_mqtt(self):
+        # This is blocking
+        (zmq_topic, data) = self.subscriber.receive()
+        mqtt_topic = self._map_topic(zmq_topic)
+
+        self.send(mqtt_topic, data)
+
     def zmq_to_mqtt_loop(self):
         """
         Main loop: data comes in through zmq subscription socket,
         passed on to mqtt publish
         """
         while True:
-            # This is blocking
-            (zmq_topic, data) = self.subscriber.receive()
-            mqtt_topic = self._map_topic(zmq_topic)
-
-            self.send(mqtt_topic, data)
+            self._zmq_to_mqtt()
 
 
 class MQTT_Subscriber(MQTT_Base):
