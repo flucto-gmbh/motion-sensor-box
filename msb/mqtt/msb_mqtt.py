@@ -1,37 +1,12 @@
 from paho.mqtt import client as mqtt_client
 from dataclasses import dataclass
 import ssl
-import time
 import json
 
 from msb.zmq_base.Subscriber import get_default_subscriber
-
-
-@dataclass
-class MQTTConfig:
-    broker: str = "localhost"
-    user: str = "mqttuser"
-    password: str = "mqttpass"
-    port: int = 1883
-    ssl: bool = False
-    qos: int = 0
-    topics: list[bytes] = ([],)
-    mapping: str = "/msb/"
-    packstyle: str = "json"
-
-
-def fluxpacker(data):
-    time = data["timestamp"]  # convert to nanoseconds
-    measurement = data["measurement"]
-    return f"{measurement} {measurement}={data['data']}{time}"
-
-
-def packer_factory(style):
-    packstyles = {"json": json.dumps, "flux": fluxpacker, "default": json.dumps}
-    if style in packstyles:
-        return packstyles[style]
-    else:
-        return packstyles["default"]
+from msb.mqtt.config import MQTTconf
+from msb.mqtt.packer import packer_factory
+from msb.config import load_config
 
 
 class MQTT_Base:
@@ -140,7 +115,7 @@ class MQTT_Subscriber(MQTT_Base):
 
 
 def main():
-    config = MQTTConfig()
+    config = load_config(MQTTconf(), "mqtt")
     zmq_sub = get_default_subscriber()
     mqtt_publisher = MQTT_Publisher(config, zmq_sub)
     mqtt_publisher.zmq_to_mqtt_loop()
