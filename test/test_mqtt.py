@@ -13,7 +13,9 @@ def packer_func(data):
 
 
 def setup_config():
-    config = MQTTConfig(broker="localhost", user="user", password="pw", port=1883, qos=0, ssl=False)
+    config = MQTTConfig(
+        broker="localhost", user="user", password="pw", port=1883, qos=0, ssl=False
+    )
     return config
 
 
@@ -33,7 +35,9 @@ def get_client(config):
     if config.ssl:
         # By default, on Python 2.7.9+ or 3.4+,
         # the default certification authority of the system is used.
-        client.tls_set(ca_certs="/etc/ssl/certs/ca-certificates.crt", cert_reqs=ssl.CERT_REQUIRED)
+        client.tls_set(
+            ca_certs="/etc/ssl/certs/ca-certificates.crt", cert_reqs=ssl.CERT_REQUIRED
+        )
         print("using ssl")
     else:
         print("not using ssl")
@@ -47,6 +51,7 @@ def get_client(config):
 @pytest.mark.skip
 def test_mqtt_node():
     from msb.mqtt.msb_mqtt import MQTT_Base
+
     mqtt = MQTT_Base(setup_config())
 
     for x in range(10):
@@ -57,6 +62,7 @@ def test_mqtt_node():
 def test_zmq_to_mqtt_loop():
     from msb.mqtt.msb_mqtt import MQTT_Publisher
     from msb.zmq_base import get_default_subscriber
+
     config = setup_config()
     config.packstyle = "default"
 
@@ -66,7 +72,6 @@ def test_zmq_to_mqtt_loop():
 
     for x in range(10):
         pub._zmq_to_mqtt()
-
 
 
 @pytest.mark.skip
