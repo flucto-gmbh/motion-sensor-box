@@ -46,7 +46,8 @@ class TimeSeriesLogger:
             self._update_filehandle(ts)
 
         # sort data values by key order and concatenate as str
-        row = ",".join((str(data[key]) for key in self.key_order)) + "\n"
+        # row = ",".join((str(data[key]) for key in self.key_order)) + "\n"
+        row = f'{",".join(map(str, [data[key] for key in data.keys()]))}\n'
         try:
             self._filehandle.write(row)
         except Exception as e:

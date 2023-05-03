@@ -26,6 +26,9 @@ class MSBConf():
         else:
             warnings.warn(UserWarning(f"no such class member: {key}"))
 
+    def __repr__(self):
+        return json.dumps({key : self[key] for key in vars(self)}, indent=4)
+
     @property
     def serial_number(self):
         return socket.gethostname().upper()

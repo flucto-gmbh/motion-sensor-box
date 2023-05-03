@@ -38,10 +38,7 @@ class GPSService:
     @staticmethod
     def prepare_data(report):
         data = {
-            "datetime": datetime.fromtimestamp(
-                ts := time.time(), tz=timezone.utc
-            ).isoformat(),
-            "epoch": ts,
+            "epoch": time.time(),
             "uptime": uptime.uptime(),
         }
         report_keys = [
