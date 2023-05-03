@@ -24,7 +24,7 @@ class TimeSeriesLogger:
         if not os.path.isdir(self.topic_data_dir):
             os.makedirs(self.topic_data_dir)
         self.data_keys = set()
-        self.key_order = []
+        self._key_order = []
 
     def __del__(self):
         if self._filehandle and not self._filehandle.closed:
@@ -90,21 +90,24 @@ class TimeSeriesLogger:
             self.lower_timelimit = self.upper_timelimit
             self.upper_timelimit += self.interval
 
+    @property
+    def key_order(self):
+        if not self._key_order:
+            try:
+                self._key_order = self.config.key_order[self.topic]
+            except KeyError:
+                print(
+                    f"warning: {self.topic} has no matching key order defined in config, using default key order."
+                )
+                self._key_order = self._default_key_order()
+        return self._key_order
+
     def _default_key_order(self):
         time_keys = ["datetime", "epoch", "uptime"]
         sorted_keys = sorted(set(self.data_keys).difference(time_keys))
         return time_keys + sorted_keys
 
     def _write_header(self):
-        if not self.key_order:
-            try:
-                self.key_order = self.config.key_order[self.topic]
-            except KeyError:
-                print(
-                    f"warning: {self.topic} has no matching key order defined in config, using default key order."
-                )
-                self.key_order = self._default_key_order()
-
         self._filehandle.write(f"{','.join(self.key_order)}\n")
 
     @staticmethod
