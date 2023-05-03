@@ -1,0 +1,9 @@
+broker: "10.47.36.1"
+user: ""
+password: ""
+port: 1883
+ssl: False
+qos: 0
+topics: ["test"]
+mapping: ""
+packstyle: "json"
