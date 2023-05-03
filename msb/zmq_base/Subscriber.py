@@ -2,11 +2,11 @@ import zmq
 import json
 import sys
 
-from msb.zmq_base.Config import ZMQConf
+from msb.zmq_base.config import PublisherSubscriberConf
 
 
 class Subscriber:
-    def __init__(self, topic: bytes, config):
+    def __init__(self, topic: bytes, config: PublisherSubscriberConf):
         self.config = config
         # after merging with configuration branch, update of
         # configuration through configuration file should happen here
@@ -53,5 +53,5 @@ class Subscriber:
 
 
 def get_default_subscriber(topic: bytes) -> Subscriber:
-    config = ZMQConf()
+    config = PublisherSubscriberConf()
     return Subscriber(topic, config)

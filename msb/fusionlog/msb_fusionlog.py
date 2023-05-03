@@ -1,47 +1,52 @@
-import pickle
 import signal
 import sys
 
-from msb.config.zeromq import open_zmq_sub_socket
 
-from .FusionlogConfig import FusionlogConfig
-from .TimeSeriesLogger import TimeSeriesLogger
+from msb.config import load_config
+from msb.zmq_base.Subscriber import Subscriber, get_default_subscriber
+from msb.fusionlog.config import FusionlogConf
+from msb.fusionlog.TimeSeriesLogger import TimeSeriesLogger
+
 
 def signal_handler(sig, frame):
-    print('msb_fusionlog.py exit')
+    print("msb_fusionlog.py exit")
+
     sys.exit(0)
 
-def get_data(zmq_socket):
-    while True:
-        try:
-            (topic, data) = zmq_socket.recv_multipart()
-        except Exception as e:
-            print(f'failed to receive message: {e}')
-            continue
-        topic = topic.decode('utf-8')
-        try:
-            data = pickle.loads(data)
-        except Exception as e:
-            print(f'failed to load pickle message, skipping: {e}')
-            continue
-        yield (topic, data)
 
-def msb_fusionlog():
-    signal.signal(signal.SIGINT, signal_handler)
-    config = FusionlogConfig()
-    if config.verbose:
-        print(f"{config}")
-        print(f"opening zermoq socket and subscribing to {config.zmq['xpub_connect_string']}")
-    zmq_sub_socket = open_zmq_sub_socket(config.zmq['xpub_connect_string'])
-    loggers = dict()
-    for topic, data in get_data(zmq_sub_socket):
-        if config.print_stdout:
-            print(f"{topic} : {data}")
-        if not topic in loggers:
-            if config.verbose:
-                print(f"not a logger yet: {topic}, creating")
-            loggers[topic] = TimeSeriesLogger(topic, config)
-        loggers[topic].write(data)
+class FusionlogService:
+    def __init__(self, config: FusionlogConf, subscriber: Subscriber):
+        self.config = config
+        self.subscriber = subscriber
+        self.loggers = {}
+        if self.config.verbose:
+            print(self.config)
+
+    def get_data(self):
+        while True:
+            try:
+                (topic, data) = self.subscriber.receive()
+            except Exception as e:
+                print(f"failed to receive message: {e}")
+                continue
+            topic = topic.decode("utf-8")
+            yield topic, data
+
+    def run(self):
+        for topic, data in self.get_data():
+            if self.config.print_stdout:
+                print(f"{topic} : {data}")
+            if topic not in self.loggers:
+                if self.config.verbose:
+                    print(f"not a logger yet: {topic}, creating")
+                self.loggers[topic] = TimeSeriesLogger(topic, self.config)
+            self.loggers[topic].write(data)
+
 
 def main():
-    msb_fusionlog()
+    signal.signal(signal.SIGINT, signal_handler)
+    fusionlog_config = load_config(FusionlogConf(), "fusionlog")
+    print(fusionlog_config)
+    subscriber = get_default_subscriber(topic=b"")
+    fusionlog_service = FusionlogService(fusionlog_config, subscriber)
+    fusionlog_service.run()

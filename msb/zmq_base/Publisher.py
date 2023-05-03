@@ -2,11 +2,11 @@ import zmq
 import sys
 import json
 
-from msb.zmq_base.Config import ZMQConf
+from msb.zmq_base.config import PublisherSubscriberConf
 
 
 class Publisher:
-    def __init__(self, config):
+    def __init__(self, config: PublisherSubscriberConf):
         self.config = config
         # after merging with configuration branch, update of
         # configuration through configuration file should happen here
@@ -31,12 +31,12 @@ class Publisher:
     def send(self, topic: bytes, data: dict):
         # data = self.packer.dumps(data)
         data = json.dumps(data)
-        self.socket.send_multipart([topic, data.encode()])
+        self.socket.send_multipart([topic, data.encode('utf-8')])
 
     def __del__(self):
         self.socket.close()
 
 
 def get_default_publisher() -> Publisher:
-    default_config = ZMQConf()
+    default_config = PublisherSubscriberConf()
     return Publisher(default_config)

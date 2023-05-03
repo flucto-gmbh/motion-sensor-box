@@ -1,0 +1,10 @@
+msb-camera:
+  verbose : false
+  print_stdout : false
+  fps : 10               # max 30
+  width : 1920           # 1080p
+  height : 1080          # 1080p
+  rollover_interval : 60 # every 60 seconds a new video file will be opened
+  video_dir : /home/pi/msb_data/cam
+
+

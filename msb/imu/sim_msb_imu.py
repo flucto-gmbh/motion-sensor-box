@@ -7,7 +7,7 @@ import sys
 import time
 import uptime
 
-from .IMUConfig import IMUConfig
+from .config import IMUConfig
 from msb.config.zeromq import open_zmq_pub_socket
 
 IMU_TOPIC=b'imu'
