@@ -1,6 +1,6 @@
 [Unit]
-Description=Motion Sensor Box MQTT Service
-After=msb-broker.service
+Description=Motion Sensor Box MQTT forwarder
+After=network.target
 StartLimitIntervalSec=0
 
 [Service]

@@ -53,10 +53,10 @@ class MQTT_Publisher(MQTT_Base):
     def __init__(self, config, zmq_subscriber):
         super().__init__(config)
         self.subscriber = zmq_subscriber
-        self.client.on_publish = self._on_publish
+        #self.client.on_publish = self._on_publish
 
-    def _map_topic(zmq_topic):
-        return zmq_topic
+    def _map_topic(self, zmq_topic):
+        return self.config.mapping + zmq_topic.decode()
 
     def _on_publish(self, client, userdata, message_id):
         print(f"Published message with id {message_id}")
@@ -116,6 +116,8 @@ class MQTT_Subscriber(MQTT_Base):
 
 def main():
     config = load_config(MQTTconf(), "mqtt")
+    for topic in config.topics:
+        print(f"Subscribing to {topic}")
     zmq_sub = get_default_subscriber([topic.encode() for topic in config.topics])
     mqtt_publisher = MQTT_Publisher(config, zmq_sub)
     mqtt_publisher.zmq_to_mqtt_loop()
