@@ -9,8 +9,6 @@ from msb.config import load_config
 class Subscriber:
     def __init__(self, topic: bytes, config: PublisherSubscriberConf):
         self.config = config
-        # after merging with configuration branch, update of
-        # configuration through configuration file should happen here
 
         self.context = zmq.Context.instance()
         self.socket = self.context.socket(zmq.SUB)
