@@ -1,77 +1,123 @@
 from paho.mqtt import client as mqtt_client
-import sys, os
+from dataclasses import dataclass
 import ssl
-import time
+import json
 
-from msb.zmq_base.Subscriber import Subscriber
-from msb.mqtt.MQTTConfig import MQTTConfig
-
-class MQTTnode:
-    def __init__(self, config_override={}):
-        self.config = MQTTConfig(override=config_override)
-        self.subscriber = Subscriber(connect_to=self.config.xpub_socketstring)
-        self.connect_mqtt()
-        self.client.loop_start()
-
-    '''
-    Main loop: data comes in through zmq subscription socket, passed on to mqtt publish
-    At the moment, Subscriber.receive() is blocking
-    '''
-    def wait_for_input_and_publish(self):
-        # At which level to place the while loop?
-        while True:
-            # This is blocking
-            (zmq_topic, data) = self.subscriber.receive()
-
-            self.publish(zmq_topic, data)
+from msb.zmq_base.Subscriber import get_default_subscriber
+from msb.mqtt.config import MQTTconf
+from msb.mqtt.packer import packer_factory
+from msb.config import load_config
 
 
-    '''
-    Publish to MQTT broker. Message should look as follows (whitespace important!)
-    measurement_name [tags] topic=value timestamp
-    with 
-    '''
-    def publish(self, zmq_topic, data):
-        now = int(time.time_ns())
-        topic= self.create_topic_from_zmq(zmq_topic)
-        msg = f"{self.config.measurement} {topic}={data} {now}"
+class MQTT_Base:
+    def __init__(self, config):
+        self.config = config
+        self.connect()
+        self.select_packer()
 
-        print(f"publishing to {topic} with msg : {msg}")
-        result = self.client.publish(topic, msg, qos=self.config.qos)
-
-        return result
-
-    
-    '''
-    From a 3 character zmq topic create a hierarchical topic suitable for mqtt
-    i.e. "imu" --> turbine1/blade2/flap4/imu
-    '''
-    def create_topic_from_zmq(self, zmq_topic):
-        return f"turbine/{zmq_topic}"
-
-
-    def connect_mqtt(self):
-        def on_connect(client, userdata, flags, rc):
-            if rc == 0:
-                print(f'MQTT node connected to {self.config.mqtt_broker}:{self.config.mqtt_port}')
-            else:
-                print('Connection failed!')
-
+    def connect(self):
         self.client = mqtt_client.Client()
-        self.client.username_pw_set(self.config.user, self.config.passwd)
-        self.client.on_connect = on_connect
+        self.client.username_pw_set(self.config.user, self.config.password)
+        self.client.on_connect = self._on_connect
+        self.client.on_disconnect = self._on_disconnect
 
-        if self.config.ssl: 
-            # By default, on Python 2.7.9+ or 3.4+, the default certification authority of the system is used.
-            self.client.tls_set(tls_version=ssl.PROTOCOL_TLS_CLIENT) 
+        if self.config.ssl:
+            # By default, on Python 2.7.9+ or 3.4+,
+            # the default certification authority of the system is used.
+            self.client.tls_set(tls_version=ssl.PROTOCOL_TLS_CLIENT)
 
-        self.client.connect(self.config.mqtt_broker, self.config.mqtt_port)
+        self.client.connect(self.config.broker, self.config.port)
 
+    def send(self, topic: str, data: dict):
+        payload = self.pack(data)
+        self.client.publish(topic, payload, qos=self.config.qos)
+
+    def select_packer(self):
+        self._packer = packer_factory(self.config.packstyle)
+
+    def pack(self, data):
+        return self._packer(data)
+
+    # MQTT callbacks
+    def _on_connect(self, client, userdata, flags, return_code):
+        if return_code == 0:
+            print(f"MQTT node connected to {self.config.broker}:{self.config.port}")
+        else:
+            print("Connection failed!")
+
+    def _on_disconnect(self, client, userdata, return_code):
+        print(f"Disconnected from broker with return code {return_code}")
+
+
+class MQTT_Publisher(MQTT_Base):
+    def __init__(self, config, zmq_subscriber):
+        super().__init__(config)
+        self.subscriber = zmq_subscriber
+        #self.client.on_publish = self._on_publish
+
+    def _map_topic(self, zmq_topic):
+        return self.config.mapping + zmq_topic.decode()
+
+    def _on_publish(self, client, userdata, message_id):
+        print(f"Published message with id {message_id}")
+
+    def _zmq_to_mqtt(self):
+        # This is blocking
+        (zmq_topic, data) = self.subscriber.receive()
+        mqtt_topic = self._map_topic(zmq_topic)
+
+        self.send(mqtt_topic, data)
+
+    def zmq_to_mqtt_loop(self):
+        """
+        Main loop: data comes in through zmq subscription socket,
+        passed on to mqtt publish
+        """
+        while True:
+            self._zmq_to_mqtt()
+
+
+class MQTT_Subscriber(MQTT_Base):
+    def __init__(self, config, zmq_publisher):
+        super().__init__(config)
+        self.publisher = zmq_publisher
+        self._subscribe_to_topics()
+        self.client.on_message = self._on_message
+        self.client.loop_start()
 
     def __del__(self):
         self.client.loop_stop()
 
+    def _subscribe_to_topics(self):
+        # if subscribing to multiple topics, use a list of tuples
+        subscription_list = [(topic, self.config.qos) for topic in self.config.topics]
+        self.client.subscribe(subscription_list)
+
+    def _on_message(self, client, userdata, message):
+        """
+        Callback on message, processes message and sends via ZMQ
+        """
+        try:
+            self._process_message(message)
+        except Exception as e:
+            print("Could not unpack message")
+            print(e)
+
+    def _process_message(self, message):
+        decoded_message = message.payload.decode()
+        data = json.loads(decoded_message)
+        zmq_topic = self._map_topic(message.topic)
+        self.publisher.send(zmq_topic, data)
+        print(f"Received message '{decoded_message}' on topic '{message.topic}'")
+
+    def _map_topic(self, mqtt_topic):
+        return mqtt_topic
+
 
 def main():
-    mqtt_tester = MQTTnode()
-    print(mqtt_tester.config.user)
+    config = load_config(MQTTconf(), "mqtt")
+    for topic in config.topics:
+        print(f"Subscribing to {topic}")
+    zmq_sub = get_default_subscriber([topic.encode() for topic in config.topics])
+    mqtt_publisher = MQTT_Publisher(config, zmq_sub)
+    mqtt_publisher.zmq_to_mqtt_loop()
