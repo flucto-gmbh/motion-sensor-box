@@ -1,9 +1,9 @@
-broker: "localhost"
-user: "mqtt.flucto.tech"
-password: "mqttpass"
+broker: "10.47.36.1"
+user: ""
+password: ""
 port: 1883
 ssl: False
 qos: 0
-topics: ["topic"]
-mapping: "/msb/"
+topics: ["test"]
+mapping: ""
 packstyle: "json"
