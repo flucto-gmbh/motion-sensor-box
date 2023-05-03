@@ -97,7 +97,7 @@ class ICM20948ZMQ(ICM20938_REGISTERS, ICM20948_SETTINGS):
     # _data = np.zeros(13)
     # _data = [0] * 13
     _data =  {key: None for key in
-              ["epoch" "uptime", "acc_x", "acc_y", "acc_z", "rot_x", "rot_y", "rot_z", "mag_x", "mag_y", "mag_z", "temp"]
+              ["epoch", "uptime", "acc_x", "acc_y", "acc_z", "rot_x", "rot_y", "rot_z", "mag_x", "mag_y", "mag_z", "temp"]
     }
     _interrupt_enabled = False
     _output_data_divisor = 22

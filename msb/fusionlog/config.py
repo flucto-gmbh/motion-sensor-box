@@ -29,7 +29,7 @@ _default_key_order = {
         "datetime",
         "epoch",
         "uptime",
-        "gps_mode",
+        "mode",
         "gps_timestamp",
         "latitude",
         "longitude",
