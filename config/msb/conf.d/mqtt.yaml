@@ -1,4 +1,4 @@
-broker: "10.47.36.1"
+broker: "192.168.1.122"
 user: ""
 password: ""
 port: 1883

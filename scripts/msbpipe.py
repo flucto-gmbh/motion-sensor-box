@@ -53,7 +53,6 @@ def main():
 
 
 def print_stdout(topic, data, pretty_print=False):
-    print(topic)
     if pretty_print:
         print(json.dumps(data, indent=4))
     else:
