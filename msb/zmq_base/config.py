@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from msb.config.MSBConfig import MSBConf
 
 
+@dataclass
 class ZMQConf(MSBConf):
     protocol: str = "tcp"
     interface: str = "127.0.0.1"
@@ -17,13 +18,14 @@ class ZMQConf(MSBConf):
         return f"{self.protocol}://{self.interface}:{self.subscriber_port}"
 
 
+@dataclass
 class PublisherSubscriberConf(ZMQConf):
     packer: str = "json"
 
     @property
-    def producer_connection(self): # TODO rename/use publisher_address
+    def producer_connection(self):  # TODO rename/use publisher_address
         return f"{self.protocol}://{self.interface}:{self.publisher_port}"
 
     @property
-    def consumer_connection(self): # TODO rename/use subscriber_address
+    def consumer_connection(self):  # TODO rename/use subscriber_address
         return f"{self.protocol}://{self.interface}:{self.subscriber_port}"

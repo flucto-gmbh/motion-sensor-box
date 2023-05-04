@@ -4,13 +4,12 @@ import json
 import sys
 
 from msb.zmq_base.config import PublisherSubscriberConf
+from msb.config import load_config
 
 
 class Subscriber:
     def __init__(self, topic: bytes, config: PublisherSubscriberConf):
         self.config = config
-        # after merging with configuration branch, update of
-        # configuration through configuration file should happen here
 
         self.context = zmq.Context.instance()
         self.socket = self.context.socket(zmq.SUB)
@@ -54,5 +53,11 @@ class Subscriber:
 
 
 def get_default_subscriber(topic: bytes) -> Subscriber:
-    config = PublisherSubscriberConf()
+    import os
+    if "MSB_CONFIG_DIR" in os.environ:
+        print("loading zmq config")
+        config = load_config(PublisherSubscriberConf(), "zmq", read_commandline=False)
+    else:
+        print("using default zmq config")
+        config = PublisherSubscriberConf()
     return Subscriber(topic, config)

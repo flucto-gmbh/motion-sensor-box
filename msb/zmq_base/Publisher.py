@@ -3,13 +3,12 @@ import sys
 import json
 
 from msb.zmq_base.config import PublisherSubscriberConf
+from msb.config import load_config
 
 
 class Publisher:
     def __init__(self, config: PublisherSubscriberConf):
         self.config = config
-        # after merging with configuration branch, update of
-        # configuration through configuration file should happen here
 
         self.context = zmq.Context.instance()
         self.socket = self.context.socket(zmq.PUB)
@@ -29,8 +28,7 @@ class Publisher:
             sys.exit(-1)
 
     def send(self, topic: bytes, data: dict):
-        # data = self.packer.dumps(data)
-        data = json.dumps(data)
+        data = self.packer.dumps(data)
         self.socket.send_multipart([topic, data.encode('utf-8')])
 
     def __del__(self):
@@ -38,5 +36,11 @@ class Publisher:
 
 
 def get_default_publisher() -> Publisher:
-    default_config = PublisherSubscriberConf()
-    return Publisher(default_config)
+    import os
+    if "MSB_CONFIG_DIR" in os.environ:
+        print("loading zmq config")
+        config = load_config(PublisherSubscriberConf(), "zmq", read_commandline=False)
+    else:
+        print("using default zmq config")
+        config = PublisherSubscriberConf()
+    return Publisher(config)
