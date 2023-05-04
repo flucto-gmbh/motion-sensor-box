@@ -1,5 +1,4 @@
 from __future__ import annotations
-
 import zmq
 import json
 import sys
