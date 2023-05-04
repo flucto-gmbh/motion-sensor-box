@@ -2,7 +2,7 @@
 
 export MSB="${HOME}/motion-sensor-box"
 export MSB_SRC="${MSB}/src"
-export MSB_CONFIG_DIR="${HOME}/.config/msb/conf.d/"
+export MSB_CONFIG_DIR="${HOME}/.config/"
 export MSB_DATA="${HOME}/msb_data"
 export MSB_PROCESSED="${HOME}/msb_processed"
 export MSB_RESULTS="${HOME}/msb_results"
