@@ -1,6 +1,6 @@
 from msb.config.MSBConfig import MSBConf
 
-from msb.imu.ICM20948.ICM20948_settings import (
+from msb.imu.icm20948.settings import (
     AccelerationFilter,
     AccelerationSensitivity,
     GyroFilter,
@@ -23,4 +23,3 @@ class IMUConf(MSBConf):
     gyr_sensitivity: GyroSensitivity = GyroSensitivity.DPS_250
     precision: int = 3
     polling: bool = True
-

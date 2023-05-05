@@ -1,27 +1,43 @@
 import signal
 import sys
 
-
-from msb.imu.ICM20948.ICM20948ZMQ import ICM20948ZMQ
+from msb.imu.icm20948 import ICM20948
 from msb.imu.config import IMUConf
 from msb.config import load_config
 from msb.zmq_base.Publisher import Publisher, get_default_publisher
 
 
+# this might not be necessary if ICM20948 is used as context manager
 def signal_handler(sig, frame):
     print("msb_imu.py exit")
     sys.exit(0)
 
 
-def msb_imu(config: IMUConf, publisher: Publisher):
-    signal.signal(signal.SIGINT, signal_handler)
+class IMUService:
+    def __init__(self, config: IMUConf, publisher: Publisher):
+        self.config = config
+        self.publisher = publisher
+        self.icm20948 = ICM20948(config=config)
 
-    imu = ICM20948ZMQ(config=config, publisher=publisher)
-    imu.begin()
-    signal.pause()
+    def run(self):
+        with self.icm20948:
+            while True:
+                # this assumes that get_data blocks until new data is available
+                raw_data = self.icm20948.get_data()
+                data = self.process_raw(raw_data)
+                self.publisher.send(self.config.topic, data)
+
+    def process_raw(self, raw) -> dict:
+        # TODO or should this happen in the ICM20948
+        # OR should we create a class IMU that encapsulates the ICM20948 and which is then used as the only Interface by the IMUService
+        # process data
+        # e.g. align axes with msb axes
+        pass
 
 
 def main():
+    signal.signal(signal.SIGINT, signal_handler)
     imu_config = load_config(IMUConf(), "imu")
     publisher = get_default_publisher()
-    msb_imu(imu_config, publisher)
+    imu = IMUService(imu_config, publisher)
+    imu.run()
