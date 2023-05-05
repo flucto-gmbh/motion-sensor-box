@@ -1,6 +1,7 @@
 from msb.config.MSBConfig import MSBConfig
 from msb.config.MSBConfig import MSBConf
 
+
 class CameraConf(MSBConf):
     topic: bytes = b"cam"
     fps: int = 10
@@ -10,4 +11,4 @@ class CameraConf(MSBConf):
     video_dir: str = "/home/msb/msb_data/cam"
     timeformat: str = "%Y%m%dT%H%M%S%z"
     serial_number: str = "msb"
-
+    font = {"color": [0, 255, 0], "origin": [0, 30], "scale": 1, "thickness": 2}
