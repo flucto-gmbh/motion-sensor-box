@@ -17,7 +17,8 @@ class OpticalFlowTracker:
         self.frame_index = 0
         self.detect_interval = 5
         self._tracks = []                # shape: (n_features, track_length, 2)
-        self.curr = next(self.source)   # this can fail if source is empty
+        self.curr = []
+        self.prev = []
 
     @property
     def tracks(self):
@@ -33,11 +34,11 @@ class OpticalFlowTracker:
 
     def tracking_loop(self):
         for image in self.source:
+            self._update(image)
             if self._has_features():
                 self.track_features()
             if self._needs_features():
                 self.detect_features()
-            self._update(image)
             yield
 
     def detect_features(self):
@@ -98,9 +99,11 @@ class OpticalFlowTracker:
     def _needs_features(self):
         return self.frame_index % self.detect_interval == 0
 
-    def _update(self, image):
-        self.prev = self.curr
-        self.curr = image
+    def _update(self, img):
+        # Run only once
+        if len(self.curr):
+            self.prev = self.curr
+        self.curr = img
         self.frame_index += 1
 
     def _calc_velocities(self):
