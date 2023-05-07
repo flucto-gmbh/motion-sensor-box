@@ -41,14 +41,18 @@ class OpticalFlowTracker:
                 self.detect_features()
             yield
 
+    def detection_func(self, img):
+        gray_frame = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        mask = np.zeros_like(gray_frame)
+        mask[:] = 255
+        feature_points = cv2.goodFeaturesToTrack(gray_frame, mask=mask, **feature_params)
+        return feature_points
+
     def detect_features(self):
         """
         Static detection of good features with the Shi-Tomasi algorithm
         """
-        gray_frame = cv2.cvtColor(self.curr, cv2.COLOR_BGR2GRAY)
-        mask = np.zeros_like(gray_frame)
-        mask[:] = 255
-        feature_points = cv2.goodFeaturesToTrack(gray_frame, mask=mask, **feature_params)
+        feature_points = self.detection_func(self.curr)
         if feature_points is not None:
             for x, y in np.float32(feature_points).reshape(-1, 2):
                 self._tracks.append([(x, y)])
