@@ -49,6 +49,8 @@ class StatusService:
         while True:
             data = self.get_data()
             self.publisher.send(self.config.topic, data)
+            if self.config.print_stdout:
+                print(data)
             time.sleep(delta_t - ((time.time() - start_time) % delta_t))
 
 
