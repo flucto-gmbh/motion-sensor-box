@@ -1,4 +1,5 @@
 import shutil
+from gpiozero import CPUTemperature
 
 def disk_usage() -> dict:
     usage = shutil.disk_usage("/")
@@ -24,7 +25,9 @@ def ram_usage() -> dict:
 
 
 def temperature() -> dict:
-    return {}
+    # https://raspberrypi.stackexchange.com/a/93286
+    cpu = CPUTemperature()
+    return {"cpu": cpu.temperature}
 
 
 def msb_services() -> dict:
