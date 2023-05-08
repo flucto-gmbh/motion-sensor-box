@@ -1,5 +1,7 @@
 import shutil
 from gpiozero import CPUTemperature
+import psutil
+
 
 def disk_usage() -> dict:
     usage = shutil.disk_usage("/")
@@ -21,7 +23,21 @@ def system_load() -> dict:
 
 
 def ram_usage() -> dict:
-    return {}
+    byte_to_Mib = 1024**2
+    ram = psutil.virtual_memory()
+    swap = psutil.swap_memory()
+    return {
+        "ram": {
+            "total": ram.total / byte_to_Mib,
+            "available": ram.availalbe / byte_to_Mib,
+            "percent": ram.percent,
+        },
+        "swap": {
+            "total": swap.total / byte_to_Mib,
+            "free": swap.free / byte_to_Mib,
+            "percent": swap.percent,
+        },
+    }
 
 
 def temperature() -> dict:
