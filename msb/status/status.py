@@ -29,7 +29,7 @@ def ram_usage() -> dict:
     return {
         "ram": {
             "total": ram.total / byte_to_Mib,
-            "available": ram.availalbe / byte_to_Mib,
+            "available": ram.available / byte_to_Mib,
             "percent": ram.percent,
         },
         "swap": {
