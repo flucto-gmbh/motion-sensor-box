@@ -72,8 +72,12 @@ class SerialReader:
                         continue
 
 
-if __name__ == "__main__":
+def main():
     config = load_config(SerialConf(), "serial", read_commandline=False)
     publisher = get_default_publisher()
     reader = SerialReader(config, publisher)
     reader.start_loop()
+
+
+if __name__ == "__main__":
+    main()
