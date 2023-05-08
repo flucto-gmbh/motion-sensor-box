@@ -25,19 +25,19 @@ class StatusService:
     def get_data(self) -> dict:
         data = {}
         if self.config.get_uptime:
-            data |= uptime()
+            data["uptime"] = uptime()
         if self.config.get_disk_usage:
-            data |= disk_usage()
+            data["disk_usage"] = disk_usage()
         if self.config.get_msb_services_status:
-            data |= msb_services()
+            data["msb_services_status"] = msb_services()
         if self.config.get_temperature:
-            data |= temperature()
+            data["temperature"] = temperature()
         if self.config.get_ram_usage:
-            data |= ram_usage()
+            data["ram_usage"] = ram_usage()
         if self.config.get_system_load:
-            data |= system_load()
+            data["system_load"] = system_load()
         if self.config.get_network_status:
-            data |= network_status()
+            data["network_status"] = network_status()
 
         data["epoch"] = time.time()
         return data
