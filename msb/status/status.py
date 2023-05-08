@@ -59,7 +59,7 @@ def msb_services() -> dict:
     with Manager() as manager:
         msb_units = (u for u in manager.ListUnits() if b"msb-" in u[0])
         enabled = {
-            uf.decode("utf-8"): s.decode("utf-8")
+            os.path.basename(uf.decode("utf-8")): s.decode("utf-8")
             for uf, s in manager.Manager.ListUnitFiles()
             if b"msb-" in uf
         }
