@@ -91,6 +91,8 @@ def get_cmdline():
     parser.add_argument("--file", type=str, required=True)
     parser.add_argument("--roi", type=int, nargs=4, required=False)
     parser.add_argument("--angle", type=float, required=False)
+    parser.add_argument("-s", "--select-roi", action='store_true', required=False)
+
 
     return parser.parse_args()
 
@@ -142,14 +144,14 @@ def main():
     gui = gui_split(filter)
     tracker = OpticalFlowTracker(gui)
 
-    # points = get_graphical_roi(source)
+    if args.select_roi:
+        points = get_graphical_roi(source)
+        rect = cv2.boundingRect(np.array(points))
+        x, y, w, h = rect
+        add_filter_func(filter_roi([y, y + h, x, x + w]))
 
-    # if args.roi and not len(points):
-    #     add_filter_func(filter_roi(args.roi))
-    # if len(points):
-    #     rect = cv2.boundingRect(np.array(points))
-    #     x, y, w, h = rect
-    #     add_filter_func(filter_roi([y, y + h, x, x + w]))
+    if args.roi and not args.select_roi:
+        add_filter_func(filter_roi(args.roi))
 
     # Functions
     tracks = []
@@ -184,24 +186,31 @@ def main():
 
     # tracker.detection_func = my_detection_func(mycorners, 20)
     # add_draw_func(draw_rect(mycorners))
-    tracker.detect_interval = 5
-    tracker.track_length = 50
+    tracker.detect_interval = 10
+    # tracker.track_length = 50
 
     add_draw_func(draw_tracks)
     # add_filter_func(filter_sobel)
 
-    for _ in tracker.tracking_loop():
-        tracks = tracker._tracks
-        velocities = np.array(tracker.velocities)
-        if len(velocities):
-            velocities = velocities[np.isfinite(velocities[:, 0])]
-            velocity_mean = np.median(velocities)
-            if velocity_mean:
-                print(velocity_mean)
+    velocity_timeseries = []
 
-        c = cv2.waitKey(1)
-        if c == 27:
-            break
+    with open("out2.csv", "w") as f:
+        for _ in tracker.tracking_loop():
+            tracks = tracker._tracks
+            velocities = np.array(tracker.velocities)
+            if len(velocities):
+                velocities = velocities[np.isfinite(velocities[:, 0])]
+                velocity_mean = np.mean(velocities, axis=0)
+                velocity_timeseries.append(velocity_mean)
+                if len(velocity_timeseries) > 3:
+                    vx = velocity_timeseries[-2:][0].mean()
+                    vy = velocity_timeseries[-2:][1].mean()
+                    f.write(f"{tracker.frame_index},{vx},{vy}\n")
+                    # f.write(f"{velocity_mean[0]},{velocity_mean[1]}\n")
+
+            c = cv2.waitKey(1)
+            if c == 27:
+                break
 
 
 if __name__ == "__main__":
