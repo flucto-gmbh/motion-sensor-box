@@ -60,7 +60,7 @@ def test_mqtt_node():
 
 
 def test_zmq_to_mqtt_loop():
-    from msb.mqtt.msb_mqtt import MQTT_Publisher
+    from msb.mqtt.msb_mqtt import MQTT_Forwarder
     from msb.zmq_base import get_default_subscriber
 
     config = setup_config()
@@ -68,7 +68,7 @@ def test_zmq_to_mqtt_loop():
 
     zmq_sub = get_default_subscriber(b"")
 
-    pub = MQTT_Publisher(config, zmq_sub)
+    pub = MQTT_Forwarder(config, zmq_sub)
 
     for x in range(10):
         pub._zmq_to_mqtt()
