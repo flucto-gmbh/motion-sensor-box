@@ -19,7 +19,14 @@ def network_status() -> dict:
 
 
 def system_load() -> dict:
-    return {}
+    current = psutil.cpu_percent()
+    averages = psutil.getloadavg()
+    return {
+        "current": current,
+        "average_1min": averages[0],
+        "average_5min": averages[1],
+        "averages_15min": averages[2],
+    }
 
 
 def ram_usage() -> dict:
