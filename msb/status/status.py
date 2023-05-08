@@ -1,6 +1,8 @@
 import shutil
 from gpiozero import CPUTemperature
 import psutil
+from pystemd.systemd1 import Manager
+import os
 
 
 def disk_usage() -> dict:
@@ -54,4 +56,22 @@ def temperature() -> dict:
 
 
 def msb_services() -> dict:
-    return {}
+    with Manager() as manager:
+        msb_units = (u for u in manager.ListUnits() if b"msb-" in u[0])
+        enabled = {
+            uf.decode("utf-8"): s.decode("utf-8")
+            for uf, s in manager.Manager.ListUnitFiles()
+            if b"msb-" in uf
+        }
+        services = {}
+        for unit in msb_units:
+            name = unit[0].decode("utf-8")
+            status = {
+                "description": unit[1].decode("utf-8"),
+                "loaded": unit[2].decode("utf-8"),
+                "active": unit[3].decode("utf-8") + f" ({unit[4].decode('utf-8')})",
+                "enabled": enabled[name],
+            }
+            services[name] = status
+
+    return services
