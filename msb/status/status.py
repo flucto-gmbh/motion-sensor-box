@@ -1,8 +1,10 @@
-import shutil
-from gpiozero import CPUTemperature
-import psutil
-from pystemd.systemd1 import Manager
 import os
+import shutil
+import socket
+
+import psutil
+from gpiozero import CPUTemperature
+from pystemd.systemd1 import Manager
 
 
 def disk_usage() -> dict:
@@ -17,6 +19,19 @@ def disk_usage() -> dict:
 
 
 def network_status() -> dict:
+    net_if_addrs = psutil.net_if_addrs()
+    status = {}
+    for network_interface in net_if_addrs:
+        addrs = {}
+        for address in net_if_addrs[network_interface]:
+            if address.family == socket.AF_INET:
+                ipv_key = "IPv4"
+            elif address.family == socket.AF_INET6:
+                ipv_key = "IPv6"
+            else:
+                continue
+            addrs[ipv_key] = {"address": address.address, "netmask": address.netmask}
+        status[network_interface] = addrs
     return {}
 
 
