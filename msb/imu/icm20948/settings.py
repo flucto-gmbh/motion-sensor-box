@@ -1,5 +1,33 @@
-from enum import Enum
+from enum import Enum, IntFlag, IntEnum
 from dataclasses import dataclass
+
+
+class ICM_20948_Sample_Mode(IntFlag):
+    """Sample mode options"""
+
+    # TODO rename
+    CONTINOUS = 0x00
+    CYCLED = 0x01
+
+
+class ICM_20948_Internal(IntFlag):
+    """Internal Sensor IDs, used in various functions as arguments to know who to affect"""
+
+    # TODO rename?
+    ACC = 1 << 0
+    GYR = 1 << 1
+    MAG = 1 << 2
+    TMP = 1 << 3
+    MST = 1 << 4  # I2C Master Internal
+
+
+class Bank(IntEnum):
+    """Represents a register bank."""
+
+    B0 = 0
+    B1 = 1
+    B2 = 2
+    B3 = 3
 
 
 class GyroSensitivity(Enum):

@@ -1,6 +1,6 @@
-from msb.imu.icm20948.icm20948 import ICM20948Communicator
+from msb.imu.icm20948.comm import ICM20948Communicator
 from msb.imu.icm20948.registers import Registers
-from msb.imu.icm20948.icm20948 import Bank
+from msb.imu.icm20948.settings import Bank
 
 
 class TXNFailedError(Exception):
