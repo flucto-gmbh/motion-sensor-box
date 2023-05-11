@@ -19,16 +19,15 @@ class IMUService:
     def __init__(self, config: IMUConf, publisher: Publisher):
         self.config = config
         self.publisher = publisher
-        self.icm20948 = ICM20948(config, Registers(), Settings(), publisher)
+        self.icm20948 = ICM20948(config, Registers(), Settings())
 
     def run(self):
         with self.icm20948:
-            signal.pause()
-            # while True:
-                # this assumes that get_data blocks until new data is available
-                # raw_data = self.icm20948.get_data()
-                # data = self.process_raw(raw_data)
-                # self.publisher.send(self.config.topic, data)
+            # signal.pause()
+            while True:
+                raw_data = self.icm20948.get_data()
+                data = self.process_raw(raw_data)
+                self.publisher.send(self.config.topic, data)
 
 
     def process_raw(self, raw) -> dict:
@@ -36,7 +35,7 @@ class IMUService:
         # OR should we create a class IMU that encapsulates the ICM20948 and which is then used as the only Interface by the IMUService
         # process data
         # e.g. align axes with msb axes
-        pass
+        return raw
 
 
 def main():

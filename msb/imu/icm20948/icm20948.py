@@ -4,6 +4,8 @@ import uptime
 
 import RPi.GPIO as gpio
 
+from queue import SimpleQueue
+
 from msb.imu.icm20948.comm import ICM20948Communicator
 from msb.imu.icm20948.registers import Registers
 from msb.imu.icm20948.settings import (
@@ -30,12 +32,11 @@ class ICM20948:
         config: IMUConf,
         registers: Registers,
         settings: Settings,
-        publisher: Publisher,
     ):
         self.config = config
         self.registers = registers
         self.settings = settings
-        self.publisher = publisher
+        self._data_q = SimpleQueue()
         i2c_bus_num = self.config.i2c_bus_num
         i2c_address = self.config.i2c_address
         self.comm = ICM20948Communicator(
@@ -48,24 +49,6 @@ class ICM20948:
         self._delta_t = 1 / (1125 / (self.config.sample_rate_divisor + 1))
         if self.config.verbose:
             print(f"delta t is: {self._delta_t}")
-
-        self._data = {
-            key: None
-            for key in [
-                "epoch" "uptime",
-                "acc_x",
-                "acc_y",
-                "acc_z",
-                "rot_x",
-                "rot_y",
-                "rot_z",
-                "mag_x",
-                "mag_y",
-                "mag_z",
-                "temp",
-            ]
-        }
-
         self.magnetometer = AK09916(self.comm, self.registers)
 
     def __enter__(self):
@@ -255,7 +238,7 @@ class ICM20948:
 
         return self.comm.write(Bank.B2, self.registers.AGB2_REG_GYRO_CONFIG_1, register)
 
-    def set_sample_rate_divisor_gyro(self, rate):
+    def _set_sample_rate_divisor_gyro(self, rate):
         register = self.comm.read(Bank.B2, self.registers.AGB2_REG_GYRO_SMPLRT_DIV)
 
         # clear register # TODO why read then?
@@ -264,93 +247,33 @@ class ICM20948:
 
         self.comm.write(Bank.B2, self.registers.AGB2_REG_GYRO_SMPLRT_DIV, register)
 
-    def _poll(self):
-        while True:
-            start_time = time.monotonic()
-            try:
-                self._update_data(interrupt_pin=-1)
-            except KeyboardInterrupt:
-                if self.config.verbose:
-                    print(f"caught ctrl+x, exit")
-                    sys.exit(0)
-            except Exception as e:
-                if self.config.verbose:
-                    print(f"failed to update data: {e}, skipping")
-                sys.exit(-1)
+    def _setup_polling(self):
+        raise NotImplementedError("Polling is not yet implemented.")
+        # TODO polling needs to happen in another thread which fills self._data_q
+        # also dont forget to cancel that task in __exit__
+        # while True:
+        #     start_time = time.monotonic()
+        #     try:
+        #         self._read_new_data(interrupt_pin=-1)
+        #     except KeyboardInterrupt:
+        #         if self.config.verbose:
+        #             print(f"caught ctrl+x, exit")
+        #             sys.exit(0)
+        #     except Exception as e:
+        #         if self.config.verbose:
+        #             print(f"failed to update data: {e}, skipping")
+        #         sys.exit(-1)
+        #
+        #     while time.monotonic() < start_time + self._delta_t:
+        #         if self.config.verbose:
+        #             print("sleeping 1 ms")
+        #         time.sleep(0.001)
 
-            while time.monotonic() < start_time + self._delta_t:
-                if self.config.verbose:
-                    print("sleeping 1 ms")
-                time.sleep(0.001)
-
-    def _update_data(self, interrupt_pin: int):
-        """Reads and updates raw values from accel, gyro, mag and temp of the ICM90248 module"""
-        # TODO rename function, it reads and sends data
-        if self.config.verbose:
-            if self.config.polling:
-                print(f"{time.time()}: polling sensor")
-            else:
-                print(
-                    f"{time.time()}: updating data via triggered interrupt pin {interrupt_pin}"
-                )
-        buff = self.comm.read(
-            Bank.B0, self.registers.AGB0_REG_ACCEL_XOUT_H, self._update_numbytes
-        )
-        self._data["epoch"] = time.time()
-        self._data["uptime"] = uptime.uptime()
-        # acceleration
-        self._data["acc_x"] = round(
-            self._to_signed_int(((buff[0] << 8) | (buff[1] & 0xFF))) / self.acc_scale,
-            self._precision,
-        )
-        self._data["acc_y"] = round(
-            self._to_signed_int(((buff[2] << 8) | (buff[3] & 0xFF))) / self.acc_scale,
-            self._precision,
-        )
-        self._data["acc_z"] = round(
-            self._to_signed_int(((buff[4] << 8) | (buff[5] & 0xFF))) / self.acc_scale,
-            self._precision,
-        )
-        # angular velocity
-        self._data["rot_x"] = round(
-            self._to_signed_int(((buff[6] << 8) | (buff[7] & 0xFF))) / self.gyr_scale,
-            self._precision,
-        )
-        self._data["rot_y"] = round(
-            self._to_signed_int(((buff[8] << 8) | (buff[9] & 0xFF))) / self.gyr_scale,
-            self._precision,
-        )
-        self._data["rot_z"] = round(
-            self._to_signed_int(((buff[10] << 8) | (buff[11] & 0xFF))) / self.gyr_scale,
-            self._precision,
-        )
-        # TODO use _to_signed_int for magnetic as well?
-        # TODO what about scaling factor for mag?
-        # magnetic field
-        # careful: magnetic data is read little endian
-        self._data["mag_x"] = round(
-            (buff[16] << 8) | (buff[15] & 0xFF), self._precision
-        )
-        self._data["mag_y"] = round(
-            (buff[18] << 8) | (buff[17] & 0xFF), self._precision
-        )
-        self._data["mag_z"] = round(
-            (buff[20] << 8) | (buff[19] & 0xFF), self._precision
-        )
-        self._data["temp"] = round((buff[12] << 8) | (buff[13] & 0xFF), self._precision)
-
-        # TODO: move topic from send method to constructor of publisher
-        self.publisher.send(self.config.topic, self._data)
-        if self.config.verbose:
-            print(f"data: {self._data}")
-        if self.config.print_stdout:
-            print(",".join(map(str, self._data)))
-
-    def _configure_interrupt(self):
+    def _setup_interrupt(self):
         gpio.setmode(gpio.BCM)
         gpio.setup(self._interrupt_pin, gpio.IN, pull_up_down=gpio.PUD_UP)
         gpio.add_event_detect(
-            self._interrupt_pin, gpio.RISING, callback=self._update_data
+            self._interrupt_pin, gpio.RISING, callback=self._read_new_data
         )
 
         # currently only raw data ready mode is supported.
@@ -370,6 +293,63 @@ class ICM20948:
             print(f"AGB0_REG_INT_ENABLE_1: {register}")
         if not register == 1:
             raise RuntimeError("failed to activate interrupt")
+
+    def _parse_acc(self, raw: int) -> float:
+        return round(
+            self._to_signed_int(raw) / self._acc_scale,
+            self._precision,
+        )
+
+    def _parse_gyr(self, raw: int) -> float:
+        return round(
+            self._to_signed_int(raw) / self._gyr_scale,
+            self._precision,
+        )
+
+    def _parse_mag(self, raw: int) -> float:
+        return round(raw, self._precision)
+
+    def _parse_temp(self, raw: int) -> float:
+        return round(raw, self._precision)
+
+    def _read_new_data(self, interrupt_pin: int):
+        """Reads and queues raw values from accel, gyro, mag and temp of the ICM90248 module"""
+        if self.config.verbose:
+            if self.config.polling:
+                print(f"{time.time()}: polling sensor")
+            else:
+                print(
+                    f"{time.time()}: updating data via triggered interrupt pin {interrupt_pin}"
+                )
+        buff = self.comm.read(
+            Bank.B0, self.registers.AGB0_REG_ACCEL_XOUT_H, self._update_numbytes
+        )
+        data = {
+            "epoch": time.time(),
+            "uptime": uptime.uptime(),
+            # acceleration
+            "acc_x": self._parse_acc((buff[0] << 8) | (buff[1] & 0xFF)),
+            "acc_y": self._parse_acc((buff[2] << 8) | (buff[3] & 0xFF)),
+            "acc_z": self._parse_acc((buff[4] << 8) | (buff[5] & 0xFF)),
+            # angular velocity
+            "rot_x": self._parse_gyr((buff[6] << 8) | (buff[7] & 0xFF)),
+            "rot_y": self._parse_gyr((buff[8] << 8) | (buff[9] & 0xFF)),
+            "rot_z": self._parse_gyr((buff[10] << 8) | (buff[11] & 0xFF)),
+            # TODO use _to_signed_int for magnetic as well?
+            # TODO what about scaling factor for mag?
+            # magnetic field
+            # careful: magnetic data is read little endian
+            "mag_x": self._parse_mag((buff[16] << 8) | (buff[15] & 0xFF)),
+            "mag_y": self._parse_mag((buff[18] << 8) | (buff[17] & 0xFF)),
+            "mag_z": self._parse_mag((buff[20] << 8) | (buff[19] & 0xFF)),
+            "temp": self._parse_temp((buff[12] << 8) | (buff[13] & 0xFF)),
+        }
+
+        self._data_q.put(data)
+        if self.config.verbose:
+            print(f"data: {data}")
+        if self.config.print_stdout:
+            print(",".join(map(str, data)))
 
     @staticmethod
     def _to_signed_int(data):
@@ -411,13 +391,13 @@ class ICM20948:
         acc_sensitivity = self.settings.acc_sensitivity_dict[
             self.config.acc_sensitivity
         ]
-        self.acc_scale = self.settings.acc_scale_dict[self.config.acc_sensitivity]
+        self._acc_scale = self.settings.acc_scale_dict[self.config.acc_sensitivity]
         self._set_acc_sensitivity(acc_sensitivity)
 
         gyr_sensitivity = self.settings.gyr_sensitivity_dict[
             self.config.gyr_sensitivity
         ]
-        self.gyr_scale = self.settings.gyr_scale_dict[self.config.gyr_sensitivity]
+        self._gyr_scale = self.settings.gyr_scale_dict[self.config.gyr_sensitivity]
         self._set_gyr_sensitivity(gyr_sensitivity)
 
         # set low pass filter for accel
@@ -439,14 +419,15 @@ class ICM20948:
             self._enable_dlpf_gyro(True)
 
         # set output data rate
-        self.set_sample_rate_divisor_gyro(rate=self.config.sample_rate_divisor)
+        self._set_sample_rate_divisor_gyro(rate=self.config.sample_rate_divisor)
 
         # fire up the compass
         self.magnetometer.setup()
 
         if self.config.polling:
-            if self.config.verbose:
-                print(f"starting to poll imu")
-            self._poll()
+            self._setup_polling()
         else:
-            self._configure_interrupt()
+            self._setup_interrupt()
+
+    def get_data(self) -> dict:
+        return self._data_q.get()
