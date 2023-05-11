@@ -1,4 +1,5 @@
 import smbus
+import warnings
 
 # https://github.com/pimoroni/icm20948-python/blob/master/library/icm20948/__init__.py
 # https://github.com/flucto-gmbh/motion-sensor-box/blob/main/msb/imu/ICM20948/ICM20948ZMQ.py
@@ -19,12 +20,15 @@ class I2C:
         self.bus_num = i2c_bus_num
         self.address = i2c_addr
         self._bus = smbus.SMBus()
+        self._bus_is_open = False
 
     def __enter__(self):
         self._bus.open(self.bus_num)
+        self._bus_is_open = True
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self._bus.close()
+        self._bus_is_open = False
 
     def read(self, register: bytes, size: int = 1):
         """Read from I2C device.
@@ -41,10 +45,18 @@ class I2C:
         bytes:
             The read bytes.
         """
-        if size == 1:
-            return self._bus.read_byte_data(self.address, register)
-        else:
-            return self._bus.read_i2c_block_data(self.address, register, size)
+        try:
+            if size == 1:
+                return self._bus.read_byte_data(self.address, register)
+            else:
+                return self._bus.read_i2c_block_data(self.address, register, size)
+        except OSError as e:
+            if self._bus_is_open:
+                raise e
+            else:
+                warnings.warn("Trying to read from closed bus.")
+
+
 
     def write(self, register: bytes, value: bytes):
         """Write to I2C device.
@@ -56,4 +68,10 @@ class I2C:
         value: int
             The byte to write.
         """
-        self._bus.write_byte_data(self.address, register, value)
+        try:
+            self._bus.write_byte_data(self.address, register, value)
+        except OSError as e:
+            if self._bus_is_open:
+                raise e
+            else:
+                warnings.warn("Trying to write to closed bus.")
