@@ -56,6 +56,7 @@ class ICM20948:
         self._setup()
 
     def __exit__(self, exc_type, exc_val, exc_tb):
+        gpio.cleanup()
         self.comm.__exit__(exc_type, exc_val, exc_tb)
 
     def _software_reset(self):
