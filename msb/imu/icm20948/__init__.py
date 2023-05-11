@@ -44,7 +44,6 @@ This library is loosely based on Sparkfuns [Qwiic ICM-20948 library](https://git
 """
 
 
-from msb.imu.icm20948 import Registers, Settings
 from msb.imu.icm20948.registers import Registers
 from msb.imu.icm20948.settings import Settings
 from msb.imu.config import IMUConf
