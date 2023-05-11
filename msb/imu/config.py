@@ -13,6 +13,7 @@ class IMUConf(MSBConf):
 
     topic: bytes = b"imu"
 
+    i2c_bus_num: int = 1
     i2c_address: int = 104
     sample_rate_divisor: int = (
         30  # 1125/(1+sample_rate_divisor) Hz where sample_rate_divisor is 0, 1, 2,…4095

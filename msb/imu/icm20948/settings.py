@@ -3,6 +3,7 @@ from dataclasses import dataclass
 
 
 class GyroSensitivity(Enum):
+    # TODO rename to Gyroscope... for consistency?
     DPS_250 = "250dps"
     DPS_500 = "500dps"
     DPS_1000 = "1000dps"
@@ -28,6 +29,7 @@ class AccelerationFilter(Enum):
 
 
 class GyroFilter(Enum):
+    # TODO rename to Gyroscope... for consistency?
     DLPF_OFF = "dlpf_off"
     DLPF_196 = "dlpf_196.6"
     DLPF_151 = "dlpf_151.8"
@@ -94,7 +96,6 @@ class Settings:
         AccelerationFilter.DLPF_5: 0x06,
         AccelerationFilter.DLPF_473: 0x07,
     }
-    # TODO: add AccelerationFilter.DLPF_OFF
 
     # Gryo low pass filter configuration options
     # Format is dAbwB_nXbwZ - A is integer part of 3db BW, B is fraction. X is integer part of nyquist bandwidth, Y is fraction
@@ -108,4 +109,3 @@ class Settings:
         GyroFilter.DLPF_5: 0x06,
         GyroFilter.DLPF_361: 0x07,
     }
-    # TODO: add GyroFilter.DLPF_OFF
