@@ -44,7 +44,7 @@ class I2C:
         if size == 1:
             return self._bus.read_byte_data(self.address, register)
         else:
-            return self._bus.read_i2c_block_data(self.address, register, len=size)
+            return self._bus.read_i2c_block_data(self.address, register, size)
 
     def write(self, register: bytes, value: bytes):
         """Write to I2C device.
