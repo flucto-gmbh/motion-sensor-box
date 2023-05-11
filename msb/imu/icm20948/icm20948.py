@@ -49,6 +49,10 @@ class ICM_20948_Sample_Mode(IntFlag):
     CYCLED = 0x01
 
 
+class TXNFailedError(Exception):
+    "Raised if txn failed in _i2c_master_slv4_txn"
+
+
 class ICM20948Communicator:
     _current_bank: Bank = None
 
@@ -373,9 +377,11 @@ class ICM20948:
         :return: Returns true if the check was successful, otherwise False.
         :rtype: bool
         """
-
-        who_am_i_1 = self._read_mag(self.registers.AK09916_REG_WIA1)
-        who_am_i_2 = self._read_mag(self.registers.AK09916_REG_WIA2)
+        try:
+            who_am_i_1 = self._read_mag(self.registers.AK09916_REG_WIA1)
+            who_am_i_2 = self._read_mag(self.registers.AK09916_REG_WIA2)
+        except TXNFailedError:
+            return False
 
         if (who_am_i_1 == (self.registers.MAG_AK09916_WHO_A_M_I >> 8)) and (
             who_am_i_2 == (self.registers.MAG_AK09916_WHO_A_M_I & 0xFF)
@@ -458,7 +464,7 @@ class ICM20948:
             txn_failed = True
 
         if txn_failed:
-            raise RuntimeError("txn failed.")
+            raise TXNFailedError()
 
         if do_read:
             return self.comm.read(Bank.B3, self.registers.AGB3_REG_I2C_SLV4_DI)
@@ -752,4 +758,3 @@ class ICM20948:
             self._poll()
         else:
             self._configure_interrupt()
-
