@@ -10,6 +10,8 @@ class ICM20948Communicator:
         self._i2c = I2C(i2c_bus_num, i2c_address)
 
         self._bank_is_set = False
+        self._max_rw_between_bank_sets = 1
+        self._rw_since_last_bank_set = 0
 
     def __enter__(self):
         self._i2c.__enter__()
@@ -22,12 +24,21 @@ class ICM20948Communicator:
         self._i2c.write(self.bank_register, bank_bits)
         self._current_bank = bank
 
-    def read(self, bank: Bank, register: bytes, size: int = 1) -> bytes:
-        if bank != self._current_bank:
+    def _check_bank(self, bank: Bank):
+        if (
+            bank == self._current_bank
+            and self._rw_since_last_bank_set < self._max_rw_between_bank_sets
+        ):
+            self._rw_since_last_bank_set += 1
+            return
+        else:
             self._set_bank(bank)
+            self._rw_since_last_bank_set = 0
+
+    def read(self, bank: Bank, register: bytes, size: int = 1) -> bytes:
+        self._check_bank(bank)
         return self._i2c.read(register, size)
 
     def write(self, bank: Bank, register: bytes, value: bytes) -> None:
-        if bank != self._current_bank:
-            self._set_bank(bank)
+        self._check_bank(bank)
         self._i2c.write(register, value)
