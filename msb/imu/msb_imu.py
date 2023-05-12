@@ -2,7 +2,6 @@ import signal
 import sys
 
 from msb.imu.icm20948.icm20948 import ICM20948
-from msb.imu.icm20948.settings import Settings
 from msb.imu.config import IMUConf
 from msb.config import load_config
 from msb.zmq_base.Publisher import Publisher, get_default_publisher
@@ -18,7 +17,7 @@ class IMUService:
     def __init__(self, config: IMUConf, publisher: Publisher):
         self.config = config
         self.publisher = publisher
-        self.icm20948 = ICM20948(config, Settings())
+        self.icm20948 = ICM20948(config)
 
     def run(self):
         with self.icm20948:

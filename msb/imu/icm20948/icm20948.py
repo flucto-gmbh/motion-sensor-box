@@ -9,9 +9,7 @@ from queue import SimpleQueue
 from msb.imu.icm20948.comm import ICM20948Communicator
 from msb.imu.icm20948.registers import Register
 from msb.imu.icm20948.settings import (
-    Settings,
-    AccelerationFilter,
-    GyroFilter,
+    SettingValues,
     ICM20948SampleMode,
     ICM20948InternalSensorID,
     Bank,
@@ -24,23 +22,16 @@ class ICM20948:
     _update_numbytes = 23  # Read Accel, gyro, temp, and 9 bytes of mag
     _precision = 6  # TODO what exactly is this?
     _interrupt_pin = 6
+    _valid_chip_ids = [0xEA, 0xFF, 0x1F]
 
-    def __init__(
-        self,
-        config: IMUConf,
-        settings: Settings,
-    ):
+    def __init__(self, config: IMUConf):
         self.config = config
-        self.settings = settings
         self._data_q = SimpleQueue()
         i2c_bus_num = self.config.i2c_bus_num
         i2c_address = self.config.i2c_address
         self.comm = ICM20948Communicator(
             Register.REG_BANK_SEL, i2c_bus_num, i2c_address
         )
-
-        # TODO move to config or settings
-        self._valid_chip_ids = [0xEA, 0xFF, 0x1F]
 
         self._delta_t = 1 / (1125 / (self.config.sample_rate_divisor + 1))
         if self.config.verbose:
@@ -387,37 +378,34 @@ class ICM20948:
             ICM20948SampleMode.CONTINUOUS,
         )
 
-        # set full scale range for both accel and gyro (separate functions)
-        # TODO this does not seem "nice" yet
-        acc_sensitivity = self.settings.acc_sensitivity_dict[
+        # get sensitivity and corresponding scale from config and set sensitivity
+        acc_sensitivity, acc_scale = SettingValues.acc_sensitivity_and_scale(
             self.config.acc_sensitivity
-        ]
-        self._acc_scale = self.settings.acc_scale_dict[self.config.acc_sensitivity]
+        )
         self._set_acc_sensitivity(acc_sensitivity)
+        self._acc_scale = acc_scale
 
-        gyr_sensitivity = self.settings.gyr_sensitivity_dict[
+        gyr_sensitivity, gyr_scale = SettingValues.gyr_sensitivity_and_scale(
             self.config.gyr_sensitivity
-        ]
-        self._gyr_scale = self.settings.gyr_scale_dict[self.config.gyr_sensitivity]
+        )
         self._set_gyr_sensitivity(gyr_sensitivity)
+        self._gyr_scale = gyr_scale
 
         # set low pass filter for accel
-        acc_filter_enum = self.config.acc_filter
-        if acc_filter_enum is AccelerationFilter.DLPF_OFF:
-            self._enable_dlpf_accel(False)
-        else:
-            acc_filter_value = self.settings.acc_filter_dict[acc_filter_enum]
-            self._set_dlpf_cfg_accel(acc_filter_value)
+        acc_filter = SettingValues.acc_filter(self.config.acc_filter)
+        if acc_filter:
+            self._set_dlpf_cfg_accel(acc_filter)
             self._enable_dlpf_accel(True)
+        else:
+            self._enable_dlpf_accel(False)
 
         # set low pass filter for gyro
-        gyr_filter_enum = self.config.gyr_filter
-        if gyr_filter_enum is GyroFilter.DLPF_OFF:
-            self._enable_dlpf_gyro(False)
-        else:
-            gyr_filter_value = self.settings.gyr_filter_dict[gyr_filter_enum]
-            self._set_dlpf_cfg_gyro(gyr_filter_value)
+        gyr_filter = SettingValues.gyr_filter(self.config.gyr_filter)
+        if gyr_filter:
+            self._set_dlpf_cfg_gyro(gyr_filter)
             self._enable_dlpf_gyro(True)
+        else:
+            self._enable_dlpf_gyro(False)
 
         # set output data rate
         self._set_sample_rate_divisor_gyro(rate=self.config.sample_rate_divisor)
