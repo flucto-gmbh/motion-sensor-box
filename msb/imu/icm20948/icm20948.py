@@ -7,7 +7,7 @@ import RPi.GPIO as gpio
 from queue import SimpleQueue
 
 from msb.imu.icm20948.comm import ICM20948Communicator
-from msb.imu.icm20948.registers import Registers
+from msb.imu.icm20948.registers import Register
 from msb.imu.icm20948.settings import (
     Settings,
     AccelerationFilter,
@@ -19,8 +19,6 @@ from msb.imu.icm20948.settings import (
 from msb.imu.config import IMUConf
 from msb.imu.icm20948.ak09916 import AK09916
 
-from msb.zmq_base.Publisher import Publisher
-
 
 class ICM20948:
     _update_numbytes = 23  # Read Accel, gyro, temp, and 9 bytes of mag
@@ -30,17 +28,15 @@ class ICM20948:
     def __init__(
         self,
         config: IMUConf,
-        registers: Registers,
         settings: Settings,
     ):
         self.config = config
-        self.registers = registers
         self.settings = settings
         self._data_q = SimpleQueue()
         i2c_bus_num = self.config.i2c_bus_num
         i2c_address = self.config.i2c_address
         self.comm = ICM20948Communicator(
-            self.registers.REG_BANK_SEL, i2c_bus_num, i2c_address
+            Register.REG_BANK_SEL, i2c_bus_num, i2c_address
         )
 
         # TODO move to config or settings
@@ -49,7 +45,7 @@ class ICM20948:
         self._delta_t = 1 / (1125 / (self.config.sample_rate_divisor + 1))
         if self.config.verbose:
             print(f"delta t is: {self._delta_t}")
-        self.magnetometer = AK09916(self.comm, self.registers)
+        self.magnetometer = AK09916(self.comm)
 
     def __enter__(self):
         self.comm.__enter__()
@@ -63,18 +59,18 @@ class ICM20948:
         """Performs a software reset on the ICM20948 module"""
 
         # Read the power management register
-        register = self.comm.read(Bank.B0, self.registers.AGB0_REG_PWR_MGMT_1)
+        register = self.comm.read(Bank.B0, Register.AGB0_REG_PWR_MGMT_1)
 
         # Set the device reset bit [7]
         register |= 1 << 7
 
-        self.comm.write(Bank.B0, self.registers.AGB0_REG_PWR_MGMT_1, register)
+        self.comm.write(Bank.B0, Register.AGB0_REG_PWR_MGMT_1, register)
 
     def _set_sleep_mode(self, on: bool):
         """Sets the ICM20948 module in or out of sleep mode"""
 
         # Read the power management register
-        register = self.comm.read(Bank.B0, self.registers.AGB0_REG_PWR_MGMT_1)
+        register = self.comm.read(Bank.B0, Register.AGB0_REG_PWR_MGMT_1)
 
         # Set/clear the sleep bit [6] as needed
         if on:
@@ -82,13 +78,13 @@ class ICM20948:
         else:
             register &= ~(1 << 6)  # clear bit
 
-        self.comm.write(Bank.B0, self.registers.AGB0_REG_PWR_MGMT_1, register)
+        self.comm.write(Bank.B0, Register.AGB0_REG_PWR_MGMT_1, register)
 
     def _set_low_power_mode(self, on: bool):
         """Sets the ICM20948 module in or out of low power mode"""
 
         # Read the power management register
-        register = self.comm.read(Bank.B0, self.registers.AGB0_REG_PWR_MGMT_1)
+        register = self.comm.read(Bank.B0, Register.AGB0_REG_PWR_MGMT_1)
 
         # Set/clear the low power mode bit [5] as needed
         if on:
@@ -96,7 +92,7 @@ class ICM20948:
         else:
             register &= ~(1 << 5)  # clear bit
 
-        self.comm.write(Bank.B0, self.registers.AGB0_REG_PWR_MGMT_1, register)
+        self.comm.write(Bank.B0, Register.AGB0_REG_PWR_MGMT_1, register)
 
     def _set_sample_mode(
         self, sensors: ICM_20948_Internal, mode: ICM_20948_Sample_Mode
@@ -104,7 +100,7 @@ class ICM20948:
         """
         Sets the sample mode of the ICM90248 module
         :param sensors: byte representing the selected sensors (accelerometer, gyroscope, magnetometer)
-        :param mode:    the mode in which the sensors are to be sampled. Two modes are available: continuos or cycled
+        :param mode:    the mode in which the sensors are to be sampled. Two modes are available: continuous or cycled
         :return:        Returns true if the sample mode setting write was successful, otherwise False.
         :rtype:         bool
 
@@ -118,7 +114,7 @@ class ICM20948:
             raise RuntimeError("Invalid Sensor ID")
 
         # Read the LP CONFIG Register
-        register = self.comm.read(Bank.B0, self.registers.AGB0_REG_LP_CONFIG)
+        register = self.comm.read(Bank.B0, Register.AGB0_REG_LP_CONFIG)
 
         if sensors & ICM_20948_Internal.ACC:
             # Set/clear the sensor specific sample mode bit as needed
@@ -141,13 +137,13 @@ class ICM20948:
             elif mode == ICM_20948_Sample_Mode.CYCLED:
                 register &= ~(1 << 6)  # clear bit
 
-        self.comm.write(Bank.B0, self.registers.AGB0_REG_LP_CONFIG, register)
+        self.comm.write(Bank.B0, Register.AGB0_REG_LP_CONFIG, register)
 
     def _set_acc_sensitivity(self, acc_sensitivity):
         """Sets the full scale range for the accel in the ICM20948 module"""
         # TODO update docstring
         # Read the Accel Config Register
-        register = self.comm.read(Bank.B2, self.registers.AGB2_REG_ACCEL_CONFIG_1)
+        register = self.comm.read(Bank.B2, Register.AGB2_REG_ACCEL_CONFIG_1)
 
         register &= ~(0b00000110)  # clear bits 2:1 (0b0000.0XX0)
 
@@ -155,13 +151,13 @@ class ICM20948:
             acc_sensitivity << 1
         )  # place mode select into bits 2:1 of AGB2_REG_ACCEL_CONFIG
 
-        self.comm.write(Bank.B2, self.registers.AGB2_REG_ACCEL_CONFIG_1, register)
+        self.comm.write(Bank.B2, Register.AGB2_REG_ACCEL_CONFIG_1, register)
 
     def _set_gyr_sensitivity(self, gyr_sensitivity):
         """Sets the full scale range for the gyro in the ICM20948 module"""
         # TODO update docstring
         # Read the Gyro Config Register
-        register = self.comm.read(Bank.B2, self.registers.AGB2_REG_GYRO_CONFIG_1)
+        register = self.comm.read(Bank.B2, Register.AGB2_REG_GYRO_CONFIG_1)
 
         register &= ~(0b00000110)  # clear bits 2:1 (0b0000.0XX0)
 
@@ -169,13 +165,13 @@ class ICM20948:
             gyr_sensitivity << 1
         )  # place mode select into bits 2:1 of AGB2_REG_GYRO_CONFIG_1
 
-        self.comm.write(Bank.B2, self.registers.AGB2_REG_GYRO_CONFIG_1, register)
+        self.comm.write(Bank.B2, Register.AGB2_REG_GYRO_CONFIG_1, register)
 
     def _set_dlpf_cfg_accel(self, dlpcfg: int):
         """Sets the digital low pass filter for the accel in the ICM20948 module"""
         # TODO update docstring
         # Read the Accel Config Register
-        register = self.comm.read(Bank.B2, self.registers.AGB2_REG_ACCEL_CONFIG_1)
+        register = self.comm.read(Bank.B2, Register.AGB2_REG_ACCEL_CONFIG_1)
 
         if self.config.verbose:
             print(f"current low pass filer for gyroscope is: {register}")
@@ -186,9 +182,9 @@ class ICM20948:
             dlpcfg << 3
         )  # place dlpcfg select into bits 5:3 of AGB2_REG_ACCEL_CONFIG_1
 
-        self.comm.write(Bank.B2, self.registers.AGB2_REG_ACCEL_CONFIG_1, register)
+        self.comm.write(Bank.B2, Register.AGB2_REG_ACCEL_CONFIG_1, register)
 
-        register = self.comm.read(Bank.B2, self.registers.AGB2_REG_ACCEL_CONFIG_1)
+        register = self.comm.read(Bank.B2, Register.AGB2_REG_ACCEL_CONFIG_1)
         if self.config.verbose:
             print(f"low pass filer for acceleration is: {register >> 3}")
 
@@ -196,7 +192,7 @@ class ICM20948:
         """Sets the digital low pass filter for the gyro in the ICM20948 module"""
         # TODO update docstring
         # Read the gyro Config Register
-        register = self.comm.read(Bank.B2, self.registers.AGB2_REG_GYRO_CONFIG_1)
+        register = self.comm.read(Bank.B2, Register.AGB2_REG_GYRO_CONFIG_1)
 
         if self.config.verbose:
             print(f"current low pass filer for gyroscope is: {register}")
@@ -207,15 +203,15 @@ class ICM20948:
             dlpcfg << 3
         )  # place dlpcfg select into bits 5:3 of _AGB2_REG_GYRO_CONFIG_1
 
-        self.comm.write(Bank.B2, self.registers.AGB2_REG_GYRO_CONFIG_1, register)
-        register = self.comm.read(Bank.B2, self.registers.AGB2_REG_GYRO_CONFIG_1)
+        self.comm.write(Bank.B2, Register.AGB2_REG_GYRO_CONFIG_1, register)
+        register = self.comm.read(Bank.B2, Register.AGB2_REG_GYRO_CONFIG_1)
         if self.config.verbose:
             print(f"low pass filter for gyroscope is: {register >> 3}")
 
     def _enable_dlpf_accel(self, on: bool):
         """Enables or disables the accelerometer DLPF of the ICM90248 module"""
         # TODO update docstring
-        register = self.comm.read(Bank.B2, self.registers.AGB2_REG_ACCEL_CONFIG_1)
+        register = self.comm.read(Bank.B2, Register.AGB2_REG_ACCEL_CONFIG_1)
 
         # Set/clear the ACCEL_FCHOICE bit [0] as needed
         if on:
@@ -223,13 +219,13 @@ class ICM20948:
         else:
             register &= ~(1 << 0)  # clear bit
 
-        self.comm.write(Bank.B2, self.registers.AGB2_REG_ACCEL_CONFIG_1, register)
+        self.comm.write(Bank.B2, Register.AGB2_REG_ACCEL_CONFIG_1, register)
 
     def _enable_dlpf_gyro(self, on: bool):
         """Enables or disables the Gyro DLPF of the ICM90248 module"""
         # TODO update docstring
 
-        register = self.comm.read(Bank.B2, self.registers.AGB2_REG_GYRO_CONFIG_1)
+        register = self.comm.read(Bank.B2, Register.AGB2_REG_GYRO_CONFIG_1)
 
         # Set/clear the GYRO_FCHOICE bit [0] as needed
         if on:
@@ -237,16 +233,16 @@ class ICM20948:
         else:
             register &= ~(1 << 0)  # clear bit
 
-        return self.comm.write(Bank.B2, self.registers.AGB2_REG_GYRO_CONFIG_1, register)
+        return self.comm.write(Bank.B2, Register.AGB2_REG_GYRO_CONFIG_1, register)
 
     def _set_sample_rate_divisor_gyro(self, rate):
-        register = self.comm.read(Bank.B2, self.registers.AGB2_REG_GYRO_SMPLRT_DIV)
+        register = self.comm.read(Bank.B2, Register.AGB2_REG_GYRO_SMPLRT_DIV)
 
         # clear register # TODO why read then?
         register &= ~(0b11111111)
         register |= rate << 0
 
-        self.comm.write(Bank.B2, self.registers.AGB2_REG_GYRO_SMPLRT_DIV, register)
+        self.comm.write(Bank.B2, Register.AGB2_REG_GYRO_SMPLRT_DIV, register)
 
     def _setup_polling(self):
         raise NotImplementedError("Polling is not yet implemented.")
@@ -279,16 +275,16 @@ class ICM20948:
 
         # currently only raw data ready mode is supported.
         # first check the current mode
-        register = self.comm.read(Bank.B0, self.registers.AGB0_REG_INT_ENABLE_1)
+        register = self.comm.read(Bank.B0, Register.AGB0_REG_INT_ENABLE_1)
 
         if self.config.verbose:
             print(f"_AGB0_REG_INT_ENABLE_1: {register}")
 
         register = 1 << 0
 
-        self.comm.write(Bank.B0, self.registers.AGB0_REG_INT_ENABLE_1, register)
+        self.comm.write(Bank.B0, Register.AGB0_REG_INT_ENABLE_1, register)
 
-        register = self.comm.read(Bank.B0, self.registers.AGB0_REG_INT_ENABLE_1)
+        register = self.comm.read(Bank.B0, Register.AGB0_REG_INT_ENABLE_1)
 
         if self.config.verbose:
             print(f"AGB0_REG_INT_ENABLE_1: {register}")
@@ -323,7 +319,7 @@ class ICM20948:
                     f"{time.time()}: updating data via triggered interrupt pin {interrupt_pin}"
                 )
         buff = self.comm.read(
-            Bank.B0, self.registers.AGB0_REG_ACCEL_XOUT_H, self._update_numbytes
+            Bank.B0, Register.AGB0_REG_ACCEL_XOUT_H, self._update_numbytes
         )
         data = {
             "epoch": time.time(),
@@ -358,7 +354,7 @@ class ICM20948:
         Takes an input data of 16 bits, and returns the signed 32 bit int version of this data
         this is necessary, because python does not overflow
 
-        :return: Signed 32 bit integer
+        :return: Signed 32-bit integer
         :rtype: int
 
         """
@@ -368,7 +364,7 @@ class ICM20948:
 
     def _setup(self):
         # are we who we need to be?
-        chip_id = self.comm.read(Bank.B0, self.registers.AGB0_REG_WHO_A_M_I)
+        chip_id = self.comm.read(Bank.B0, Register.AGB0_REG_WHO_A_M_I)
         if chip_id not in self._valid_chip_ids:
             print("Invalid Chip ID: 0x%.2X" % chip_id)
             sys.exit(1)

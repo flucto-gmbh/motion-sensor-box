@@ -1,11 +1,14 @@
+from __future__ import annotations
+
 from msb.imu.icm20948.i2c import I2C
 from msb.imu.icm20948.settings import Bank
+from msb.imu.icm20948.registers import Register
 
 
 class ICM20948Communicator:
     _current_bank: Bank = None
 
-    def __init__(self, bank_register: bytes, i2c_bus_num: int, i2c_address: int):
+    def __init__(self, bank_register: Register, i2c_bus_num: int, i2c_address: int):
         self.bank_register = bank_register
         self._i2c = I2C(i2c_bus_num, i2c_address)
 
@@ -35,10 +38,10 @@ class ICM20948Communicator:
             self._set_bank(bank)
             self._rw_since_last_bank_set = 0
 
-    def read(self, bank: Bank, register: bytes, size: int = 1) -> bytes:
+    def read(self, bank: Bank, register: Register, size: int = 1) -> int | bytes:
         self._check_bank(bank)
         return self._i2c.read(register, size)
 
-    def write(self, bank: Bank, register: bytes, value: bytes) -> None:
+    def write(self, bank: Bank, register: Register, value: int | bytes) -> None:
         self._check_bank(bank)
         self._i2c.write(register, value)

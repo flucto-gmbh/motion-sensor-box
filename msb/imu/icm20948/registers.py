@@ -1,25 +1,10 @@
-from dataclasses import dataclass
+from enum import IntEnum
 
 
-@dataclass
-class Registers:
-    # TODO consider making Registers an enum?
+class Register(IntEnum):
     """
     ICM20948_Registers
     """
-
-    # Internal Sensor IDs, used in various functions as arguments to know who to affect
-    # move to Enum
-    # ICM_20948_Internal_Acc = 1 << 0
-    # ICM_20948_Internal_Gyr = 1 << 1
-    # ICM_20948_Internal_Mag = 1 << 2
-    # ICM_20948_Internal_Tmp = 1 << 3
-    # ICM_20948_Internal_Mst = 1 << 4  # I2C Master Internal
-
-    # Sample mode options - Moved to Enum
-    # ICM_20948_Sample_Mode_Continuous = 0x00
-    # ICM_20948_Sample_Mode_Cycled = 0x01
-
     # the following code section lists relevant Registers on the ICM 20948
     # Note, that I2C addresses have a maximum of 255 values (0x00 to 0xFF).
     # Therefore, on the ICM-20948 four register banks are available [0-3]

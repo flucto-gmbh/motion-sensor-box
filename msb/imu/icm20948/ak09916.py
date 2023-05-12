@@ -1,22 +1,21 @@
 from msb.imu.icm20948.comm import ICM20948Communicator
-from msb.imu.icm20948.registers import Registers
+from msb.imu.icm20948.registers import Register
 from msb.imu.icm20948.settings import Bank
 
 
 class TXNFailedError(Exception):
-    "Raised if txn failed in _i2c_master_slv4_txn"
+    """Raised if txn failed in _i2c_master_slv4_txn"""
 
 
 class AK09916:
-    def __init__(self, comm: ICM20948Communicator, registers: Registers):
+    def __init__(self, comm: ICM20948Communicator):
         """The AK09916 magnetometer built into the ICM20948."""
         self.comm = comm
-        self.registers = registers
 
     def _i2c_master_passthrough(self, enable: bool):
         """Enables or disables I2C Master Passthrough"""
 
-        register = self.comm.read(Bank.B0, self.registers.AGB0_REG_INT_PIN_CONFIG)
+        register = self.comm.read(Bank.B0, Register.AGB0_REG_INT_PIN_CONFIG)
 
         # Set/clear the BYPASS_EN bit [1] as needed
         if enable:
@@ -24,7 +23,7 @@ class AK09916:
         else:
             register &= ~(1 << 1)  # clear bit
 
-        self.comm.write(Bank.B0, self.registers.AGB0_REG_INT_PIN_CONFIG, register)
+        self.comm.write(Bank.B0, Register.AGB0_REG_INT_PIN_CONFIG, register)
 
     def _enable_i2c_master(self, enable: bool):
         """Enables or disables I2C Master"""
@@ -33,7 +32,7 @@ class AK09916:
 
         # Setup Master Clock speed as 345.6 kHz, and NSP (aka next slave read) to "stop between reads"
 
-        register = self.comm.read(Bank.B3, self.registers.AGB3_REG_I2C_MST_CTRL)
+        register = self.comm.read(Bank.B3, Register.AGB3_REG_I2C_MST_CTRL)
 
         register &= ~(0x0F)  # clear bits for master clock [3:0]
         register |= 0x07  # set bits for master clock [3:0], 0x07 corresponds to 345.6 kHz, good for up to 400 kHz
@@ -41,11 +40,11 @@ class AK09916:
             1 << 4
         )  # set bit [4] for NSR (next slave read). 0 = restart between reads. 1 = stop between reads.
 
-        self.comm.write(Bank.B3, self.registers.AGB3_REG_I2C_MST_CTRL, register)
+        self.comm.write(Bank.B3, Register.AGB3_REG_I2C_MST_CTRL, register)
 
         # enable/disable Master I2C
 
-        register = self.comm.read(Bank.B0, self.registers.AGB0_REG_USER_CTRL)
+        register = self.comm.read(Bank.B0, Register.AGB0_REG_USER_CTRL)
 
         # Set/clear the I2C_MST_EN bit [5] as needed
         if enable:
@@ -53,7 +52,7 @@ class AK09916:
         else:
             register &= ~(1 << 5)  # clear bit
 
-        self.comm.write(Bank.B0, self.registers.AGB0_REG_USER_CTRL, register)
+        self.comm.write(Bank.B0, Register.AGB0_REG_USER_CTRL, register)
 
     def _check_mag_id(self):
         """Checks to see that the Magnetometer returns the correct ID value
@@ -62,20 +61,20 @@ class AK09916:
         :rtype: bool
         """
         try:
-            who_am_i_1 = self._read_mag(self.registers.AK09916_REG_WIA1)
-            who_am_i_2 = self._read_mag(self.registers.AK09916_REG_WIA2)
+            who_am_i_1 = self._read_mag(Register.AK09916_REG_WIA1)
+            who_am_i_2 = self._read_mag(Register.AK09916_REG_WIA2)
         except TXNFailedError:
             return False
 
-        if (who_am_i_1 == (self.registers.MAG_AK09916_WHO_A_M_I >> 8)) and (
-            who_am_i_2 == (self.registers.MAG_AK09916_WHO_A_M_I & 0xFF)
+        if (who_am_i_1 == (Register.MAG_AK09916_WHO_A_M_I >> 8)) and (
+            who_am_i_2 == (Register.MAG_AK09916_WHO_A_M_I & 0xFF)
         ):
             return True
         else:
             return False
 
     def _read_mag(self, reg):
-        data = self._i2c_master_single_read(self.registers.MAG_AK09916_I2C_ADDR, reg)
+        data = self._i2c_master_single_read(Register.MAG_AK09916_I2C_ADDR, reg)
         return data
 
     def _i2c_master_single_read(self, addr: int, reg: int):
@@ -84,7 +83,7 @@ class AK09916:
 
     def _write_mag(self, reg, data):
         data = self._i2c_master_single_write(
-            self.registers.MAG_AK09916_I2C_ADDR, reg, data
+            Register.MAG_AK09916_I2C_ADDR, reg, data
         )
         return data
 
@@ -104,9 +103,9 @@ class AK09916:
         if do_read:
             addr |= 0x80
 
-        self.comm.write(Bank.B3, self.registers.AGB3_REG_I2C_SLV4_ADDR, addr)
+        self.comm.write(Bank.B3, Register.AGB3_REG_I2C_SLV4_ADDR, addr)
 
-        self.comm.write(Bank.B3, self.registers.AGB3_REG_I2C_SLV4_REG, reg)
+        self.comm.write(Bank.B3, Register.AGB3_REG_I2C_SLV4_REG, reg)
 
         ctrl_register_slv4 = 0x00
         ctrl_register_slv4 |= 1 << 7  # EN bit [7] (set)
@@ -121,11 +120,11 @@ class AK09916:
         txn_failed = False
 
         if not do_read:
-            self.comm.write(Bank.B3, self.registers.AGB3_REG_I2C_SLV4_DO, data)
+            self.comm.write(Bank.B3, Register.AGB3_REG_I2C_SLV4_DO, data)
 
         # Kick off txn
         self.comm.write(
-            Bank.B3, self.registers.AGB3_REG_I2C_SLV4_CTRL, ctrl_register_slv4
+            Bank.B3, Register.AGB3_REG_I2C_SLV4_CTRL, ctrl_register_slv4
         )
 
         max_cycles = 1000
@@ -133,7 +132,7 @@ class AK09916:
         slave_4_done = False
         while not slave_4_done:
             i2c_mst_status = self.comm.read(
-                Bank.B0, self.registers.AGB0_REG_I2C_MST_STATUS
+                Bank.B0, Register.AGB0_REG_I2C_MST_STATUS
             )
             if i2c_mst_status & (1 << 6):  # Check I2C_SLAVE_DONE bit [6]
                 slave_4_done = True
@@ -151,19 +150,19 @@ class AK09916:
             raise TXNFailedError()
 
         if do_read:
-            return self.comm.read(Bank.B3, self.registers.AGB3_REG_I2C_SLV4_DI)
+            return self.comm.read(Bank.B3, Register.AGB3_REG_I2C_SLV4_DI)
 
         # if we get here, then it was a successful write
 
     def _i2c_master_reset(self):
         """Resets I2C Master Module"""
 
-        register = self.comm.read(Bank.B0, self.registers.AGB0_REG_USER_CTRL)
+        register = self.comm.read(Bank.B0, Register.AGB0_REG_USER_CTRL)
 
         # Set the I2C_MST_RST bit [1]
         register |= 1 << 1  # set bit
 
-        self.comm.write(Bank.B0, self.registers.AGB0_REG_USER_CTRL, register)
+        self.comm.write(Bank.B0, Register.AGB0_REG_USER_CTRL, register)
 
     def _i2c_master_slave_cfg(
         self, slave, addr, reg, length, rw, enable, data_only, grp, swap
@@ -175,21 +174,21 @@ class AK09916:
         slv_reg_reg = 0x00
         slv_ctrl_reg = 0x00
         if slave == 0:
-            slv_addr_reg = self.registers.AGB3_REG_I2C_SLV0_ADDR
-            slv_reg_reg = self.registers.AGB3_REG_I2C_SLV0_REG
-            slv_ctrl_reg = self.registers.AGB3_REG_I2C_SLV0_CTRL
+            slv_addr_reg = Register.AGB3_REG_I2C_SLV0_ADDR
+            slv_reg_reg = Register.AGB3_REG_I2C_SLV0_REG
+            slv_ctrl_reg = Register.AGB3_REG_I2C_SLV0_CTRL
         elif slave == 1:
-            slv_addr_reg = self.registers.AGB3_REG_I2C_SLV1_ADDR
-            slv_reg_reg = self.registers.AGB3_REG_I2C_SLV1_REG
-            slv_ctrl_reg = self.registers.AGB3_REG_I2C_SLV1_CTRL
+            slv_addr_reg = Register.AGB3_REG_I2C_SLV1_ADDR
+            slv_reg_reg = Register.AGB3_REG_I2C_SLV1_REG
+            slv_ctrl_reg = Register.AGB3_REG_I2C_SLV1_CTRL
         elif slave == 2:
-            slv_addr_reg = self.registers.AGB3_REG_I2C_SLV2_ADDR
-            slv_reg_reg = self.registers.AGB3_REG_I2C_SLV2_REG
-            slv_ctrl_reg = self.registers.AGB3_REG_I2C_SLV2_CTRL
+            slv_addr_reg = Register.AGB3_REG_I2C_SLV2_ADDR
+            slv_reg_reg = Register.AGB3_REG_I2C_SLV2_REG
+            slv_ctrl_reg = Register.AGB3_REG_I2C_SLV2_CTRL
         elif slave == 3:
-            slv_addr_reg = self.registers.AGB3_REG_I2C_SLV3_ADDR
-            slv_reg_reg = self.registers.AGB3_REG_I2C_SLV3_REG
-            slv_ctrl_reg = self.registers.AGB3_REG_I2C_SLV3_CTRL
+            slv_addr_reg = Register.AGB3_REG_I2C_SLV3_ADDR
+            slv_reg_reg = Register.AGB3_REG_I2C_SLV3_REG
+            slv_ctrl_reg = Register.AGB3_REG_I2C_SLV3_CTRL
         else:
             return False
 
@@ -237,13 +236,13 @@ class AK09916:
 
         # Set up magnetometer
         mag_reg_ctrl2 = 0x00
-        mag_reg_ctrl2 |= self.registers.AK09916_mode_cont_100hz
-        self._write_mag(self.registers.AK09916_REG_CNTL2, mag_reg_ctrl2)
+        mag_reg_ctrl2 |= Register.AK09916_mode_cont_100hz
+        self._write_mag(Register.AK09916_REG_CNTL2, mag_reg_ctrl2)
 
         return self._i2c_master_slave_cfg(
             0,
-            self.registers.MAG_AK09916_I2C_ADDR,
-            self.registers.AK09916_REG_ST1,
+            Register.MAG_AK09916_I2C_ADDR,
+            Register.AK09916_REG_ST1,
             9,
             True,
             True,

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import smbus
 import warnings
 
@@ -30,7 +32,7 @@ class I2C:
         self._bus.close()
         self._bus_is_open = False
 
-    def read(self, register: bytes, size: int = 1):
+    def read(self, register: int, size: int = 1):
         """Read from I2C device.
 
         Parameters
@@ -56,9 +58,7 @@ class I2C:
             else:
                 warnings.warn("Trying to read from closed bus.")
 
-
-
-    def write(self, register: bytes, value: bytes):
+    def write(self, register: int, value: int | bytes):
         """Write to I2C device.
 
         Parameters
