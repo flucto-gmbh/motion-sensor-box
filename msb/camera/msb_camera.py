@@ -6,8 +6,20 @@ import signal
 import sys
 import time
 
+<<<<<<< HEAD
 timeformat = "%Y%m%dT%H%M%S%z"
 split_interval = 60 # seconds
+=======
+from msb.camera.config import CameraConf
+from msb.config import load_config
+
+timeformat = "%Y-%m-%d %X"
+color = (0, 255, 0)
+origin = (0, 30)
+font_name = cv2.FONT_HERSHEY_SIMPLEX
+scale = 1
+thickness = 2
+>>>>>>> f726958 (fixed requested changes)
 
 from msb.camera.CameraConfig import CameraConfig
 
@@ -38,30 +50,40 @@ def get_new_fhandle(ts : datetime.datetime, folder : str = 'curdir', prefix : st
         if not os.path.isdir(output_dir):
             raise Exception(f"no such file or directory: {folder}")
             sys.exit()
-    ts_str = get_datetime_str(timestamp=ts)
-    return os.path.join(output_dir, f"{prefix}_{ts_str}.h264")
+    return os.path.join(config.video_dir, f"{ts_str}_{config.serial_number.lower()}.h264")
+
+
+def apply_timestamp(request):
+    global timeformat
+    timestamp = time.strftime(timeformat)
+    with MappedArray(request, "main") as m:
+        cv2.putText(m.array, timestamp, origin, font_name, scale, color, thickness)
+
+>>>>>>> f726958 (fixed requested changes)
 
 def setup_camera(camera_config : CameraConfig):
     """
     setup raspberry pi camera for recording
-    """ 
-    camera = picamera.PiCamera()
-    camera.resolution = (camera_config.width, camera_config.height)
-    camera.framerate = camera_config.fps
-    camera.annotate_background = picamera.Color('black')
-    camera.annotate_text = get_datetime_str()
-    camera.annotate_text_size = 16
+    """
+    camera = Picamera2()
+    camera.configure(
+        camera.create_video_configuration(main={"size": (config.width, config.height)})
+    )
+    camera.video_configuration.controls['FrameRate'] = config.fps
+    camera.pre_callback = apply_timestamp
     return camera
 
 def msb_camera(camera_config : CameraConfig):
     if camera_config.verbose:
         print("starting camera recording")
         print("msb_camera configuration:")
-        print(f"{json.dumps(camera_config.__dict__, indent=4)}")
-    camera = setup_camera(camera_config)
-    camera.start_recording(get_new_fhandle(get_datetime(), prefix=camera_config.serialnumber))
-    last_ts = get_datetime()
-    if camera_config.verbose:
+        print(f"{config.to_json()}")
+
+    camera = setup_camera(config)
+    encoder = H264Encoder()
+    camera.start_recording(encoder, get_new_fhandle(ts := get_datetime(), config))
+    last_ts = ts
+    if config.verbose:
         print(f"entering endless loop")
     while True:
         ts = get_datetime()
