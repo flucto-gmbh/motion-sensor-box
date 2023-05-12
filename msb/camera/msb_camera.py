@@ -14,7 +14,7 @@ from msb.config import load_config
 timeformat = "%Y-%m-%d %X"
 color = (0, 255, 0)
 origin = (0, 30)
-font = cv2.FONT_HERSHEY_SIMPLEX
+font_name = cv2.FONT_HERSHEY_SIMPLEX
 scale = 1
 thickness = 2
 
@@ -40,14 +40,14 @@ def get_new_fhandle(timestamp: datetime.datetime, config: CameraConf) -> str:
         except Exception as e:
             print(f"failed to create output directory: {config.video_dir}")
             sys.exit()
-    return os.path.join(config.video_dir, f"{config.serial_number}_{ts_str}.h264")
+    return os.path.join(config.video_dir, f"{ts_str}_{config.serial_number.lower()}.h264")
 
 
 def apply_timestamp(request):
     global timeformat
     timestamp = time.strftime(timeformat)
     with MappedArray(request, "main") as m:
-        cv2.putText(m.array, timestamp, origin, font, scale, color, thickness)
+        cv2.putText(m.array, timestamp, origin, font_name, scale, color, thickness)
 
 
 def setup_camera(config: CameraConf):
@@ -58,7 +58,7 @@ def setup_camera(config: CameraConf):
     camera.configure(
         camera.create_video_configuration(main={"size": (config.width, config.height)})
     )
-    camera.video_configuration.controls.FrameRate = config.fps
+    camera.video_configuration.controls['FrameRate'] = config.fps
     camera.pre_callback = apply_timestamp
     return camera
 
@@ -81,8 +81,7 @@ def msb_camera(config: CameraConf):
     if config.verbose:
         print("starting camera recording")
         print("msb_camera configuration:")
-        if config.verbose:
-            print(f"{json.dumps(config.__dict__, indent=4)}")
+        print(f"{config.to_json()}")
 
     camera = setup_camera(config)
     encoder = H264Encoder()

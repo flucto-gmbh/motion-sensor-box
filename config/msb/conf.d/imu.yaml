@@ -1,6 +1,6 @@
 verbose         : false     # print debugging information
 print_stdout    : false     # print data to stdout
-sample_rate_divisor : 31        # output data rate (odr) is calculated like this: odr = 1125 / (1 + sample_rate_div)
+sample_rate_div : 31        # output data rate (odr) is calculated like this: odr = 1125 / (1 + sample_rate_div)
 acc_filter      : "dlpf_off" # available filters: dlpf_off, dlpf_246, dlpf_111.4, dlpf_50.4, dlpf_23.9, dlpf_11.5, dlpf_5.7, dlpf_473
 gyr_filter      : "dlpf_off" # available filters: dlpf_off, dlpf_196.6, dlpf_151.8, dlpf_119.5, dlpf_51.2, dlpf_23.9, dlpf_11.6, dlpf_5.7, dlpf_361.4
 acc_sensitivity : "2g"      # acceleration sensitivity options are 2g, 4g, 8g, 16g

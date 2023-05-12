@@ -1,4 +1,3 @@
-from msb.config.MSBConfig import MSBConfig
 from msb.config.MSBConfig import MSBConf
 
 
@@ -8,7 +7,6 @@ class CameraConf(MSBConf):
     width: int = 1920
     height: int = 1080
     rollover_period: int = 600
-    video_dir: str = "/home/msb/msb_data/cam"
+    video_dir: str = "/home/msb/msb_data/camera"
     timeformat: str = "%Y%m%dT%H%M%S%z"
-    serial_number: str = "msb"
-    font = {"color": [0, 255, 0], "origin": [0, 30], "scale": 1, "thickness": 2}
+    font: dict = {"color": [0, 255, 0], "origin": [0, 30], "scale": 1, "thickness": 2}

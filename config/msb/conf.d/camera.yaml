@@ -1,11 +1,9 @@
-verbose : false
-serial_number: "msb-devel"
 print_stdout : false
 fps : 10                # max 30
 width : 1920            # 1080p
 height : 1080           # 1080p
 rollover_period : 600 # every 60 seconds a new video file will be opened
-video_dir : "/home/msb/msb_data/cam"
+video_dir : "/home/msb/msb_data/camera"
 timeformat: "%Y%m%dT%H%M%S%z" # 20230405T121314+0800
 font:
     color : [0, 255, 0]

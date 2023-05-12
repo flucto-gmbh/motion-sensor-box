@@ -7,4 +7,3 @@ key_order:
     att : ["epoch", "uptime", "roll", "roll_corr", "pitch", "pitch_corr", "datetime"]
     imu : ["epoch", "uptime", "acc_x", "acc_y", "acc_z", "rot_x", "rot_y", "rot_z", "mag_x", "mag_y", "mag_z", "temp", "datetime"]
     gps : ["epoch", "uptime", "mode", "time", "latitude", "longitude", "altitude", "altitude_msl", "track", "mag_track", "mag_var", "speed", "datetime"]
-    sta : ["epoch", "uptime", "load-1", "load-5", "load-15", "mem-available", "swap-cached", "datetime"]
