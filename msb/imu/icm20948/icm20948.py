@@ -20,7 +20,6 @@ from msb.imu.icm20948.ak09916 import AK09916
 
 class ICM20948:
     _update_numbytes = 23  # Read Accel, gyro, temp, and 9 bytes of mag
-    _precision = 6  # TODO what exactly is this?
     _interrupt_pin = 6
     _valid_chip_ids = [0xEA, 0xFF, 0x1F]
 
@@ -32,6 +31,7 @@ class ICM20948:
         self.comm = ICM20948Communicator(
             Register.REG_BANK_SEL, i2c_bus_num, i2c_address
         )
+        self._precision = self.config.precision
 
         self._delta_t = 1 / (1125 / (self.config.sample_rate_divisor + 1))
         if self.config.verbose:

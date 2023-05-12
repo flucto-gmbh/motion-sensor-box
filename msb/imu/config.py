@@ -22,5 +22,5 @@ class IMUConf(MSBConf):
     gyr_filter: GyroscopeFilter = GyroscopeFilter.DLPF_OFF
     acc_sensitivity: AccelerometerSensitivity = AccelerometerSensitivity.G_2
     gyr_sensitivity: GyroscopeSensitivity = GyroscopeSensitivity.DPS_250
-    precision: int = 3
+    precision: int = 4
     polling: bool = True

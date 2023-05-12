@@ -5,6 +5,7 @@ acc_filter      : "dlpf_off" # available filters: dlpf_off, dlpf_246, dlpf_111.4
 gyr_filter      : "dlpf_off" # available filters: dlpf_off, dlpf_196.6, dlpf_151.8, dlpf_119.5, dlpf_51.2, dlpf_23.9, dlpf_11.6, dlpf_5.7, dlpf_361.4
 acc_sensitivity : "2g"      # acceleration sensitivity options are 2g, 4g, 8g, 16g
 gyr_sensitivity : "250dps"  # gyroscope sensitivity options are 250dps, 500dps, 1000dps, 200dps
+precision       : 4         # The number decimal places measurement values are rounded to
 polling         : false
 
 
