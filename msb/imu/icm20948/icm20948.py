@@ -12,8 +12,8 @@ from msb.imu.icm20948.settings import (
     Settings,
     AccelerationFilter,
     GyroFilter,
-    ICM_20948_Sample_Mode,
-    ICM_20948_Internal,
+    ICM20948SampleMode,
+    ICM20948InternalSensorID,
     Bank,
 )
 from msb.imu.config import IMUConf
@@ -95,7 +95,7 @@ class ICM20948:
         self.comm.write(Bank.B0, Register.AGB0_REG_PWR_MGMT_1, register)
 
     def _set_sample_mode(
-        self, sensors: ICM_20948_Internal, mode: ICM_20948_Sample_Mode
+        self, sensors: ICM20948InternalSensorID, mode: ICM20948SampleMode
     ):
         """
         Sets the sample mode of the ICM90248 module
@@ -109,32 +109,36 @@ class ICM20948:
         # check for valid sensor ID from user of this function
         if not (
             sensors
-            & (ICM_20948_Internal.ACC | ICM_20948_Internal.GYR | ICM_20948_Internal.MST)
+            & (
+                ICM20948InternalSensorID.ACC
+                | ICM20948InternalSensorID.GYR
+                | ICM20948InternalSensorID.MST
+            )
         ):
             raise RuntimeError("Invalid Sensor ID")
 
         # Read the LP CONFIG Register
         register = self.comm.read(Bank.B0, Register.AGB0_REG_LP_CONFIG)
 
-        if sensors & ICM_20948_Internal.ACC:
+        if sensors & ICM20948InternalSensorID.ACC:
             # Set/clear the sensor specific sample mode bit as needed
-            if mode == ICM_20948_Sample_Mode.CYCLED:
+            if mode == ICM20948SampleMode.CYCLED:
                 register |= 1 << 5  # set bit
-            elif mode == ICM_20948_Sample_Mode.CONTINOUS:
+            elif mode == ICM20948SampleMode.CONTINUOUS:
                 register &= ~(1 << 5)  # clear bit
 
-        if sensors & ICM_20948_Internal.GYR:
+        if sensors & ICM20948InternalSensorID.GYR:
             # Set/clear the sensor specific sample mode bit as needed
-            if mode == ICM_20948_Sample_Mode.CYCLED:
+            if mode == ICM20948SampleMode.CYCLED:
                 register |= 1 << 4  # set bit
-            elif mode == ICM_20948_Sample_Mode.CONTINOUS:
+            elif mode == ICM20948SampleMode.CONTINUOUS:
                 register &= ~(1 << 4)  # clear bit
 
-        if sensors & ICM_20948_Internal.MST:
+        if sensors & ICM20948InternalSensorID.MST:
             # Set/clear the sensor specific sample mode bit as needed
-            if mode == ICM_20948_Sample_Mode.CYCLED:
+            if mode == ICM20948SampleMode.CYCLED:
                 register |= 1 << 6  # set bit
-            elif mode == ICM_20948_Sample_Mode.CYCLED:
+            elif mode == ICM20948SampleMode.CYCLED:
                 register &= ~(1 << 6)  # clear bit
 
         self.comm.write(Bank.B0, Register.AGB0_REG_LP_CONFIG, register)
@@ -379,8 +383,8 @@ class ICM20948:
 
         # set sample mode to continuous for both accel and gyro
         self._set_sample_mode(
-            (ICM_20948_Internal.ACC | ICM_20948_Internal.GYR),
-            ICM_20948_Sample_Mode.CONTINOUS,
+            (ICM20948InternalSensorID.ACC | ICM20948InternalSensorID.GYR),
+            ICM20948SampleMode.CONTINUOUS,
         )
 
         # set full scale range for both accel and gyro (separate functions)

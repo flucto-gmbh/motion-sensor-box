@@ -2,18 +2,16 @@ from enum import Enum, IntFlag, IntEnum
 from dataclasses import dataclass
 
 
-class ICM_20948_Sample_Mode(IntFlag):
+class ICM20948SampleMode(IntFlag):
     """Sample mode options"""
 
-    # TODO rename
-    CONTINOUS = 0x00
+    CONTINUOUS = 0x00
     CYCLED = 0x01
 
 
-class ICM_20948_Internal(IntFlag):
+class ICM20948InternalSensorID(IntFlag):
     """Internal Sensor IDs, used in various functions as arguments to know who to affect"""
 
-    # TODO rename?
     ACC = 1 << 0
     GYR = 1 << 1
     MAG = 1 << 2
