@@ -2,7 +2,6 @@ import signal
 import sys
 
 from msb.imu.icm20948.icm20948 import ICM20948
-from msb.imu.icm20948.registers import Register
 from msb.imu.icm20948.settings import Settings
 from msb.imu.config import IMUConf
 from msb.config import load_config
@@ -19,7 +18,7 @@ class IMUService:
     def __init__(self, config: IMUConf, publisher: Publisher):
         self.config = config
         self.publisher = publisher
-        self.icm20948 = ICM20948(config, Register(), Settings())
+        self.icm20948 = ICM20948(config, Settings())
 
     def run(self):
         with self.icm20948:
@@ -28,7 +27,6 @@ class IMUService:
                 raw_data = self.icm20948.get_data()
                 data = self.process_raw(raw_data)
                 self.publisher.send(self.config.topic, data)
-
 
     def process_raw(self, raw) -> dict:
         # TODO or should this happen in the ICM20948
