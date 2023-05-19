@@ -82,6 +82,8 @@ class SystemdStatusParser:
     seconds_between_unit_updates = 600
 
     unit_properties = [
+        # Id always has to be first in this list
+        # When parsing output of systemctl it is used to mark the beginning of the next unit.
         "Id",
         "Description",
         "LoadState",
@@ -136,4 +138,3 @@ class SystemdStatusParser:
             status[current_id][match[0]] = match[1]
 
         return status
-
