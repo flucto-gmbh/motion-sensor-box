@@ -32,7 +32,7 @@ def network_status() -> dict:
                 continue
             addrs[ipv_key] = {"address": address.address, "netmask": address.netmask}
         status[network_interface] = addrs
-    return {}
+    return status
 
 
 def system_load() -> dict:
