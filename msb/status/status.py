@@ -1,10 +1,10 @@
-import re
 import shutil
 import socket
-import subprocess
 
 import psutil
 from gpiozero import CPUTemperature
+
+from msb.status._systemd import SystemdStatusParser
 
 
 def disk_usage() -> dict:
@@ -70,43 +70,4 @@ def temperature() -> dict:
     return {"cpu": cpu.temperature}
 
 
-_name_desc_pattern = re.compile(r"^(msb-\w*\.service)\s-\s([\w\s]*)")
-_loaded_enabled_pattern = re.compile(
-    r"^Loaded:\s(loaded)\s\(/etc/systemd/system/msb-\w+\.service;\s(\w*);"
-)
-_active_pattern = re.compile(r"^Active:\s(\w*\s\(\w*\))")
-
-
-def msb_services() -> dict:
-    completed_process = subprocess.run(
-        ["systemctl", "status", "msb-*"], capture_output=True, encoding="utf-8"
-    )
-    answer = completed_process.stdout
-    service_strs = [s.strip() for s in answer.split("●") if s.strip()]
-    service_status = {}
-    for service_str in service_strs:
-        service_lines = [l.strip() for l in service_str.split("\n") if l.strip()]
-
-        if m := _name_desc_pattern.match(service_lines[0]):
-            name, desc = m.groups()
-        else:
-            print("Could not parse service status name and description.")
-            continue
-        if m := _loaded_enabled_pattern.match(service_lines[1]):
-            loaded, enabled = m.groups()
-        else:
-            print("Could not parse service status loaded and enabled.")
-            continue
-        if m := _active_pattern.match(service_lines[2]):
-            (active,) = m.groups()
-        else:
-            print("Could not parse service status active.")
-            continue
-
-        service_status[name] = {
-            "description": desc,
-            "loaded": loaded,
-            "enabled": enabled,
-            "active": active,
-        }
-    return service_status
+msb_services = SystemdStatusParser()
