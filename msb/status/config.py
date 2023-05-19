@@ -3,7 +3,7 @@ from msb.config import MSBConf
 
 class StatusConf(MSBConf):
     topic: bytes = b"status"
-    seconds_between_updates: float = 1.0
+    seconds_between_updates: float = 10.0
 
     get_uptime: bool = True
     get_disk_usage: bool = True
