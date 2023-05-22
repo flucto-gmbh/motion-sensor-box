@@ -1,0 +1,9 @@
+topic: "status"
+seconds_between_updates: 10.0
+get_uptime: True
+get_disk_usage: True
+get_system_load: True
+get_ram_usage: True
+get_temperature: True
+get_msb_services_status: True
+get_network_status: True
