@@ -38,9 +38,9 @@ class Subscriber:
         # Acceps single topic or list of topics
         if isinstance(topic, list):
             for t in topic:
-                self._subscribe_single_topic
+                self._subscribe_single_topic(t)
         else:
-            self._subscribe_single_topic
+            self._subscribe_single_topic(topic)
 
     def receive(self) -> tuple[bytes, dict]:
         """
