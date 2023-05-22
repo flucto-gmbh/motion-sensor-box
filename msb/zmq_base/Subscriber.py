@@ -29,13 +29,18 @@ class Subscriber:
             print(f"failed to bind to zeromq socket: {e}")
             sys.exit(-1)
 
-    def subscribe(self, topic: bytes | list[bytes]):
+    def _subscribe_single_topic(self, topic: bytes | str):
+        if isinstance(topic, str):
+            topic = topic.encode
+        self.socket.setsockopt(zmq.SUBSCRIBE, topic)
+
+    def subscribe(self, topic: bytes | str | list[bytes] | list[str]):
         # Acceps single topic or list of topics
         if isinstance(topic, list):
             for t in topic:
-                self.socket.setsockopt(zmq.SUBSCRIBE, t)
+                self._subscribe_single_topic
         else:
-            self.socket.setsockopt(zmq.SUBSCRIBE, topic)
+            self._subscribe_single_topic
 
     def receive(self) -> tuple[bytes, dict]:
         """
