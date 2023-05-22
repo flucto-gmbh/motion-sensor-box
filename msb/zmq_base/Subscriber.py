@@ -31,7 +31,7 @@ class Subscriber:
 
     def _subscribe_single_topic(self, topic: bytes | str):
         if isinstance(topic, str):
-            topic = topic.encode
+            topic = topic.encode()
         self.socket.setsockopt(zmq.SUBSCRIBE, topic)
 
     def subscribe(self, topic: bytes | str | list[bytes] | list[str]):
