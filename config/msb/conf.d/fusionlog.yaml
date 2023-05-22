@@ -8,3 +8,4 @@ key_order:
     imu : ["datetime", "epoch", "uptime", "acc_x", "acc_y", "acc_z", "rot_x", "rot_y", "rot_z", "mag_x", "mag_y", "mag_z", "temp"]
     gps : ["datetime", "epoch", "uptime", "gps_mode", "gps_timestamp", "latitude", "longitude", "altitude", "altitude_msl", "track", "mag_track", "mag_var", "speed"]
     pwr : ["datetime", "epoch", "uptime", "load-1", "load-5", "load-15", "mem-available", "swap-cached"]
+topics: ["imu", "gps"]

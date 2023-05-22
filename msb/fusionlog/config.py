@@ -67,3 +67,6 @@ class FusionlogConf(MSBConf):
     """maximum number of logfiles before oldest logfiles get overwritten"""
 
     key_order: dict[str, list[str]] = _default_key_order
+
+    topics: list[str] = ["imu", "gps"]
+    """The topics to log."""
