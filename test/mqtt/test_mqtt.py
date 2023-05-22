@@ -3,7 +3,8 @@ import paho.mqtt.client as mqtt_client
 import time
 import ssl
 
-from msb.mqtt.msb_mqtt import MQTTConfig, MQTT_Base
+from msb.mqtt.msb_mqtt import MQTT_Base
+from msb.mqtt.config import MQTTconf
 
 
 def packer_func(data):
@@ -13,8 +14,8 @@ def packer_func(data):
 
 
 def setup_config():
-    config = MQTTConfig(
-        broker="localhost", user="user", password="pw", port=1883, qos=0, ssl=False
+    config = MQTTconf(
+        broker="localhost", user="", password="", port=1883, qos=0, ssl=False
     )
     return config
 
@@ -48,7 +49,6 @@ def get_client(config):
     return client
 
 
-@pytest.mark.skip
 def test_mqtt_node():
     from msb.mqtt.msb_mqtt import MQTT_Base
 
@@ -59,6 +59,7 @@ def test_mqtt_node():
         time.sleep(0.1)
 
 
+@pytest.mark.skip
 def test_zmq_to_mqtt_loop():
     from msb.mqtt.msb_mqtt import MQTT_Publisher
     from msb.zmq_base import get_default_subscriber
