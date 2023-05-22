@@ -47,6 +47,6 @@ def main():
     signal.signal(signal.SIGINT, signal_handler)
     fusionlog_config = load_config(FusionlogConf(), "fusionlog")
     print(fusionlog_config)
-    subscriber = get_default_subscriber(topic=b"")
+    subscriber = get_default_subscriber(topic=fusionlog_config.topics)
     fusionlog_service = FusionlogService(fusionlog_config, subscriber)
     fusionlog_service.run()
