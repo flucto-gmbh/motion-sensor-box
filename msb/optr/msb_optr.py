@@ -1,12 +1,18 @@
-from msb.zmq_base.Publisher import get_default_publisher
-from .tracker import OpticalFlowTracker, OptrConfig
-from .video import video_source, gui_split, add_draw_func
-from .filter import filter_generator, add_filter_func
-from .config import OptrConf
-
 import cv2
 import numpy as np
-import glob
+import signal
+import sys
+import time
+import uptime
+
+from msb.zmq_base.Publisher import get_default_publisher, Publisher
+from msb.config import load_config
+from msb.optr.tracker import OpticalFlowTracker
+from msb.optr.video import video_source, gui_split, add_draw_func
+from msb.optr.filter import filter_generator, add_filter_func
+from msb.optr.config import OptrConf
+
+
 
 
 def filter_sobel(img: np.ndarray):
@@ -40,19 +46,23 @@ def filter_rotate_cv(img):
 
 def optr_payload(velocity):
     return {
+        "epoch" : time.time(),
+        "uptime" : uptime.uptime(),
         "name": "optical flow",
         "velocity": float(velocity),
     }
+def signal_handler(sig, frame):
+    print("msb_imu.py exit")
+    sys.exit(0)
 
 
-def main():
-    pub = get_default_publisher()
 
-    # Not yet implemented in OpticalFlowTracker
-    # config = OptrConfig()
+
+def msb_optr(config: OptrConf, publisher: Publisher):
+    signal.signal(signal.SIGINT, signal_handler)   
 
     # Pipeline
-    source = video_source("picam3", 0)
+    source = video_source("picamera3", 0)
     filter = filter_generator(source)
     tracker = OpticalFlowTracker(filter)
 
@@ -74,3 +84,8 @@ def main():
             if velocity_mean:
                 payload = optr_payload(velocity_mean)
                 pub.send(b"optr", payload)
+
+def main():
+    optr_conf = load_config(OptrConf(), "optr")
+    publisher = get_default_publisher()
+    msb_optr(optr_conf, publisher)

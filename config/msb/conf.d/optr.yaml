@@ -1,0 +1,10 @@
+verbose         : false     # print debugging information
+print_stdout    : false     # print data to stdout
+topic           : "opt"
+width           : 1920
+height          : 1080
+fps             : 10
+max_tracks      : 10
+show_video      : false
+
+
