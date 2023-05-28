@@ -12,3 +12,7 @@ quaternion==3.5.2.post4
 # scipy==1.10.1
 smbus==1.1.post2
 uptime==3.0.1
+
+Adafruit-Blinka
+adafruit-circuitpython-register
+adafruit-circuitpython-busdevice
