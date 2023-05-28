@@ -2,6 +2,7 @@ from msb.zmq_base.Publisher import get_default_publisher
 from .tracker import OpticalFlowTracker, OptrConfig
 from .video import video_source, gui_split, add_draw_func
 from .filter import filter_generator, add_filter_func
+from .config import OptrConf
 
 import cv2
 import numpy as np
@@ -51,7 +52,7 @@ def main():
     # config = OptrConfig()
 
     # Pipeline
-    source = video_source("webcam", 0)
+    source = video_source("picam3", 0)
     filter = filter_generator(source)
     tracker = OpticalFlowTracker(filter)
 
@@ -62,12 +63,14 @@ def main():
 
     # Currently, tracker has its own velocity calc function.
     # This will be refactored asap
-    for _ in tracker.tracking_loop():
+    for i, _ in enumerate(tracker.tracking_loop()):
+        print(f'processing frame {i}')
         tracks = tracker.tracks
         velocities = np.array(tracker.velocities)
         if len(velocities):
             velocities = velocities[np.isfinite(velocities[:, 0])]
             velocity_mean = np.median(velocities)
+            print(velocity_mean)
             if velocity_mean:
                 payload = optr_payload(velocity_mean)
                 pub.send(b"optr", payload)

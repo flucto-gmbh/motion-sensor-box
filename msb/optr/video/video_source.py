@@ -1,9 +1,11 @@
 from .VideoFormatSource import video_format_source
 from .WebCamSource import webcam_source
+from .PiCamSource import picam3_source
 from .VideoSequenceSource import video_sequence_source
 from .VideoGUISource import gui_split
 
 available_sources = {
+    "picam3" : picam3_source,
     "webcam": webcam_source,
     "file": video_sequence_source,
     "video": video_format_source,
