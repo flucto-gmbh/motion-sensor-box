@@ -1,6 +1,6 @@
 from .VideoFormatSource import video_format_source
 from .WebCamSource import webcam_source
-from .PiCamSource import picamera3_source
+from .PiCameraSource import picamera3_source
 from .VideoSequenceSource import video_sequence_source
 from .VideoGUISource import gui_split
 
