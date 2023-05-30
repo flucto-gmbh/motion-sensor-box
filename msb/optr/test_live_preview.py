@@ -7,4 +7,4 @@ cv2.startWindowThread()
 cv2.namedWindow("preview")
 while True:
     img = cam.capture_array()
-    cv2.imshow("img", img)
+    cv2.imshow("preview", img)

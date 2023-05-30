@@ -12,9 +12,9 @@ def gui_display(img):
         img_copy = img.copy()
         for draw_func in my_draw_funcs:
             draw_func(img_copy)
-        cv2.imshow("frame", img_copy)
+        cv2.imshow("opt", img_copy)
     else:
-        cv2.imshow("frame", img)
+        cv2.imshow("opt", img)
 
 
 def gui_split(source):

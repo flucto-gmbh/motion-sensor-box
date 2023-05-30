@@ -41,9 +41,9 @@ def filter_roi(config):
 
 def filter_rotate_cv(config):
     """rotate and scale an image"""
-    (h, w) = img.shape[:2]
     # Perform the rotation
     def inner(img):
+        (h, w) = img.shape[:2]
         M = cv2.getRotationMatrix2D(config.rotate.center, config.rotate.angle, config.rotate.scale)
         return cv2.warpAffine(img, M, (w, h))
     return inner
@@ -59,14 +59,19 @@ def optr_payload(velocity):
 
 def msb_optr(config: OptrConf, publisher: Publisher):
     signal.signal(signal.SIGINT, signal_handler)   
-
+    tracks = []
     # Pipeline
     source = video_source("picamera3", config)
     if config.show_video:
         if config.verbose:
             print('creating gui')
+        cv2.startWindowThread()
+        cv2.namedWindow("opt")
         gui = gui_split(source)
         filter = filter_generator(gui)
+        def draw_tracks(img):
+            cv2.polylines(img, [np.int32(tr) for tr in tracks], False, (0, 255, 0))
+        add_draw_func(draw_tracks)
     else:
         filter = filter_generator(source)
     tracker = OpticalFlowTracker(filter)
@@ -75,11 +80,6 @@ def msb_optr(config: OptrConf, publisher: Publisher):
     add_filter_func(filter_roi(config))
     # add_filter_func(filter_sobel)
     # add_filter_func(filter_rotate_cv)
-
-    tracks = []
-    def draw_tracks(img):
-        cv2.polylines(img, [np.int32(tr) for tr in tracks], False, (0, 255, 0))
-    add_draw_func(draw_tracks)
 
     # Currently, tracker has its own velocity calc function.
     # This will be refactored asap
