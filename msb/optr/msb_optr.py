@@ -62,13 +62,24 @@ def msb_optr(config: OptrConf, publisher: Publisher):
 
     # Pipeline
     source = video_source("picamera3", config)
-    filter = filter_generator(source)
+    if config.show_video:
+        if config.verbose:
+            print('creating gui')
+        gui = gui_split(source)
+        filter = filter_generator(gui)
+    else:
+        filter = filter_generator(source)
     tracker = OpticalFlowTracker(filter)
 
     # Functions
     add_filter_func(filter_roi(config))
     # add_filter_func(filter_sobel)
     # add_filter_func(filter_rotate_cv)
+
+    tracks = []
+    def draw_tracks(img):
+        cv2.polylines(img, [np.int32(tr) for tr in tracks], False, (0, 255, 0))
+    add_draw_func(draw_tracks)
 
     # Currently, tracker has its own velocity calc function.
     # This will be refactored asap
