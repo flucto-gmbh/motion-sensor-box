@@ -1,9 +1,11 @@
+import json
+import os
 import signal
 import sys
 
-from msb.imu.icm20948.icm20948 import ICM20948
-from msb.imu.config import IMUConf
 from msb.config import load_config
+from msb.imu.config import IMUConf
+from msb.imu.icm20948.icm20948 import ICM20948
 from msb.zmq_base.Publisher import Publisher, get_default_publisher
 
 
@@ -19,6 +21,16 @@ class IMUService:
         self.publisher = publisher
         self.icm20948 = ICM20948(config)
 
+        conf_dir = os.environ["MSB_CONFIG_DIR"]
+        imu_calibration_subpath = "msb/calibration/imu.json"
+        imu_calibration_file = os.path.join(conf_dir, imu_calibration_subpath)
+        try:
+            with open(imu_calibration_file) as calib_file:
+                calibration = json.load(calib_file)
+        except FileNotFoundError:
+            calibration = {"rot_x_off": 0.0, "rot_y_off": 0.0, "rot_z_off": 0.0}
+        self.calibration = calibration
+
     def run(self):
         with self.icm20948:
             # signal.pause()
@@ -29,6 +41,7 @@ class IMUService:
 
     def process_raw(self, raw) -> dict:
         data = self.align_axes_with_msb_coordinate_system(raw)
+        data = self.apply_calibration(data)
         return data
 
     @staticmethod
@@ -43,6 +56,12 @@ class IMUService:
         data["mag_x"] *= -1
         data["mag_z"] *= -1
 
+        return data
+
+    def apply_calibration(self, data):
+        data["rot_x"] -= self.calibration["rot_x_off"]
+        data["rot_y"] -= self.calibration["rot_y_off"]
+        data["rot_z"] -= self.calibration["rot_z_off"]
         return data
 
 
