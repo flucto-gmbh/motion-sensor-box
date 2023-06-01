@@ -28,11 +28,22 @@ class IMUService:
                 self.publisher.send(self.config.topic, data)
 
     def process_raw(self, raw) -> dict:
-        # TODO or should this happen in the ICM20948
-        # OR should we create a class IMU that encapsulates the ICM20948 and which is then used as the only Interface by the IMUService
-        # process data
-        # e.g. align axes with msb axes
-        return raw
+        data = self.align_axes_with_msb_coordinate_system(raw)
+        return data
+
+    @staticmethod
+    def align_axes_with_msb_coordinate_system(data):
+        # flip x and y axis for accelerometer and gyroscope
+        data["acc_x"] *= -1
+        data["acc_y"] *= -1
+        data["rot_x"] *= -1
+        data["rot_y"] *= -1
+
+        # flip x and z axis for magnetometer
+        data["mag_x"] *= -1
+        data["mag_z"] *= -1
+
+        return data
 
 
 def main():
