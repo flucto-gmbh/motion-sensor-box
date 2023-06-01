@@ -299,7 +299,10 @@ class ICM20948:
         )
 
     def _parse_mag(self, raw: int) -> float:
-        return round(raw, self._precision)
+        return round(
+            self._convert_mag_raw_to_micro_tesla(self._to_signed_int(raw)),
+            self._precision,
+        )
 
     def _parse_temp(self, raw: int) -> float:
         return round(raw, self._precision)
@@ -356,6 +359,15 @@ class ICM20948:
         if data > 32767:
             data -= 65536
         return data
+
+    @staticmethod
+    def _convert_mag_raw_to_micro_tesla(x):
+        # floating point version of https://stackoverflow.com/a/70659904
+        in_min = -32768
+        in_max = 32767
+        out_min = -4900  # see page 13 in data sheet
+        out_max = 4900
+        return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
     def _setup(self):
         # are we who we need to be?
