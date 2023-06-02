@@ -8,6 +8,7 @@ def add_draw_func(func):
 
 
 def gui_display(img):
+    #img = cv2.
     if len(my_draw_funcs):
         img_copy = img.copy()
         for draw_func in my_draw_funcs:

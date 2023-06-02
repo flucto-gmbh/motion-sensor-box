@@ -4,8 +4,9 @@ topic : opt
 width : 1920
 height : 1080
 fps : 10
-max_track : 10
+max_tracks : 10
 show_video : false
+show_roi : false
 video_source : picamera3
 rotate : 
     center : [960, 540]

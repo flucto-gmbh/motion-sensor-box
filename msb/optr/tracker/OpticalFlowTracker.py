@@ -11,8 +11,9 @@ feature_params = dict(maxCorners=500, qualityLevel=0.3, minDistance=7, blockSize
 
 
 class OpticalFlowTracker:
-    def __init__(self, video_src):
+    def __init__(self, video_src, config):
         self.source = video_src
+        self.config = config
         self.track_length = 10
         self.frame_index = 0
         self.detect_interval = 5
@@ -90,9 +91,12 @@ class OpticalFlowTracker:
         for track, (x, y), good_flag in zip(self._tracks, forward_tracked_points.reshape(-1, 2), features_filter):
             if good_flag:
                 track.append((x, y))
-
                 if len(track) > self.track_length:
                     del track[0]
+                if len(new_tracks) > self.config.max_tracks:
+                    if self.config.verbose:
+                        print(f"warning: more than {self.config.max_tracks} tracks")
+                    break
                 new_tracks.append(track)
 
         self._tracks = new_tracks

@@ -12,7 +12,6 @@ from msb.optr.video import video_source, gui_split, add_draw_func
 from msb.optr.filter import filter_generator, add_filter_func
 from msb.optr.config import OptrConf
 
-
 # TODO
 # - add live video option
 # - implement roi
@@ -29,7 +28,6 @@ def filter_sobel(config):
         grad_y = cv2.Sobel(img, cv2.CV_64F, 1, 0)
         return np.sqrt(grad_x**2 + grad_y**2).astype(np.uint8)
     return inner
-
 
 def filter_roi(config):
     """crop an image to a given region of interest"""
@@ -69,12 +67,25 @@ def msb_optr(config: OptrConf, publisher: Publisher):
         cv2.namedWindow("opt")
         gui = gui_split(source)
         filter = filter_generator(gui)
+        def draw_roi(img):
+            cv2.rectangle(img, (config.roi['ymin'], config.roi['xmin']), (config.roi['ymax'], config.roi['xmax']), color=(255,0,0))
         def draw_tracks(img):
-            cv2.polylines(img, [np.int32(tr) for tr in tracks], False, (0, 255, 0))
+
+            def transform_coords(coords):
+                transformed_coords = []
+                for c in coords:
+                    transformed_coords.append((c[0] + config.roi["ymin"], c[1] + config.roi["xmin"]))
+                return transformed_coords
+
+            cv2.polylines(img, [np.int32(tr) for tr in [transform_coords(coords) for coords in tracks]], False, (0, 255, 0))
+            #cv2.polylines(img, [np.int32(tr) for tr in tracks], False, (0, 255, 0))
+
         add_draw_func(draw_tracks)
+        if config.show_roi:
+            add_draw_func(draw_roi)
     else:
         filter = filter_generator(source)
-    tracker = OpticalFlowTracker(filter)
+    tracker = OpticalFlowTracker(filter, config)
 
     # Functions
     add_filter_func(filter_roi(config))
@@ -83,16 +94,18 @@ def msb_optr(config: OptrConf, publisher: Publisher):
 
     # Currently, tracker has its own velocity calc function.
     # This will be refactored asap
-    for i, _ in enumerate(tracker.tracking_loop()):
-        print(f'processing frame {i}')
+    for _ in tracker.tracking_loop():
         tracks = tracker.tracks
+        # transform_overlay_tracks()
+        # add roi offset to tracks here:
         velocities = np.array(tracker.velocities)
         if len(velocities):
             velocities = velocities[np.isfinite(velocities[:, 0])]
             velocity_mean = np.median(velocities)
-            print(velocity_mean)
             if velocity_mean:
                 payload = optr_payload(velocity_mean)
+                if config.print_stdout:
+                    print(payload)
                 publisher.send(config.topic, payload)
         # if config.show_video:
         #    cv2.imshow("PiCamera3", 
