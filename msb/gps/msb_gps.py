@@ -48,10 +48,7 @@ class GPSService:
             "lon",
             "altHAE",
             "altMSL",
-            "track",
-            "magtrack",
             "magvar",
-            "speed",
         ]
         for key in report_keys:
             data[key] = report[key] if key in report else None
