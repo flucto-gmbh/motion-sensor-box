@@ -1,0 +1,16 @@
+[Unit]
+Description=Motion Sensor Box Optical Pile Tracking Unit Service
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+SyslogIdentifier=msb-opt
+Type=simple
+Restart=always
+RestartSec=1
+Environment="MSB_CONFIG_DIR=/home/msb/.config"
+User=msb
+ExecStart=/usr/bin/python3 /home/msb/motion-sensor-box/run/msb_optr.py
+
+[Install]
+WantedBy=multi-user.target
