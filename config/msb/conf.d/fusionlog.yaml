@@ -8,4 +8,4 @@ key_order:
     att : ["datetime", "epoch", "uptime", "roll", "pitch", "yaw"]
     imu : ["datetime", "epoch", "uptime", "acc_x", "acc_y", "acc_z", "rot_x", "rot_y", "rot_z", "mag_x", "mag_y", "mag_z", "temp"]
     gps : ["datetime", "epoch", "uptime", "mode", "time", "lat", "lon", "altHAE", "altMSL", "magvar"]
-    opt : ["datetime", "epoch", "uptime", "pile-velocity"]
+    opt : ["datetime", "epoch", "uptime", "velocity"]

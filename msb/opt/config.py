@@ -1,6 +1,6 @@
 from msb.config.MSBConfig import MSBConf
 
-class OptrConf(MSBConf):
+class OptConf(MSBConf):
     """Configuration for the optical pile tracking service"""
     topic: bytes = b"opt"
     width: int = 1920

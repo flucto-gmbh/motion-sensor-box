@@ -7,10 +7,10 @@ import uptime
 
 from msb.zmq_base.Publisher import get_default_publisher, Publisher
 from msb.config import load_config
-from msb.optr.tracker import OpticalFlowTracker
-from msb.optr.video import video_source, gui_split, add_draw_func
-from msb.optr.filter import filter_generator, add_filter_func
-from msb.optr.config import OptrConf
+from msb.opt.tracker import OpticalFlowTracker
+from msb.opt.video import video_source, gui_split, add_draw_func
+from msb.opt.filter import filter_generator, add_filter_func
+from msb.opt.config import OptConf
 
 # TODO
 # - add live video option
@@ -47,15 +47,14 @@ def filter_rotate_cv(config):
     return inner
 
 
-def optr_payload(velocity):
+def opt_payload(velocity):
     return {
         "epoch" : time.time(),
         "uptime" : uptime.uptime(),
-        "name": "optical flow",
         "velocity": float(velocity),
     }
 
-def msb_optr(config: OptrConf, publisher: Publisher):
+def msb_opt(config: OptConf, publisher: Publisher):
     signal.signal(signal.SIGINT, signal_handler)   
     tracks = []
     # Pipeline
@@ -103,7 +102,7 @@ def msb_optr(config: OptrConf, publisher: Publisher):
             velocities = velocities[np.isfinite(velocities[:, 0])]
             velocity_mean = np.median(velocities)
             if velocity_mean:
-                payload = optr_payload(velocity_mean)
+                payload = opt_payload(velocity_mean)
                 if config.print_stdout:
                     print(payload)
                 publisher.send(config.topic, payload)
@@ -111,6 +110,6 @@ def msb_optr(config: OptrConf, publisher: Publisher):
         #    cv2.imshow("PiCamera3", 
 
 def main():
-    optr_conf = load_config(OptrConf(), "optr")
+    opt_conf = load_config(OptConf(), "opt")
     publisher = get_default_publisher()
-    msb_optr(optr_conf, publisher)
+    msb_opt(opt_conf, publisher)

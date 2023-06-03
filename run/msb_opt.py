@@ -4,7 +4,7 @@ import sys
 SCRIPT_DIR = path.dirname(path.abspath(__file__))
 sys.path.append(path.dirname(SCRIPT_DIR))
 
-import msb.optr.msb_optr as optr
+import msb.opt.msb_opt as opt
 
 if __name__ == "__main__":
-    optr.main()
+    opt.main()
