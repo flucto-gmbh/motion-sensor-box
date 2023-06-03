@@ -1,9 +1,10 @@
-broker: "10.47.36.1"
+#broker: "192.168.1.122"
+broker: "192.168.1.122"
 user: ""
 password: ""
 port: 1883
 ssl: False
 qos: 0
-topics: ["test"]
-mapping: ""
+topics: ["gps", "imu", "opt", "sta"]
+mapping: "/msb-devel/"
 packstyle: "json"
