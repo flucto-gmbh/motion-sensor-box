@@ -13,6 +13,6 @@ while(True):
         cv2.waitKey(1)
     except KeyboardInterrupt:
         break
-    
-    capture.release()
-    cv2.destroyAllWindows()
+    finally:
+        capture.release()
+        cv2.destroyAllWindows()
