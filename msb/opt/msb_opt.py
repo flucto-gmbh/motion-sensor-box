@@ -104,7 +104,9 @@ def msb_opt(config: OptConf, publisher: Publisher):
         velocities = np.array(tracker.velocities)
         if len(velocities):
             velocities = velocities[np.isfinite(velocities[:, 0])]
-            velocity_mean = np.median(velocities) * config.px_to_m
+            #velocity_mean = np.median(velocities)
+            velocity_mean = np.median(velocities)
+            velocity_mean *= config.px_to_m
             if velocity_mean:
                 payload = opt_payload(velocity_mean)
                 if config.print_stdout:
