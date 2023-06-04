@@ -8,6 +8,7 @@ max_tracks : 10
 show_video : false
 show_roi : false
 video_source : picamera3
+px_to_m : 1
 rotate : 
     center : [960, 540]
     angle : 0
