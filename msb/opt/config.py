@@ -10,7 +10,7 @@ class OptConf(MSBConf):
     show_video: bool = False
     show_roi: bool = False
     video_source: str = "picamera3"
-    px_to_m: float = 1
+    px_to_m: float = 1.0
     rotate: dict = {"center": (960,540), "angle": 0, "scale": 1.0}
     roi: dict = {"xmin": 100, "xmax" : 1820, "ymin": 100, "ymax": 980}
 
