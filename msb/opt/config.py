@@ -8,6 +8,7 @@ class OptConf(MSBConf):
     fps: int = 10
     max_tracks: int = 100
     show_video: bool = False
+    save_video: bool = False
     show_roi: bool = False
     video_source: str = "picamera3"
     px_to_m: float = 1

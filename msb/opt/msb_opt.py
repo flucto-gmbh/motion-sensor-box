@@ -59,6 +59,11 @@ def msb_opt(config: OptConf, publisher: Publisher):
     tracks = []
     # Pipeline
     source = video_source("picamera3", config)
+
+    if config.save_video:
+        
+        pass
+
     if config.show_video:
         if config.verbose:
             print('creating gui')
@@ -69,7 +74,6 @@ def msb_opt(config: OptConf, publisher: Publisher):
         def draw_roi(img):
             cv2.rectangle(img, (config.roi['ymin'], config.roi['xmin']), (config.roi['ymax'], config.roi['xmax']), color=(255,0,0))
         def draw_tracks(img):
-
             def transform_coords(coords):
                 transformed_coords = []
                 for c in coords:
@@ -78,7 +82,6 @@ def msb_opt(config: OptConf, publisher: Publisher):
 
             cv2.polylines(img, [np.int32(tr) for tr in [transform_coords(coords) for coords in tracks]], False, (0, 255, 0))
             #cv2.polylines(img, [np.int32(tr) for tr in tracks], False, (0, 255, 0))
-
         add_draw_func(draw_tracks)
         if config.show_roi:
             add_draw_func(draw_roi)
