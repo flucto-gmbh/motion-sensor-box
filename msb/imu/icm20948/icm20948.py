@@ -1,21 +1,20 @@
 import sys
 import time
-import uptime
-
-import RPi.GPIO as gpio
-
 from queue import SimpleQueue
 
+import RPi.GPIO as gpio
+import uptime
+
+from msb.imu.config import IMUConf
+from msb.imu.icm20948.ak09916 import AK09916
 from msb.imu.icm20948.comm import ICM20948Communicator
 from msb.imu.icm20948.registers import Register
 from msb.imu.icm20948.settings import (
-    SettingValues,
-    ICM20948SampleMode,
-    ICM20948InternalSensorID,
     Bank,
+    ICM20948InternalSensorID,
+    ICM20948SampleMode,
+    SettingValues,
 )
-from msb.imu.config import IMUConf
-from msb.imu.icm20948.ak09916 import AK09916
 
 
 class ICM20948:
@@ -37,6 +36,10 @@ class ICM20948:
         if self.config.verbose:
             print(f"delta t is: {self._delta_t}")
         self.magnetometer = AK09916(self.comm)
+
+        self._in_run_in_phase = False
+        self._run_in_counter = 0
+        self._n_run_in = 1000
 
     def __enter__(self):
         self.comm.__enter__()
@@ -286,6 +289,9 @@ class ICM20948:
         if not register == 1:
             raise RuntimeError("failed to activate interrupt")
 
+        # activate run in phase
+        self._in_run_in_phase = True
+
     def _parse_acc(self, raw: int) -> float:
         return round(
             self._to_signed_int(raw) / self._acc_scale,
@@ -304,6 +310,12 @@ class ICM20948:
     def _parse_temp(self, raw: int) -> float:
         return round(raw, self._precision)
 
+    def _run_in_phase(self):
+        if self._run_in_counter >= self._n_run_in:
+            self._in_run_in_phase = False
+            return
+        self._run_in_counter += 1
+
     def _read_new_data(self, interrupt_pin: int):
         """Reads and queues raw values from accel, gyro, mag and temp of the ICM90248 module"""
         if self.config.verbose:
@@ -316,6 +328,9 @@ class ICM20948:
         buff = self.comm.read(
             Bank.B0, Register.AGB0_REG_ACCEL_XOUT_H, self._update_numbytes
         )
+        if self._in_run_in_phase:
+            self._run_in_phase()
+            return
         data = {
             "epoch": time.time(),
             "uptime": uptime.uptime(),
