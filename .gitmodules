@@ -8,3 +8,6 @@
 [submodule "lib/ahrs"]
 	path = lib/ahrs
 	url = https://github.com/Mayitzin/ahrs.git
+[submodule "lib/rtl88x2bu"]
+	path = lib/rtl88x2bu
+	url = git@github.com:cilynx/rtl88x2bu.git
