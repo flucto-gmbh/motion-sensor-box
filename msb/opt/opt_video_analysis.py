@@ -88,12 +88,14 @@ def get_cmdline():
     parser = argparse.ArgumentParser()
     parser.add_argument("--file", type=str, required=True)
     parser.add_argument("--track-file", type=str, required=True)
+    parser.add_argument("--track-length", type=int, required=False, default=10, help="number of frames a track persists")
+    parser.add_argument("--detect-interval", type=int, required=False, default=5, help="interval with which the algorithm looks for new tracks")
     parser.add_argument("--verbose", action="store_true", required=False)
     parser.add_argument("--roi", type=int, nargs=4, required=False, default=[0,1920,0,1080])
     parser.add_argument("--angle", type=float, required=False)
     parser.add_argument("-s", "--select-roi", action="store_true", required=False)
     parser.add_argument("--fps", type=int, required=False, default=10)
-    parser.add_argument("--max_tracks", type=int, required=False, default=100)
+    parser.add_argument("--max-tracks", type=int, required=False, default=100)
     parser.add_argument("--px-to-m", type=float, required=True)
     #parser.add_argument(
     #    "--roi", type=string_to_dict, default="xmin=100 xmax=1820 ymin=100 ymax=980"
@@ -169,30 +171,6 @@ def main():
     if args.angle:
         add_filter_func(filter_rotate(args.angle))
 
-    # add_draw_func(draw_roi)
-
-    def my_detection_func(cornerpoints, slices):
-        x1, x2, y1, y2 = cornerpoints
-
-        def detection_closure(img):
-            feature_points = []
-            # h, w = img.shape[:2]
-            # slices = 10
-            # X = np.linspace(0, w, 10)
-            # Y = np.linspace(0, h, 10)
-            X = np.linspace(x1, x2, 10)
-            Y = np.linspace(y1, y2, 10)
-            for x in X:
-                for y in Y:
-                    feature_points.append(np.array(([int(x), int(y)])))
-            return feature_points
-
-        return detection_closure
-
-    mycorners = [200, 1500, 0, 300]
-
-    # tracker.detection_func = my_detection_func(mycorners, 20)
-    # add_draw_func(draw_rect(mycorners))
     tracker.detect_interval = 10
     # tracker.track_length = 50
 
@@ -203,7 +181,6 @@ def main():
 
     with open(args.track_file, "w") as f:
         for _ in tracker.tracking_loop():
-            tracks = tracker._tracks
             velocities = np.array(tracker.velocities)
             if len(velocities):
                 velocities = velocities[np.isfinite(velocities[:, 0])]

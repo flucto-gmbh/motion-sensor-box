@@ -118,7 +118,8 @@ class OpticalFlowTracker:
         velocities = []
         for track in self._tracks:
             if len(track) > 1:
-                vel = np.array(track[-2]) - np.array(track[-1])
+                # missing division by deltat?
+                vel = np.array((track[-2]) - np.array(track[-1])*self.config.fps)
                 velocities.append(vel)
             else:
                 velocities.append(np.array([np.nan, np.nan]))
