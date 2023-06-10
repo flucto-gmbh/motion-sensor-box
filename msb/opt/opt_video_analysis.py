@@ -1,7 +1,10 @@
-from msb.optr.tracker import OpticalFlowTracker, OptrConfig
-from msb.optr.video import video_source, gui_split, add_draw_func
-from msb.optr.filter import filter_generator, add_filter_func
-from msb.optr.video import gui_split, add_draw_func
+#!/usr/bin/env python3
+
+from msb.opt.tracker import OpticalFlowTracker
+from msb.opt.video import video_source, gui_split, add_draw_func
+from msb.opt.filter import filter_generator, add_filter_func
+from msb.opt.video import gui_split, add_draw_func
+from msb.opt.msb_opt import filter_roi
 
 import cv2
 import numpy as np
@@ -9,22 +12,10 @@ import glob
 import argparse
 import os
 
+import sys
 
-def filter_sobel(img: np.ndarray):
-    grad_x = cv2.Sobel(img, cv2.CV_64F, 1, 0)
-    grad_y = cv2.Sobel(img, cv2.CV_64F, 1, 0)
-    img = np.sqrt(grad_x**2 + grad_y**2).astype(np.uint8)
-    return img
-
-
-def filter_roi(cornerpoints):
-    x1, x2, y1, y2 = cornerpoints
-
-    def roi(img):
-        return img[x1:x2, y1:y2]
-
-    return roi
-
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.dirname(SCRIPT_DIR))
 
 def filter_rotate(angle, center=None):
     # outer scope: angle and center
@@ -87,14 +78,30 @@ def draw_rect(cornerpoints):
 
 
 def get_cmdline():
+    def string_to_dict(arg):
+        d = {}
+        for kv in arg.split():
+            k, v = kv.split("=")
+            d[k] = v
+        return d
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--file", type=str, required=True)
-    parser.add_argument("--roi", type=int, nargs=4, required=False)
+    parser.add_argument("--track-file", type=str, required=True)
+    parser.add_argument("--verbose", action="store_true", required=False)
+    parser.add_argument("--roi", type=int, nargs=4, required=False, default=[0,1920,0,1080])
     parser.add_argument("--angle", type=float, required=False)
-    parser.add_argument("-s", "--select-roi", action='store_true', required=False)
-
-
-    return parser.parse_args()
+    parser.add_argument("-s", "--select-roi", action="store_true", required=False)
+    parser.add_argument("--fps", type=int, required=False, default=10)
+    parser.add_argument("--max_tracks", type=int, required=False, default=100)
+    parser.add_argument("--px-to-m", type=float, required=True)
+    #parser.add_argument(
+    #    "--roi", type=string_to_dict, default="xmin=100 xmax=1820 ymin=100 ymax=980"
+    #)
+    args = parser.parse_args()
+    # make argsparse onject compatible with config object
+    args.roi = {"xmin" : args.roi[0],"xmax" : args.roi[1],"ymin" : args.roi[2],"ymax" : args.roi[3]}
+    return args
 
 
 def get_source(fname):
@@ -142,7 +149,7 @@ def main():
     # Pipeline
     filter = filter_generator(source)
     gui = gui_split(filter)
-    tracker = OpticalFlowTracker(gui)
+    tracker = OpticalFlowTracker(gui, args)
 
     if args.select_roi:
         points = get_graphical_roi(source)
@@ -151,7 +158,7 @@ def main():
         add_filter_func(filter_roi([y, y + h, x, x + w]))
 
     if args.roi and not args.select_roi:
-        add_filter_func(filter_roi(args.roi))
+        add_filter_func(filter_roi(args))
 
     # Functions
     tracks = []
@@ -194,7 +201,7 @@ def main():
 
     velocity_timeseries = []
 
-    with open("out2.csv", "w") as f:
+    with open(args.track_file, "w") as f:
         for _ in tracker.tracking_loop():
             tracks = tracker._tracks
             velocities = np.array(tracker.velocities)

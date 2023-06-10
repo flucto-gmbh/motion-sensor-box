@@ -1,6 +1,10 @@
 import cv2
 import contextlib
-from picamera2 import Picamera2
+
+try:
+    from picamera2 import Picamera2
+except:
+    print(f"picamera2 module not available! asuming offline analysis")
 
 @contextlib.contextmanager
 def picamera3_context(config):
