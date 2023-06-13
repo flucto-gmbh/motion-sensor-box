@@ -42,14 +42,13 @@ class IMUService:
             while True:
                 raw_data = self.icm20948.get_data()
                 data = self.process_raw(raw_data)
-
                 dt = data['epoch'] - last_t
                 last_t = data['epoch']
                 # roll angle from acceleration
-                roll_a = arctan2(data['acc_x'], sqrt(data['acc_y']**2 + data['acc_z']**2))*(180/pi)
+                roll_a = arctan2(-data['acc_x'], sqrt(data['acc_y']**2 + data['acc_z']**2))*(180/pi)
                 data['roll_a'] = roll_a
                 # pitch angle from acceleration
-                pitch_a = arctan2(-1*data['acc_y'], sqrt(data['acc_x']**2 + data['acc_z']**2))*(180/pi)
+                pitch_a = arctan2(data['acc_y'], sqrt(data['acc_x']**2 + data['acc_z']**2))*(180/pi)
                 data['pitch_a'] = pitch_a
                 # combined pitch angle
                 pitch_c = (pitch_c + data['rot_x'] * dt) * alpha + (1-alpha) * pitch_a
@@ -66,8 +65,8 @@ class IMUService:
     @staticmethod
     def align_axes_with_msb_coordinate_system(data):
         # flip x and y axis for accelerometer and gyroscope
-        #data["acc_x"] *= -1
-        #data["acc_y"] *= -1
+        data["acc_x"] *= -1
+        data["acc_y"] *= -1
         data["rot_x"] *= -1
         data["rot_y"] *= -1
         # flip x and z axis for magnetometer
