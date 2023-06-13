@@ -3,8 +3,8 @@ import os
 import signal
 import sys
 import time
-from math import atan2, sqrt, pi
-from numpy import arctan2
+from math import atan2, sqrt, pi, sin, cos
+import numpy as np
 
 from msb.config import load_config
 from msb.imu.config import IMUConf
@@ -45,16 +45,24 @@ class IMUService:
                 dt = data['epoch'] - last_t
                 last_t = data['epoch']
                 # roll angle from acceleration
-                roll_a = arctan2(-data['acc_x'], sqrt(data['acc_y']**2 + data['acc_z']**2))*(180/pi)
-                data['roll_a'] = roll_a
+                roll_a = atan2(-data['acc_x'], sqrt(data['acc_y']**2 + data['acc_z']**2))*(180/pi)
                 # pitch angle from acceleration
-                pitch_a = arctan2(data['acc_y'], sqrt(data['acc_x']**2 + data['acc_z']**2))*(180/pi)
-                data['pitch_a'] = pitch_a
+                pitch_a = atan2(data['acc_y'], sqrt(data['acc_x']**2 + data['acc_z']**2))*(180/pi)
                 # combined pitch angle
                 pitch_c = (pitch_c + data['rot_x'] * dt) * alpha + (1-alpha) * pitch_a
-                data['pitch_c'] = pitch_c
+                data['pitch'] = pitch_c
                 roll_c = (roll_c + data['rot_y'] * dt) * alpha + (1-alpha) * roll_a
-                data['roll_c'] = roll_c
+                data['roll'] = roll_c
+                # this is probably not correct
+                mag_mag = sqrt(data['mag_x'] ** 2 + data['mag_y'] ** 2 + data['mag_z'])
+                data['mag_x'] = data['mag_x'] / mag_mag
+                data['mag_y'] = data['mag_y'] / mag_mag
+                data['mag_z'] = data['mag_z'] / mag_mag
+                by = data['mag_y']*cos(roll_a*(pi/180)) + data['mag_z']*sin(roll_a*(pi/180))
+                bx = data['mag_x']*cos(pitch_a*(pi/180)) + sin(pitch_a*(pi/180))*sin(roll_a*(pi/180))+data['mag_z']*cos(roll_a*(pi/180))
+                yaw = atan2(-by, bx)
+                data['yaw'] = yaw*(180/pi)
+
                 self.publisher.send(self.config.topic, data)
 
     def process_raw(self, raw) -> dict:
