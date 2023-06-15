@@ -48,10 +48,11 @@ class MQTT_Base:
 
     def _on_disconnect(self, client, userdata, return_code):
         print(f"Disconnected from broker with return code {return_code}")
-        print("Trying to reconnect")
-        # Instead of hard-coding a stepped reconnect timer makes sense
-        sleep(1)
-        self.connect()
+        if return_code != 0:
+            print("Trying to reconnect")
+            # Instead of hard-coding a stepped reconnect timer makes sense
+            sleep(1)
+            self.connect()
 
 
 class MQTT_Publisher(MQTT_Base):
