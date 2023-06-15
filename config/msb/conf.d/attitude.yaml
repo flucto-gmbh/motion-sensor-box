@@ -1,0 +1,5 @@
+verbose         : false     # print debugging information
+print_stdout    : false     # print data to stdout
+gain            : 0.9         # output data rate (odr) is calculated like this: odr = 1125 / (1 + sample_rate_div)
+exp_gain        : 0.25
+topic           : "rpy"
