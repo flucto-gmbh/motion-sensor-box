@@ -2,6 +2,7 @@ from paho.mqtt import client as mqtt_client
 from dataclasses import dataclass
 import ssl
 import json
+from time import sleep
 
 from msb.zmq_base.Subscriber import get_default_subscriber
 from msb.mqtt.config import MQTTconf
@@ -47,6 +48,11 @@ class MQTT_Base:
 
     def _on_disconnect(self, client, userdata, return_code):
         print(f"Disconnected from broker with return code {return_code}")
+        if return_code != 0:
+            print("Trying to reconnect")
+            # Instead of hard-coding a stepped reconnect timer makes sense
+            sleep(1)
+            self.connect()
 
 
 class MQTT_Publisher(MQTT_Base):
