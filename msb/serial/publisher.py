@@ -43,7 +43,9 @@ class SerialPublisher:
         self.serial = serial.Serial(
             port=self.config.port,
             baudrate=self.config.baudrate,
-            bitesize=self.config.bytesize,
+            bitesize=self.config.bitesize,
+            parity=serial.PARITY_NONE,
+            stopbits=serial.STOPBITS_ONE
         )
 
     def send(self, topic, message):
