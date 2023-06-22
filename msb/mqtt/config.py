@@ -1,6 +1,7 @@
 from msb.config import MSBConf
+from dataclasses import dataclass
 
-
+@dataclass
 class MQTTconf(MSBConf):
     """
     MQTT configuration class.
