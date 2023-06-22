@@ -2,13 +2,13 @@ import time
 from math import sin
 
 from msb.config import load_config
-from msb.mqtt.msb_mqtt import MQTT_Base
+from msb.mqtt.publisher import MQTT_Publisher
 from msb.mqtt.config import MQTTconf
 
 
 def main():
     config = load_config(MQTTconf(), "mqtt")
-    mqtt = MQTT_Base(config)
+    mqtt = MQTT_Publisher(config)
 
     start = time.time()
 

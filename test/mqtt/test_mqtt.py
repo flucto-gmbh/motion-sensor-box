@@ -3,7 +3,7 @@ import paho.mqtt.client as mqtt_client
 import time
 import ssl
 
-from msb.mqtt.msb_mqtt import MQTT_Base
+from msb.mqtt.mqtt_base import MQTT_Base
 from msb.mqtt.config import MQTTconf
 
 
@@ -61,7 +61,7 @@ def test_mqtt_node():
 
 @pytest.mark.skip
 def test_zmq_to_mqtt_loop():
-    from msb.mqtt.msb_mqtt import MQTT_Publisher
+    from msb.mqtt.publisher import MQTT_Publisher
     from msb.zmq_base import get_default_subscriber
 
     config = setup_config()
