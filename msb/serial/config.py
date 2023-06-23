@@ -10,3 +10,4 @@ class FugroSerialConfig(MSBConf):
     baudrate: int = 9600
     bytesize: int = 8
     parity: int = 1
+    encoding: str = "ascii"
