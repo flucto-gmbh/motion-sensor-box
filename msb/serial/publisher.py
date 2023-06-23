@@ -1,3 +1,4 @@
+from __future__ import annotations
 import serial
 
 from msb.serial.config import FugroSerialConfig
