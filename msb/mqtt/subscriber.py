@@ -1,5 +1,6 @@
 from time import sleep
 
+from msb.config import load_config
 from msb.mqtt.mqtt_base import MQTT_Base
 from msb.mqtt.config import MQTTconf
 from msb.mqtt.packer import unpacker_factory
@@ -83,3 +84,14 @@ class MQTT_Subscriber(MQTT_Base):
         if self.config.verbose:
             print(f"Topic: {message.topic}")
             print(f"MQTT message: {message.payload.decode()}")
+
+
+def get_default_subscriber(topic: bytes | str) -> MQTT_Subscriber:
+    import os
+    if "MSB_CONFIG_DIR" in os.environ:
+        print("loading zmq config")
+        config = load_config(MQTTconf(), "mqtt", read_commandline=False)
+    else:
+        print("using default zmq config")
+        config = MQTTconf()
+    return MQTT_Subscriber(topic, config)
