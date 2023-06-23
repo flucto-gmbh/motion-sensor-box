@@ -2,6 +2,7 @@ from msb.zmq_base.Subscriber import get_default_subscriber
 from msb.mqtt.config import MQTTconf
 from msb.config import load_config
 from msb.mqtt.forwarder import ZMQ_to_MQTT_Forwarder as Forwarder
+from msb.mqtt.publisher import MQTT_Publisher, get_default_publisher
 
 
 def main():
@@ -9,5 +10,7 @@ def main():
     for topic in config.topics:
         print(f"Subscribing to {topic}")
     zmq_sub = get_default_subscriber([topic.encode() for topic in config.topics])
-    forwarder = Forwarder(config, zmq_sub)
+    mqtt_pub = get_default_publisher()
+
+    forwarder = Forwarder(config, subscriber=zmq_sub, publisher=mqtt_pub)
     forwarder.zmq_to_mqtt_loop()
