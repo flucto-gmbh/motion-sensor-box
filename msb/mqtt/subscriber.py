@@ -96,7 +96,7 @@ class MQTT_Subscriber(MQTT_Base):
             print(f"MQTT message: {message.payload.decode()}")
 
 
-def get_default_subscriber(topic: bytes | str) -> MQTT_Subscriber:
+def get_mqtt_subscriber(topic: bytes | str) -> MQTT_Subscriber:
     """
     Generate mqtt subscriber with configuration from yaml file,
     falls back to default values if no config is found
@@ -110,3 +110,13 @@ def get_default_subscriber(topic: bytes | str) -> MQTT_Subscriber:
         print("using default mqtt config")
         config = MQTTconf()
     return MQTT_Subscriber(topic, config)
+
+
+def get_default_subscriber(topic: bytes | str) -> MQTT_Subscriber:
+    """
+    Generate mqtt subscriber with configuration from yaml file,
+    falls back to default values if no config is found
+
+    Deprecated, use get_mqtt_subscriber(topic) instead.
+    """
+    return get_mqtt_subscriber(topic)

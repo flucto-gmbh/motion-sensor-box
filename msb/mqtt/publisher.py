@@ -32,7 +32,7 @@ class MQTT_Publisher(MQTT_Base):
         )
 
 
-def get_default_publisher() -> MQTT_Publisher:
+def get_mqtt_publisher() -> MQTT_Publisher:
     """
     Generate mqtt publisher with configuration from yaml file,
     falls back to default values if no config is found
@@ -46,3 +46,13 @@ def get_default_publisher() -> MQTT_Publisher:
         print("using default mqtt config")
         config = MQTTconf()
     return MQTT_Publisher(config)
+
+
+def get_default_publisher() -> MQTT_Publisher:
+    """
+    Generate mqtt publisher with configuration from yaml file,
+    falls back to default values if no config is found
+
+    Deprecated, use get_mqtt_publisher() instead
+    """
+    return get_mqtt_publisher()
