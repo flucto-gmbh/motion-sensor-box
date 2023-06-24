@@ -22,6 +22,13 @@ class MessageStack:
 
 
 class MQTT_Subscriber(MQTT_Base):
+    """
+    MQTT subscriber, wraps around ecplipse's paho mqtt client.
+    Network message loop is handled in a separated thread.
+
+    Incoming messages are saved as a stack when not processed via the receive() function.
+    """
+
     def __init__(self, topics, config: MQTTconf):
         super().__init__(config)
         self._message_stack = MessageStack()
@@ -37,7 +44,9 @@ class MQTT_Subscriber(MQTT_Base):
         self.client.subscribe(topic, self.config.qos)
 
     def _subscribe_multiple_topics(self, topics: list[bytes] | list[str]):
-        topics = [topic.decode() if isinstance(topic, bytes) else topic for topic in topics]
+        topics = [
+            topic.decode() if isinstance(topic, bytes) else topic for topic in topics
+        ]
         subscription_list = [(topic, self.config.qos) for topic in topics]
         if self.config.verbose:
             print(f"Subscribed to: {topics}")
@@ -55,7 +64,9 @@ class MQTT_Subscriber(MQTT_Base):
 
     def receive(self) -> tuple[bytes, dict]:
         """
-        reads a message from mqtt and returns it
+        Reads a message from mqtt and returns it
+
+        Messages are saved in a stack, if no message is available, this function blocks.
 
         Returns:
             tuple(topic: bytes, message: dict): the message received
@@ -76,10 +87,8 @@ class MQTT_Subscriber(MQTT_Base):
         message_returned = self.unpacker(mqtt_message.payload.decode())
         return (topic, message_returned)
 
+    # callback to add incoming messages onto stack
     def _on_message(self, client, userdata, message):
-        """
-        Callback on message, processes message and sends via ZMQ
-        """
         self._message_stack.push(message)
 
         if self.config.verbose:
@@ -88,11 +97,16 @@ class MQTT_Subscriber(MQTT_Base):
 
 
 def get_default_subscriber(topic: bytes | str) -> MQTT_Subscriber:
+    """
+    Generate mqtt subscriber with configuration from yaml file,
+    falls back to default values if no config is found
+    """
     import os
+
     if "MSB_CONFIG_DIR" in os.environ:
-        print("loading zmq config")
+        print("loading mqtt config")
         config = load_config(MQTTconf(), "mqtt", read_commandline=False)
     else:
-        print("using default zmq config")
+        print("using default mqtt config")
         config = MQTTconf()
     return MQTT_Subscriber(topic, config)

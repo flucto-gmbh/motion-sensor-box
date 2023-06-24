@@ -1,12 +1,18 @@
 from paho.mqtt import client as mqtt_client
 from msb.mqtt.packer import packer_factory
+from msb.mqtt.config import MQTTconf
 import ssl
-import json
 from time import sleep
 
 
 class MQTT_Base:
-    def __init__(self, config):
+    """
+    Wrapper around eclipse paho mqtt client.
+    Handles connection and callbacks.
+    Callbacks may be overwritten in subclasses.
+    """
+
+    def __init__(self, config: MQTTconf):
         self.config = config
         self.connect()
         self.select_packer()
@@ -29,11 +35,8 @@ class MQTT_Base:
 
         self.client.connect(self.config.broker, self.config.port)
 
-    """
-    How to get from python dicts to a serialized string for messaging.
-    Primarily used: json.dumps, but open for extension, e.g. pickle
-    """
-
+    # How to get from python dicts to a serialized string for messaging.
+    # Primarily used: json.dumps, but open for extension, e.g. pickle
     def select_packer(self):
         self._packer = packer_factory(self.config.packstyle)
 
@@ -46,6 +49,8 @@ class MQTT_Base:
             print(f"MQTT node connected to {self.config.broker}:{self.config.port}")
         else:
             print("Connection failed!")
+        if self.config.verbose:
+            print(flags)
 
     def _on_disconnect(self, client, userdata, return_code):
         print(f"Disconnected from broker with return code {return_code}")
@@ -57,7 +62,7 @@ class MQTT_Base:
 
     def _on_publish(self, client, userdata, message_id):
         if self.config.verbose:
-            print(f"Published message with id {message_id}")
+            print(f"Published message with id {message_id}, qos={self.config.qos}")
 
     def _on_message(self, client, userdata, message):
         if self.config.verbose:
