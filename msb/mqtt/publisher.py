@@ -1,3 +1,4 @@
+from __future__ import annotations
 from msb.mqtt.mqtt_base import MQTT_Base
 from msb.mqtt.packer import packer_factory
 from msb.mqtt.config import MQTTconf
@@ -16,7 +17,7 @@ class MQTT_Publisher(MQTT_Base):
         super().__init__(config)
         self.pack = packer_factory(config.packstyle)
 
-    def send(self, topic: str, data: dict):
+    def send(self, topic: str | bytes, data: dict):
         """
         Takes python dictionary, serializes it according to the packstyle
         and sends it to the broker.
