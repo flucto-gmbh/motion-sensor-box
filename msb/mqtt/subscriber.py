@@ -8,14 +8,26 @@ from msb.mqtt.packer import unpacker_factory
 
 
 class MessageStack:
-    def __init__(self):
+    """
+    FIFO stack for incoming MQTT messages.
+    """
+    def __init__(self, max_size):
         self._container = list()
+        self._max_size = max_size
 
     def push(self, message):
+        """
+        Add new message, remove oldest message if max_size is exceeded.
+        """
         self._container.append(message)
+        if len(self._container) > self._max_size:
+            self._container.pop(0)
 
     def pop(self):
-        return self._container.pop()
+        """
+        Return oldest saved item.
+        """
+        return self._container.pop(0)
 
     def __len__(self):
         return len(self._container)
@@ -31,7 +43,7 @@ class MQTT_Subscriber(MQTT_Base):
 
     def __init__(self, topics, config: MQTTconf):
         super().__init__(config)
-        self._message_stack = MessageStack()
+        self._message_stack = MessageStack(max_size=self.config.max_saved_messages)
         self.subscribe(topics)
         self.client.on_message = self._on_message
         self.unpacker = unpacker_factory(config.packstyle)

@@ -18,3 +18,4 @@ class MQTTconf(MSBConf):
     topics: list[bytes] = ([],)
     mapping: str = "/msb/"
     packstyle: str = "json"
+    max_saved_messages: int = 100
