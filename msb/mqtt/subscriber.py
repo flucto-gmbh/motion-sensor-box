@@ -83,15 +83,14 @@ class MQTT_Subscriber(MQTT_Base):
         Returns:
             tuple(topic: bytes, message: dict): the message received
         """
-        # retries = 0
+        timeout = 0
+        blocking_time = 0.01
 
         while len(self._message_stack) == 0:
-            sleep(0.01)
-
-            # Is this a good idea?
-            # retries += 1
-            # if retries > 1000:
-            #     raise TimeoutError("No message received")
+            sleep(blocking_time)
+            timeout += blocking_time
+            if timeout > self.config.timeout_s:
+                raise TimeoutError("No message received")
 
         mqtt_message = self._message_stack.pop()
 

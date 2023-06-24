@@ -19,3 +19,4 @@ class MQTTconf(MSBConf):
     mapping: str = "/msb/"
     packstyle: str = "json"
     max_saved_messages: int = 100
+    timeout_s: int = 60
