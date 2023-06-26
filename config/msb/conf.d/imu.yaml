@@ -1,14 +1,9 @@
 verbose         : false     # print debugging information
 print_stdout    : false     # print data to stdout
-topic           : "imu"
-i2c_bus_num     : 1
-i2c_address     : 104
 sample_rate_divisor : 31        # output data rate (odr) is calculated like this: odr = 1125 / (1 + sample_rate_div)
-acc_filter      : "dlpf_473" # available filters: dlpf_off, dlpf_246, dlpf_111.4, dlpf_50.4, dlpf_23.9, dlpf_11.5, dlpf_5.7, dlpf_473
-gyr_filter      : "dlpf_361.4" # available filters: dlpf_off, dlpf_196.6, dlpf_151.8, dlpf_119.5, dlpf_51.2, dlpf_23.9, dlpf_11.6, dlpf_5.7, dlpf_361.4
+acc_filter      : "dlpf_5.7" # available filters: dlpf_off, dlpf_246, dlpf_111.4, dlpf_50.4, dlpf_23.9, dlpf_11.5, dlpf_5.7, dlpf_473
+gyr_filter      : "dlpf_5.7" # available filters: dlpf_off, dlpf_196.6, dlpf_151.8, dlpf_119.5, dlpf_51.2, dlpf_23.9, dlpf_11.6, dlpf_5.7, dlpf_361.4
 acc_sensitivity : "2g"      # acceleration sensitivity options are 2g, 4g, 8g, 16g
 gyr_sensitivity : "250dps"  # gyroscope sensitivity options are 250dps, 500dps, 1000dps, 200dps
-precision       : 4         # The number decimal places measurement values are rounded to
-polling         : false     # Whether to poll data, if true data is polled from IMU, if false interrupts are used instead
-
-
+precision       : 6
+polling         : false
