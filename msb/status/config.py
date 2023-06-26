@@ -2,7 +2,7 @@ from msb.config import MSBConf
 
 
 class StatusConf(MSBConf):
-    topic: bytes = b"status"
+    topic: bytes = b"sta"
     seconds_between_updates: float = 10.0
 
     get_uptime: bool = True
