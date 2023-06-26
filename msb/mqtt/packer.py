@@ -13,3 +13,11 @@ def packer_factory(style):
         return packstyles[style]
     else:
         return packstyles["default"]
+
+
+def unpacker_factory(style):
+    packstyles = {"json": json.loads, "default": json.loads}
+    if style in packstyles:
+        return packstyles[style]
+    else:
+        return packstyles["default"]
