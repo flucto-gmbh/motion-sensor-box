@@ -1,5 +1,6 @@
 from __future__ import annotations
 from time import sleep
+from threading import Lock
 
 from msb.config import load_config
 from msb.mqtt.mqtt_base import MQTT_Base
@@ -47,6 +48,7 @@ class MQTT_Subscriber(MQTT_Base):
         self.subscribe(topics)
         self.client.on_message = self._on_message
         self.unpacker = unpacker_factory(config.packstyle)
+        self._lock = Lock()
 
     def _subscribe_single_topic(self, topic: bytes | str):
         if isinstance(topic, bytes):
@@ -92,7 +94,8 @@ class MQTT_Subscriber(MQTT_Base):
             if timeout > self.config.timeout_s:
                 raise TimeoutError("No message received")
 
-        mqtt_message = self._message_stack.pop()
+        with self._lock:
+            mqtt_message = self._message_stack.pop()
 
         topic = mqtt_message.topic.encode("utf-8")
         message_returned = self.unpacker(mqtt_message.payload.decode())
@@ -100,7 +103,8 @@ class MQTT_Subscriber(MQTT_Base):
 
     # callback to add incoming messages onto stack
     def _on_message(self, client, userdata, message):
-        self._message_stack.push(message)
+        with self._lock:
+            self._message_stack.push(message)
 
         if self.config.verbose:
             print(f"Topic: {message.topic}")
