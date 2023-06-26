@@ -40,7 +40,9 @@ def get_new_fhandle(timestamp: datetime.datetime, config: CameraConf) -> str:
         except Exception as e:
             print(f"failed to create output directory: {config.video_dir}")
             sys.exit()
-    return os.path.join(config.video_dir, f"{ts_str}_{config.serial_number.lower()}.h264")
+    return os.path.join(
+        config.video_dir, f"{ts_str}_{config.serial_number.lower()}.h264"
+    )
 
 
 def apply_timestamp(request):
@@ -58,7 +60,7 @@ def setup_camera(config: CameraConf):
     camera.configure(
         camera.create_video_configuration(main={"size": (config.width, config.height)})
     )
-    camera.video_configuration.controls['FrameRate'] = config.fps
+    camera.video_configuration.controls["FrameRate"] = config.fps
     camera.pre_callback = apply_timestamp
     return camera
 
