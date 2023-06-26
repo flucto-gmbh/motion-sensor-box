@@ -1,6 +1,8 @@
+from dataclasses import dataclass
 from msb.config.MSBConfig import MSBConf
 
 
+@dataclass
 class CameraConf(MSBConf):
     topic: bytes = b"cam"
     fps: int = 10
