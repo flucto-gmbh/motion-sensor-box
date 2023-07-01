@@ -36,8 +36,8 @@ def get_default_publisher() -> ZMQ_Publisher:
     import os
     if "MSB_CONFIG_DIR" in os.environ:
         print("loading zmq config")
-        config = load_config(PublisherSubscriberConf(), "zmq", read_commandline=False)
+        config = load_config(ZMQConf(), "zmq", read_commandline=False)
     else:
         print("using default zmq config")
-        config = PublisherSubscriberConf()
+        config = ZMQConf()
     return ZMQ_Publisher(config)
