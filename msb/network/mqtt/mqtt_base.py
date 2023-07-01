@@ -1,6 +1,6 @@
 from paho.mqtt import client as mqtt_client
-from msb.mqtt.packer import packer_factory
-from msb.mqtt.config import MQTTconf
+from .packer import packer_factory
+from .config import MQTTconf
 import ssl
 from time import sleep
 

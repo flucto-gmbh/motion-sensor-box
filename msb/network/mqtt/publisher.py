@@ -1,7 +1,7 @@
 from __future__ import annotations
-from msb.mqtt.mqtt_base import MQTT_Base
-from msb.mqtt.packer import packer_factory
-from msb.mqtt.config import MQTTconf
+from .mqtt_base import MQTT_Base
+from .packer import packer_factory
+from .config import MQTTconf
 from msb.config import load_config
 
 

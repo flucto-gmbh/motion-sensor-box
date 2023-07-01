@@ -3,9 +3,9 @@ from time import sleep
 from threading import Lock
 
 from msb.config import load_config
-from msb.mqtt.mqtt_base import MQTT_Base
-from msb.mqtt.config import MQTTconf
-from msb.mqtt.packer import unpacker_factory
+from .mqtt_base import MQTT_Base
+from .config import MQTTconf
+from .packer import unpacker_factory
 
 
 class MessageStack:
