@@ -2,27 +2,24 @@ import zmq
 import sys
 import json
 
-from msb.zmq_base.config import PublisherSubscriberConf
+from .config import ZMQConf
 from msb.config import load_config
 
 
-class Publisher:
-    def __init__(self, config: PublisherSubscriberConf):
+class ZMQ_Publisher:
+    def __init__(self, config: ZMQConf):
         self.config = config
 
         self.context = zmq.Context.instance()
         self.socket = self.context.socket(zmq.PUB)
 
-        # Possible to add a switch via config here
-        # self.packer = pickle
         self.packer = json
         self.connect()
 
     def connect(self):
         try:
             # print(f"Connecting to { self.config.producer_connection }")
-            self.socket.connect(self.config.producer_connection)
-            # self.socket.bind(connect_to)
+            self.socket.connect(self.config.publisher_address)
         except Exception as e:
             print(f"failed to bind to zeromq socket: {e}")
             sys.exit(-1)
@@ -35,7 +32,7 @@ class Publisher:
         self.socket.close()
 
 
-def get_default_publisher() -> Publisher:
+def get_default_publisher() -> ZMQ_Publisher:
     import os
     if "MSB_CONFIG_DIR" in os.environ:
         print("loading zmq config")
@@ -43,4 +40,4 @@ def get_default_publisher() -> Publisher:
     else:
         print("using default zmq config")
         config = PublisherSubscriberConf()
-    return Publisher(config)
+    return ZMQ_Publisher(config)

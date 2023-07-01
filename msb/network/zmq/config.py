@@ -16,16 +16,3 @@ class ZMQConf(MSBConf):
     @property
     def subscriber_address(self):
         return f"{self.protocol}://{self.interface}:{self.subscriber_port}"
-
-
-@dataclass
-class PublisherSubscriberConf(ZMQConf):
-    packer: str = "json"
-
-    @property
-    def producer_connection(self):  # TODO rename/use publisher_address
-        return f"{self.protocol}://{self.interface}:{self.publisher_port}"
-
-    @property
-    def consumer_connection(self):  # TODO rename/use subscriber_address
-        return f"{self.protocol}://{self.interface}:{self.subscriber_port}"

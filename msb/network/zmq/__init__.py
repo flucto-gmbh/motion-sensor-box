@@ -1,2 +1,2 @@
-from msb.zmq_base.Publisher import Publisher, get_default_publisher
-from msb.zmq_base.Subscriber import Subscriber, get_default_subscriber
+from .ZMQ_Publisher import ZMQ_Publisher, get_default_publisher
+from .ZMQ_Subscriber import ZMQ_Subscriber, get_default_subscriber

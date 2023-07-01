@@ -3,12 +3,12 @@ import zmq
 import json
 import sys
 
-from msb.zmq_base.config import PublisherSubscriberConf
+from .config import ZMQConf
 from msb.config import load_config
 
 
-class Subscriber:
-    def __init__(self, topic: bytes, config: PublisherSubscriberConf):
+class ZMQ_Subscriber:
+    def __init__(self, topic: bytes, config: ZMQConf):
         self.config = config
 
         self.context = zmq.Context.instance()
@@ -23,8 +23,7 @@ class Subscriber:
     def connect(self):
         try:
             # print(f"Connecting to { self.config.consumer_connection }")
-            self.socket.connect(self.config.consumer_connection)
-            # self.socket.bind(connect_to)
+            self.socket.connect(self.config.subscriber_address)
         except Exception as e:
             print(f"failed to bind to zeromq socket: {e}")
             sys.exit(-1)
@@ -57,12 +56,12 @@ class Subscriber:
         self.socket.close()
 
 
-def get_default_subscriber(topic: bytes) -> Subscriber:
+def get_default_subscriber(topic: bytes) -> ZMQ_Subscriber:
     import os
     if "MSB_CONFIG_DIR" in os.environ:
         print("loading zmq config")
-        config = load_config(PublisherSubscriberConf(), "zmq", read_commandline=False)
+        config = load_config(ZMQConf(), "zmq", read_commandline=False)
     else:
         print("using default zmq config")
-        config = PublisherSubscriberConf()
-    return Subscriber(topic, config)
+        config = ZMQConf()
+    return ZMQ_Subscriber(topic, config)
