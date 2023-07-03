@@ -3,9 +3,10 @@ from .mqtt_base import MQTT_Base
 from .packer import packer_factory
 from .config import MQTTConf
 from msb.config import load_config
+from msb.network.pubsub import Publisher
 
 
-class MQTT_Publisher(MQTT_Base):
+class MQTT_Publisher(MQTT_Base, Publisher):
     """
     MQTT publisher class.
     Can be used everywhere that a flucto style publishing connection is required.

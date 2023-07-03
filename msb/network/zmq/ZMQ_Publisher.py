@@ -4,9 +4,10 @@ import json
 
 from .config import ZMQConf
 from msb.config import load_config
+from msb.network.pubsub import Publisher
 
 
-class ZMQ_Publisher:
+class ZMQ_Publisher(Publisher):
     def __init__(self, config: ZMQConf):
         self.config = config
 

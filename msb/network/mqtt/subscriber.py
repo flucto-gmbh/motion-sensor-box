@@ -3,13 +3,14 @@ from time import sleep
 from threading import Lock
 from queue import SimpleQueue
 
+from msb.network.pubsub import Subscriber
 from msb.config import load_config
 from .mqtt_base import MQTT_Base
 from .config import MQTTConf
 from .packer import unpacker_factory
 
 
-class MQTT_Subscriber(MQTT_Base):
+class MQTT_Subscriber(MQTT_Base, Subscriber):
     """
     MQTT subscriber, wraps around ecplipse's paho mqtt client.
     Network message loop is handled in a separated thread.
