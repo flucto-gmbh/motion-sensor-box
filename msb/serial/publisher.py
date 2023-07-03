@@ -51,7 +51,6 @@ def serial_packer(input_dict) -> bytes:
 
 
 class SerialPublisher:
-
     def __init__(self, config: FugroSerialConfig):
         self.config = config
         self.packer = serial_packer
@@ -93,6 +92,7 @@ class SerialForwarder:
     """
     Wait for message and forward
     """
+
     def forward_message(self):
         collected = {}
         for sub in self.subs:
@@ -105,18 +105,7 @@ class SerialForwarder:
     """
     Enter loop and continuously forward messages
     """
+
     def sub_pub_loop(self):
         while True:
             self.forward_message()
-
-
-def main():
-    subscriber_opt = get_mqtt_subscriber("/+/opt")
-    subscriber_rpy = get_mqtt_subscriber("/+/rpy")
-    serial_config = load_config(
-        FugroSerialConfig(), "fugro-config", read_commandline=False
-    )
-    publisher = SerialPublisher(serial_config)
-
-    forwarder = SerialForwarder([subscriber_opt, subscriber_rpy], publisher)
-    forwarder.sub_pub_loop()
