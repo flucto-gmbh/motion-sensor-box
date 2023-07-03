@@ -1,7 +1,7 @@
 from __future__ import annotations
 from .mqtt_base import MQTT_Base
 from .packer import packer_factory
-from .config import MQTTconf
+from .config import MQTTConf
 from msb.config import load_config
 
 
@@ -13,7 +13,7 @@ class MQTT_Publisher(MQTT_Base):
     Network message loop is handled in a separated thread.
     """
 
-    def __init__(self, config: MQTTconf):
+    def __init__(self, config: MQTTConf):
         super().__init__(config)
         self.pack = packer_factory(config.packstyle)
 
@@ -42,10 +42,10 @@ def get_mqtt_publisher() -> MQTT_Publisher:
 
     if "MSB_CONFIG_DIR" in os.environ:
         print("loading mqtt config")
-        config = load_config(MQTTconf(), "mqtt", read_commandline=False)
+        config = load_config(MQTTConf(), "mqtt", read_commandline=False)
     else:
         print("using default mqtt config")
-        config = MQTTconf()
+        config = MQTTConf()
     return MQTT_Publisher(config)
 
 

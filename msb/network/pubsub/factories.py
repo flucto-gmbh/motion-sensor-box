@@ -1,7 +1,8 @@
 import os
 
-from msb.network import MQTT_Publisher, MQTTConf
-from msb.network import ZMQ_Publisher, ZMQConf
+from msb.network.mqtt import MQTT_Publisher, MQTTConf
+from msb.network.zmq import ZMQ_Publisher
+from msb.network.zmq.config import ZMQConf
 from msb.config import load_config
 
 _registered_publishers = {}
@@ -11,7 +12,7 @@ def publisher_factory(pub_name: str, conf=None):
     if pub_name not in _registered_publishers:
         raise KeyError(f"{pub_name} is not a registered Publisher.")
 
-    pub_cls, conf_cls = _registered_publishers["name"]
+    pub_cls, conf_cls = _registered_publishers[pub_name]
 
     if "MSB_CONFIG_DIR" in os.environ:
         print(f"loading {pub_name} config")

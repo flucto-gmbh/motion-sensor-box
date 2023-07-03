@@ -1,6 +1,6 @@
 from paho.mqtt import client as mqtt_client
 from .packer import packer_factory
-from .config import MQTTconf
+from .config import MQTTConf
 import ssl
 from time import sleep
 
@@ -12,7 +12,7 @@ class MQTT_Base:
     Callbacks may be overwritten in subclasses.
     """
 
-    def __init__(self, config: MQTTconf):
+    def __init__(self, config: MQTTConf):
         self.config = config
         self.connect()
         self.select_packer()

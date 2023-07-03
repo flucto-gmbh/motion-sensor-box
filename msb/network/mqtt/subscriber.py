@@ -5,7 +5,7 @@ from queue import SimpleQueue
 
 from msb.config import load_config
 from .mqtt_base import MQTT_Base
-from .config import MQTTconf
+from .config import MQTTConf
 from .packer import unpacker_factory
 
 
@@ -17,7 +17,7 @@ class MQTT_Subscriber(MQTT_Base):
     Incoming messages are saved as a stack when not processed via the receive() function.
     """
 
-    def __init__(self, topics, config: MQTTconf):
+    def __init__(self, topics, config: MQTTConf):
         super().__init__(config)
         self._message_queue = SimpleQueue(max_size=self.config.max_saved_messages)
         self.subscribe(topics)
@@ -85,10 +85,10 @@ def get_mqtt_subscriber(topic: bytes | str) -> MQTT_Subscriber:
 
     if "MSB_CONFIG_DIR" in os.environ:
         print("loading mqtt config")
-        config = load_config(MQTTconf(), "mqtt", read_commandline=False)
+        config = load_config(MQTTConf(), "mqtt", read_commandline=False)
     else:
         print("using default mqtt config")
-        config = MQTTconf()
+        config = MQTTConf()
     return MQTT_Subscriber(topic, config)
 
 

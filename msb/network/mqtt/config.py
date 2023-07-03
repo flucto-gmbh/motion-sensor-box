@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 
 @dataclass
-class MQTTconf(MSBConf):
+class MQTTConf(MSBConf):
     """
     MQTT configuration class.
     """
