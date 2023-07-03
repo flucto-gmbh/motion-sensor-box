@@ -1,6 +1,8 @@
 from __future__ import annotations
+from time import timezone
 import serial
 from serial import Serial
+import datetime
 
 from msb.serial.config import FugroSerialConfig
 from msb.mqtt.subscriber import MQTT_Subscriber
@@ -29,24 +31,21 @@ def pad(n_pre, n_post, string):
 
 
 # timestamp,abs_pile_velocity,rel_pile_velocity,vessel_roll,vessel_pitch,vessel_yaw,pile_distance_travelled
+# str(localtime), mm/min, mm/min, deg, deg, deg, m
+# 1 Hz downsample
 # 1685854601.000000,0.010,0.020,0.100,0.010,0.004,1.200
 def serial_packer(input_dict) -> bytes:
-    ts = pad(10, 6, input_dict["epoch"])
-    ap = pad(1, 3, input_dict["velocity_x"] * 6e4)
-    rp = pad(1, 3, input_dict["distance_x"] * 6e4)
-    roll = pad(1, 3, input_dict["roll"])
-    pitch = pad(1, 3, input_dict["pitch"])
-    yaw = pad(1, 3, input_dict["yaw"])
-    dist = pad(1, 3, input_dict["sum_distance_x"])
-    # ts = pad(10, 6, input_dict["epoch"])
-    # ap = pad(1, 3, input_dict["abs_pile_velocity"])
-    # rp = pad(1, 3, input_dict["rel_pile_velocity"])
-    # roll = pad(1, 3, input_dict["vessel_roll"])
-    # pitch = pad(1, 3, input_dict["vessel_pitch"])
-    # yaw = pad(1, 3, input_dict["vessel_yaw"])
-    # dist = pad(1, 3, input_dict["pile_distance_travelled"])
+    ts = input_dict["epoch"]
+    ap = input_dict["velocity_x"]
+    rp = input_dict["distance_x"]
+    roll = input_dict["roll"]
+    pitch = input_dict["pitch"]
+    yaw = input_dict["yaw"]
+    dist = input_dict["sum_distance_x"]
 
-    return f"{ts},{ap},{rp},{roll},{pitch},{yaw},{dist}"
+    ts = datetime.datetime.fromtimestamp(ts, tz=datetime.timezone(datetime.timedelta(hours=8))).strftime("%Y%m%dT%H%M%SZ+08:00")
+
+    return f"{ts},{ap},{rp},{roll},{pitch},{yaw},{dist}\n"
     # return f"{ts:10.6f},{ap:1.3f},{rp:1.3f},{roll:1.3f},{pitch:1.3f},{yaw:1.3f},{dist:1.3f}"
 
 
