@@ -5,9 +5,10 @@ import sys
 
 from .config import ZMQConf
 from msb.config import load_config
+from msb.network.pubsub.types import Subscriber
 
 
-class ZMQ_Subscriber:
+class ZMQ_Subscriber(Subscriber):
     def __init__(self, topic: bytes, config: ZMQConf):
         self.config = config
 

@@ -1,20 +1,22 @@
 import os
 
-from msb.network.pubsub import Publisher, Subscriber
-from msb.network.mqtt import MQTT_Publisher, MQTTConf
-from msb.network.zmq import ZMQ_Publisher
-from msb.network.zmq.config import ZMQConf
+from .types import Publisher, Subscriber
+from msb.network.mqtt import MQTT_Publisher, MQTT_Subscriber, MQTTConf
+from msb.network.zmq import ZMQ_Publisher, ZMQ_Subscriber, ZMQConf
 from msb.config import load_config
 
 _registered_publishers = {}
 _registered_subscribers = {}
 
 
-def general_factory(registry: dict, name: str, conf=None):
+# def general_factory(registry: dict, name: str, config=None):
+
+
+def publisher_factory(name: str):
     if name not in _registered_publishers:
         raise KeyError(f"{name} is not a registered Publisher.")
 
-    pub_cls, conf_cls = registry[name]
+    pub_cls, conf_cls = _registered_publishers[name]
 
     if "MSB_CONFIG_DIR" in os.environ:
         print(f"loading {name} config")
@@ -24,14 +26,23 @@ def general_factory(registry: dict, name: str, conf=None):
         config = conf_cls()
 
     return pub_cls(config)
+    # return general_factory(_registered_publishers, pub_name)
 
 
-def publisher_factory(pub_name: str, conf=None):
-    return general_factory(_registered_publishers, pub_name, conf)
+def subscriber_factory(name: str, topic):
+    if name not in _registered_publishers:
+        raise KeyError(f"{name} is not a registered Subscriber.")
 
+    pub_cls, conf_cls = _registered_subscribers[name]
 
-def subscriber_factory(sub_name: str, conf=None):
-    return general_factory(_registered_subscribers, sub_name, conf)
+    if "MSB_CONFIG_DIR" in os.environ:
+        print(f"loading {name} config")
+        config = load_config(conf_cls(), name, read_commandline=False)
+    else:
+        print(f"using default {name} config")
+        config = conf_cls()
+
+    return pub_cls(config, topic)
 
 
 def register_publisher(name, publisher_class: Publisher, config):
@@ -45,6 +56,8 @@ def register_subscriber(name, subscriber_class: Subscriber, config):
 register_publisher("zmq", ZMQ_Publisher, ZMQConf)
 register_publisher("mqtt", MQTT_Publisher, MQTTConf)
 
+register_subscriber("zmq", ZMQ_Subscriber, ZMQConf)
+register_subscriber("mqtt", MQTT_Subscriber, MQTTConf)
 # TODO: Add tuples as names, i.e. register_publisher(("interpolated", "mqtt"))
 
 # register_publisher("udp", UDP_Publisher)

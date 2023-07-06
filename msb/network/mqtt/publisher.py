@@ -3,7 +3,7 @@ from .mqtt_base import MQTT_Base
 from .packer import packer_factory
 from .config import MQTTConf
 from msb.config import load_config
-from msb.network.pubsub import Publisher
+from msb.network.pubsub.types import Publisher
 
 
 class MQTT_Publisher(MQTT_Base, Publisher):

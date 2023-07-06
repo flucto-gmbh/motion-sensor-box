@@ -4,7 +4,7 @@ import json
 
 from .config import ZMQConf
 from msb.config import load_config
-from msb.network.pubsub import Publisher
+from msb.network.pubsub.types import Publisher
 
 
 class ZMQ_Publisher(Publisher):

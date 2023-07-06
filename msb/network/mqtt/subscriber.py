@@ -3,7 +3,7 @@ from time import sleep
 from threading import Lock
 from queue import SimpleQueue
 
-from msb.network.pubsub import Subscriber
+from msb.network.pubsub.types import Subscriber
 from msb.config import load_config
 from .mqtt_base import MQTT_Base
 from .config import MQTTConf
@@ -20,7 +20,7 @@ class MQTT_Subscriber(MQTT_Base, Subscriber):
 
     def __init__(self, topics, config: MQTTConf):
         super().__init__(config)
-        self._message_queue = SimpleQueue(max_size=self.config.max_saved_messages)
+        self._message_queue = SimpleQueue()
         self.subscribe(topics)
         self.client.on_message = self._on_message
         self.unpacker = unpacker_factory(config.packstyle)

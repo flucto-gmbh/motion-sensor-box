@@ -18,7 +18,7 @@ class Subscriber(ABC):
     Subscriber interface
     """
     @abstractmethod
-    def receive(self) -> tuple(bytes, dict):
+    def receive(self) -> tuple[bytes, dict]:
         """
         Blocking function to receive data from the implemented input stream.
 
