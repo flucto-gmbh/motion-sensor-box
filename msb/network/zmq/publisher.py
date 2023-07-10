@@ -19,7 +19,6 @@ class ZMQ_Publisher(Publisher):
 
     def connect(self):
         try:
-            # print(f"Connecting to { self.config.producer_connection }")
             self.socket.connect(self.config.publisher_address)
         except Exception as e:
             print(f"failed to bind to zeromq socket: {e}")
