@@ -1,5 +1,4 @@
 from paho.mqtt import client as mqtt_client
-from msb.network.packer import packer_factory
 from .config import MQTTConf
 import ssl
 import sys
@@ -15,7 +14,6 @@ class MQTT_Base:
     def __init__(self, config: MQTTConf):
         self.config = config
         self.connect()
-        self.select_packer()
         self.client.loop_start()
 
     def connect(self):
@@ -34,14 +32,6 @@ class MQTT_Base:
             self.client.tls_set(tls_version=ssl.PROTOCOL_TLS_CLIENT)
 
         self.client.connect(self.config.broker, self.config.port)
-
-    # How to get from python dicts to a serialized string for messaging.
-    # Primarily used: json.dumps, but open for extension, e.g. pickle
-    def select_packer(self):
-        self._packer = packer_factory(self.config.packstyle)
-
-    def pack(self, data):
-        return self._packer(data)
 
     # MQTT callbacks
     def _on_connect(self, client, userdata, flags, return_code):
