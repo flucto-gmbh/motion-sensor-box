@@ -1,6 +1,4 @@
 from __future__ import annotations
-from time import sleep
-from threading import Lock
 from queue import SimpleQueue
 
 from msb.network.pubsub.types import Subscriber

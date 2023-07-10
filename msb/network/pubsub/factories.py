@@ -9,10 +9,7 @@ _registered_publishers = {}
 _registered_subscribers = {}
 
 
-# def general_factory(registry: dict, name: str, config=None):
-
-
-def publisher_factory(name: str):
+def get_publisher(name: str):
     if name not in _registered_publishers:
         raise KeyError(f"{name} is not a registered Publisher.")
 
@@ -29,11 +26,11 @@ def publisher_factory(name: str):
     # return general_factory(_registered_publishers, pub_name)
 
 
-def subscriber_factory(name: str, topic):
+def get_subscriber(name: str, topic):
     if name not in _registered_publishers:
         raise KeyError(f"{name} is not a registered Subscriber.")
 
-    pub_cls, conf_cls = _registered_subscribers[name]
+    sub_cls, conf_cls = _registered_subscribers[name]
 
     if "MSB_CONFIG_DIR" in os.environ:
         print(f"loading {name} config")
@@ -42,7 +39,7 @@ def subscriber_factory(name: str, topic):
         print(f"using default {name} config")
         config = conf_cls()
 
-    return pub_cls(config, topic)
+    return sub_cls(topic, config)
 
 
 def register_publisher(name, publisher_class: Publisher, config):

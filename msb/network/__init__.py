@@ -1,3 +1,3 @@
-from .pubsub.factories import publisher_factory, subscriber_factory
+from .pubsub.factories import get_publisher, get_subscriber
 
 
