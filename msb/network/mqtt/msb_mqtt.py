@@ -1,16 +1,17 @@
-from msb.zmq_base.Subscriber import get_default_subscriber
-from msb.mqtt.config import MQTTconf
+from msb.network import get_subscriber, get_publisher
 from msb.config import load_config
-from msb.mqtt.forwarder import ZMQ_to_MQTT_Forwarder as Forwarder
-from msb.mqtt.publisher import MQTT_Publisher, get_default_publisher
+from .config import MQTTconf
+from .forwarder import ZMQ_to_MQTT_Forwarder
 
 
 def main():
     config = load_config(MQTTconf(), "mqtt")
     for topic in config.topics:
         print(f"Subscribing to {topic}")
-    zmq_sub = get_default_subscriber([topic.encode() for topic in config.topics])
-    mqtt_pub = get_default_publisher()
 
-    forwarder = Forwarder(config, subscriber=zmq_sub, publisher=mqtt_pub)
+    zmq_sub = get_subscriber("zmq", [topic for topic in config.topics])
+    mqtt_pub = get_publisher("mqtt")
+    forwarder = ZMQ_to_MQTT_Forwarder(config, subscriber=zmq_sub, publisher=mqtt_pub)
+
+    # Wait for zmq messages, publish as mqtt message
     forwarder.zmq_to_mqtt_loop()

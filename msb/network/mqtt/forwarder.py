@@ -1,13 +1,13 @@
-from .mqtt_base import MQTT_Base
 from .config import MQTTconf
 from .publisher import MQTT_Publisher
 from msb.network import ZMQ_Subscriber
 
 
 class ZMQ_to_MQTT_Forwarder:
-    def __init__(self, subscriber: ZMQ_Subscriber, publisher: MQTT_Publisher):
+    def __init__(self, config: MQTTconf, subscriber: ZMQ_Subscriber, publisher: MQTT_Publisher):
         self.subscriber = subscriber
         self.publisher = publisher
+        self.config = config
 
     def _zmq_to_mqtt(self):
         # This is blocking

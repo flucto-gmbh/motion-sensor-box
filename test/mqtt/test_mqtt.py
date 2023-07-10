@@ -3,8 +3,8 @@ import paho.mqtt.client as mqtt_client
 import time
 import ssl
 
-from msb.mqtt.mqtt_base import MQTT_Base
-from msb.mqtt.config import MQTTconf
+from msb.network.mqtt.mqtt_base import MQTT_Base
+from msb.network.mqtt.config import MQTTconf
 
 
 def packer_func(data):

@@ -1,6 +1,6 @@
 from __future__ import annotations
 from .mqtt_base import MQTT_Base
-from .packer import packer_factory
+from msb.network.packer import get_packer
 from .config import MQTTConf
 from msb.config import load_config
 from msb.network.pubsub.types import Publisher
@@ -16,7 +16,7 @@ class MQTT_Publisher(MQTT_Base, Publisher):
 
     def __init__(self, config: MQTTConf):
         super().__init__(config)
-        self.pack = packer_factory(config.packstyle)
+        self.pack = get_packer(config.packstyle)
 
     def send(self, topic: str | bytes, data: dict):
         """

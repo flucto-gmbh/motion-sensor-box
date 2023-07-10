@@ -1,8 +1,8 @@
 from paho.mqtt import client as mqtt_client
-from .packer import packer_factory
+from msb.network.packer import packer_factory
 from .config import MQTTConf
 import ssl
-from time import sleep
+import sys
 
 
 class MQTT_Base:
@@ -55,10 +55,8 @@ class MQTT_Base:
     def _on_disconnect(self, client, userdata, return_code):
         print(f"Disconnected from broker with return code {return_code}")
         if return_code != 0:
-            print("Trying to reconnect")
-            # Instead of hard-coding a stepped reconnect timer makes sense
-            sleep(1)
-            self.connect()
+            print("Killing this service")
+            sys.exit(-1)
 
     def _on_publish(self, client, userdata, message_id):
         if self.config.verbose:

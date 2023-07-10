@@ -5,7 +5,7 @@ from msb.network.pubsub.types import Subscriber
 from msb.config import load_config
 from .mqtt_base import MQTT_Base
 from .config import MQTTConf
-from .packer import unpacker_factory
+from msb.network.packer import get_unpacker
 
 
 class MQTT_Subscriber(MQTT_Base, Subscriber):
@@ -21,7 +21,7 @@ class MQTT_Subscriber(MQTT_Base, Subscriber):
         self._message_queue = SimpleQueue()
         self.subscribe(topics)
         self.client.on_message = self._on_message
-        self.unpacker = unpacker_factory(config.packstyle)
+        self.unpacker = get_unpacker(config.packstyle)
 
     def _subscribe_single_topic(self, topic: bytes | str):
         if isinstance(topic, bytes):
