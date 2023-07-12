@@ -1,7 +1,7 @@
 import pytest
 
 from msb.network.influxdb.config import InfluxDBConf
-from msb.network.influxdb.subscriber import FluxSubscriber, build_query
+from msb.network.influxdb.subscriber import Influx_Subscriber, build_query
 
 
 def test_influxdb_conf_default():
@@ -67,7 +67,7 @@ def test_query_builder():
 def test_subscriber():
     from datetime import datetime, timezone
     from msb.network.influxdb.config import InfluxDBConf
-    from msb.network.influxdb.subscriber import FluxSubscriber, build_query
+    from msb.network.influxdb.subscriber import Influx_Subscriber, build_query
     import json
 
     with open("token.txt", "r") as f:
@@ -91,7 +91,7 @@ def test_subscriber():
 
     query = build_query(options)
     print(query)
-    reader = FluxSubscriber(conf, query)
+    reader = Influx_Subscriber(conf, query)
 
     for d in reader:
         print(json.dumps(d, indent=2))
