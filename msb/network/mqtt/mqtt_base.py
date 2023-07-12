@@ -1,4 +1,4 @@
-from paho.mqtt import client as mqtt_client
+from paho.mqtt.client import Client as mqtt_client
 from .config import MQTTConf
 import ssl
 import sys
@@ -17,7 +17,7 @@ class MQTT_Base:
         self.client.loop_start()
 
     def connect(self):
-        self.client = mqtt_client.Client()
+        self.client = mqtt_client()
         self.client.username_pw_set(self.config.user, self.config.password)
 
         # Add callbacks

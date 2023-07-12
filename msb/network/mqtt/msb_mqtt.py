@@ -1,11 +1,11 @@
 from msb.network import get_subscriber, get_publisher
 from msb.config import load_config
-from .config import MQTTconf
+from .config import MQTTConf
 from .forwarder import ZMQ_to_MQTT_Forwarder
 
 
 def main():
-    config = load_config(MQTTconf(), "mqtt")
+    config = load_config(MQTTConf(), "mqtt")
     for topic in config.topics:
         print(f"Subscribing to {topic}")
 

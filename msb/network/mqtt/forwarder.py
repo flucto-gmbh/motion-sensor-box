@@ -1,10 +1,10 @@
-from .config import MQTTconf
+from .config import MQTTConf
 from .publisher import MQTT_Publisher
-from msb.network import ZMQ_Subscriber
+from msb.network.types import ZMQ_Subscriber
 
 
 class ZMQ_to_MQTT_Forwarder:
-    def __init__(self, config: MQTTconf, subscriber: ZMQ_Subscriber, publisher: MQTT_Publisher):
+    def __init__(self, config: MQTTConf, subscriber: ZMQ_Subscriber, publisher: MQTT_Publisher):
         self.subscriber = subscriber
         self.publisher = publisher
         self.config = config
