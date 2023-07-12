@@ -28,7 +28,7 @@ def build_query(options: dict) -> str:
     return query
 
 
-class FluxSubscriber:
+class Influx_Subscriber:
     def __init__(self, config: InfluxDBConf, query: str):
         self.config = config
         self.query = query
