@@ -70,11 +70,12 @@ def test_subscriber():
     from msb.network.influxdb.subscriber import Influx_Subscriber, build_query
     import json
 
+    # Need to create the respective file
     with open("token.txt", "r") as f:
         read_token = f.readline()
 
     conf = InfluxDBConf(
-        read_token=read_token,
+        all_access_token=read_token,
         org="flucto",
         host="192.168.1.122",
         bucket="yunlin",
@@ -95,3 +96,8 @@ def test_subscriber():
 
     for d in reader:
         print(json.dumps(d, indent=2))
+
+
+if __name__ == "__main__":
+    # test_subscriber()
+    pytest.main()

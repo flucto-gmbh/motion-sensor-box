@@ -43,9 +43,12 @@ class Influx_Subscriber:
         self.reader = self.client.query_api()
 
         self._run_query()
+        self.index = 0
 
     def receive(self) -> dict:
-        return next(self)
+        row = self.df.iloc[self.index].to_dict()
+        self.index += 1
+        return "influx", row
 
     def _run_query(self):
         self.df = self.reader.query_data_frame(self.query, org=self.config.org)
@@ -65,7 +68,7 @@ class Influx_Subscriber:
 
     def __iter__(self):
         for _, row in self.df.iterrows():
-            yield row.to_dict()
+            yield "influx", row.to_dict()
 
     def __next__(self):
         return self.__iter__().__next__()
