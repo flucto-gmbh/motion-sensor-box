@@ -23,7 +23,7 @@ class DewPointService:
         temp_rel_hum = temperature_and_rel_humidity()
         data["temperature"] = temp_rel_hum["temperature"]  # °C
         data["relative_humidity"] = temp_rel_hum["relative_humidity"]  # %
-        data["pressure"] = air_pressure()["pressure"]  # hPa
+        data["air_pressure"] = air_pressure()["air_pressure"]  # hPa
         data["dew_point"] = estimate_dew_point(
             data["temperature"], data["relative_humidity"]
         )
