@@ -24,7 +24,7 @@ temperature_and_rel_humidity = _make_temperature_and_rel_humidity()
 def _make_air_pressure():
     i2c = board.I2C()
     lps = LPS22(i2c, 0x5C)  # pressure sensor; I2C adress: 0x5C
-    lps.data_rate = Rate.LSP22_RATE_10_HZ
+    # lps.data_rate = Rate.LSP22_RATE_10_HZ
 
     def _air_pressure():
         return {"air_pressure": lps.pressure}
