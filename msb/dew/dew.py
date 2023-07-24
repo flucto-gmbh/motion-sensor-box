@@ -45,10 +45,9 @@ def _water_vapour_saturation_pressure(temperature):
     exponents = np.array([1, 1.5, 3, 3.5, 4, 7.5])
     temp_kelvin = 273.15 + temperature
 
-    tau = 1 - T_c / temp_kelvin  # eq. (2)
-
+    tau = 1 - (temp_kelvin / T_c)  # eq. (2)
     # eq. (3)
-    tau_exp = np.power(tau, exponents)
+    tau_exp = np.float_power(tau, exponents)
     term_right_side = T_c / temp_kelvin * np.sum(coeffs * tau_exp)
     P_ws = P_c * np.exp(term_right_side)
     return P_ws
@@ -62,7 +61,7 @@ def _eq_6_constants(temp):
     elif 50 <= temp < 100:
         A, m, T_n = 6.004918, 7.337936, 229.3975
     else:
-        raise NotImplementedError("Temperature of {temp} °C is not supported.")
+        raise NotImplementedError(f"Temperature of {temp} °C is not supported.")
     return A, m, T_n
 
 

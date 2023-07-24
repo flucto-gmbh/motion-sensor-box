@@ -17,16 +17,18 @@ class DewPointService:
 
     @staticmethod
     def get_data() -> dict:
-        data = {}
-        data["epoch"] = time.time()
-        data["uptime"] = uptime()
         temp_rel_hum = temperature_and_rel_humidity()
-        data["temperature"] = temp_rel_hum["temperature"]  # °C
-        data["relative_humidity"] = temp_rel_hum["relative_humidity"]  # %
-        data["air_pressure"] = air_pressure()["air_pressure"]  # hPa
-        data["dew_point"] = estimate_dew_point(
-            data["temperature"], data["relative_humidity"]
-        )
+        temp, rel_hum = temp_rel_hum["temperature"], temp_rel_hum["relative_humidity"]
+        air_pres = air_pressure()["air_pressure"]
+
+        data = {
+            "epoch": time.time(),
+            "uptime": uptime(),
+            "temperature": temp,
+            "relative_humidity": rel_hum,
+            "air_pressure": air_pres,
+            "dew_point": estimate_dew_point(temp, rel_hum),
+        }
         return data
 
     def run(self):
