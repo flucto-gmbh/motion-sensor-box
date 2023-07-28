@@ -5,6 +5,7 @@ import json
 from .config import ZMQConf
 from msb.config import load_config
 from msb.network.pubsub.types import Publisher
+from msb.network.packer import get_packer
 
 
 class ZMQ_Publisher(Publisher):
@@ -14,7 +15,7 @@ class ZMQ_Publisher(Publisher):
         self.context = zmq.Context.instance()
         self.socket = self.context.socket(zmq.PUB)
 
-        self.packer = json
+        self.packer = get_packer(config.packstyle)
         self.connect()
 
     def connect(self):
@@ -25,7 +26,7 @@ class ZMQ_Publisher(Publisher):
             sys.exit(-1)
 
     def send(self, topic: bytes, data: dict):
-        data = self.packer.dumps(data)
+        data = self.packer(data)
         self.socket.send_multipart([topic, data.encode('utf-8')])
 
     def __del__(self):
