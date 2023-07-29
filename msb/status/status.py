@@ -42,7 +42,7 @@ def system_load() -> dict:
         "current": current,
         "average_1min": averages[0],
         "average_5min": averages[1],
-        "averages_15min": averages[2],
+        "average_15min": averages[2],
     }
 
 
