@@ -3,7 +3,6 @@
 import argparse
 import json
 from os import path
-import signal
 import sys
 
 SCRIPT_DIR = path.dirname(path.abspath(__file__))
@@ -43,12 +42,12 @@ def parse_user_input():
 
 
 def main():
-    from msb.mqtt.config import MQTTconf
-    from msb.mqtt.subscriber import MQTT_Subscriber
+    from msb.network.config import MQTTConf
+    from msb.network.mqtt.subscriber import MQTT_Subscriber
 
     args = parse_user_input()
 
-    config = MQTTconf(broker=args.broker, verbose=args.verbose)
+    config = MQTTConf(broker=args.broker, verbose=args.verbose)
 
     topics = args.topic.split(",")
 
