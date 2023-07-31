@@ -8,3 +8,6 @@
 [submodule "lib/ahrs"]
 	path = lib/ahrs
 	url = https://github.com/Mayitzin/ahrs.git
+[submodule "lib/optical-pile-tracking"]
+	path = lib/optical-pile-tracking
+	url = git@github.com:flucto-gmbh/optical-pile-tracking
