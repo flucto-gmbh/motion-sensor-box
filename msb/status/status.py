@@ -36,10 +36,10 @@ def network_status() -> dict:
 
 
 def system_load() -> dict:
-    current = psutil.cpu_percent()
+    n_cores = psutil.cpu_count(logical=True)
     averages = psutil.getloadavg()
     return {
-        "current": current,
+        "n_cores": n_cores,
         "average_1min": averages[0],
         "average_5min": averages[1],
         "average_15min": averages[2],
