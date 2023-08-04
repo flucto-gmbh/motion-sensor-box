@@ -29,6 +29,7 @@ _packstyles = {
 
 _unpackstyles = {
     "json": json.loads,
+    "raw" : lambda x: x,
     "pickle": pickle.loads,
     "default": json.loads,
 }
