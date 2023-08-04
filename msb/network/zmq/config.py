@@ -8,6 +8,7 @@ class ZMQConf(MSBConf):
     interface: str = "127.0.0.1"
     publisher_port: int = 5555
     subscriber_port: int = 5556
+    packer: str = 'json'
 
     @property
     def publisher_address(self):
