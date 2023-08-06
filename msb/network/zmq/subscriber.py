@@ -11,12 +11,10 @@ from msb.network.packer import get_unpacker
 class ZMQ_Subscriber(Subscriber):
     def __init__(self, topic: bytes, config: ZMQConf):
         self.config = config
-
         self.context = zmq.Context.instance()
         self.socket = self.context.socket(zmq.SUB)
         self.connect()
         self.subscribe(topic)
-
         self.unpacker = get_unpacker(config.packstyle)
 
     def connect(self):
