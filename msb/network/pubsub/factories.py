@@ -55,7 +55,6 @@ register_publisher("mqtt", MQTT_Publisher, MQTTConf)
 
 register_subscriber("zmq", ZMQ_Subscriber, ZMQConf)
 register_subscriber("mqtt", MQTT_Subscriber, MQTTConf)
-register_subscriber("zmq_raw", ZMQ_Subscriber, ZMQConf)
 # TODO: Add tuples as names, i.e. register_publisher(("interpolated", "mqtt"))
 
 # register_publisher("udp", UDP_Publisher)

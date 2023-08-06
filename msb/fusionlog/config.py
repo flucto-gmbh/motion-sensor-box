@@ -54,19 +54,13 @@ _default_key_order = {
 
 class FusionlogConf(MSBConf):
     data_dir: str = "/home/msb/msb_data"
-
     filename_datetime_fmt: str = "%Y%m%dT%H%M%S%z"
-
     logfile_interval: int = 3600
     """temporal length in seconds of each logfile: 1h (3600s)"""
-
     # logfile_interval : 10
     # """for testing purposes"""
-
     max_logfiles: int = 100
     """maximum number of logfiles before oldest logfiles get overwritten"""
-
     key_order: dict[str, list[str]] = _default_key_order
-
     topics: list[str] = ["imu", "gps"]
     """The topics to log."""
