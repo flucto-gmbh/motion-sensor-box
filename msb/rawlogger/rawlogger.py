@@ -2,14 +2,12 @@ from __future__ import annotations
 
 import os
 import time
-
 from datetime import datetime, timezone
 
 from msb.rawlogger.config import RawLoggerConf
 
 
 class RawLogger:
-
     def __init__(self, config: RawLoggerConf):
         self.config = config
         self.rollover: int = config.rollover_period
@@ -63,7 +61,6 @@ class RawLogger:
         self._create_filehandle(timestamp)
 
     def write(self, data: bytes):
-
         # This will not use the timestamp of the data to write, but the current time instead.
         # The alternative would be to search for the epoch in data.
         ts = time.time()

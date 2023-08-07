@@ -2,8 +2,8 @@ import signal
 import sys
 
 from msb.config import load_config
-from msb.network.zmq.subscriber import ZMQRawSubscriber
 from msb.network.zmq.config import ZMQConf
+from msb.network.zmq.subscriber import ZMQRawSubscriber
 from msb.rawlogger.config import RawLoggerConf
 from msb.rawlogger.rawlogger import RawLogger
 
