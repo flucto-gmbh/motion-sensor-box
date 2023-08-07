@@ -1,0 +1,16 @@
+[Unit]
+Description=Motion Sensor Box Raw Logging Service
+After=msb-broker.service
+StartLimitIntervalSec=0
+
+[Service]
+SyslogIdentifier=msb-rawlogger
+Type=simple
+Restart=always
+RestartSec=1
+Environment="MSB_CONFIG_DIR=/home/msb/.config"
+User=msb
+ExecStart=/usr/bin/python3 /home/msb/motion-sensor-box/run/msb_rawlogger.py
+
+[Install]
+WantedBy=multi-user.target
