@@ -9,7 +9,7 @@ from msb.network.pubsub.types import Subscriber
 
 
 class ZMQ_Subscriber(Subscriber):
-    def __init__(self, topic: bytes, config: ZMQConf):
+    def __init__(self, topic: bytes | str | list[bytes] | list[str], config: ZMQConf):
         self.config = config
 
         self.context = zmq.Context.instance()
@@ -35,7 +35,7 @@ class ZMQ_Subscriber(Subscriber):
         self.socket.setsockopt(zmq.SUBSCRIBE, topic)
 
     def subscribe(self, topic: bytes | str | list[bytes] | list[str]):
-        # Acceps single topic or list of topics
+        # Accepts single topic or list of topics
         if isinstance(topic, list):
             for t in topic:
                 self._subscribe_single_topic(t)
@@ -55,6 +55,19 @@ class ZMQ_Subscriber(Subscriber):
 
     def __del__(self):
         self.socket.close()
+
+
+class ZMQRawSubscriber(ZMQ_Subscriber):
+
+    def receive(self) -> tuple[bytes, bytes]:
+        """
+        reads a message from the zmq bus and returns it
+
+        Returns:
+            tuple(topic: bytes, message: dict): the message received
+        """
+        (topic, message) = self.socket.recv_multipart()
+        return topic, message
 
 
 def get_default_subscriber(topic: bytes) -> ZMQ_Subscriber:
