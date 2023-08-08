@@ -1,20 +1,54 @@
+from __future__ import annotations
+
 import sys
+import threading
 import time
 from queue import SimpleQueue
 
 import RPi.GPIO as gpio
 import uptime
-
 from msb.imu.config import IMUConf
 from msb.imu.icm20948.ak09916 import AK09916
 from msb.imu.icm20948.comm import ICM20948Communicator
 from msb.imu.icm20948.registers import Register
 from msb.imu.icm20948.settings import (
     Bank,
+    DataQueryMode,
     ICM20948InternalSensorID,
     ICM20948SampleMode,
     SettingValues,
 )
+
+
+class StoppableThread(threading.Thread):
+    # https://stackoverflow.com/a/325528
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._stop_event = threading.Event()
+
+    def stop(self):
+        self._stop_event.set()
+
+    @property
+    def stopped(self):
+        return self._stop_event.is_set()
+
+
+class ConstantRateQueryThread(StoppableThread):
+    def __init__(self, *args, icm20948: ICM20948, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.icm20948 = icm20948
+
+    def run(self):
+        # timing adapted from https://stackoverflow.com/a/25251804
+        delta_t = self.icm20948.delta_t
+        start_time = time.monotonic()
+        while True:
+            if self.stopped:
+                break
+            self.icm20948.read_new_data(interrupt_pin=-1)
+            time.sleep(delta_t - ((time.monotonic() - start_time) % delta_t))
 
 
 class ICM20948:
@@ -32,20 +66,24 @@ class ICM20948:
         )
         self._precision = self.config.precision
 
-        self._delta_t = 1 / (1125 / (self.config.sample_rate_divisor + 1))
+        self.delta_t = 1 / (1125 / (self.config.sample_rate_divisor + 1))
         if self.config.verbose:
-            print(f"delta t is: {self._delta_t}")
+            print(f"delta t is: {self.delta_t}")
         self.magnetometer = AK09916(self.comm)
 
         self._in_run_in_phase = False
         self._run_in_counter = 0
         self._n_run_in = 1000
+        self._thread: StoppableThread | None = None
 
     def __enter__(self):
         self.comm.__enter__()
         self._setup()
 
     def __exit__(self, exc_type, exc_val, exc_tb):
+        if self._thread:
+            self._thread.stop()
+            self._thread.join()
         gpio.cleanup()
         self.comm.__exit__(exc_type, exc_val, exc_tb)
 
@@ -264,11 +302,16 @@ class ICM20948:
         #             print("sleeping 1 ms")
         #         time.sleep(0.001)
 
+    def _setup_constant_rate_querying(self):
+        # TODO do we need to check if the DLPR is active to ensure sample rate is set?
+        self._thread = ConstantRateQueryThread(icm20948=self)
+        self._thread.start()
+
     def _setup_interrupt(self):
         gpio.setmode(gpio.BCM)
         gpio.setup(self._interrupt_pin, gpio.IN, pull_up_down=gpio.PUD_UP)
         gpio.add_event_detect(
-            self._interrupt_pin, gpio.RISING, callback=self._read_new_data
+            self._interrupt_pin, gpio.RISING, callback=self.read_new_data
         )
 
         # currently only raw data ready mode is supported.
@@ -319,21 +362,24 @@ class ICM20948:
             return
         self._run_in_counter += 1
 
-    def _read_new_data(self, interrupt_pin: int):
+    def read_new_data(self, interrupt_pin: int):
         """Reads and queues raw values from accel, gyro, mag and temp of the ICM90248 module"""
         if self.config.verbose:
-            if self.config.polling:
+            if self.config.data_query_mode is DataQueryMode.POLL:
                 print(f"{time.time()}: polling sensor")
-            else:
+            elif self.config.data_query_mode is DataQueryMode.INTERRUPT:
                 print(
                     f"{time.time()}: updating data via triggered interrupt pin {interrupt_pin}"
                 )
+            elif self.config.data_query_mode is DataQueryMode.CONSTANT_RATE:
+                print(f"{time.time()}: pulling sensor at constant rate")
         buff = self.comm.read(
             Bank.B0, Register.AGB0_REG_ACCEL_XOUT_H, self._update_numbytes
         )
         if self._in_run_in_phase:
             self._run_in_phase()
             return
+
         data = {
             "epoch": time.time(),
             "uptime": uptime.uptime(),
@@ -345,8 +391,6 @@ class ICM20948:
             "rot_x": self._parse_gyr((buff[6] << 8) | (buff[7] & 0xFF)),
             "rot_y": self._parse_gyr((buff[8] << 8) | (buff[9] & 0xFF)),
             "rot_z": self._parse_gyr((buff[10] << 8) | (buff[11] & 0xFF)),
-            # TODO use _to_signed_int for magnetic as well?
-            # TODO what about scaling factor for mag?
             # magnetic field
             # careful: magnetic data is read little endian
             "mag_x": self._parse_mag((buff[16] << 8) | (buff[15] & 0xFF)),
@@ -440,10 +484,12 @@ class ICM20948:
         # fire up the compass
         self.magnetometer.setup()
 
-        if self.config.polling:
+        if self.config.data_query_mode is DataQueryMode.POLL:
             self._setup_polling()
-        else:
+        elif self.config.data_query_mode is DataQueryMode.INTERRUPT:
             self._setup_interrupt()
+        elif self.config.data_query_mode is DataQueryMode.CONSTANT_RATE:
+            self._setup_constant_rate_querying()
 
     def get_data(self) -> dict:
         return self._data_q.get()
