@@ -1,4 +1,10 @@
-from enum import Enum, IntFlag, IntEnum
+from enum import Enum, IntEnum, IntFlag
+
+
+class DataQueryMode(Enum):
+    INTERRUPT = "interrupt"
+    CONSTANT_RATE = "constant_rate"
+    POLL = "poll"
 
 
 class ICM20948SampleMode(IntFlag):

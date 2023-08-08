@@ -33,7 +33,6 @@ class IMUService:
 
     def run(self):
         with self.icm20948:
-            # signal.pause()
             while True:
                 raw_data = self.icm20948.get_data()
                 data = self.process_raw(raw_data)

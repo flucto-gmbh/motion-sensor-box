@@ -1,8 +1,8 @@
 from msb.config.MSBConfig import MSBConf
-
 from msb.imu.icm20948.settings import (
     AccelerometerFilter,
     AccelerometerSensitivity,
+    DataQueryMode,
     GyroscopeFilter,
     GyroscopeSensitivity,
 )
@@ -23,4 +23,4 @@ class IMUConf(MSBConf):
     acc_sensitivity: AccelerometerSensitivity = AccelerometerSensitivity.G_2
     gyr_sensitivity: GyroscopeSensitivity = GyroscopeSensitivity.DPS_250
     precision: int = 4
-    polling: bool = False
+    data_query_mode: DataQueryMode = DataQueryMode.INTERRUPT

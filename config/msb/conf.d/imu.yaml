@@ -6,4 +6,4 @@ gyr_filter      : "dlpf_5.7" # available filters: dlpf_off, dlpf_196.6, dlpf_151
 acc_sensitivity : "2g"      # acceleration sensitivity options are 2g, 4g, 8g, 16g
 gyr_sensitivity : "250dps"  # gyroscope sensitivity options are 250dps, 500dps, 1000dps, 200dps
 precision       : 6
-polling         : false
+data_query_mode : "interrupt"  # possible values are interrupt, constant_rate (and poll (not implemented))
