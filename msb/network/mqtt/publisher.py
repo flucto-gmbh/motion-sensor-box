@@ -25,12 +25,25 @@ class MQTT_Publisher(MQTT_Base, Publisher):
 
         Publishing is asynchronous
         """
-        if isinstance(str, bytes):
+        if isinstance(str, bytes):  # TODO this is always False
             topic = topic.decode()
 
         payload = self.pack(data)
         self.client.publish(
             topic, payload, qos=self.config.qos, retain=self.config.retain
+        )
+
+
+class MQTTRawPublisher(MQTT_Base, Publisher):
+    def send(self, topic: bytes, data: bytes):
+        """
+        Takes raw bytes and sends it to the broker.
+
+        Publishing is asynchronous
+        """
+
+        self.client.publish(
+            topic, data, qos=self.config.qos, retain=self.config.retain
         )
 
 
