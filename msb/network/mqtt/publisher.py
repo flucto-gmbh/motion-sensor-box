@@ -41,7 +41,7 @@ class MQTTRawPublisher(MQTT_Base, Publisher):
 
         Publishing is asynchronous
         """
-
+        topic = topic.decode("utf-8")  # paho expects topic as string
         self.client.publish(
             topic, data, qos=self.config.qos, retain=self.config.retain
         )
