@@ -11,9 +11,7 @@ def main():
     for topic in mqtt_config.topics:
         print(f"Subscribing to {topic}")
     zmq_config = load_config(ZMQConf(), "zmq")
-    zmq_sub = ZMQRawSubscriber(
-        [topic.encode() for topic in mqtt_config.topics], zmq_config
-    )
+    zmq_sub = ZMQRawSubscriber(mqtt_config.topics, zmq_config)
     mqtt_pub = MQTTRawPublisher(mqtt_config)
 
     forwarder = ZMQ2MQTTForwarder(mqtt_config, subscriber=zmq_sub, publisher=mqtt_pub)
