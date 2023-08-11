@@ -13,14 +13,14 @@ class TF02Pro:
     def get_data(self):
         while True:
             self.serial.readinto(self.buffer)
+            checksum = self.buffer[8]
+            if checksum != sum(self.buffer[:-1]) & 0xFF:
+                print("Incorrect checksum. Skipping")
+                continue
             epoch = time.time()
             if not (self.buffer[0] == 0x59 and self.buffer[1] == 0x59):
                 # not a correct header, discard
                 continue
-            checksum = self.buffer[8]
-            print(checksum)
-            print(sum(self.buffer[:-1]) & 0xFF)
-            # TODO check checksum
             distance_raw = self.buffer[2] + self.buffer[3] << 8
             strength_raw = self.buffer[4] + self.buffer[5] << 8
             temperature_raw = self.buffer[6] + self.buffer[7] << 8
