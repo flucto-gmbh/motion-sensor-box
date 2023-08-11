@@ -7,6 +7,7 @@ from queue import SimpleQueue
 
 import RPi.GPIO as gpio
 import uptime
+from math import sqrt
 from msb.imu.config import IMUConf
 from msb.imu.icm20948.ak09916 import AK09916
 from msb.imu.icm20948.comm import ICM20948Communicator
@@ -398,6 +399,18 @@ class ICM20948:
             "mag_z": self._parse_mag((buff[20] << 8) | (buff[19] & 0xFF)),
             "temp": self._parse_temp((buff[12] << 8) | (buff[13] & 0xFF)),
         }
+
+        data['abs_acc'] = sqrt(
+            data['acc_x']**2 + 
+            data['acc_y']**2 + 
+            data['acc_z']**2
+        )
+
+        data['abs_rot'] = sqrt(
+            data['rot_x']**2 + 
+            data['rot_y']**2 + 
+            data['rot_z']**2
+        )
 
         self._data_q.put(data)
         if self.config.verbose:
