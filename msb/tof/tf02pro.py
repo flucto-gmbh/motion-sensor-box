@@ -21,9 +21,9 @@ class TF02Pro:
             if not (self.buffer[0] == 0x59 and self.buffer[1] == 0x59):
                 # not a correct header, discard
                 continue
-            distance_raw = self.buffer[2] + self.buffer[3] << 8
-            strength_raw = self.buffer[4] + self.buffer[5] << 8
-            temperature_raw = self.buffer[6] + self.buffer[7] << 8
+            distance_raw = self.buffer[2] + (self.buffer[3] << 8)
+            strength_raw = self.buffer[4] + (self.buffer[5] << 8)
+            temperature_raw = self.buffer[6] + (self.buffer[7] << 8)
 
             distance = distance_raw / 100  # convert distance to meter
             strength = strength_raw / 65535  # convert to value between 0-1
