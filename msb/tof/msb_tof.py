@@ -110,7 +110,7 @@ class TOFService:
         if avg_or_none is None:
             return None
         else:
-            return {"epoch": epoch, "distance": avg_or_none}
+            return {"epoch": epoch, "distance": round(avg_or_none, 2)}
 
 
 def main():
