@@ -1,9 +1,11 @@
 from __future__ import annotations
-from .mqtt_base import MQTT_Base
-from msb.network.packer import get_packer
-from .config import MQTTConf
+
 from msb.config import load_config
+from msb.network.packer import get_packer
 from msb.network.pubsub.types import Publisher
+
+from .config import MQTTConf
+from .mqtt_base import MQTT_Base
 
 
 class MQTT_Publisher(MQTT_Base, Publisher):
@@ -25,6 +27,7 @@ class MQTT_Publisher(MQTT_Base, Publisher):
 
         Publishing is asynchronous
         """
+        self._raise_if_thread_died()
         if isinstance(str, bytes):
             topic = topic.decode()
 
