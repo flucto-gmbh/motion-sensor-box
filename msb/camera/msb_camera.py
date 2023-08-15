@@ -36,9 +36,9 @@ def get_new_fhandle(timestamp: datetime.datetime, config: CameraConf) -> str:
     ts_str = get_datetime_str(timestamp, config)
     if not os.path.isdir(config.video_dir):
         try:
-            os.makedirs(config.video_dir, exists_ok=True)
+            os.makedirs(config.video_dir, exist_ok=True)
         except Exception as e:
-            print(f"failed to create output directory: {config.video_dir}")
+            print(f"failed to create output directory: {config.video_dir} {e}")
             sys.exit()
     return os.path.join(
         config.video_dir, f"{ts_str}_{config.serial_number.lower()}.h264"
@@ -83,7 +83,7 @@ def msb_camera(config: CameraConf):
     if config.verbose:
         print("starting camera recording")
         print("msb_camera configuration:")
-        print(f"{config.to_json()}")
+        print(f"{config.__str__}")
 
     camera = setup_camera(config)
     encoder = H264Encoder()
