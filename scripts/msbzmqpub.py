@@ -12,6 +12,7 @@ if __name__ == "__main__":
     topic = input("Choose topic to publish to [test]: ")
     if not topic:
         topic = "test"
+    topic = topic.encode("utf-8")
     publisher = get_default_publisher()
     print("Choose input mode:")
     print("1 - interactive mode")
