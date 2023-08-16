@@ -16,7 +16,7 @@ if __name__ == "__main__":
     print("Choose input mode:")
     print("1 - interactive mode")
     print("2 - repeat mode")
-    mode = input("[1] : ")
+    mode = int(input("[1] : "))
     if not mode:
         mode = 1
     if mode == 1:
