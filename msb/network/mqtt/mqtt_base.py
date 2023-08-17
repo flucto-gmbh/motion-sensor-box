@@ -1,7 +1,28 @@
-from paho.mqtt.client import Client as mqtt_client
-from .config import MQTTConf
 import ssl
 import sys
+import threading
+
+from paho.mqtt.client import Client as mqtt_client
+
+from .config import MQTTConf
+
+
+class ThreadDiedError(RuntimeError):
+    pass
+
+
+_thread_died = threading.Event()
+
+_default_excepthook = threading.excepthook
+
+
+def _set_thread_died_excepthook(args, /):
+    _default_excepthook(args)
+    global _thread_died
+    _thread_died.set()
+
+
+threading.excepthook = _set_thread_died_excepthook
 
 
 class MQTT_Base:
@@ -32,6 +53,12 @@ class MQTT_Base:
             self.client.tls_set(tls_version=ssl.PROTOCOL_TLS_CLIENT)
 
         self.client.connect(self.config.broker, self.config.port)
+
+    @staticmethod
+    def _raise_if_thread_died():
+        global _thread_died
+        if _thread_died.is_set():
+            raise ThreadDiedError()
 
     # MQTT callbacks
     def _on_connect(self, client, userdata, flags, return_code):

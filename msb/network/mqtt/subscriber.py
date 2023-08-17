@@ -1,11 +1,13 @@
 from __future__ import annotations
+
 from queue import SimpleQueue
 
-from msb.network.pubsub.types import Subscriber
 from msb.config import load_config
-from .mqtt_base import MQTT_Base
-from .config import MQTTConf
 from msb.network.packer import get_unpacker
+from msb.network.pubsub.types import Subscriber
+
+from .config import MQTTConf
+from .mqtt_base import MQTT_Base
 
 
 class MQTT_Subscriber(MQTT_Base, Subscriber):
@@ -58,6 +60,7 @@ class MQTT_Subscriber(MQTT_Base, Subscriber):
         Returns:
             tuple(topic: bytes, message: dict): the message received
         """
+        self._raise_if_thread_died()
         mqtt_message = self._message_queue.get(
             block=True, timeout=self.config.timeout_s
         )
