@@ -10,7 +10,7 @@ class RawLoggerConf(MSBConf):
     """Temporal length in seconds of each logfile: 1h (3600s)"""
 
     excluded_topics: list[str] = ["sta","test"]
-    """The topics to be excluded from log. Excluded topics will be removed if "topic" matches element of "excluded_topics", after subscribing to all topics. """
+    """The topics to be excluded from log. Excluded topics will be removed if "topic" matches element of "excluded_topics", after subscribing to topics listed in included_topics."""
 
     included_topics: list[str] = [""]
-    """Topic [""] represents all topics. Subscribe to all topics."""
+    """Topics to subscribe. Using "" subscribes to all topics."""
