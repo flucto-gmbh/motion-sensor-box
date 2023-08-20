@@ -3,4 +3,4 @@ print_stdout : false
 data_dir : "/home/msb/msb_data/rawlog"
 filename_datetime_fmt : "%Y%m%dT%H%M%S%z"
 rollover_period : 3600  # Temporal length in seconds of each logfile: 1h (3600s)
-excluded_topics: ["sta"]
+excluded_topics: ["sta", "test"]
