@@ -4,7 +4,7 @@ import sys
 from msb.config import load_config
 from msb.network.zmq.config import ZMQConf
 from msb.network.zmq.subscriber import ZMQRawSubscriber
-from msb.rawlogger.config import RawLoggerConf 
+from msb.rawlogger.config import RawLoggerConf
 from msb.rawlogger.rawlogger import RawLogger
 
 
@@ -32,17 +32,15 @@ class RawLoggerService:
                 continue
             yield topic, data
 
-
     def run(self):
         for topic, data_raw in self.get_data():
-            topic_decoded = topic.decode('utf-8')
+            topic_decoded = topic.decode("utf-8")
             if topic_decoded not in self.excluded_topics:
                 if self.config.print_stdout:
                     print(f"{topic_decoded} : {data_raw.decode('utf-8')}")
 
                 data = b'{"' + topic + b'":' + data_raw + b"}\n"
                 self.logger.write(data)
-
 
 
 def main():
@@ -52,5 +50,3 @@ def main():
     subscriber = ZMQRawSubscriber(raw_logger_config.included_topics, zmq_config)
     raw_logger_service = RawLoggerService(raw_logger_config, subscriber)
     raw_logger_service.run()
-
-
