@@ -16,10 +16,10 @@ def signal_handler(sig, frame):
 
 class RawLoggerService:
     def __init__(self, config: RawLoggerConf, subscriber: ZMQRawSubscriber):
+        self.excluded_topics = set(config.excluded_topics)
         self.config = config
         self.subscriber = subscriber
         self.logger = RawLogger(config)
-
         if self.config.verbose:
             print(self.config)
 
@@ -34,18 +34,19 @@ class RawLoggerService:
 
     def run(self):
         for topic, data_raw in self.get_data():
-            if self.config.print_stdout:
-                print(f"{topic.decode('utf-8')} : {data_raw.decode('utf-8')}")
+            topic_decoded = topic.decode("utf-8")
+            if topic_decoded not in self.excluded_topics:
+                if self.config.print_stdout:
+                    print(f"{topic_decoded} : {data_raw.decode('utf-8')}")
 
-            data = b'{"' + topic + b'":' + data_raw + b"}\n"
-            self.logger.write(data)
+                data = b'{"' + topic + b'":' + data_raw + b"}\n"
+                self.logger.write(data)
 
 
 def main():
     signal.signal(signal.SIGINT, signal_handler)
     raw_logger_config = load_config(RawLoggerConf(), "rawlogger")
-    print(raw_logger_config)
     zmq_config = load_config(ZMQConf(), "zmq")
-    subscriber = ZMQRawSubscriber(raw_logger_config.topics, zmq_config)
+    subscriber = ZMQRawSubscriber(raw_logger_config.included_topics, zmq_config)
     raw_logger_service = RawLoggerService(raw_logger_config, subscriber)
     raw_logger_service.run()
