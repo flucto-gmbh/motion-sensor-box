@@ -2,6 +2,7 @@ from __future__ import annotations
 import zmq
 import json
 import sys
+from collections.abc import Sequence
 
 from .config import ZMQConf
 from msb.config import load_config
@@ -36,7 +37,7 @@ class ZMQ_Subscriber(Subscriber):
 
     def subscribe(self, topic: bytes | str | list[bytes] | list[str]):
         # Accepts single topic or list of topics
-        if isinstance(topic, list):
+        if isinstance(topic, Sequence):
             for t in topic:
                 self._subscribe_single_topic(t)
         else:
