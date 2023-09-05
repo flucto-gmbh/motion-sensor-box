@@ -12,7 +12,7 @@ def main():
     sub = get_subscriber("zmq", config.topics)
     pub = get_publisher("mqtt")
 
-    sub.unpacker = pub.packer = lambda x: x
+    sub.unpack = pub.pack = lambda x: x
 
     while True:
         (zmq_topic, data) = sub.receive()

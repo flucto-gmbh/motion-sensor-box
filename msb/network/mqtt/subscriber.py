@@ -24,7 +24,7 @@ class MQTT_Subscriber(MQTT_Base, Subscriber):
         self._message_queue = SimpleQueue()
         self.subscribe(topics)
         self.client.on_message = self._on_message
-        self.unpacker = get_unpacker(config.packstyle)
+        self.unpack = get_unpacker(config.packstyle)
 
     def _subscribe_single_topic(self, topic: bytes | str):
         if isinstance(topic, bytes):
@@ -67,7 +67,7 @@ class MQTT_Subscriber(MQTT_Base, Subscriber):
         )
 
         topic = mqtt_message.topic.encode("utf-8")
-        message_returned = self.unpacker(mqtt_message.payload.decode())
+        message_returned = self.unpack(mqtt_message.payload.decode())
         return (topic, message_returned)
 
     # callback to add incoming messages onto stack

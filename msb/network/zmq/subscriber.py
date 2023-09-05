@@ -18,7 +18,7 @@ class ZMQ_Subscriber(Subscriber):
         self.connect()
         self.subscribe(topic)
 
-        self.unpacker = get_unpacker(config.packstyle)
+        self.unpack = get_unpacker(config.packstyle)
 
     def connect(self):
         try:
@@ -49,7 +49,7 @@ class ZMQ_Subscriber(Subscriber):
             tuple(topic: bytes, message: dict): the message received
         """
         (topic, message) = self.socket.recv_multipart()
-        message = self.unpacker(message.decode())
+        message = self.unpack(message.decode())
         return (topic, message)
 
     def __del__(self):

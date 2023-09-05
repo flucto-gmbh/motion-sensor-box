@@ -15,7 +15,7 @@ class ZMQ_Publisher(Publisher):
         self.context = zmq.Context.instance()
         self.socket = self.context.socket(zmq.PUB)
 
-        self.packer = get_packer(config.packstyle)
+        self.pack = get_packer(config.packstyle)
         self.connect()
 
     def connect(self):
@@ -26,7 +26,7 @@ class ZMQ_Publisher(Publisher):
             sys.exit(-1)
 
     def send(self, topic: bytes, data: dict):
-        data = self.packer(data)
+        data = self.pack(data)
         self.socket.send_multipart([topic, data.encode('utf-8')])
 
     def __del__(self):
