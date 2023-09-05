@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from queue import SimpleQueue
+from collections.abc import Sequence
 
 from msb.config import load_config
 from msb.network.packer import get_unpacker
@@ -23,7 +24,7 @@ class MQTT_Subscriber(MQTT_Base, Subscriber):
         self._message_queue = SimpleQueue()
         self.subscribe(topics)
         self.client.on_message = self._on_message
-        self.unpacker = get_unpacker(config.packstyle)
+        self.unpack = get_unpacker(config.packstyle)
 
     def _subscribe_single_topic(self, topic: bytes | str):
         if isinstance(topic, bytes):
@@ -46,7 +47,7 @@ class MQTT_Subscriber(MQTT_Base, Subscriber):
         Subscribe to one or multiple topics
         """
         # if subscribing to multiple topics, use a list of tuples
-        if isinstance(topics, list):
+        if isinstance(topics, Sequence):
             self._subscribe_multiple_topics(topics)
         else:
             self.client.subscribe(topics, self.config.qos)
@@ -66,7 +67,7 @@ class MQTT_Subscriber(MQTT_Base, Subscriber):
         )
 
         topic = mqtt_message.topic.encode("utf-8")
-        message_returned = self.unpacker(mqtt_message.payload.decode())
+        message_returned = self.unpack(mqtt_message.payload.decode())
         return (topic, message_returned)
 
     # callback to add incoming messages onto stack

@@ -1,11 +1,12 @@
 from __future__ import annotations
 import zmq
-import json
 import sys
+from collections.abc import Sequence
 
 from .config import ZMQConf
 from msb.config import load_config
 from msb.network.pubsub.types import Subscriber
+from msb.network.packer import get_unpacker
 
 
 class ZMQ_Subscriber(Subscriber):
@@ -17,9 +18,7 @@ class ZMQ_Subscriber(Subscriber):
         self.connect()
         self.subscribe(topic)
 
-        # Possible to add a switch via config here
-        # unpacker = pickle
-        self.unpacker = json
+        self.unpack = get_unpacker(config.packstyle)
 
     def connect(self):
         try:
@@ -36,7 +35,7 @@ class ZMQ_Subscriber(Subscriber):
 
     def subscribe(self, topic: bytes | str | list[bytes] | list[str]):
         # Accepts single topic or list of topics
-        if isinstance(topic, list):
+        if isinstance(topic, Sequence):
             for t in topic:
                 self._subscribe_single_topic(t)
         else:
@@ -50,7 +49,7 @@ class ZMQ_Subscriber(Subscriber):
             tuple(topic: bytes, message: dict): the message received
         """
         (topic, message) = self.socket.recv_multipart()
-        message = self.unpacker.loads(message.decode())
+        message = self.unpack(message.decode())
         return (topic, message)
 
     def __del__(self):
@@ -72,6 +71,7 @@ class ZMQRawSubscriber(ZMQ_Subscriber):
 
 def get_default_subscriber(topic: bytes) -> ZMQ_Subscriber:
     import os
+
     if "MSB_CONFIG_DIR" in os.environ:
         print("loading zmq config")
         config = load_config(ZMQConf(), "zmq", read_commandline=False)
