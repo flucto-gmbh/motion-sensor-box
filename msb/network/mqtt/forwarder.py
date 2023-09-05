@@ -1,28 +1,19 @@
 from .config import MQTTConf
-from .publisher import MQTT_Publisher
-from msb.network.types import ZMQ_Subscriber
+from msb.config import load_config
+from msb.network import get_publisher, get_subscriber
 
 
-class ZMQ_to_MQTT_Forwarder:
-    def __init__(self, config: MQTTConf, subscriber: ZMQ_Subscriber, publisher: MQTT_Publisher):
-        self.subscriber = subscriber
-        self.publisher = publisher
-        self.config = config
+def map_topic(zmq_topic, mapping):
+    return mapping + zmq_topic.decode()
 
-    def _zmq_to_mqtt(self):
-        # This is blocking
-        (zmq_topic, data) = self.subscriber.receive()
-        mqtt_topic = self._map_topic(zmq_topic)
 
-        self.publisher.send(mqtt_topic, data)
+def main():
+    config: MQTTConf = load_config("mqtt")
+    sub = get_subscriber("zmq", config.topics)
+    pub = get_publisher("mqtt")
 
-    def zmq_to_mqtt_loop(self):
-        """
-        Main loop: data comes in through zmq subscription socket,
-        passed on to mqtt publish
-        """
-        while True:
-            self._zmq_to_mqtt()
+    while True:
+        (zmq_topic, data) = sub.receive()
+        mqtt_topic = map_topic(zmq_topic, config.mapping)
 
-    def _map_topic(self, zmq_topic):
-        return self.config.mapping + zmq_topic.decode()
+        pub.send(mqtt_topic, data)
