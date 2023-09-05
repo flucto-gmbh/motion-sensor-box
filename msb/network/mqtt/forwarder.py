@@ -8,7 +8,7 @@ def map_topic(zmq_topic, mapping):
 
 
 def main():
-    config: MQTTConf = load_config("mqtt")
+    config: MQTTConf = load_config(MQTTConf(), "mqtt")
     sub = get_subscriber("zmq", config.topics)
     pub = get_publisher("mqtt")
 
