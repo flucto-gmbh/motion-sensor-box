@@ -12,6 +12,8 @@ def main():
     sub = get_subscriber("zmq", config.topics)
     pub = get_publisher("mqtt")
 
+    sub.unpacker = pub.packer = lambda x: x
+
     while True:
         (zmq_topic, data) = sub.receive()
         mqtt_topic = map_topic(zmq_topic, config.mapping)
