@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from queue import SimpleQueue
-from collections.abc import Sequence
 
 from msb.config import load_config
 from msb.network.packer import get_unpacker
@@ -47,7 +46,7 @@ class MQTT_Subscriber(MQTT_Base, Subscriber):
         Subscribe to one or multiple topics
         """
         # if subscribing to multiple topics, use a list of tuples
-        if isinstance(topics, Sequence):
+        if isinstance(topics, list) or isinstance(topics, tuple):
             self._subscribe_multiple_topics(topics)
         else:
             self.client.subscribe(topics, self.config.qos)
