@@ -1,7 +1,6 @@
 from __future__ import annotations
 import zmq
 import sys
-from collections.abc import Sequence
 
 from .config import ZMQConf
 from msb.config import load_config
