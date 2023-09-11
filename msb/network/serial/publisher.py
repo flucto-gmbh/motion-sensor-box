@@ -3,16 +3,13 @@ import serial
 
 from .config import SerialConf
 from msb.network.types import Publisher
-
-
-def serial_packer(input_dict) -> bytes:
-    return ",".join(input_dict.values())
+from msb.network.packer import get_packer
 
 
 class SerialPublisher(Publisher):
-    def __init__(self, config: SerialConf):
+    def __init__(self, config: SerialConf, pack_func=None):
         self.config = config
-        self.packer = serial_packer
+        self.packer = pack_func if pack_func else get_packer("serial")
         self.connect()
 
     def connect(self):
@@ -39,5 +36,3 @@ class SerialPublisher(Publisher):
             return
         self.serial.flush()
         self.serial.close()
-
-
