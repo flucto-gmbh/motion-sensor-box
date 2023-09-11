@@ -1,0 +1,6 @@
+verbose: false
+port: "/dev/ttyUSB0"
+baudrate: 19200
+bytesize: 8
+encoding: "utf-8"
+packstyle: "serial" # not yet implemented
