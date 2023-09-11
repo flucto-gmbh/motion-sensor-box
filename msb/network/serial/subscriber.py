@@ -25,7 +25,8 @@ class SerialSubscriber(Subscriber):
         message = next(self.read_serial_port())
         # payload is a dictionary
         payload = self.unpack(message)
-        return payload
+        # port is a placeholder for topic
+        return self.config.port, payload
 
     def read_serial_port(self) -> str:
         buffer = ""
