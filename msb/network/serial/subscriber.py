@@ -1,11 +1,11 @@
 import serial
-from msb.network import Subscriber
+from msb.network.pubsub.types import Subscriber
 from serial import Serial
 from config import SerialConfig
 
 
 class SerialSubscriber(Subscriber):
-    def __init__(self, config: SerialConfig, unpack_func=None):
+    def __init__(self, topics, config: SerialConfig, unpack_func=None):
         self.config = config
         self.unpack = unpack_func if unpack_func else lambda x: x
         self.connect()

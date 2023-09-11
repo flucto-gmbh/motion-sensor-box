@@ -2,7 +2,7 @@ from __future__ import annotations
 import serial
 
 from .config import SerialConf
-from msb.network.types import Publisher
+from msb.network.pubsub.types import Publisher
 from msb.network.packer import get_packer
 
 
