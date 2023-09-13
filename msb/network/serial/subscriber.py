@@ -1,17 +1,16 @@
 import serial
 from msb.network.pubsub.types import Subscriber
-from serial import Serial
-from config import SerialConfig
+from .config import SerialConf
 
 
 class SerialSubscriber(Subscriber):
-    def __init__(self, topics, config: SerialConfig, unpack_func=None):
+    def __init__(self, topics, config: SerialConf, unpack_func=None):
         self.config = config
         self.unpack = unpack_func if unpack_func else lambda x: x
         self.connect()
 
     def connect(self):
-        self.serial: Serial = serial.Serial(
+        self.serial: serial.Serial = serial.Serial(
             port=self.config.port,
             baudrate=self.config.baudrate,
             bytesize=self.config.bytesize,
@@ -32,7 +31,7 @@ class SerialSubscriber(Subscriber):
         buffer = ""
         while True:
             try:
-                buffer = self.serial.readline().decode().rstrip("\r\n")
+                buffer = self.serial.readline().decode()
                 yield buffer
             except UnicodeError as e:
                 if self.config.verbose:
@@ -50,7 +49,7 @@ class SerialSubscriber(Subscriber):
 
 
 if __name__ == "__main__":
-    config = SerialConfig()
+    config = SerialConf()
     serial_reader = SerialSubscriber(config)
     for message in serial_reader.receive():
         print(message)
