@@ -4,8 +4,7 @@ import sys
 from msb.config import load_config
 from msb.attitude.config import AttitudeConf
 from msb.attitude.filters import ComplementaryFilter
-from msb.zmq_base.Publisher import Publisher, get_default_publisher
-from msb.zmq_base.Subscriber import Subscriber, get_default_subscriber
+from msb.network import Subscriber, Publisher, get_subscriber, get_publisher
 
 
 def signal_handler(sig, frame):
@@ -33,8 +32,8 @@ class AttitudeService:
 
 def main():
     signal.signal(signal.SIGINT, signal_handler)
-    subscriber = get_default_subscriber("imu")
-    publisher = get_default_publisher()
+    subscriber = get_subscriber("zmq", "imu")
+    publisher = get_publisher("zmq")
     attitude_config = load_config(AttitudeConf(), "attitude")
     attitude = AttitudeService(attitude_config, subscriber, publisher)
     attitude.run()
