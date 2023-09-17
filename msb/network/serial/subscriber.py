@@ -11,13 +11,13 @@ class SerialSubscriber(Subscriber):
 
     Parameters
     ----------
-    :param topics:
+    topics :
         Placeholder for topic. Not used.
 
-    :param config: SerialConf
+    config : SerialConf
         Configuration class for the serial connection.
 
-    :param unpack_func: FunctionType
+    unpack_func : FunctionType
         Function to translate from a serialized string to a dict.
     """
 

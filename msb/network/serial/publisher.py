@@ -14,9 +14,9 @@ class SerialPublisher(Publisher):
 
     Parameters
     ----------
-    :param config: SerialConf
+    config : SerialConf
         Configuration for the serial connection.
-    :param pack_func: FunctionType
+    pack_func : FunctionType
         Function to translate from a dict to a serialized string.
     """
 
@@ -44,7 +44,7 @@ class SerialPublisher(Publisher):
 
         Parameters
         ----------
-        :param message: object
+        message : object
             object to be serialized and sent via the serial connection. Usually a dict.
         """
         payload = self.packer(message)
