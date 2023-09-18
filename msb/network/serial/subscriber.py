@@ -1,17 +1,33 @@
+from __future__ import annotations
+from types import FunctionType
 import serial
 from msb.network.pubsub.types import Subscriber
-from serial import Serial
-from config import SerialConfig
+from .config import SerialConf
 
 
 class SerialSubscriber(Subscriber):
-    def __init__(self, topics, config: SerialConfig, unpack_func=None):
+    """
+    Subscriber for serial devices. Connects to a serial port and reads from it.
+
+    Parameters
+    ----------
+    topics :
+        Placeholder for topic. Not used.
+
+    config : SerialConf
+        Configuration class for the serial connection.
+
+    unpack_func : FunctionType
+        Function to translate from a serialized string to a dict.
+    """
+
+    def __init__(self, topics, config: SerialConf, unpack_func: FunctionType = None):
         self.config = config
         self.unpack = unpack_func if unpack_func else lambda x: x
-        self.connect()
+        self._connect()
 
-    def connect(self):
-        self.serial: Serial = serial.Serial(
+    def _connect(self):
+        self.serial: serial.Serial = serial.Serial(
             port=self.config.port,
             baudrate=self.config.baudrate,
             bytesize=self.config.bytesize,
@@ -21,6 +37,15 @@ class SerialSubscriber(Subscriber):
         print(f"Successfully connected to serial device at port {self.config.port}")
 
     def receive(self) -> dict:
+        """
+        Wait for data to arrive on the serial port and return it.
+
+        Returns
+        -------
+        :return: (topic, payload)
+            topic is a placeholder to adhere to the Subscriber interface
+            payload is a dictionary containing the data from the serial port
+        """
         # message is a string
         message = next(self.read_serial_port())
         # payload is a dictionary
@@ -32,7 +57,7 @@ class SerialSubscriber(Subscriber):
         buffer = ""
         while True:
             try:
-                buffer = self.serial.readline().decode().rstrip("\r\n")
+                buffer = self.serial.readline().decode()
                 yield buffer
             except UnicodeError as e:
                 if self.config.verbose:
@@ -50,7 +75,7 @@ class SerialSubscriber(Subscriber):
 
 
 if __name__ == "__main__":
-    config = SerialConfig()
+    config = SerialConf()
     serial_reader = SerialSubscriber(config)
     for message in serial_reader.receive():
         print(message)
