@@ -2,11 +2,10 @@ import json
 import os
 import signal
 import sys
-
 from msb.config import load_config
 from msb.imu.config import IMUConf
 from msb.imu.icm20948.icm20948 import ICM20948
-from msb.zmq_base.Publisher import Publisher, get_default_publisher
+from msb.network import Publisher, get_publisher
 
 
 # this might not be necessary if ICM20948 is used as context manager
@@ -16,6 +15,17 @@ def signal_handler(sig, frame):
 
 
 class IMUService:
+    """
+    Reads data from the IMU and publishes to the provided interface.
+
+    Parameters
+    ----------
+    config : IMUConf
+        Configuration dataclass
+    publisher : Publisher
+        Publisher interface
+    """
+
     def __init__(self, config: IMUConf, publisher: Publisher):
         self.config = config
         self.publisher = publisher
@@ -35,16 +45,16 @@ class IMUService:
         with self.icm20948:
             while True:
                 raw_data = self.icm20948.get_data()
-                data = self.process_raw(raw_data)
+                data = self._process_raw(raw_data)
                 self.publisher.send(self.config.topic, data)
 
-    def process_raw(self, raw) -> dict:
-        data = self.align_axes_with_msb_coordinate_system(raw)
-        data = self.apply_calibration(data)
+    def _process_raw(self, raw) -> dict:
+        data = self._align_axes_with_msb_coordinate_system(raw)
+        data = self._apply_calibration(data)
         return data
 
     @staticmethod
-    def align_axes_with_msb_coordinate_system(data):
+    def _align_axes_with_msb_coordinate_system(data):
         # flip x and y axis for accelerometer and gyroscope
         data["acc_x"] *= -1
         data["acc_y"] *= -1
@@ -57,7 +67,7 @@ class IMUService:
 
         return data
 
-    def apply_calibration(self, data):
+    def _apply_calibration(self, data):
         data["rot_x"] -= self.calibration["rot_x_off"]
         data["rot_y"] -= self.calibration["rot_y_off"]
         data["rot_z"] -= self.calibration["rot_z_off"]
@@ -67,6 +77,6 @@ class IMUService:
 def main():
     signal.signal(signal.SIGINT, signal_handler)
     imu_config = load_config(IMUConf(), "imu")
-    publisher = get_default_publisher()
+    publisher = get_publisher("zmq")
     imu = IMUService(imu_config, publisher)
     imu.run()

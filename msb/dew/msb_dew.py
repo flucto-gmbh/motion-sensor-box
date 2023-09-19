@@ -3,7 +3,7 @@ import time
 from msb.config import load_config
 from msb.dew.config import DewConf
 from msb.dew.dew import air_pressure, estimate_dew_point, temperature_and_rel_humidity
-from msb.zmq_base.Publisher import Publisher, get_default_publisher
+from msb.network import Publisher, get_publisher
 from uptime import uptime
 
 
@@ -45,6 +45,6 @@ class DewPointService:
 
 def main():
     dew_config = load_config(DewConf(), "dew")
-    publisher = get_default_publisher()
+    publisher = get_publisher("zmq")
     dew_service = DewPointService(dew_config, publisher)
     dew_service.run()

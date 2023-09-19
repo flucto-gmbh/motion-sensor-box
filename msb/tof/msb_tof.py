@@ -7,7 +7,7 @@ import warnings
 
 import numpy as np
 from msb.config import load_config
-from msb.network.zmq.publisher import Publisher, get_default_publisher
+from msb.network import Publisher, get_publisher
 from msb.tof.config import TOFConf
 from msb.tof.settings import TOFServiceOperationMode
 from msb.tof.tf02pro import TF02Pro
@@ -116,6 +116,6 @@ class TOFService:
 def main():
     signal.signal(signal.SIGINT, signal_handler)
     tof_config = load_config(TOFConf(), "tof")
-    publisher = get_default_publisher()
+    publisher = get_publisher("zmq")
     tof = TOFService(tof_config, publisher)
     tof.run()

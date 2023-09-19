@@ -1,6 +1,5 @@
 from datetime import datetime, timezone
 import gps
-import json
 import logging
 
 import sys
@@ -9,9 +8,10 @@ import uptime
 
 from msb.config import load_config
 from msb.gps.config import GPSConf
-from msb.zmq_base.Publisher import Publisher, get_default_publisher
+from msb.network import Publisher, get_publisher
 
 zero_timestamp = datetime.fromtimestamp(0, tz=timezone.utc)
+
 
 class GPSService:
     def __init__(self, config: GPSConf, publisher: Publisher):
@@ -24,14 +24,14 @@ class GPSService:
 
     def open_gpsd_socket(self):
         if self.config.verbose:
-            print(f"connecting to gpsd socket")
+            print("connecting to gpsd socket")
         try:
             gpsd_socket = gps.gps(mode=gps.WATCH_ENABLE)
         except Exception:  # TODO limit exception
             print("failed to connect to gpsd")
             sys.exit(-1)
         if self.config.verbose:
-            print(f"connected to gpsd socket")
+            print("connected to gpsd socket")
 
         return gpsd_socket
 
@@ -71,7 +71,7 @@ class GPSService:
                         self.config.topic, data := self.prepare_data(report)
                     )
                     if self.config.print_stdout:
-                        print(f",".join(map(str, [v for _, v in data.items()])))
+                        print(",".join(map(str, [v for _, v in data.items()])))
         except StopIteration:
             logging.fatal("GPSD has terminated")
         except KeyboardInterrupt:
@@ -84,6 +84,6 @@ class GPSService:
 
 def main():
     gps_config = load_config(GPSConf(), "gps")
-    publisher = get_default_publisher()
+    publisher = get_publisher("zmq")
     gps_service = GPSService(gps_config, publisher)
     gps_service.run()
