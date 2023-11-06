@@ -39,18 +39,12 @@ class IMUService:
                 self.publisher.send(self.config.topic, data)
 
     def process_raw(self, raw) -> dict:
-        data = self.align_axes_with_msb_coordinate_system(raw)
+        data = self.align_magnetometer_axis(raw)
         data = self.apply_calibration(data)
         return data
 
     @staticmethod
-    def align_axes_with_msb_coordinate_system(data):
-        # flip x and y axis for accelerometer and gyroscope
-        # data["acc_x"] *= -1
-        # data["acc_y"] *= -1
-        # data["rot_x"] *= -1
-        # data["rot_y"] *= -1
-
+    def align_magnetometer_axis(data):
         # flip x and z axis for magnetometer
         data["mag_x"] *= -1
         data["mag_z"] *= -1
@@ -62,7 +56,6 @@ class IMUService:
         data["rot_y"] -= self.calibration["rot_y_off"]
         data["rot_z"] -= self.calibration["rot_z_off"]
         return data
-
 
 def main():
     signal.signal(signal.SIGINT, signal_handler)
