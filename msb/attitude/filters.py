@@ -68,14 +68,14 @@ class ComplementaryFilter:
             < mag_acc
             < (1 + self.rel_acceleration_limit)
         ):
-            # roll angle from acceleration
-            roll_acc = math.atan2(-acc_x, math.sqrt(acc_y**2 + acc_z**2))
             # pitch angle from acceleration
-            pitch_acc = math.atan2(acc_y, math.sqrt(acc_x**2 + acc_z**2))
+            pitch_acc = math.atan2(-acc_x, math.sqrt(acc_y**2 + acc_z**2))
+            # roll angle from acceleration
+            roll_acc = math.atan2(acc_y, math.sqrt(acc_x**2 + acc_z**2))
         else:
             print(f"acceleration correction not available, magnitude acceleration: {mag_acc}")
-            roll_acc = 0
             pitch_acc = 0
+            roll_acc = 0
 
         # yaw angle from mag
         # TODO this is probably not correct
@@ -93,11 +93,11 @@ class ComplementaryFilter:
 
         # use gyro to update
         # roll
-        self.state[0] = (self.state[0] + math.radians(rot_y * dt)) * self.alpha + (
+        self.state[0] = (self.state[0] + math.radians(rot_x * dt)) * self.alpha + (
             1 - self.alpha
         ) * roll_acc
         # pitch
-        self.state[1] = (self.state[1] + math.radians(rot_x * dt)) * self.alpha + (
+        self.state[1] = (self.state[1] + math.radians(rot_y * dt)) * self.alpha + (
             1 - self.alpha
         ) * pitch_acc
         # yaw
