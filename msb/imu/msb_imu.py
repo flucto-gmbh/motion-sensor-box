@@ -46,10 +46,10 @@ class IMUService:
     @staticmethod
     def align_axes_with_msb_coordinate_system(data):
         # flip x and y axis for accelerometer and gyroscope
-        data["acc_x"] *= -1
-        data["acc_y"] *= -1
-        data["rot_x"] *= -1
-        data["rot_y"] *= -1
+        # data["acc_x"] *= -1
+        # data["acc_y"] *= -1
+        # data["rot_x"] *= -1
+        # data["rot_y"] *= -1
 
         # flip x and z axis for magnetometer
         data["mag_x"] *= -1
