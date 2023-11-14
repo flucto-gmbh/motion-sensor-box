@@ -8,9 +8,9 @@ import warnings
 import numpy as np
 from msb.config import load_config
 from msb.network.zmq.publisher import Publisher, get_default_publisher
-from msb.tof.config import TOFConf
-from msb.tof.settings import TOFServiceOperationMode
-from msb.tof.tf02pro import TF02Pro
+from msb.sharp_tof.config import TOFConf
+from msb.sharp_tof.settings import TOFServiceOperationMode
+from msb.sharp_tof.sharp_GP2D12 import GP2D12
 
 
 def signal_handler(sig, frame):
@@ -50,7 +50,7 @@ class TOFService:
         self.config = config
         self.topic = config.topic
         self.publisher = publisher
-        self.tf02pro = TF02Pro()
+        self.gp2d12 = GP2D12()
         self._operation_mode: TOFServiceOperationMode = config.operation_mode
         if self._operation_mode is TOFServiceOperationMode.AVERAGING:
             self._points_per_average = config.points_per_average
@@ -64,10 +64,10 @@ class TOFService:
 
     def run(self):
         while True:
-            raw_data = self.tf02pro.get_data()
-
+            raw_data = self.gp2d12.get_data()
             if self._operation_mode is TOFServiceOperationMode.AVERAGING:
                 data = self._calculate_average(raw_data)
+                print("AVERAGING")
             else:
                 data = self._unpack_raw(raw_data)
 
@@ -77,40 +77,26 @@ class TOFService:
                 self.publisher.send(self.topic, data)
 
     @staticmethod
-    def _unpack_raw(raw: tuple[float, float, float, float]) -> dict:
+    def _unpack_raw(raw) -> dict:
         return {
             "epoch": raw[0],
             "distance": raw[1],
-            "strength": raw[2],
-            "temperature": raw[3],
         }
 
-    def _warn_if_temperature_too_high(self, temp: float):
-        # sensor is only reliable for temp below 60°C
-        if temp > 60.0:
-            # warn at most once per minute
-            if time.time() - self._last_temperature_warning_time > 60:
-                warnings.warn(f"Temperature temp={temp}°C is above 60°C.")
-
-    def _calculate_average(self, raw: tuple[float, float, float, float]) -> dict | None:
-        epoch, distance, strength, temperature = raw
+    def _calculate_average(self, raw):
+        distance = raw
         if self.config.verbose:
             print(
                 {
-                    "epoch": epoch,
                     "distance": distance,
-                    "strength": strength,
-                    "temperature": temperature,
-                }
+                    }
             )
-        self._warn_if_temperature_too_high(temperature)
-        if strength < self._minimum_signal_strength:
-            distance = None
+
         avg_or_none = self._buffer.push(distance)
         if avg_or_none is None:
             return None
         else:
-            return {"epoch": epoch, "distance": round(avg_or_none, 2)}
+            return {"epoch": epoch, "distance": round(avg_or_none, 4)}
 
 
 def main():
