@@ -2,8 +2,8 @@ from msb.config import MSBConf
 from msb.tof.settings import TOFServiceOperationMode
 
 
-class TOFConf(MSBConf):
-    topic: bytes = b"tof"
+class SHARP_TOFConf(MSBConf):
+    topic: bytes = b"sharp_tof"
     operation_mode: TOFServiceOperationMode = TOFServiceOperationMode.AVERAGING
     """Possible values are averaging or raw"""
 

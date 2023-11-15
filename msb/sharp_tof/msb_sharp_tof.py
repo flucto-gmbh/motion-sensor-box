@@ -4,11 +4,10 @@ import signal
 import sys
 import time
 import warnings
-
 import numpy as np
 from msb.config import load_config
 from msb.network.zmq.publisher import Publisher, get_default_publisher
-from msb.sharp_tof.config import TOFConf
+from msb.sharp_tof.config import SHARP_TOFConf
 from msb.sharp_tof.settings import TOFServiceOperationMode
 from msb.sharp_tof.sharp_GP2D12 import GP2D12
 
@@ -16,10 +15,6 @@ from msb.sharp_tof.sharp_GP2D12 import GP2D12
 def signal_handler(sig, frame):
     print("msb_tof.py exit")
     sys.exit(0)
-
-
-# TODO warn when over 60°C, not with 100Hz!
-
 
 class AverageBuffer:
     def __init__(self, size: int):
@@ -46,7 +41,7 @@ class AverageBuffer:
 
 
 class TOFService:
-    def __init__(self, config: TOFConf, publisher: Publisher):
+    def __init__(self, config: SHARP_TOFConf, publisher: Publisher):
         self.config = config
         self.topic = config.topic
         self.publisher = publisher
@@ -55,19 +50,15 @@ class TOFService:
         if self._operation_mode is TOFServiceOperationMode.AVERAGING:
             self._points_per_average = config.points_per_average
             self._buffer = AverageBuffer(self._points_per_average)
-            self._minimum_signal_strength = config.minimum_signal_strength
-            self._last_temperature_warning_time: float = 0.0
         else:
             self._points_per_average = None
             self._buffer = None
-            self._minimum_signal_strength = None
 
     def run(self):
         while True:
             raw_data = self.gp2d12.get_data()
             if self._operation_mode is TOFServiceOperationMode.AVERAGING:
                 data = self._calculate_average(raw_data)
-                print("AVERAGING")
             else:
                 data = self._unpack_raw(raw_data)
 
@@ -101,7 +92,7 @@ class TOFService:
 
 def main():
     signal.signal(signal.SIGINT, signal_handler)
-    tof_config = load_config(TOFConf(), "tof")
+    tof_config = load_config(SHARP_TOFConf(), "sharp_tof")
     publisher = get_default_publisher()
     tof = TOFService(tof_config, publisher)
     tof.run()
