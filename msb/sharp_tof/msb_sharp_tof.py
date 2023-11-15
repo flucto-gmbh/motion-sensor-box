@@ -8,7 +8,6 @@ import numpy as np
 from msb.config import load_config
 from msb.network.zmq.publisher import Publisher, get_default_publisher
 from msb.sharp_tof.config import SHARP_TOFConf
-from msb.sharp_tof.settings import TOFServiceOperationMode
 from msb.sharp_tof.sharp_GP2D12 import GP2D12
 
 
@@ -46,40 +45,27 @@ class TOFService:
         self.topic = config.topic
         self.publisher = publisher
         self.gp2d12 = GP2D12()
-        self._operation_mode: TOFServiceOperationMode = config.operation_mode
-        if self._operation_mode is TOFServiceOperationMode.AVERAGING:
-            self._points_per_average = config.points_per_average
-            self._buffer = AverageBuffer(self._points_per_average)
-        else:
-            self._points_per_average = None
-            self._buffer = None
+        self._points_per_average = config.points_per_average
+        self._buffer = AverageBuffer (self._points_per_average)
 
     def run(self):
         while True:
             raw_data = self.gp2d12.get_data()
-            if self._operation_mode is TOFServiceOperationMode.AVERAGING:
-                data = self._calculate_average(raw_data)
-            else:
-                data = self._unpack_raw(raw_data)
+
+            data = self._calculate_average(raw_data)
 
             if data is not None:
                 if self.config.print_stdout:
                     print(data)
                 self.publisher.send(self.topic, data)
 
-    @staticmethod
-    def _unpack_raw(raw) -> dict:
-        return {
-            "epoch": raw[0],
-            "distance": raw[1],
-        }
-
     def _calculate_average(self, raw):
-        distance = raw
+        epoch, distance = raw
         if self.config.verbose:
             print(
                 {
-                    "distance": distance,
+                    "epoch": epoch,
+                    "distance": float(distance),
                     }
             )
 

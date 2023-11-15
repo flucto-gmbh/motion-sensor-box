@@ -16,8 +16,11 @@ class GP2D12:
         Read a message from the serial input.
         :return: The message read from the serial input.
         """
-        epoch = time.time()
-        distance = self.ser.readline().decode('utf-8').strip()
+       	distance = self.ser.readline()
         if distance == None:
-              return None
-        return epoch,distance
+                return None
+        distance = distance.decode('utf-8').strip()
+        epoch = time.time()
+       	distance = float(distance.split()[0])/100
+
+       	return epoch,distance
