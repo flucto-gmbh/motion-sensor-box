@@ -1,0 +1,6 @@
+verbose         : false  # print debugging information
+print_stdout    : false  # print data to stdout
+topic: "baumer_tof"
+operation_mode: "averaging" # Possible values are averaging or raw
+points_per_average: 100  # The number of points to use for averaging (only used in mode TOFServiceOperationMode.AVERAGING).
+# The raw data is sampled at about 100 Hz, so that 100 points_per_average result in roughly 1 average per second.
