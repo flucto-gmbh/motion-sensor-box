@@ -21,6 +21,6 @@ class GP2D12:
                 return None
         distance = distance.decode('utf-8').strip()
         epoch = time.time()
-       	distance = float(distance.split()[0])/100
+       	distance = float(distance.split()[0])
 
        	return epoch,distance
