@@ -1,0 +1,16 @@
+[Unit]
+Description=Motion Sensor Box Time of Flight Service
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+SyslogIdentifier=msb-tof
+Type=simple
+Restart=always
+RestartSec=1
+Environment="MSB_CONFIG_DIR=/home/msb/.config"
+User=msb
+ExecStart=/usr/bin/python3 /home/msb/motion-sensor-box/run/msb_velocity_tof.py
+
+[Install]
+WantedBy=multi-user.target

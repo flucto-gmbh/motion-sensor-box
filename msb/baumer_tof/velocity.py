@@ -31,7 +31,6 @@ class Velocity:
                 self.data_dic[key].append(self.initial_timestamp)
             if key == "distance":
                 self.data_dic[key].append(self.initial_distance)
-        print(self.data_dic, "dic after setup")
         return "Set up"
 
     def add_data(self,timestamp,distance):
@@ -40,7 +39,6 @@ class Velocity:
                 self.data_dic[key].append(timestamp)
             if key == "distance":
                 self.data_dic[key].append(distance)
-        print(self.data_dic, "dic after adding")
 
     def calc(self):
         delta_time = self.data_dic["timestamp"][1] - self.data_dic["timestamp"][0]
@@ -61,11 +59,8 @@ class Velocity:
             velocity = self.calc()
             epoch = time.time()
             self.reorder_list()
-            print(self.data_dic,"dic after deletion")
-            print(velocity,"velocity")
             return {"epoch": epoch, "velocity": velocity}
             
-
         except KeyboardInterrupt:
             print("msbpipe.py exit")
             sys.exit(0)
